@@ -1,0 +1,232 @@
+import { ReactTableWithPaginationCard as Table } from "containers/ui/ReactTableCards-main";
+import { useEffect } from "react";
+import { useMemo, useState } from "react";
+import { client } from "services/client";
+import Layout from "layout/AppLayout";
+import { Label, FormGroup } from "reactstrap";
+import { makeQueryString } from "services/makeQueryString";
+import { useSelector } from "react-redux";
+
+export default function View() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [filterData, setFilterData] = useState(null);
+  const { sortData } = useSelector((state) => state.users);
+
+  // مقدار سرچ پارامز رو فیکس میکند
+  const searchParams = filterData
+    ? `?search_in=${makeQueryString("", filterData)}`
+    : "";
+
+  // مقدار سرت پارامز رو فیکس میکند
+  const sortParams = sortData
+    ? `${filterData ? "&" : "?"}order_by=${makeQueryString("", sortData)}`
+    : "";
+
+  // به وسیله فانکشن در خواست زده میشه به سمت سرور
+  const fetchUsers = () => {
+    client
+      .get(`/users${searchParams}${sortParams}`, {
+        headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+      })
+      .then((res) => {
+        if (res.data.status === "ok") {
+          const currentUsers = res.data.users.map((user) => ({
+            ...user,
+            is_employee: user.is_employee ? "کارمند" : "مشتری",
+            home_phone_verified: user.home_phone_verified
+              ? "تایید شده"
+              : "در انتظار تایید",
+            national_id_verifying_status:
+              (user.national_id_verifying_status === "verified" &&
+                "تایید شده") ||
+              (user.national_id_verifying_status === "pending" &&
+                "در انتظار تایید") ||
+              (user.national_id_verifying_status === "not_verified" &&
+                "تایید نشده"),
+            selfie_agreement_verifying_status:
+              (user.selfie_agreement_verifying_status === "verified" &&
+                "تایید شده") ||
+              (user.selfie_agreement_verifying_status === "pending" &&
+                "در انتظار تایید") ||
+              (user.selfie_agreement_verifying_status === "not_verified" &&
+                "تایید نشده"),
+          }));
+          setUsers(currentUsers);
+          setLoading(false);
+        }
+      });
+  };
+  // با هر تغییر سرت دیتا در خواست به سمت سرور زده میشه
+  useEffect(() => {
+    fetchUsers();
+  }, [sortData]);
+
+  // مقادیر عنوان ستون ها
+  const cols = useMemo(
+    () => [
+      {
+        Header: "نام",
+        accessor: "first_name",
+        cellClass: "text-muted w-10",
+        Cell: (props) => <>{props.value}</>,
+        isSort: false,
+      },
+      {
+        Header: "نام خانوادگی",
+        accessor: "last_name",
+        cellClass: "text-muted w-10",
+        Cell: (props) => <>{props.value}</>,
+        isSort: true,
+      },
+      {
+        Header: "ایمیل",
+        accessor: "email",
+        cellClass: "text-muted w-10",
+        Cell: (props) => <>{props.value}</>,
+        isSort: true,
+      },
+      {
+        Header: "شماره همراه",
+        accessor: "mobile",
+        cellClass: "text-muted w-10",
+        Cell: (props) => <>{props.value}</>,
+        isSort: true,
+      },
+      {
+        Header: "نوع کاربر",
+        accessor: "is_employee",
+        cellClass: "text-muted w-10",
+        Cell: (props) => <>{props.value}</>,
+      },
+      {
+        Header: "نقش کاربر",
+        accessor: "inventer",
+        cellClass: "text-muted w-10",
+        Cell: (props) => <>{props.value}</>,
+      },
+      {
+        Header: "تعداد اکانت های فعال",
+        accessor: "payment_verified_accounts",
+        cellClass: "text-muted w-10",
+        Cell: (props) => <>{props.value}</>,
+      },
+      {
+        Header: "کدملی",
+        accessor: "national_id_verifying_status",
+        cellClass: "text-muted w-10",
+        Cell: (props) => <>{props.value}</>,
+      },
+      {
+        Header: "توافق نامه",
+        accessor: "selfie_agreement_verifying_status",
+        cellClass: "text-muted w-10",
+        Cell: (props) => <>{props.value}</>,
+      },
+      {
+        Header: "تلفن ثابت",
+        accessor: "home_phone_verified",
+        cellClass: "text-muted w-10",
+        Cell: (props) => <>{props.value}</>,
+      },
+    ],
+    []
+  );
+
+  //  بعد از مونت شدن کامپوننت یک در خواست به سمت سرور ارسال میشود
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  // این تابع مقادیر فیلتردیتا را ست میکند
+  const updateField = (e) => {
+    const { name, value } = e.target;
+    setFilterData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // تابع اعمال فیلتر
+  const applyFilter = () => {
+    setLoading(true);
+    fetchUsers();
+  };
+
+  return (
+    <Layout>
+      {loading && <div className="loading"></div>}
+      {!loading && (
+        <Table
+          rowIsLink
+          cols={cols}
+          title="لیست قیمت ارزها"
+          data={users}
+          message="کاربری با این مشخصات وجود ندارد"
+        >
+          <button
+            className="btn btn-warning mb-5"
+            onClick={() => {
+              setIsOpen((prev) => !prev);
+            }}
+          >
+            فیلتر پیشرفته
+          </button>
+          <div>
+            <div className="d-flex w-100 align-items-center">
+              <FormGroup className="form-group has-float-label w-20">
+                <Label>
+                  <span>نام خانوادگی</span>
+                </Label>
+                <input
+                  className="form-control"
+                  name="last_name"
+                  type="text"
+                  onBlur={updateField}
+                />
+              </FormGroup>
+              {isOpen && (
+                <>
+                  <FormGroup className="form-group has-float-label w-20 mx-3">
+                    <Label>
+                      <span>نام</span>
+                    </Label>
+                    <input
+                      className="form-control"
+                      name="first_name"
+                      type="text"
+                      onBlur={updateField}
+                    />
+                  </FormGroup>
+                  <FormGroup className="form-group has-float-label w-20 mx-3">
+                    <Label>
+                      <span>ایمیل</span>
+                    </Label>
+                    <input
+                      className="form-control"
+                      name="email"
+                      type="email"
+                      onBlur={updateField}
+                    />
+                  </FormGroup>
+                  <FormGroup className="form-group has-float-label w-20 mx-3">
+                    <Label>
+                      <span>موبایل</span>
+                    </Label>
+                    <input
+                      className="form-control"
+                      name="mobile"
+                      type="text"
+                      onBlur={updateField}
+                    />
+                  </FormGroup>
+                </>
+              )}
+              <button className="ml-5 btn btn-primary" onClick={applyFilter}>
+                فیلتر
+              </button>
+            </div>
+          </div>
+        </Table>
+      )}
+    </Layout>
+  );
+}
