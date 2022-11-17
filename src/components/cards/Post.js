@@ -1,7 +1,5 @@
-
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { injectIntl } from 'react-intl';
+import React from "react";
+import { NavLink } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -9,33 +7,33 @@ import {
   InputGroupAddon,
   Input,
   Button,
-} from 'reactstrap';
-import SingleLightbox from '../pages/SingleLightbox';
-import VideoPlayer from '../common/VideoPlayer';
-import CommentWithLikes from '../pages/CommentWithLikes';
+} from "reactstrap";
+import SingleLightbox from "../pages/SingleLightbox";
+import VideoPlayer from "../common/VideoPlayer";
+import CommentWithLikes from "../pages/CommentWithLikes";
 
-const renderLikeAndCommentCount = (messages) => {
+const renderLikeAndCommentCount = () => {
   return (
     <div className="mb-3">
       <div className="post-icon mr-3 d-inline-block">
         <NavLink to="#" location={{}}>
           <i className="simple-icon-heart mr-1" />
         </NavLink>
-        <span>125 {messages['pages.likes']}</span>
+        <span>125 Likes</span>
       </div>
 
       <div className="post-icon mr-3 d-inline-block">
         <NavLink to="#" location={{}}>
           <i className="simple-icon-bubble mr-1" />
         </NavLink>
-        <span>6 {messages['pages.comments-title']}</span>
+        <span>6 Comments</span>
       </div>
     </div>
   );
 };
 
 const renderContent = (data) => {
-  if (data.type === 'image') {
+  if (data.type === "image") {
     return (
       <SingleLightbox
         thumb={data.image}
@@ -44,7 +42,7 @@ const renderContent = (data) => {
       />
     );
   }
-  if (data.type === 'video') {
+  if (data.type === "video") {
     return (
       <VideoPlayer
         autoplay={false}
@@ -54,7 +52,7 @@ const renderContent = (data) => {
         sources={[
           {
             src: data.video,
-            type: 'video/mp4',
+            type: "video/mp4",
           },
         ]}
       />
@@ -94,10 +92,10 @@ const Post = ({ data, className, intl }) => {
         {renderLikeAndCommentCount(messages)}
         <div className="mt-5 remove-last-border">{renderComments(data)}</div>
         <InputGroup className="comment-container">
-          <Input placeholder={messages['pages.addComment']} />
+          <Input placeholder={messages["pages.addComment"]} />
           <InputGroupAddon addonType="append">
             <Button color="primary">
-              <span className="d-inline-block">{messages['pages.send']}</span>{' '}
+              <span className="d-inline-block">{messages["pages.send"]}</span>{" "}
               <i className="simple-icon-arrow-right ml-2" />
             </Button>
           </InputGroupAddon>
@@ -107,4 +105,4 @@ const Post = ({ data, className, intl }) => {
   );
 };
 
-export default injectIntl(React.memo(Post));
+export default React.memo(Post);

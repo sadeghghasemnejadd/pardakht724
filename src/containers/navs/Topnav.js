@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { injectIntl } from "react-intl";
 import {
   UncontrolledDropdown,
   DropdownItem,
@@ -9,9 +8,17 @@ import {
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import { connect, useDispatch } from "react-redux";
-import { menuHiddenBreakpoint, searchPath, adminRoot, } from "constants/defaultValues";
+import {
+  menuHiddenBreakpoint,
+  searchPath,
+  adminRoot,
+} from "constants/defaultValues";
 import { MobileMenuIcon, MenuIcon } from "components/svg";
-import { setContainerClassnames, clickOnMobileMenu, changeLocale, } from "redux/actions";
+import {
+  setContainerClassnames,
+  clickOnMobileMenu,
+  changeLocale,
+} from "redux/actions";
 import TopnavEasyAccess from "./Topnav.EasyAccess";
 import TopnavNotifications from "./Topnav.Notifications";
 import { useSelector } from "react-redux";
@@ -23,12 +30,12 @@ const TopNav = ({
   menuClickCount,
   selectedMenuHasSubItems,
   setContainerClassnamesAction,
-  clickOnMobileMenuAction
+  clickOnMobileMenuAction,
 }) => {
   const [isInFullScreen, setIsInFullScreen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const { me } = useSelector(store => store.auth);
-  const dispatch = useDispatch()
+  const { me } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
 
   const search = () => {
     history.push(`${searchPath}?key=${searchKeyword}`);
@@ -162,10 +169,10 @@ const TopNav = ({
   };
 
   const handleLogout = () => {
-    const token = localStorage.getItem('token')
-    dispatch(logoutAdmin(token)).then(res => {
-      dispatch(myself(token))
-    })
+    const token = localStorage.getItem("token");
+    dispatch(logoutAdmin(token)).then((res) => {
+      dispatch(myself(token));
+    });
   };
 
   return (
@@ -248,9 +255,7 @@ const TopNav = ({
               <DropdownItem>History</DropdownItem>
               <DropdownItem>Support</DropdownItem>
               <DropdownItem divider />
-              <DropdownItem onClick={handleLogout}>
-                Sign out
-              </DropdownItem>
+              <DropdownItem onClick={handleLogout}>Sign out</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>
@@ -269,10 +274,8 @@ const mapStateToProps = ({ menu, settings }) => {
     locale,
   };
 };
-export default injectIntl(
-  connect(mapStateToProps, {
-    setContainerClassnamesAction: setContainerClassnames,
-    clickOnMobileMenuAction: clickOnMobileMenu,
-    changeLocaleAction: changeLocale,
-  })(TopNav)
-);
+export default connect(mapStateToProps, {
+  setContainerClassnamesAction: setContainerClassnames,
+  clickOnMobileMenuAction: clickOnMobileMenu,
+  changeLocaleAction: changeLocale,
+})(TopNav);

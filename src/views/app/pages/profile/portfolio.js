@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Row,
   Card,
@@ -17,23 +17,23 @@ import {
   CardSubtitle,
   CardText,
   CardImg,
-} from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import classnames from 'classnames';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Colxx } from 'components/common/CustomBootstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import SingleLightbox from 'components/pages/SingleLightbox';
-import recentPostsData from 'data/recentposts';
-import RecentPost from 'components/common/RecentPost';
-import productData from 'data/products';
-import UserCardBasic from 'components/cards/UserCardBasic';
-import friendsData from 'data/follow';
+} from "reactstrap";
+import { NavLink } from "react-router-dom";
+import classnames from "classnames";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Colxx } from "components/common/CustomBootstrap";
+import IntlMessages from "helpers/IntlMessages";
+import SingleLightbox from "components/pages/SingleLightbox";
+import recentPostsData from "data/recentposts";
+import RecentPost from "components/common/RecentPost";
+import productData from "data/products";
+import UserCardBasic from "components/cards/UserCardBasic";
+import friendsData from "data/follow";
 
 const products = productData.slice(0, 15);
 
 const ProfilePortfolio = ({ match }) => {
-  const [activeTab, setActiveTab] = useState('details');
+  const [activeTab, setActiveTab] = useState("details");
 
   return (
     <>
@@ -75,11 +75,11 @@ const ProfilePortfolio = ({ match }) => {
             <NavItem>
               <NavLink
                 className={classnames({
-                  active: activeTab === 'details',
-                  'nav-link': true,
+                  active: activeTab === "details",
+                  "nav-link": true,
                 })}
                 onClick={() => {
-                  setActiveTab('details');
+                  setActiveTab("details");
                 }}
                 location={{}}
                 to="#"
@@ -90,11 +90,11 @@ const ProfilePortfolio = ({ match }) => {
             <NavItem>
               <NavLink
                 className={classnames({
-                  active: activeTab === 'followers',
-                  'nav-link': true,
+                  active: activeTab === "followers",
+                  "nav-link": true,
                 })}
                 onClick={() => {
-                  setActiveTab('followers');
+                  setActiveTab("followers");
                 }}
                 location={{}}
                 to="#"
@@ -121,9 +121,7 @@ const ProfilePortfolio = ({ match }) => {
                     />
 
                     <CardBody>
-                      <p className="text-muted text-small mb-2">
-                        <IntlMessages id="menu.about" />
-                      </p>
+                      <p className="text-muted text-small mb-2">About</p>
                       <p className="mb-3">
                         I’m a web developer. I spend my whole day, practically
                         every day, experimenting with HTML, CSS, and JavaScript;
@@ -169,9 +167,7 @@ const ProfilePortfolio = ({ match }) => {
                           DESIGN
                         </Badge>
                       </p>
-                      <p className="text-muted text-small mb-2">
-                        <IntlMessages id="menu.contact" />
-                      </p>
+                      <p className="text-muted text-small mb-2">Contact</p>
                       <div className="social-icons">
                         <ul className="list-unstyled list-inline">
                           <li className="list-inline-item">

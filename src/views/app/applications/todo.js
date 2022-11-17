@@ -10,7 +10,6 @@ import {
   ButtonDropdown,
   CustomInput,
 } from "reactstrap";
-import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
 
 import IntlMessages from "helpers/IntlMessages";
@@ -109,9 +108,7 @@ const TodoApp = ({
       <Row className="app-row survey-app">
         <Colxx xxs="12">
           <div className="mb-2">
-            <h1>
-              <IntlMessages id="menu.todo" />
-            </h1>
+            <h1>To-do List</h1>
             {loaded && (
               <div className="text-zero top-right-button-container">
                 <Button
@@ -203,7 +200,7 @@ const TodoApp = ({
                     type="text"
                     name="keyword"
                     id="search"
-                    placeholder={messages["menu.search"]}
+                    placeholder="Search"
                     defaultValue={searchKeyword}
                     onKeyPress={(e) => {
                       if (e.key === "Enter") {
@@ -259,11 +256,9 @@ const mapStateToProps = ({ todoApp }) => {
     selectedItems,
   };
 };
-export default injectIntl(
-  connect(mapStateToProps, {
-    getTodoListAction: getTodoList,
-    getTodoListWithOrderAction: getTodoListWithOrder,
-    getTodoListSearchAction: getTodoListSearch,
-    selectedTodoItemsChangeAction: selectedTodoItemsChange,
-  })(TodoApp)
-);
+export default connect(mapStateToProps, {
+  getTodoListAction: getTodoList,
+  getTodoListWithOrderAction: getTodoListWithOrder,
+  getTodoListSearchAction: getTodoListSearch,
+  selectedTodoItemsChangeAction: selectedTodoItemsChange,
+})(TodoApp);

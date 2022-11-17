@@ -1,18 +1,16 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Card, CardBody, CardTitle } from 'reactstrap';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { Card, CardBody, CardTitle } from "reactstrap";
 
-import IntlMessages from 'helpers/IntlMessages';
-import data from 'data/cakes';
+import IntlMessages from "helpers/IntlMessages";
+import data from "data/cakes";
 
 const Cakes = () => {
   return (
     <Card className="dashboard-link-list">
       <CardBody>
-        <CardTitle>
-          <IntlMessages id="dashboards.cakes" />
-        </CardTitle>
+        <CardTitle>Cakes</CardTitle>
         <div className="d-flex flex-row">
           <div className="w-50">
             <ul className="list-unstyled mb-0">

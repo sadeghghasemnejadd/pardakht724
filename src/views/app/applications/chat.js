@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { injectIntl } from "react-intl";
+
 import { connect } from "react-redux";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Row } from "reactstrap";
@@ -183,11 +183,9 @@ const mapStateToProps = ({ chatApp }) => {
     selectedUserId,
   };
 };
-export default injectIntl(
-  connect(mapStateToProps, {
-    getContactsAction: getContacts,
-    getConversationsAction: getConversations,
-    changeConversationAction: changeConversation,
-    addMessageToConversationAction: addMessageToConversation,
-  })(ChatApp)
-);
+export default connect(mapStateToProps, {
+  getContactsAction: getContacts,
+  getConversationsAction: getConversations,
+  changeConversationAction: changeConversation,
+  addMessageToConversationAction: addMessageToConversation,
+})(ChatApp);

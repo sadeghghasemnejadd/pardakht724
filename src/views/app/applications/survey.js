@@ -1,7 +1,5 @@
-
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import {
   Row,
   Button,
@@ -12,22 +10,22 @@ import {
   Collapse,
   ButtonDropdown,
   CustomInput,
-} from 'reactstrap';
+} from "reactstrap";
 
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
 import {
   getSurveyList,
   getSurveyListWithOrder,
   getSurveyListSearch,
   selectedSurveyItemsChange,
-} from 'redux/actions';
+} from "redux/actions";
 
-import SurveyListItem from 'components/applications/SurveyListItem';
-import AddNewSurveyModal from 'containers/applications/AddNewSurveyModal';
-import SurveyApplicationMenu from 'containers/applications/SurveyApplicationMenu';
+import SurveyListItem from "components/applications/SurveyListItem";
+import AddNewSurveyModal from "containers/applications/AddNewSurveyModal";
+import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 
 const getIndex = (value, arr, prop) => {
   for (let i = 0; i < arr.length; i += 1) {
@@ -59,11 +57,11 @@ const SurveyApp = ({
   const [displayOptionsIsOpen, setDisplayOptionsIsOpen] = useState(false);
 
   useEffect(() => {
-    document.body.classList.add('right-menu');
+    document.body.classList.add("right-menu");
     getSurveyListAction();
 
     return () => {
-      document.body.classList.remove('right-menu');
+      document.body.classList.remove("right-menu");
     };
   }, [getSurveyListAction]);
 
@@ -82,8 +80,8 @@ const SurveyApp = ({
 
     if (event.shiftKey) {
       let items = surveyItems;
-      const start = getIndex(id, items, 'id');
-      const end = getIndex(lastChecked, items, 'id');
+      const start = getIndex(id, items, "id");
+      const end = getIndex(lastChecked, items, "id");
       items = items.slice(Math.min(start, end), Math.max(start, end) + 1);
       selectedList.push(
         ...items.map((item) => {
@@ -112,9 +110,7 @@ const SurveyApp = ({
       <Row className="app-row survey-app">
         <Colxx xxs="12">
           <div className="mb-2">
-            <h1>
-              <IntlMessages id="menu.survey" />
-            </h1>
+            <h1>Survey</h1>
 
             {loading && (
               <div className="text-zero top-right-button-container">
@@ -143,8 +139,8 @@ const SurveyApp = ({
                           className={`custom-control-label ${
                             selectedItems.length > 0 &&
                             selectedItems.length < surveyItems.length
-                              ? 'indeterminate'
-                              : ''
+                              ? "indeterminate"
+                              : ""
                           }`}
                         />
                       }
@@ -178,7 +174,7 @@ const SurveyApp = ({
                 setDisplayOptionsIsOpen(!displayOptionsIsOpen);
               }}
             >
-              <IntlMessages id="survey.display-options" />{' '}
+              <IntlMessages id="survey.display-options" />{" "}
               <i className="simple-icon-arrow-down align-middle" />
             </Button>
 
@@ -191,7 +187,7 @@ const SurveyApp = ({
                 <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                   <DropdownToggle caret color="outline-dark" size="xs">
                     <IntlMessages id="survey.orderby" />
-                    {orderColumn ? orderColumn.label : ''}
+                    {orderColumn ? orderColumn.label : ""}
                   </DropdownToggle>
                   <DropdownMenu>
                     {orderColumns.map((o, index) => {
@@ -211,10 +207,10 @@ const SurveyApp = ({
                     type="text"
                     name="keyword"
                     id="search"
-                    placeholder={messages['menu.search']}
+                    placeholder="Search"
                     defaultValue={searchKeyword}
                     onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
+                      if (e.key === "Enter") {
                         getSurveyListSearchAction(e.target.value);
                       }
                     }}
@@ -272,11 +268,9 @@ const mapStateToProps = ({ surveyListApp }) => {
     selectedItems,
   };
 };
-export default injectIntl(
-  connect(mapStateToProps, {
-    getSurveyListAction: getSurveyList,
-    getSurveyListWithOrderAction: getSurveyListWithOrder,
-    getSurveyListSearchAction: getSurveyListSearch,
-    selectedSurveyItemsChangeAction: selectedSurveyItemsChange,
-  })(SurveyApp)
-);
+export default connect(mapStateToProps, {
+  getSurveyListAction: getSurveyList,
+  getSurveyListWithOrderAction: getSurveyListWithOrder,
+  getSurveyListSearchAction: getSurveyListSearch,
+  selectedSurveyItemsChangeAction: selectedSurveyItemsChange,
+})(SurveyApp);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Row,
   Card,
@@ -11,34 +11,33 @@ import {
   Button,
   FormText,
   Form,
-} from 'reactstrap';
-import { injectIntl } from 'react-intl';
+} from "reactstrap";
 
-import DatePicker from 'react-datepicker';
-import TagsInput from 'react-tagsinput';
+import DatePicker from "react-datepicker";
+import TagsInput from "react-tagsinput";
 
-import 'react-tagsinput/react-tagsinput.css';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'rc-switch/assets/index.css';
-import 'rc-slider/assets/index.css';
-import 'react-rater/lib/react-rater.css';
+import "react-tagsinput/react-tagsinput.css";
+import "react-datepicker/dist/react-datepicker.css";
+import "rc-switch/assets/index.css";
+import "rc-slider/assets/index.css";
+import "react-rater/lib/react-rater.css";
 
-import Select from 'react-select';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+import Select from "react-select";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
-import IntlMessages from 'helpers/IntlMessages';
-import CustomSelectInput from 'components/common/CustomSelectInput';
+import IntlMessages from "helpers/IntlMessages";
+import CustomSelectInput from "components/common/CustomSelectInput";
 
 const selectData = [
-  { label: 'Cake', value: 'cake', key: 0 },
-  { label: 'Cupcake', value: 'cupcake', key: 1 },
-  { label: 'Dessert', value: 'dessert', key: 2 },
+  { label: "Cake", value: "cake", key: 0 },
+  { label: "Cupcake", value: "cupcake", key: 1 },
+  { label: "Dessert", value: "dessert", key: 2 },
 ];
 
 const FormLayoutsUi = ({ match, intl }) => {
-  const [selectedOptionLO, setSelectedOptionLO] = useState('');
-  const [selectedOptionLT, setSelectedOptionLT] = useState('');
+  const [selectedOptionLO, setSelectedOptionLO] = useState("");
+  const [selectedOptionLT, setSelectedOptionLT] = useState("");
   const [startDateLO, setStartDateLO] = useState(null);
   const [startDateLT, setStartDateLT] = useState(null);
   const [tagsLO, setTagsLO] = useState([]);
@@ -70,7 +69,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                     type="email"
                     name="email"
                     id="exampleEmail"
-                    placeholder={messages['forms.email']}
+                    placeholder={messages["forms.email"]}
                   />
                   <FormText color="muted">
                     <IntlMessages id="forms.email-muted" />
@@ -85,7 +84,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                     type="password"
                     name="passwordBasic"
                     id="passwordBasic"
-                    placeholder={messages['forms.password']}
+                    placeholder={messages["forms.password"]}
                   />
                 </FormGroup>
 
@@ -123,7 +122,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                       type="email"
                       name="email"
                       id="emailHorizontal"
-                      placeholder={messages['forms.email']}
+                      placeholder={messages["forms.email"]}
                     />
                   </Colxx>
                 </FormGroup>
@@ -137,7 +136,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                       type="password"
                       name="password"
                       id="passwordHorizontal"
-                      placeholder={messages['forms.password']}
+                      placeholder={messages["forms.password"]}
                     />
                   </Colxx>
                 </FormGroup>
@@ -216,7 +215,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                   <TagsInput
                     value={tagsLO}
                     onChange={(val) => setTagsLO(val)}
-                    inputProps={{ placeholder: '' }}
+                    inputProps={{ placeholder: "" }}
                   />
                   <span>
                     <IntlMessages id="forms.tags" />
@@ -288,7 +287,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                   <TagsInput
                     value={tagsLT}
                     onChange={(val) => setTagsLT(val)}
-                    inputProps={{ placeholder: '' }}
+                    inputProps={{ placeholder: "" }}
                   />
                 </FormGroup>
                 <FormGroup className="form-group has-top-label">
@@ -345,7 +344,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                         type="email"
                         name="exampleEmailGrid"
                         id="exampleEmailGrid"
-                        placeholder={messages['forms.email']}
+                        placeholder={messages["forms.email"]}
                       />
                     </FormGroup>
                   </Colxx>
@@ -359,7 +358,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                         type="password"
                         name="examplePasswordGrid"
                         id="examplePasswordGrid"
-                        placeholder={messages['forms.password']}
+                        placeholder={messages["forms.password"]}
                       />
                     </FormGroup>
                   </Colxx>
@@ -373,7 +372,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                         type="text"
                         name="exampleAddressGrid"
                         id="exampleAddressGrid"
-                        placeholder={messages['forms.address']}
+                        placeholder={messages["forms.address"]}
                       />
                     </FormGroup>
                   </Colxx>
@@ -387,7 +386,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                         type="text"
                         name="exampleAddress2Grid"
                         id="exampleAddress2Grid"
-                        placeholder={messages['forms.address']}
+                        placeholder={messages["forms.address"]}
                       />
                     </FormGroup>
                   </Colxx>
@@ -401,7 +400,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                         type="text"
                         name="exampleTextGrid"
                         id="exampleTextGrid"
-                        placeholder={messages['forms.city']}
+                        placeholder={messages["forms.city"]}
                       />
                     </FormGroup>
                   </Colxx>
@@ -430,7 +429,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                         type="text"
                         name="exampleZipGrid"
                         id="exampleZipGrid"
-                        placeholder={messages['forms.zip']}
+                        placeholder={messages["forms.zip"]}
                       />
                     </FormGroup>
                   </Colxx>
@@ -448,4 +447,4 @@ const FormLayoutsUi = ({ match, intl }) => {
   );
 };
 
-export default injectIntl(FormLayoutsUi);
+export default FormLayoutsUi;

@@ -1,8 +1,8 @@
-import React from 'react';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import IntlMessages from 'helpers/IntlMessages';
-import { adminRoot } from 'constants/defaultValues';
+import React from "react";
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu } from "reactstrap";
+import { NavLink } from "react-router-dom";
+import IntlMessages from "helpers/IntlMessages";
+import { adminRoot } from "constants/defaultValues";
 
 const TopnavEasyAccess = () => {
   return (
@@ -20,38 +20,32 @@ const TopnavEasyAccess = () => {
             to={`${adminRoot}/dashboards/default`}
             className="icon-menu-item"
           >
-            <i className="iconsminds-shop-4 d-block" />{' '}
-            <IntlMessages id="menu.dashboards" />
+            <i className="iconsminds-shop-4 d-block" /> "Dashboards"
           </NavLink>
 
           <NavLink to={`${adminRoot}/ui`} className="icon-menu-item">
-            <i className="iconsminds-pantone d-block" />{' '}
-            <IntlMessages id="menu.ui" />
+            <i className="iconsminds-pantone d-block" /> UI
           </NavLink>
           <NavLink to={`${adminRoot}/ui/charts`} className="icon-menu-item">
-            <i className="iconsminds-bar-chart-4 d-block" />{' '}
-            <IntlMessages id="menu.charts" />
+            <i className="iconsminds-bar-chart-4 d-block" /> Charts
           </NavLink>
           <NavLink
             to={`${adminRoot}/applications/chat`}
             className="icon-menu-item"
           >
-            <i className="iconsminds-speach-bubble d-block" />{' '}
-            <IntlMessages id="menu.chat" />
+            <i className="iconsminds-speach-bubble d-block" /> Chat
           </NavLink>
           <NavLink
             to={`${adminRoot}/applications/survey`}
             className="icon-menu-item"
           >
-            <i className="iconsminds-formula d-block" />{' '}
-            <IntlMessages id="menu.survey" />
+            <i className="iconsminds-formula d-block" /> Survey
           </NavLink>
           <NavLink
             to={`${adminRoot}/applications/todo`}
             className="icon-menu-item"
           >
-            <i className="iconsminds-check d-block" />{' '}
-            <IntlMessages id="menu.todo" />
+            <i className="iconsminds-check d-block" /> To-do List
           </NavLink>
         </DropdownMenu>
       </UncontrolledDropdown>

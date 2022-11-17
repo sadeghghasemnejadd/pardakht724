@@ -1,17 +1,16 @@
-import React from 'react';
-import { injectIntl } from 'react-intl';
-import { Row } from 'reactstrap';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import ProfileStatuses from 'containers/dashboards/ProfileStatuses';
-import SortableStaticticsRow from 'containers/dashboards/SortableStaticticsRow';
-import SmallLineCharts from 'containers/dashboards/SmallLineCharts';
-import SalesChartCard from 'containers/dashboards/SalesChartCard';
-import ProductCategoriesDoughnut from 'containers/dashboards/ProductCategoriesDoughnut';
-import WebsiteVisitsChartCard from 'containers/dashboards/WebsiteVisitsChartCard';
-import ConversionRatesChartCard from 'containers/dashboards/ConversionRatesChartCard';
-import OrderStockRadarChart from 'containers/dashboards/OrderStockRadarChart';
-import ProductCategoriesPolarArea from 'containers/dashboards/ProductCategoriesPolarArea';
+import React from "react";
+import { Row } from "reactstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import ProfileStatuses from "containers/dashboards/ProfileStatuses";
+import SortableStaticticsRow from "containers/dashboards/SortableStaticticsRow";
+import SmallLineCharts from "containers/dashboards/SmallLineCharts";
+import SalesChartCard from "containers/dashboards/SalesChartCard";
+import ProductCategoriesDoughnut from "containers/dashboards/ProductCategoriesDoughnut";
+import WebsiteVisitsChartCard from "containers/dashboards/WebsiteVisitsChartCard";
+import ConversionRatesChartCard from "containers/dashboards/ConversionRatesChartCard";
+import OrderStockRadarChart from "containers/dashboards/OrderStockRadarChart";
+import ProductCategoriesPolarArea from "containers/dashboards/ProductCategoriesPolarArea";
 
 const DashboardAnalytics = ({ intl, match }) => {
   const { messages } = intl;
@@ -59,4 +58,4 @@ const DashboardAnalytics = ({ intl, match }) => {
     </>
   );
 };
-export default injectIntl(DashboardAnalytics);
+export default DashboardAnalytics;

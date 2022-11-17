@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Row,
   Card,
@@ -19,23 +19,22 @@ import {
   InputGroupAddon,
   Input,
   Button,
-} from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import classnames from 'classnames';
-import { injectIntl } from 'react-intl';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Separator, Colxx } from 'components/common/CustomBootstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import GlideComponentThumbs from 'components/carousel/GlideComponentThumbs';
-import { detailImages, detailThumbs } from 'data/carouselItems';
-import detailsQuestionsData from 'data/questions';
-import CommentWithLikes from 'components/pages/CommentWithLikes';
-import { commentWithLikesData } from 'data/comments';
-import QuestionAnswer from 'components/pages/QuestionAnswer';
-import GalleryDetail from 'containers/pages/GalleryDetail';
+} from "reactstrap";
+import { NavLink } from "react-router-dom";
+import classnames from "classnames";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Separator, Colxx } from "components/common/CustomBootstrap";
+import IntlMessages from "helpers/IntlMessages";
+import GlideComponentThumbs from "components/carousel/GlideComponentThumbs";
+import { detailImages, detailThumbs } from "data/carouselItems";
+import detailsQuestionsData from "data/questions";
+import CommentWithLikes from "components/pages/CommentWithLikes";
+import { commentWithLikesData } from "data/comments";
+import QuestionAnswer from "components/pages/QuestionAnswer";
+import GalleryDetail from "containers/pages/GalleryDetail";
 
 const DetailsPages = ({ match, intl }) => {
-  const [activeTab, setActiveTab] = useState('details');
+  const [activeTab, setActiveTab] = useState("details");
 
   const { messages } = intl;
   return (
@@ -115,10 +114,10 @@ const DetailsPages = ({ match, intl }) => {
                     <NavItem>
                       <NavLink
                         className={classnames({
-                          active: activeTab === 'details',
-                          'nav-link': true,
+                          active: activeTab === "details",
+                          "nav-link": true,
                         })}
-                        onClick={() => setActiveTab('details')}
+                        onClick={() => setActiveTab("details")}
                         to="#"
                         location={{}}
                       >
@@ -128,10 +127,10 @@ const DetailsPages = ({ match, intl }) => {
                     <NavItem>
                       <NavLink
                         className={classnames({
-                          active: activeTab === 'comments',
-                          'nav-link': true,
+                          active: activeTab === "comments",
+                          "nav-link": true,
                         })}
-                        onClick={() => setActiveTab('comments')}
+                        onClick={() => setActiveTab("comments")}
                         to="#"
                         location={{}}
                       >
@@ -142,10 +141,10 @@ const DetailsPages = ({ match, intl }) => {
                     <NavItem>
                       <NavLink
                         className={classnames({
-                          active: activeTab === 'questions',
-                          'nav-link': true,
+                          active: activeTab === "questions",
+                          "nav-link": true,
                         })}
-                        onClick={() => setActiveTab('questions')}
+                        onClick={() => setActiveTab("questions")}
                         to="#"
                         location={{}}
                       >
@@ -267,12 +266,12 @@ const DetailsPages = ({ match, intl }) => {
                             );
                           })}
                           <InputGroup className="comment-container">
-                            <Input placeholder={messages['pages.addComment']} />
+                            <Input placeholder={messages["pages.addComment"]} />
                             <InputGroupAddon addonType="append">
                               <Button color="primary">
                                 <span className="d-inline-block">
-                                  {messages['pages.send']}
-                                </span>{' '}
+                                  {messages["pages.send"]}
+                                </span>{" "}
                                 <i className="simple-icon-arrow-right ml-2" />
                               </Button>
                             </InputGroupAddon>
@@ -309,14 +308,14 @@ const DetailsPages = ({ match, intl }) => {
                       <NavLink to="#" location={{}}>
                         <i className="simple-icon-heart mr-1" />
                       </NavLink>
-                      <span>4 {messages['pages.likes']}</span>
+                      <span>4 {messages["pages.likes"]}</span>
                     </div>
 
                     <div className="post-icon mr-3 d-inline-block">
                       <NavLink to="#" location={{}}>
                         <i className="simple-icon-bubble mr-1" />
                       </NavLink>
-                      <span>2 {messages['pages.comments-title']}</span>
+                      <span>2 {messages["pages.comments-title"]}</span>
                     </div>
                   </div>
                   <p className="mb-3">
@@ -337,7 +336,7 @@ const DetailsPages = ({ match, intl }) => {
                     lobortis sit amet. Suspendisse in orci tellus.
                   </p>
                   <p className="text-muted text-small mb-2">
-                    {messages['forms.tags']}
+                    {messages["forms.tags"]}
                   </p>
                   <p className="mb-3">
                     <Badge color="outline-secondary" className="mb-1 mr-1" pill>
@@ -370,4 +369,4 @@ const DetailsPages = ({ match, intl }) => {
     </>
   );
 };
-export default injectIntl(DetailsPages);
+export default DetailsPages;

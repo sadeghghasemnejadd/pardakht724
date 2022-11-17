@@ -3,13 +3,13 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-key */
-import React from 'react';
-import { useTable, usePagination, useSortBy } from 'react-table';
-import { Card, CardBody, CardTitle } from 'reactstrap'; //
-import DatatablePagination from 'components/DatatablePagination';
-import IntlMessages from 'helpers/IntlMessages';
+import React from "react";
+import { useTable, usePagination, useSortBy } from "react-table";
+import { Card, CardBody, CardTitle } from "reactstrap"; //
+import DatatablePagination from "components/DatatablePagination";
+import IntlMessages from "helpers/IntlMessages";
 
-import products from 'data/products';
+import products from "data/products";
 
 function Table({ columns, data }) {
   const {
@@ -47,12 +47,12 @@ function Table({ columns, data }) {
                   className={
                     column.isSorted
                       ? column.isSortedDesc
-                        ? 'sorted-desc'
-                        : 'sorted-asc'
-                      : ''
+                        ? "sorted-desc"
+                        : "sorted-asc"
+                      : ""
                   }
                 >
-                  {column.render('Header')}
+                  {column.render("Header")}
                   <span />
                 </th>
               ))}
@@ -71,7 +71,7 @@ function Table({ columns, data }) {
                       className: cell.column.cellClass,
                     })}
                   >
-                    {cell.render('Cell')}
+                    {cell.render("Cell")}
                   </td>
                 ))}
               </tr>
@@ -101,25 +101,25 @@ const BestSellers = () => {
   const cols = React.useMemo(
     () => [
       {
-        Header: 'Name',
-        accessor: 'title',
-        cellClass: 'text-muted w-50',
+        Header: "Name",
+        accessor: "title",
+        cellClass: "text-muted w-50",
         Cell: (props) => <>{props.value}</>,
-        sortType: 'basic',
+        sortType: "basic",
       },
       {
-        Header: 'Sales',
-        accessor: 'sales',
-        cellClass: 'text-muted w-25',
+        Header: "Sales",
+        accessor: "sales",
+        cellClass: "text-muted w-25",
         Cell: (props) => <>{props.value}</>,
-        sortType: 'basic',
+        sortType: "basic",
       },
       {
-        Header: 'Stock',
-        accessor: 'stock',
-        cellClass: 'text-muted w-25',
+        Header: "Stock",
+        accessor: "stock",
+        cellClass: "text-muted w-25",
         Cell: (props) => <>{props.value}</>,
-        sortType: 'basic',
+        sortType: "basic",
       },
     ],
     []
@@ -128,9 +128,7 @@ const BestSellers = () => {
   return (
     <Card className="h-100">
       <CardBody>
-        <CardTitle>
-          <IntlMessages id="dashboards.best-sellers" />
-        </CardTitle>
+        <CardTitle>Best Sellers</CardTitle>
         <Table columns={cols} data={products} />
       </CardBody>
     </Card>

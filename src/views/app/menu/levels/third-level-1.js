@@ -1,8 +1,8 @@
-import React from 'react';
-import { Row } from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+import React from "react";
+import { Row } from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
 const ThirdLevel1 = ({ match }) => {
   return (
@@ -15,9 +15,7 @@ const ThirdLevel1 = ({ match }) => {
       </Row>
       <Row>
         <Colxx xxs="12" className="mb-4">
-          <p>
-            <IntlMessages id="menu.third-level-1" />
-          </p>
+          <p>Third Level 1</p>
         </Colxx>
       </Row>
     </>

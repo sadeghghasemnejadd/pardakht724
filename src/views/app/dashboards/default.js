@@ -1,26 +1,25 @@
-import React from 'react';
-import { injectIntl } from 'react-intl';
-import { Row } from 'reactstrap';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import IconCardsCarousel from 'containers/dashboards/IconCardsCarousel';
-import RecentOrders from 'containers/dashboards/RecentOrders';
-import Logs from 'containers/dashboards/Logs';
-import Tickets from 'containers/dashboards/Tickets';
-import Calendar from 'containers/dashboards/Calendar';
-import BestSellers from 'containers/dashboards/BestSellers';
-import ProfileStatuses from 'containers/dashboards/ProfileStatuses';
-import GradientCardContainer from 'containers/dashboards/GradientCardContainer';
-import Cakes from 'containers/dashboards/Cakes';
-import GradientWithRadialProgressCard from 'components/cards/GradientWithRadialProgressCard';
-import SortableStaticticsRow from 'containers/dashboards/SortableStaticticsRow';
-import AdvancedSearch from 'containers/dashboards/AdvancedSearch';
-import SmallLineCharts from 'containers/dashboards/SmallLineCharts';
-import SalesChartCard from 'containers/dashboards/SalesChartCard';
-import ProductCategoriesPolarArea from 'containers/dashboards/ProductCategoriesPolarArea';
-import WebsiteVisitsChartCard from 'containers/dashboards/WebsiteVisitsChartCard';
-import ConversionRatesChartCard from 'containers/dashboards/ConversionRatesChartCard';
-import TopRatedItems from 'containers/dashboards/TopRatedItems';
+import React from "react";
+import { Row } from "reactstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import IconCardsCarousel from "containers/dashboards/IconCardsCarousel";
+import RecentOrders from "containers/dashboards/RecentOrders";
+import Logs from "containers/dashboards/Logs";
+import Tickets from "containers/dashboards/Tickets";
+import Calendar from "containers/dashboards/Calendar";
+import BestSellers from "containers/dashboards/BestSellers";
+import ProfileStatuses from "containers/dashboards/ProfileStatuses";
+import GradientCardContainer from "containers/dashboards/GradientCardContainer";
+import Cakes from "containers/dashboards/Cakes";
+import GradientWithRadialProgressCard from "components/cards/GradientWithRadialProgressCard";
+import SortableStaticticsRow from "containers/dashboards/SortableStaticticsRow";
+import AdvancedSearch from "containers/dashboards/AdvancedSearch";
+import SmallLineCharts from "containers/dashboards/SmallLineCharts";
+import SalesChartCard from "containers/dashboards/SalesChartCard";
+import ProductCategoriesPolarArea from "containers/dashboards/ProductCategoriesPolarArea";
+import WebsiteVisitsChartCard from "containers/dashboards/WebsiteVisitsChartCard";
+import ConversionRatesChartCard from "containers/dashboards/ConversionRatesChartCard";
+import TopRatedItems from "containers/dashboards/TopRatedItems";
 
 const DefaultDashboard = ({ intl, match }) => {
   const { messages } = intl;
@@ -91,8 +90,8 @@ const DefaultDashboard = ({ intl, match }) => {
             <Colxx lg="4" xl="12" className="mb-4">
               <GradientWithRadialProgressCard
                 icon="iconsminds-clock"
-                title={`5 ${messages['dashboards.files']}`}
-                detail={messages['dashboards.pending-for-print']}
+                title={`5 Files`}
+                detail="Pending for print"
                 percent={(5 * 100) / 12}
                 progressText="5/12"
               />
@@ -100,8 +99,8 @@ const DefaultDashboard = ({ intl, match }) => {
             <Colxx lg="4" xl="12" className="mb-4">
               <GradientWithRadialProgressCard
                 icon="iconsminds-male"
-                title={`4 ${messages['dashboards.orders']}`}
-                detail={messages['dashboards.on-approval-process']}
+                title={`4 ${messages["dashboards.orders"]}`}
+                detail="On approval process"
                 percent={(4 * 100) / 6}
                 progressText="4/6"
               />
@@ -109,8 +108,8 @@ const DefaultDashboard = ({ intl, match }) => {
             <Colxx lg="4" xl="12" className="mb-4">
               <GradientWithRadialProgressCard
                 icon="iconsminds-bell"
-                title={`8 ${messages['dashboards.alerts']}`}
-                detail={messages['dashboards.waiting-for-notice']}
+                title={`8 Alerts`}
+                detail="Waiting for notice"
                 percent={(8 * 100) / 10}
                 progressText="8/10"
               />
@@ -128,4 +127,4 @@ const DefaultDashboard = ({ intl, match }) => {
     </>
   );
 };
-export default injectIntl(DefaultDashboard);
+export default DefaultDashboard;

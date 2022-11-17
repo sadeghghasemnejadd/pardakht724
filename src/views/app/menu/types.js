@@ -1,12 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
-import { Row, Button } from 'reactstrap';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+import { Row, Button } from "reactstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
-import IntlMessages from 'helpers/IntlMessages';
-import { setContainerClassnames } from 'redux/actions';
+import IntlMessages from "helpers/IntlMessages";
+import { setContainerClassnames } from "redux/actions";
 
 const MenuTypes = ({
   match,
@@ -16,25 +16,25 @@ const MenuTypes = ({
   setContainerClassnamesAction,
 }) => {
   const getMenuClassesForResize = (classes) => {
-    let nextClasses = classes.split(' ').filter((x) => x !== '');
+    let nextClasses = classes.split(" ").filter((x) => x !== "");
     const windowWidth = window.innerWidth;
     if (windowWidth < menuHiddenBreakpoint) {
-      nextClasses.push('menu-mobile');
+      nextClasses.push("menu-mobile");
     } else if (windowWidth < subHiddenBreakpoint) {
-      nextClasses = nextClasses.filter((x) => x !== 'menu-mobile');
+      nextClasses = nextClasses.filter((x) => x !== "menu-mobile");
       if (
-        nextClasses.includes('menu-default') &&
-        !nextClasses.includes('menu-sub-hidden')
+        nextClasses.includes("menu-default") &&
+        !nextClasses.includes("menu-sub-hidden")
       ) {
-        nextClasses.push('menu-sub-hidden');
+        nextClasses.push("menu-sub-hidden");
       }
     } else {
-      nextClasses = nextClasses.filter((x) => x !== 'menu-mobile');
+      nextClasses = nextClasses.filter((x) => x !== "menu-mobile");
       if (
-        nextClasses.includes('menu-default') &&
-        nextClasses.includes('menu-sub-hidden')
+        nextClasses.includes("menu-default") &&
+        nextClasses.includes("menu-sub-hidden")
       ) {
-        nextClasses = nextClasses.filter((x) => x !== 'menu-sub-hidden');
+        nextClasses = nextClasses.filter((x) => x !== "menu-sub-hidden");
       }
     }
     return nextClasses;
@@ -46,7 +46,7 @@ const MenuTypes = ({
 
     setContainerClassnamesAction(
       0,
-      nextClasses.join(' '),
+      nextClasses.join(" "),
       selectedMenuHasSubItems
     );
   };
@@ -65,25 +65,25 @@ const MenuTypes = ({
             outline
             color="primary"
             className="mb-2"
-            onClick={(e) => changeDefaultMenuType(e, 'menu-default')}
+            onClick={(e) => changeDefaultMenuType(e, "menu-default")}
           >
-            <IntlMessages id="menu.default" />
-          </Button>{' '}
+            "Default"
+          </Button>{" "}
           <Button
             outline
             color="primary"
             className="mb-2"
-            onClick={(e) => changeDefaultMenuType(e, 'menu-sub-hidden')}
+            onClick={(e) => changeDefaultMenuType(e, "menu-sub-hidden")}
           >
-            <IntlMessages id="menu.subhidden" />
-          </Button>{' '}
+            Subhidden
+          </Button>{" "}
           <Button
             outline
             color="primary"
             className="mb-2"
-            onClick={(e) => changeDefaultMenuType(e, 'menu-hidden')}
+            onClick={(e) => changeDefaultMenuType(e, "menu-hidden")}
           >
-            <IntlMessages id="menu.hidden" />
+            Hidden
           </Button>
         </Colxx>
       </Row>

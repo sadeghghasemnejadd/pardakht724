@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   CustomInput,
   Button,
@@ -8,10 +8,10 @@ import {
   ModalFooter,
   Input,
   Label,
-} from 'reactstrap';
-import Select from 'react-select';
-import CustomSelectInput from 'components/common/CustomSelectInput';
-import IntlMessages from 'helpers/IntlMessages';
+} from "reactstrap";
+import Select from "react-select";
+import CustomSelectInput from "components/common/CustomSelectInput";
+import IntlMessages from "helpers/IntlMessages";
 
 const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
   return (
@@ -65,7 +65,7 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
         </Button>
         <Button color="primary" onClick={toggleModal}>
           <IntlMessages id="pages.submit" />
-        </Button>{' '}
+        </Button>{" "}
       </ModalFooter>
     </Modal>
   );

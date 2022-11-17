@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardBody,
@@ -6,12 +6,12 @@ import {
   DropdownItem,
   DropdownToggle,
   DropdownMenu,
-} from 'reactstrap';
+} from "reactstrap";
 
-import IntlMessages from 'helpers/IntlMessages';
-import { AreaChart } from 'components/charts';
+import IntlMessages from "helpers/IntlMessages";
+import { AreaChart } from "components/charts";
 
-import { conversionChartData } from 'data/charts';
+import { conversionChartData } from "data/charts";
 
 const ConversionRatesChartCard = () => {
   return (
@@ -19,27 +19,19 @@ const ConversionRatesChartCard = () => {
       <CardBody>
         <div className="float-left float-none-xs">
           <div className="d-inline-block">
-            <h5 className="d-inline">
-              <IntlMessages id="dashboards.conversion-rates" />
-            </h5>
-            <span className="text-muted text-small d-block">
-              <IntlMessages id="dashboards.per-session" />
-            </span>
+            <h5 className="d-inline">Conversion Rates</h5>
+            <span className="text-muted text-small d-block">Per Session</span>
           </div>
         </div>
 
         <div className="btn-group float-right float-none-xs mt-2">
           <UncontrolledDropdown>
             <DropdownToggle caret color="secondary" className="btn-xs" outline>
-              <IntlMessages id="dashboards.this-week" />
+              This Week
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem>
-                <IntlMessages id="dashboards.last-week" />
-              </DropdownItem>
-              <DropdownItem>
-                <IntlMessages id="dashboards.this-month" />
-              </DropdownItem>
+              <DropdownItem>Last Week</DropdownItem>
+              <DropdownItem>This Month</DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>

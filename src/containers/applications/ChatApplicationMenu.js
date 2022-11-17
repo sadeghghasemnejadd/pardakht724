@@ -1,20 +1,18 @@
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Nav, TabContent, TabPane, CardHeader, NavItem } from "reactstrap";
+import { NavLink } from "react-router-dom";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import classnames from "classnames";
 
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
-import { Nav, TabContent, TabPane, CardHeader, NavItem } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import classnames from 'classnames';
-
-import IntlMessages from 'helpers/IntlMessages';
-import ApplicationMenu from 'components/common/ApplicationMenu';
+import IntlMessages from "helpers/IntlMessages";
+import ApplicationMenu from "components/common/ApplicationMenu";
 
 import {
   changeConversation,
   createConversation,
   searchContact,
-} from 'redux/actions';
+} from "redux/actions";
 
 const ChatApplicationMenu = ({
   intl,
@@ -31,18 +29,18 @@ const ChatApplicationMenu = ({
   createConversationAction,
   searchContactAction,
 }) => {
-  const [searchKey, setSearchKey] = useState('');
+  const [searchKey, setSearchKey] = useState("");
 
   const handleSearchContact = (keyword) => {
     setSearchKey(keyword);
 
     if (keyword.length > 0) {
-      if (activeTab !== 'contacts') {
-        toggleAppMenu('contacts');
+      if (activeTab !== "contacts") {
+        toggleAppMenu("contacts");
       }
       searchContactAction(keyword);
     } else {
-      searchContactAction('');
+      searchContactAction("");
     }
   };
 
@@ -50,20 +48,20 @@ const ChatApplicationMenu = ({
     if (activeTab !== tab) {
       toggleAppMenu(tab);
     }
-    if (tab === 'messages') {
-      handleSearchContact('');
+    if (tab === "messages") {
+      handleSearchContact("");
     }
   };
 
   const handleConversationClick = (e, selectedUserId) => {
     changeConversationAction(selectedUserId);
-    handleSearchContact('');
+    handleSearchContact("");
   };
 
   const handleContactClick = (userId) => {
-    if (activeTab !== 'messages') {
-      toggleAppMenu('messages');
-      searchContactAction('');
+    if (activeTab !== "messages") {
+      toggleAppMenu("messages");
+      searchContactAction("");
     }
 
     const conversation = conversations.find(
@@ -88,10 +86,10 @@ const ChatApplicationMenu = ({
               to="#"
               location={{}}
               className={classnames({
-                active: activeTab === 'messages',
-                'nav-link': true,
+                active: activeTab === "messages",
+                "nav-link": true,
               })}
-              onClick={() => toggleMenu('messages')}
+              onClick={() => toggleMenu("messages")}
             >
               <IntlMessages id="chat.messages" />
             </NavLink>
@@ -101,10 +99,10 @@ const ChatApplicationMenu = ({
               to="#"
               location={{}}
               className={classnames({
-                active: activeTab === 'contacts',
-                'nav-link': true,
+                active: activeTab === "contacts",
+                "nav-link": true,
               })}
-              onClick={() => toggleAppMenu('contacts')}
+              onClick={() => toggleAppMenu("contacts")}
             >
               <IntlMessages id="chat.contacts" />
             </NavLink>
@@ -117,7 +115,7 @@ const ChatApplicationMenu = ({
           <input
             type="text"
             className="form-control rounded"
-            placeholder={messages['menu.search']}
+            placeholder="Search"
             value={searchKey}
             onChange={(e) => handleSearchContact(e.target.value)}
           />
@@ -233,10 +231,8 @@ const mapStateToProps = ({ chatApp }) => {
     currentUser,
   };
 };
-export default injectIntl(
-  connect(mapStateToProps, {
-    changeConversationAction: changeConversation,
-    createConversationAction: createConversation,
-    searchContactAction: searchContact,
-  })(ChatApplicationMenu)
-);
+export default connect(mapStateToProps, {
+  changeConversationAction: changeConversation,
+  createConversationAction: createConversation,
+  searchContactAction: searchContact,
+})(ChatApplicationMenu);

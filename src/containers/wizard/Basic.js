@@ -1,16 +1,15 @@
 /* eslint-disable no-param-reassign */
-import React, { useState } from 'react';
-import { Card, CardBody, Form, FormGroup, Input, Label } from 'reactstrap';
-import { Wizard, Steps, Step } from 'react-albus';
-import { injectIntl } from 'react-intl';
-import IntlMessages from 'helpers/IntlMessages';
-import BottomNavigation from 'components/wizard/BottomNavigation';
-import TopNavigation from 'components/wizard/TopNavigation';
+import React, { useState } from "react";
+import { Card, CardBody, Form, FormGroup, Input, Label } from "reactstrap";
+import { Wizard, Steps, Step } from "react-albus";
+import IntlMessages from "helpers/IntlMessages";
+import BottomNavigation from "components/wizard/BottomNavigation";
+import TopNavigation from "components/wizard/TopNavigation";
 
 const Basic = ({ intl }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const topNavClick = (stepItem, push) => {
     push(stepItem.id);
@@ -44,8 +43,8 @@ const Basic = ({ intl }) => {
           <Steps>
             <Step
               id="step1"
-              name={messages['wizard.step-name-1']}
-              desc={messages['wizard.step-desc-1']}
+              name={messages["wizard.step-name-1"]}
+              desc={messages["wizard.step-desc-1"]}
             >
               <div className="wizard-basic-step">
                 <Form>
@@ -56,7 +55,7 @@ const Basic = ({ intl }) => {
                     <Input
                       type="text"
                       name="name"
-                      placeholder={messages['forms.name']}
+                      placeholder={messages["forms.name"]}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
@@ -66,8 +65,8 @@ const Basic = ({ intl }) => {
             </Step>
             <Step
               id="step2"
-              name={messages['wizard.step-name-2']}
-              desc={messages['wizard.step-desc-2']}
+              name={messages["wizard.step-name-2"]}
+              desc={messages["wizard.step-desc-2"]}
             >
               <div className="wizard-basic-step">
                 <Form>
@@ -78,7 +77,7 @@ const Basic = ({ intl }) => {
                     <Input
                       type="email"
                       name="email"
-                      placeholder={messages['forms.email']}
+                      placeholder={messages["forms.email"]}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -88,8 +87,8 @@ const Basic = ({ intl }) => {
             </Step>
             <Step
               id="step3"
-              name={messages['wizard.step-name-3']}
-              desc={messages['wizard.step-desc-3']}
+              name={messages["wizard.step-name-3"]}
+              desc={messages["wizard.step-desc-3"]}
             >
               <div className="wizard-basic-step">
                 <Form>
@@ -100,7 +99,7 @@ const Basic = ({ intl }) => {
                     <Input
                       type="password"
                       name="password"
-                      placeholder={messages['forms.password']}
+                      placeholder={messages["forms.password"]}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
@@ -123,12 +122,12 @@ const Basic = ({ intl }) => {
             onClickNext={onClickNext}
             onClickPrev={onClickPrev}
             className="justify-content-center"
-            prevLabel={messages['wizard.prev']}
-            nextLabel={messages['wizard.next']}
+            prevLabel={messages["wizard.prev"]}
+            nextLabel={messages["wizard.next"]}
           />
         </Wizard>
       </CardBody>
     </Card>
   );
 };
-export default injectIntl(Basic);
+export default Basic;

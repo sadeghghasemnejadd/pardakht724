@@ -45,7 +45,6 @@ function Table({
     useSortBy,
     usePagination
   );
-
   const history = useHistory();
   // const handleClick = (row) => {
   //   if (rowIsLink && row.original.id) {
@@ -80,7 +79,7 @@ function Table({
         toast.error("error");
       });
   };
-
+  console.log(page);
   return (
     <>
       <table
@@ -315,7 +314,6 @@ export const ReactTableWithPaginationCard = ({
   //   ],
   //   []
   // );
-
   return (
     <Card className="mb-4">
       <CardBody>
@@ -401,27 +399,25 @@ export const ReactTableDivided = () => {
 // }
 
 function TH({ headerProps, classes, column, children }) {
-    const dispatch = useDispatch();
-    const [sort, setSort] = useState(false);
-    const { id, isSort } = column;
-    
-    const handleSort = () => {
-      if (!isSort) return;
-      setSort(!sort);
-      dispatch(updateSortData({ [id]: !sort ? 1 : 0 }));
-    };
-  
-    return (
-      <th {...headerProps} onClick={handleSort} className={classes}>
-        {children}
-        {isSort && (
-          <span
-            className={`pl-3 ${
-              sort ? "simple-icon-arrow-up" : "simple-icon-arrow-down"
-            }`}
-          />
-        )}
-      </th>
-    );
-  }
-  
+  const dispatch = useDispatch();
+  const [sort, setSort] = useState(false);
+  const { id, isSort } = column;
+  const handleSort = () => {
+    if (!isSort) return;
+    setSort(!sort);
+    dispatch(updateSortData({ [id]: !sort ? 1 : 0 }));
+  };
+
+  return (
+    <th {...headerProps} onClick={handleSort} className={classes}>
+      {children}
+      {isSort && (
+        <span
+          className={`pl-3 ${
+            sort ? "simple-icon-arrow-up" : "simple-icon-arrow-down"
+          }`}
+        />
+      )}
+    </th>
+  );
+}

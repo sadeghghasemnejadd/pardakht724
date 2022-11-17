@@ -1,12 +1,11 @@
 /* eslint-disable no-param-reassign */
-import React from 'react';
-import { Card, CardBody, Row } from 'reactstrap';
-import { Wizard, Steps, Step } from 'react-albus';
-import { injectIntl } from 'react-intl';
-import IntlMessages from 'helpers/IntlMessages';
-import BottomNavigation from 'components/wizard/BottomNavigation';
-import TopNavigation from 'components/wizard/TopNavigation';
-import { Colxx } from 'components/common/CustomBootstrap';
+import React from "react";
+import { Card, CardBody, Row } from "reactstrap";
+import { Wizard, Steps, Step } from "react-albus";
+import IntlMessages from "helpers/IntlMessages";
+import BottomNavigation from "components/wizard/BottomNavigation";
+import TopNavigation from "components/wizard/TopNavigation";
+import { Colxx } from "components/common/CustomBootstrap";
 
 const Layouts = ({ intl }) => {
   const topNavClick = (stepItem, push) => {
@@ -43,8 +42,8 @@ const Layouts = ({ intl }) => {
               <Steps>
                 <Step
                   id="step1"
-                  name={messages['wizard.step-name-1']}
-                  desc={messages['wizard.step-desc-1']}
+                  name={messages["wizard.step-name-1"]}
+                  desc={messages["wizard.step-desc-1"]}
                 >
                   <div className="wizard-basic-step text-center">
                     <p>
@@ -54,8 +53,8 @@ const Layouts = ({ intl }) => {
                 </Step>
                 <Step
                   id="step2"
-                  name={messages['wizard.step-name-2']}
-                  desc={messages['wizard.step-desc-2']}
+                  name={messages["wizard.step-name-2"]}
+                  desc={messages["wizard.step-desc-2"]}
                 >
                   <div className="wizard-basic-step text-center">
                     <p>
@@ -65,8 +64,8 @@ const Layouts = ({ intl }) => {
                 </Step>
                 <Step
                   id="step3"
-                  name={messages['wizard.step-name-3']}
-                  desc={messages['wizard.step-desc-3']}
+                  name={messages["wizard.step-name-3"]}
+                  desc={messages["wizard.step-desc-3"]}
                   hideTopNav
                 >
                   <div className="wizard-basic-step text-center">
@@ -83,8 +82,8 @@ const Layouts = ({ intl }) => {
                 onClickNext={onClickNext}
                 onClickPrev={onClickPrev}
                 className="justify-content-between"
-                prevLabel={messages['wizard.prev']}
-                nextLabel={messages['wizard.next']}
+                prevLabel={messages["wizard.prev"]}
+                nextLabel={messages["wizard.next"]}
               />
             </Wizard>
           </CardBody>
@@ -102,8 +101,8 @@ const Layouts = ({ intl }) => {
               <Steps>
                 <Step
                   id="step1"
-                  name={messages['wizard.step-name-1']}
-                  desc={messages['wizard.step-desc-1']}
+                  name={messages["wizard.step-name-1"]}
+                  desc={messages["wizard.step-desc-1"]}
                 >
                   <div className="wizard-basic-step">
                     <p>
@@ -113,8 +112,8 @@ const Layouts = ({ intl }) => {
                 </Step>
                 <Step
                   id="step2"
-                  name={messages['wizard.step-name-2']}
-                  desc={messages['wizard.step-desc-2']}
+                  name={messages["wizard.step-name-2"]}
+                  desc={messages["wizard.step-desc-2"]}
                 >
                   <div className="wizard-basic-step">
                     <p>
@@ -124,8 +123,8 @@ const Layouts = ({ intl }) => {
                 </Step>
                 <Step
                   id="step3"
-                  name={messages['wizard.step-name-3']}
-                  desc={messages['wizard.step-desc-3']}
+                  name={messages["wizard.step-name-3"]}
+                  desc={messages["wizard.step-desc-3"]}
                   hideTopNav
                 >
                   <div className="wizard-basic-step">
@@ -142,8 +141,8 @@ const Layouts = ({ intl }) => {
                 onClickNext={onClickNext}
                 onClickPrev={onClickPrev}
                 className="justify-content-start"
-                prevLabel={messages['wizard.prev']}
-                nextLabel={messages['wizard.next']}
+                prevLabel={messages["wizard.prev"]}
+                nextLabel={messages["wizard.next"]}
               />
             </Wizard>
           </CardBody>
@@ -152,4 +151,4 @@ const Layouts = ({ intl }) => {
     </Row>
   );
 };
-export default injectIntl(Layouts);
+export default Layouts;

@@ -1,20 +1,18 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import { Card, CardBody, CardTitle } from 'reactstrap';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import { Card, CardBody, CardTitle } from "reactstrap";
 
-import IntlMessages from 'helpers/IntlMessages';
-import data from 'data/tickets';
-import { adminRoot } from 'constants/defaultValues';
+import IntlMessages from "helpers/IntlMessages";
+import data from "data/tickets";
+import { adminRoot } from "constants/defaultValues";
 
 const Tickets = () => {
   return (
     <Card>
       <CardBody>
-        <CardTitle>
-          <IntlMessages id="dashboards.tickets" />
-        </CardTitle>
+        <CardTitle>Tickets</CardTitle>
         <div className="dashboard-list-with-user">
           <PerfectScrollbar
             options={{ suppressScrollX: true, wheelPropagation: false }}

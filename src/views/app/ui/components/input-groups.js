@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Row,
   Card,
@@ -14,12 +14,11 @@ import {
   DropdownMenu,
   CustomInput,
   UncontrolledDropdown,
-} from 'reactstrap';
-import { injectIntl } from 'react-intl';
-import IntlMessages from 'helpers/IntlMessages';
+} from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
 
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
 const InputGroupsUi = ({ intl, match }) => {
   const { messages } = intl;
@@ -43,11 +42,11 @@ const InputGroupsUi = ({ intl, match }) => {
 
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">@</InputGroupAddon>
-                <Input placeholder={messages['user.username']} />
+                <Input placeholder="Username" />
               </InputGroup>
 
               <InputGroup className="mb-3">
-                <Input placeholder={messages['user.username']} />
+                <Input placeholder="Username" />
                 <InputGroupAddon addonType="append">
                   @example.com
                 </InputGroupAddon>
@@ -347,4 +346,4 @@ const InputGroupsUi = ({ intl, match }) => {
     </>
   );
 };
-export default injectIntl(InputGroupsUi);
+export default InputGroupsUi;

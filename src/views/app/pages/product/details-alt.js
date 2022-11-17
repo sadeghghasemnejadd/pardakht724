@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Row,
   Card,
@@ -13,23 +13,22 @@ import {
   TabContent,
   TabPane,
   Badge,
-} from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import classnames from 'classnames';
-import { injectIntl } from 'react-intl';
-import Rating from 'components/common/Rating';
+} from "reactstrap";
+import { NavLink } from "react-router-dom";
+import classnames from "classnames";
+import Rating from "components/common/Rating";
 
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Colxx } from 'components/common/CustomBootstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import RadialProgressCard from 'components/cards/RadialProgressCard';
-import SmallLineCharts from 'containers/dashboards/SmallLineCharts';
-import WebsiteVisitsChartCard from 'containers/dashboards/WebsiteVisitsChartCard';
-import NewComments from 'containers/dashboards/NewComments';
-import Orders from 'containers/pages/Orders';
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Colxx } from "components/common/CustomBootstrap";
+import IntlMessages from "helpers/IntlMessages";
+import RadialProgressCard from "components/cards/RadialProgressCard";
+import SmallLineCharts from "containers/dashboards/SmallLineCharts";
+import WebsiteVisitsChartCard from "containers/dashboards/WebsiteVisitsChartCard";
+import NewComments from "containers/dashboards/NewComments";
+import Orders from "containers/pages/Orders";
 
 const DetailsAltPages = ({ match, intl }) => {
-  const [activeTab, setActiveTab] = useState('details');
+  const [activeTab, setActiveTab] = useState("details");
 
   const { messages } = intl;
 
@@ -75,10 +74,10 @@ const DetailsAltPages = ({ match, intl }) => {
                 location={{}}
                 to="#"
                 className={classnames({
-                  active: activeTab === 'details',
-                  'nav-link': true,
+                  active: activeTab === "details",
+                  "nav-link": true,
                 })}
-                onClick={() => setActiveTab('details')}
+                onClick={() => setActiveTab("details")}
               >
                 <IntlMessages id="pages.details" />
               </NavLink>
@@ -88,10 +87,10 @@ const DetailsAltPages = ({ match, intl }) => {
                 location={{}}
                 to="#"
                 className={classnames({
-                  active: activeTab === 'orders',
-                  'nav-link': true,
+                  active: activeTab === "orders",
+                  "nav-link": true,
                 })}
-                onClick={() => setActiveTab('orders')}
+                onClick={() => setActiveTab("orders")}
               >
                 <IntlMessages id="pages.orders" />
               </NavLink>
@@ -181,7 +180,7 @@ const DetailsAltPages = ({ match, intl }) => {
                     <Colxx xxs="12" className="mb-4">
                       <RadialProgressCard
                         className="mb-4"
-                        title={messages['pages.order-status']}
+                        title={messages["pages.order-status"]}
                         percent={85}
                         isSortable={false}
                       />
@@ -189,7 +188,7 @@ const DetailsAltPages = ({ match, intl }) => {
                     <Colxx xxs="12" className="mb-4">
                       <RadialProgressCard
                         className="mb-4"
-                        title={messages['pages.order-status']}
+                        title={messages["pages.order-status"]}
                         percent={40}
                         isSortable={false}
                       />
@@ -213,4 +212,4 @@ const DetailsAltPages = ({ match, intl }) => {
     </>
   );
 };
-export default injectIntl(DetailsAltPages);
+export default DetailsAltPages;

@@ -1,19 +1,18 @@
 /* eslint-disable no-param-reassign */
-import React, { createRef, useState } from 'react';
-import { Card, CardBody, FormGroup, Label, Spinner } from 'reactstrap';
-import { Wizard, Steps, Step } from 'react-albus';
-import { injectIntl } from 'react-intl';
-import { Formik, Form, Field } from 'formik';
-import IntlMessages from 'helpers/IntlMessages';
-import BottomNavigation from 'components/wizard/BottomNavigation';
-import TopNavigation from 'components/wizard/TopNavigation';
+import React, { createRef, useState } from "react";
+import { Card, CardBody, FormGroup, Label, Spinner } from "reactstrap";
+import { Wizard, Steps, Step } from "react-albus";
+import { Formik, Form, Field } from "formik";
+import IntlMessages from "helpers/IntlMessages";
+import BottomNavigation from "components/wizard/BottomNavigation";
+import TopNavigation from "components/wizard/TopNavigation";
 
 const validateEmail = (value) => {
   let error;
   if (!value) {
-    error = 'Please enter your email address';
+    error = "Please enter your email address";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-    error = 'Invalid email address';
+    error = "Invalid email address";
   }
   return error;
 };
@@ -21,9 +20,9 @@ const validateEmail = (value) => {
 const validateName = (value) => {
   let error;
   if (!value) {
-    error = 'Please enter your name';
+    error = "Please enter your name";
   } else if (value.length < 2) {
-    error = 'Value must be longer than 2 characters';
+    error = "Value must be longer than 2 characters";
   }
   return error;
 };
@@ -31,9 +30,9 @@ const validateName = (value) => {
 const validatePassword = (value) => {
   let error;
   if (!value) {
-    error = 'Please enter your password';
+    error = "Please enter your password";
   } else if (value.length < 6) {
-    error = 'Password must be longer than 6 characters';
+    error = "Password must be longer than 6 characters";
   }
   return error;
 };
@@ -43,9 +42,9 @@ const Validation = ({ intl }) => {
   const [bottomNavHidden, setBottomNavHidden] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fields, setFields] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
   });
 
   const onClickNext = (goToNext, steps, step) => {
@@ -91,8 +90,8 @@ const Validation = ({ intl }) => {
           <Steps>
             <Step
               id="step1"
-              name={messages['wizard.step-name-1']}
-              desc={messages['wizard.step-desc-1']}
+              name={messages["wizard.step-name-1"]}
+              desc={messages["wizard.step-desc-1"]}
             >
               <div className="wizard-basic-step">
                 <Formik
@@ -106,7 +105,7 @@ const Validation = ({ intl }) => {
                   {({ errors, touched }) => (
                     <Form className="av-tooltip tooltip-label-right">
                       <FormGroup>
-                        <Label>{messages['forms.name']}</Label>
+                        <Label>{messages["forms.name"]}</Label>
                         <Field
                           className="form-control"
                           name="name"
@@ -125,8 +124,8 @@ const Validation = ({ intl }) => {
             </Step>
             <Step
               id="step2"
-              name={messages['wizard.step-name-2']}
-              desc={messages['wizard.step-desc-2']}
+              name={messages["wizard.step-name-2"]}
+              desc={messages["wizard.step-desc-2"]}
             >
               <div className="wizard-basic-step">
                 <Formik
@@ -140,7 +139,7 @@ const Validation = ({ intl }) => {
                   {({ errors, touched }) => (
                     <Form className="av-tooltip tooltip-label-right">
                       <FormGroup>
-                        <Label>{messages['forms.email']}</Label>
+                        <Label>{messages["forms.email"]}</Label>
                         <Field
                           className="form-control"
                           name="email"
@@ -159,8 +158,8 @@ const Validation = ({ intl }) => {
             </Step>
             <Step
               id="step3"
-              name={messages['wizard.step-name-3']}
-              desc={messages['wizard.step-desc-3']}
+              name={messages["wizard.step-name-3"]}
+              desc={messages["wizard.step-desc-3"]}
             >
               <div className="wizard-basic-step">
                 <Formik
@@ -174,7 +173,7 @@ const Validation = ({ intl }) => {
                   {({ errors, touched }) => (
                     <Form className="av-tooltip tooltip-label-right error-l-75">
                       <FormGroup>
-                        <Label>{messages['forms.password']}</Label>
+                        <Label>{messages["forms.password"]}</Label>
                         <Field
                           className="form-control"
                           name="password"
@@ -218,14 +217,14 @@ const Validation = ({ intl }) => {
             onClickNext={onClickNext}
             onClickPrev={onClickPrev}
             className={`justify-content-center ${
-              bottomNavHidden && 'invisible'
+              bottomNavHidden && "invisible"
             }`}
-            prevLabel={messages['wizard.prev']}
-            nextLabel={messages['wizard.next']}
+            prevLabel={messages["wizard.prev"]}
+            nextLabel={messages["wizard.next"]}
           />
         </Wizard>
       </CardBody>
     </Card>
   );
 };
-export default injectIntl(Validation);
+export default Validation;

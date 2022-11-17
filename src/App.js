@@ -8,15 +8,14 @@ import { NotificationContainer } from "./components/common/react-notifications";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { myself } from "redux-toolkit/AuthSlice";
 
-
 const App = ({ locale }) => {
   const currentAppLocale = AppLocale[locale];
 
-  const { mainLoading } = useSelector(store => store.auth)
-  const dispatch = useDispatch()
+  const { mainLoading } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(myself())
+    dispatch(myself());
   }, []);
 
   return (
@@ -25,14 +24,14 @@ const App = ({ locale }) => {
         locale={currentAppLocale.locale}
         messages={currentAppLocale.messages}
       >
-        {mainLoading ?
+        {mainLoading ? (
           <div className="loading" />
-          :
+        ) : (
           <>
             <NotificationContainer />
             <Router />
           </>
-        }
+        )}
       </IntlProvider>
     </div>
   );

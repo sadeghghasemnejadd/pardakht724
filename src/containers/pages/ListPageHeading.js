@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Row,
   Button,
@@ -10,14 +10,13 @@ import {
   DropdownToggle,
   CustomInput,
   Collapse,
-} from 'reactstrap';
-import { injectIntl } from 'react-intl';
+} from "reactstrap";
 
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import IntlMessages from 'helpers/IntlMessages';
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import IntlMessages from "helpers/IntlMessages";
 
-import { DataListIcon, ThumbListIcon, ImageListIcon } from 'components/svg';
-import Breadcrumb from '../navs/Breadcrumb';
+import { DataListIcon, ThumbListIcon, ImageListIcon } from "components/svg";
+import Breadcrumb from "../navs/Breadcrumb";
 
 const ListPageHeading = ({
   intl,
@@ -61,7 +60,7 @@ const ListPageHeading = ({
             >
               <IntlMessages id="pages.add-new" />
             </Button>
-            {'  '}
+            {"  "}
             <ButtonDropdown
               isOpen={dropdownSplitOpen}
               toggle={() => setDropdownSplitOpen(!dropdownSplitOpen)}
@@ -78,8 +77,8 @@ const ListPageHeading = ({
                       className={`custom-control-label ${
                         selectedItemsLength > 0 &&
                         selectedItemsLength < itemsLength
-                          ? 'indeterminate'
-                          : ''
+                          ? "indeterminate"
+                          : ""
                       }`}
                     />
                   }
@@ -109,7 +108,7 @@ const ListPageHeading = ({
             className="pt-0 pl-0 d-inline-block d-md-none"
             onClick={() => setDisplayOptionsIsOpen(!displayOptionsIsOpen)}
           >
-            <IntlMessages id="pages.display-options" />{' '}
+            <IntlMessages id="pages.display-options" />{" "}
             <i className="simple-icon-arrow-down align-middle" />
           </Button>
           <Collapse
@@ -121,27 +120,27 @@ const ListPageHeading = ({
               <a
                 href="#/"
                 className={`mr-2 view-icon ${
-                  displayMode === 'list' ? 'active' : ''
+                  displayMode === "list" ? "active" : ""
                 }`}
-                onClick={() => changeDisplayMode('list')}
+                onClick={() => changeDisplayMode("list")}
               >
                 <DataListIcon />
               </a>
               <a
                 href="#/"
                 className={`mr-2 view-icon ${
-                  displayMode === 'thumblist' ? 'active' : ''
+                  displayMode === "thumblist" ? "active" : ""
                 }`}
-                onClick={() => changeDisplayMode('thumblist')}
+                onClick={() => changeDisplayMode("thumblist")}
               >
                 <ThumbListIcon />
               </a>
               <a
                 href="#/"
                 className={`mr-2 view-icon ${
-                  displayMode === 'imagelist' ? 'active' : ''
+                  displayMode === "imagelist" ? "active" : ""
                 }`}
-                onClick={() => changeDisplayMode('imagelist')}
+                onClick={() => changeDisplayMode("imagelist")}
               >
                 <ImageListIcon />
               </a>
@@ -171,7 +170,7 @@ const ListPageHeading = ({
                   type="text"
                   name="keyword"
                   id="search"
-                  placeholder={messages['menu.search']}
+                  placeholder="Search"
                   onKeyPress={(e) => onSearchKey(e)}
                 />
               </div>
@@ -211,4 +210,4 @@ const ListPageHeading = ({
   );
 };
 
-export default injectIntl(ListPageHeading);
+export default ListPageHeading;

@@ -1,16 +1,15 @@
-import React from 'react';
-import { injectIntl } from 'react-intl';
-import { Row } from 'reactstrap';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import IconCardsCarousel from 'containers/dashboards/IconCardsCarousel';
-import QuickPost from 'containers/dashboards/QuickPost';
-import BestSellers from 'containers/dashboards/BestSellers';
-import Cakes from 'containers/dashboards/Cakes';
-import GradientWithRadialProgressCard from 'components/cards/GradientWithRadialProgressCard';
-import WebsiteVisitsChartCard from 'containers/dashboards/WebsiteVisitsChartCard';
-import ConversionRatesChartCard from 'containers/dashboards/ConversionRatesChartCard';
-import NewComments from 'containers/dashboards/NewComments';
+import React from "react";
+import { Row } from "reactstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import IconCardsCarousel from "containers/dashboards/IconCardsCarousel";
+import QuickPost from "containers/dashboards/QuickPost";
+import BestSellers from "containers/dashboards/BestSellers";
+import Cakes from "containers/dashboards/Cakes";
+import GradientWithRadialProgressCard from "components/cards/GradientWithRadialProgressCard";
+import WebsiteVisitsChartCard from "containers/dashboards/WebsiteVisitsChartCard";
+import ConversionRatesChartCard from "containers/dashboards/ConversionRatesChartCard";
+import NewComments from "containers/dashboards/NewComments";
 
 const DashboardContent = ({ intl, match }) => {
   const { messages } = intl;
@@ -55,8 +54,8 @@ const DashboardContent = ({ intl, match }) => {
         <Colxx lg="4" md="6" className="mb-4">
           <GradientWithRadialProgressCard
             icon="iconsminds-clock"
-            title={`5 ${messages['dashboards.posts']}`}
-            detail={messages['dashboards.pending-for-publish']}
+            title={`5 ${messages["dashboards.posts"]}`}
+            detail="Pending for publish"
             percent={(5 * 100) / 12}
             progressText="5/12"
           />
@@ -64,8 +63,8 @@ const DashboardContent = ({ intl, match }) => {
         <Colxx lg="4" md="6" className="mb-4">
           <GradientWithRadialProgressCard
             icon="iconsminds-male"
-            title={`4 ${messages['dashboards.users']}`}
-            detail={messages['dashboards.on-approval-process']}
+            title={`4 Users`}
+            detail="On approval process"
             percent={(4 * 100) / 6}
             progressText="4/6"
           />
@@ -73,8 +72,8 @@ const DashboardContent = ({ intl, match }) => {
         <Colxx lg="4" md="6" className="mb-4">
           <GradientWithRadialProgressCard
             icon="iconsminds-bell"
-            title={`8 ${messages['dashboards.alerts']}`}
-            detail={messages['dashboards.waiting-for-notice']}
+            title={`8 Alerts`}
+            detail="Waiting for notice"
             percent={(8 * 100) / 10}
             progressText="8/10"
           />
@@ -83,4 +82,4 @@ const DashboardContent = ({ intl, match }) => {
     </>
   );
 };
-export default injectIntl(DashboardContent);
+export default DashboardContent;
