@@ -261,9 +261,7 @@ const FormikCustomComponents = () => {
                   </FormGroup>
 
                   <FormGroup className="error-l-175">
-                    <Label className="d-block">
-                      <IntlMessages id="form-components.tags" />
-                    </Label>
+                    <Label className="d-block">Tags</Label>
 
                     <FormikTagsInput
                       name="tags"
@@ -280,9 +278,7 @@ const FormikCustomComponents = () => {
                   </FormGroup>
 
                   <FormGroup className="error-l-100">
-                    <Label className="d-block">
-                      <IntlMessages id="form-components.switch" />
-                    </Label>
+                    <Label className="d-block">Switch</Label>
                     <FormikSwitch
                       name="switch"
                       className="custom-switch custom-switch-primary"
@@ -298,9 +294,7 @@ const FormikCustomComponents = () => {
                   </FormGroup>
 
                   <FormGroup className="error-l-100">
-                    <Label className="d-block">
-                      <IntlMessages id="form-components.date-picker" />
-                    </Label>
+                    <Label className="d-block">Date Picker</Label>
                     <FormikDatePicker
                       name="date"
                       value={values.date}

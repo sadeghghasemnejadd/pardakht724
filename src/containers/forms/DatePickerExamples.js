@@ -19,12 +19,8 @@ const DatePickerExamples = ({ intl }) => {
       <Colxx xxs="12" xl="8" className="mb-4">
         <Card>
           <CardBody>
-            <CardTitle>
-              <IntlMessages id="form-components.date-picker" />
-            </CardTitle>
-            <label>
-              <IntlMessages id="form-components.date" />
-            </label>
+            <CardTitle>Date Picker</CardTitle>
+            <label>Date</label>
             <div className="mb-5">
               <DatePicker
                 selected={startDate}
@@ -32,9 +28,7 @@ const DatePickerExamples = ({ intl }) => {
                 placeholderText="Date"
               />
             </div>
-            <label>
-              <IntlMessages id="form-components.date-range" />
-            </label>
+            <label>Date Range</label>
             <Row className="mb-5">
               <Colxx xxs="6">
                 <DatePicker
@@ -43,7 +37,7 @@ const DatePickerExamples = ({ intl }) => {
                   startDate={startDateRange}
                   endDate={endDateRange}
                   onChange={setStartDateRange}
-                  placeholderText={messages["form-components.start"]}
+                  placeholderText="Start"
                 />
               </Colxx>
               <Colxx xxs="6">
@@ -53,15 +47,13 @@ const DatePickerExamples = ({ intl }) => {
                   startDate={startDateRange}
                   endDate={endDateRange}
                   onChange={setEndDateRange}
-                  placeholderText={messages["form-components.end"]}
+                  placeholderText="End"
                 />
               </Colxx>
             </Row>
             <Row className="mb-5">
               <Colxx xxs="12">
-                <label>
-                  <IntlMessages id="form-components.date-with-time" />
-                </label>
+                <label>Date with Time</label>
                 <DatePicker
                   selected={startDateTime}
                   onChange={setStartDateTime}
@@ -81,9 +73,7 @@ const DatePickerExamples = ({ intl }) => {
       <Colxx xxs="12" xl="4" className="mb-4">
         <Card className="h-100">
           <CardBody>
-            <CardTitle>
-              <IntlMessages id="form-components.embedded" />
-            </CardTitle>
+            <CardTitle>Embedded</CardTitle>
             <DatePicker
               calendarClassName="embedded"
               inline

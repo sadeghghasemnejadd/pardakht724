@@ -1,14 +1,12 @@
-import React from 'react';
-import { FormGroup, Label, CustomInput, Form } from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
+import React from "react";
+import { FormGroup, Label, CustomInput, Form } from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
 
 const CustomInputExample = () => {
   return (
     <Form>
       <FormGroup>
-        <Label for="exCustomCheckbox">
-          <IntlMessages id="form-components.checkboxes" />
-        </Label>
+        <Label for="exCustomCheckbox">Checkboxes</Label>
         <div>
           <CustomInput
             type="checkbox"
@@ -29,9 +27,7 @@ const CustomInputExample = () => {
         </div>
       </FormGroup>
       <FormGroup>
-        <Label for="exCustomRadio">
-          <IntlMessages id="form-components.radios" />
-        </Label>
+        <Label for="exCustomRadio">Radios</Label>
         <div>
           <CustomInput
             type="radio"
@@ -54,9 +50,7 @@ const CustomInputExample = () => {
         </div>
       </FormGroup>
       <FormGroup>
-        <Label for="exCustomInline">
-          <IntlMessages id="form-components.inline" />
-        </Label>
+        <Label for="exCustomInline">Inline</Label>
         <div>
           <CustomInput
             type="checkbox"

@@ -111,9 +111,7 @@ const FormikCustomWithTopLabels = () => {
                     </FormGroup>
 
                     <FormGroup className="form-group has-float-label">
-                      <Label className="d-block">
-                        <IntlMessages id="form-components.tags" />
-                      </Label>
+                      <Label className="d-block">Tags</Label>
                       <FormikTagsInput
                         name="tags"
                         value={values.tags}
@@ -129,9 +127,7 @@ const FormikCustomWithTopLabels = () => {
                     </FormGroup>
 
                     <FormGroup className="form-group has-float-label">
-                      <Label className="d-block">
-                        <IntlMessages id="form-components.date" />
-                      </Label>
+                      <Label className="d-block">Date</Label>
                       <FormikDatePicker
                         name="date"
                         value={values.date}

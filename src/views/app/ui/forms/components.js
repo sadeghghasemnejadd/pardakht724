@@ -1,19 +1,19 @@
-import React, { useRef } from 'react';
-import { Row, Card, CardBody, CardTitle } from 'reactstrap';
+import React, { useRef } from "react";
+import { Row, Card, CardBody, CardTitle } from "reactstrap";
 
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
-import CustomInputExample from 'containers/forms/CustomInputExample';
-import ReactSelectExample from 'containers/forms/ReactSelectExample';
-import ReactAutoSugegstExample from 'containers/forms/ReactAutoSugegstExample';
-import DatePickerExamples from 'containers/forms/DatePickerExamples';
-import DropzoneExample from 'containers/forms/DropzoneExample';
-import TagsInputExample from 'containers/forms/TagsInputExample';
-import SwitchExamples from 'containers/forms/SwitchExamples';
-import SliderExamples from 'containers/forms/SliderExamples';
-import RatingExamples from 'containers/forms/RatingExamples';
+import CustomInputExample from "containers/forms/CustomInputExample";
+import ReactSelectExample from "containers/forms/ReactSelectExample";
+import ReactAutoSugegstExample from "containers/forms/ReactAutoSugegstExample";
+import DatePickerExamples from "containers/forms/DatePickerExamples";
+import DropzoneExample from "containers/forms/DropzoneExample";
+import TagsInputExample from "containers/forms/TagsInputExample";
+import SwitchExamples from "containers/forms/SwitchExamples";
+import SliderExamples from "containers/forms/SliderExamples";
+import RatingExamples from "containers/forms/RatingExamples";
 
 const ComponentsUi = ({ match }) => {
   const dropzone = useRef();
@@ -29,9 +29,7 @@ const ComponentsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="form-components.custom-inputs" />
-              </CardTitle>
+              <CardTitle>Custom Inputs</CardTitle>
               <CustomInputExample />
             </CardBody>
           </Card>
@@ -42,9 +40,7 @@ const ComponentsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="form-components.react-select" />
-              </CardTitle>
+              <CardTitle>React Select</CardTitle>
               <ReactSelectExample />
             </CardBody>
           </Card>
@@ -55,9 +51,7 @@ const ComponentsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="form-components.react-autosuggest" />
-              </CardTitle>
+              <CardTitle>React Autosuggest</CardTitle>
               <Row className="mb-4">
                 <Colxx xxs="12" sm="6">
                   <ReactAutoSugegstExample />
@@ -72,9 +66,7 @@ const ComponentsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="form-components.dropzone" />
-              </CardTitle>
+              <CardTitle>Dropzone</CardTitle>
               <DropzoneExample ref={dropzone} />
             </CardBody>
           </Card>
@@ -85,9 +77,7 @@ const ComponentsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="form-components.tags" />
-              </CardTitle>
+              <CardTitle>Tags</CardTitle>
               <TagsInputExample />
             </CardBody>
           </Card>
@@ -104,9 +94,7 @@ const ComponentsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="form-components.slider" />
-              </CardTitle>
+              <CardTitle>Slider</CardTitle>
               <SliderExamples />
             </CardBody>
           </Card>
@@ -117,9 +105,7 @@ const ComponentsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="form-components.rating" />
-              </CardTitle>
+              <CardTitle>Rating</CardTitle>
               <RatingExamples />
             </CardBody>
           </Card>

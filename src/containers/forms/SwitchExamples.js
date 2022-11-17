@@ -1,11 +1,10 @@
+import React, { useState } from "react";
+import { Card, CardBody, CardTitle, Row } from "reactstrap";
+import Switch from "rc-switch";
+import "rc-switch/assets/index.css";
 
-import React, { useState } from 'react';
-import { Card, CardBody, CardTitle, Row } from 'reactstrap';
-import Switch from 'rc-switch';
-import 'rc-switch/assets/index.css';
-
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx } from 'components/common/CustomBootstrap';
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx } from "components/common/CustomBootstrap";
 
 const SwitchExamples = () => {
   const [checkedPrimary, setCheckedPrimary] = useState(false);
@@ -23,14 +22,10 @@ const SwitchExamples = () => {
   return (
     <Card>
       <CardBody>
-        <CardTitle>
-          <IntlMessages id="form-components.switch" />
-        </CardTitle>
+        <CardTitle>Switch</CardTitle>
         <Row className="mb-4">
           <Colxx xxs="6">
-            <label>
-              <IntlMessages id="form-components.primary" />
-            </label>
+            <label>Primary</label>
             <Switch
               className="custom-switch custom-switch-primary"
               checked={checkedPrimary}
@@ -39,9 +34,7 @@ const SwitchExamples = () => {
           </Colxx>
 
           <Colxx xxs="6">
-            <label>
-              <IntlMessages id="form-components.secondary" />
-            </label>
+            <label>Secondary</label>
             <Switch
               className="custom-switch custom-switch-secondary"
               checked={checkedSecondary}
@@ -52,9 +45,7 @@ const SwitchExamples = () => {
 
         <Row className="mb-4">
           <Colxx xxs="6">
-            <label>
-              <IntlMessages id="form-components.primary-inverse" />
-            </label>
+            <label>Primary Inverse</label>
             <Switch
               className="custom-switch custom-switch-primary-inverse"
               checked={checkedPrimaryInverse}
@@ -65,9 +56,7 @@ const SwitchExamples = () => {
           </Colxx>
 
           <Colxx xxs="6">
-            <label>
-              <IntlMessages id="form-components.secondary-inverse" />
-            </label>
+            <label>Secondary Inverse</label>
             <Switch
               className="custom-switch custom-switch-secondary-inverse"
               checked={checkedSecondaryInverse}
@@ -80,9 +69,7 @@ const SwitchExamples = () => {
 
         <Row className="mb-4">
           <Colxx xxs="6">
-            <label>
-              <IntlMessages id="form-components.primary" />
-            </label>
+            <label>Primary</label>
             <Switch
               className="custom-switch custom-switch-primary custom-switch-small"
               checked={checkedPrimarySmall}
@@ -91,9 +78,7 @@ const SwitchExamples = () => {
           </Colxx>
 
           <Colxx xxs="6">
-            <label>
-              <IntlMessages id="form-components.secondary" />
-            </label>
+            <label>Secondary</label>
             <Switch
               className="custom-switch custom-switch-secondary custom-switch-small"
               checked={checkedSecondarySmall}
@@ -104,9 +89,7 @@ const SwitchExamples = () => {
 
         <Row className="mb-4">
           <Colxx xxs="6">
-            <label>
-              <IntlMessages id="form-components.primary-inverse" />
-            </label>
+            <label>Primary Inverse</label>
             <Switch
               className="custom-switch custom-switch-primary-inverse custom-switch-small"
               checked={checkedPrimaryInverseSmall}
@@ -117,9 +100,7 @@ const SwitchExamples = () => {
           </Colxx>
 
           <Colxx xxs="6">
-            <label>
-              <IntlMessages id="form-components.secondary-inverse" />
-            </label>
+            <label>Secondary Inverse</label>
             <Switch
               className="custom-switch custom-switch-secondary-inverse custom-switch-small"
               checked={checkedSecondaryInverseSmall}

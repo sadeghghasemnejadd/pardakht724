@@ -10,7 +10,7 @@ const TagsInputExample = ({ intl }) => {
     <TagsInput
       value={tags}
       onChange={setTags}
-      inputProps={{ placeholder: messages["form-components.tags"] }}
+      inputProps={{ placeholder: "Tags" }}
     />
   );
 };

@@ -12,7 +12,7 @@ const ReactAutoSugegstExample = ({ intl }) => {
 
   return (
     <ReactAutoSuggest
-      placeholder={messages["form-components.type-a-cake"]}
+      placeholder="Type a Cake"
       value={value}
       onChange={(val) => setValue(val)}
       data={data}

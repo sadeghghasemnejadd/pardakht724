@@ -1,18 +1,15 @@
+import React from "react";
+import { Row } from "reactstrap";
+import { Colxx } from "components/common/CustomBootstrap";
+import IntlMessages from "helpers/IntlMessages";
 
-import React from 'react';
-import { Row } from 'reactstrap';
-import { Colxx } from 'components/common/CustomBootstrap';
-import IntlMessages from 'helpers/IntlMessages';
-
-import { SliderTooltip, RangeTooltip } from 'components/common/SliderTooltips';
+import { SliderTooltip, RangeTooltip } from "components/common/SliderTooltips";
 
 const SliderExamples = () => {
   return (
     <Row>
       <Colxx xxs="12" sm="6">
-        <label>
-          <IntlMessages id="form-components.double-slider" />
-        </label>
+        <label>Double Slider</label>
         <RangeTooltip
           min={500}
           max={1500}
@@ -24,9 +21,7 @@ const SliderExamples = () => {
       </Colxx>
 
       <Colxx xxs="12" sm="6">
-        <label>
-          <IntlMessages id="form-components.single-slider" />
-        </label>
+        <label>Single Slider</label>
         <SliderTooltip
           min={0}
           max={2500}
@@ -37,9 +32,7 @@ const SliderExamples = () => {
       </Colxx>
 
       <Colxx xxs="12" sm="6">
-        <label>
-          <IntlMessages id="form-components.double-slider" />
-        </label>
+        <label>Double Slider</label>
         <RangeTooltip
           min={500}
           max={1500}
@@ -52,9 +45,7 @@ const SliderExamples = () => {
       </Colxx>
 
       <Colxx xxs="12" sm="6">
-        <label>
-          <IntlMessages id="form-components.single-slider" />
-        </label>
+        <label>Single Slider</label>
         <SliderTooltip
           min={0}
           max={2500}
