@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
-import { Row, Card, CardTitle } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import { Colxx } from 'components/common/CustomBootstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { adminRoot } from 'constants/defaultValues';
+import React, { useEffect } from "react";
+import { Row, Card, CardTitle } from "reactstrap";
+import { NavLink } from "react-router-dom";
+import { Colxx } from "components/common/CustomBootstrap";
+import IntlMessages from "helpers/IntlMessages";
+import { adminRoot } from "constants/defaultValues";
 
 const Error = () => {
   useEffect(() => {
-    document.body.classList.add('background');
-    document.body.classList.add('no-footer');
+    document.body.classList.add("background");
+    document.body.classList.add("no-footer");
 
     return () => {
-      document.body.classList.remove('background');
-      document.body.classList.remove('no-footer');
+      document.body.classList.remove("background");
+      document.body.classList.remove("no-footer");
     };
   }, []);
 
@@ -33,17 +33,15 @@ const Error = () => {
                     <span className="logo-single" />
                   </NavLink>
                   <CardTitle className="mb-4">
-                    <IntlMessages id="pages.error-title" />
+                    Ooops... looks like an error occurred!
                   </CardTitle>
-                  <p className="mb-0 text-muted text-small mb-0">
-                    <IntlMessages id="pages.error-code" />
-                  </p>
+                  <p className="mb-0 text-muted text-small mb-0">Error code</p>
                   <p className="display-1 font-weight-bold mb-5">404</p>
                   <NavLink
                     to={adminRoot}
                     className="btn btn-primary btn-shadow btn-lg"
                   >
-                    <IntlMessages id="pages.go-back-home" />
+                    GO BACK HOME
                   </NavLink>
                 </div>
               </Card>

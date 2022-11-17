@@ -1,13 +1,13 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
-import { Row, CardTitle } from 'reactstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Separator, Colxx } from 'components/common/CustomBootstrap';
-import pricesData from 'data/prices';
-import PriceCard from 'components/cards/PriceCard';
-import FeatureComparison from 'containers/pages/FeatureComparison';
-import IntlMessages from 'helpers/IntlMessages';
-import { getCurrentLanguage } from 'helpers/Utils';
+import React from "react";
+import { Row, CardTitle } from "reactstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Separator, Colxx } from "components/common/CustomBootstrap";
+import pricesData from "data/prices";
+import PriceCard from "components/cards/PriceCard";
+import FeatureComparison from "containers/pages/FeatureComparison";
+import IntlMessages from "helpers/IntlMessages";
+import { getCurrentLanguage } from "helpers/Utils";
 
 const locale = getCurrentLanguage();
 
@@ -22,9 +22,7 @@ const Prices = ({ match }) => {
       </Row>
       <Row className="equal-height-container mb-5">
         <Colxx xxs="12">
-          <CardTitle>
-            <IntlMessages id="pages.prices.pricecomparison" />
-          </CardTitle>
+          <CardTitle>Price Comparison</CardTitle>
         </Colxx>
         {pricesData[locale].map((item, index) => {
           return (
@@ -41,9 +39,7 @@ const Prices = ({ match }) => {
       </Row>
       <Row>
         <Colxx xxs="12">
-          <CardTitle>
-            <IntlMessages id="pages.prices.featurecomparison" />
-          </CardTitle>
+          <CardTitle>Feature Comparison</CardTitle>
         </Colxx>
         <FeatureComparison />
       </Row>

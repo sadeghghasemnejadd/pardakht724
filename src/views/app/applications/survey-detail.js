@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 
 import {
   Row,
@@ -12,23 +12,23 @@ import {
   TabContent,
   TabPane,
   ButtonDropdown,
-} from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import classnames from 'classnames';
+} from "reactstrap";
+import { NavLink } from "react-router-dom";
+import classnames from "classnames";
 
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import QuestionBuilder from 'containers/applications/QuestionBuilder';
-import SurveyQuotas from 'containers/applications/SurveyQuotas';
-import SurveyCharts from 'containers/applications/SurveyCharts';
-import SurveyDetailApplicationMenu from 'containers/applications/SurveyDetailApplicationMenu';
-import SurveyDetailCard from 'components/applications/SurveyDetailCard';
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import QuestionBuilder from "containers/applications/QuestionBuilder";
+import SurveyQuotas from "containers/applications/SurveyQuotas";
+import SurveyCharts from "containers/applications/SurveyCharts";
+import SurveyDetailApplicationMenu from "containers/applications/SurveyDetailApplicationMenu";
+import SurveyDetailCard from "components/applications/SurveyDetailCard";
 import {
   getSurveyDetail,
   deleteSurveyQuestion,
   saveSurvey,
-} from 'redux/actions';
+} from "redux/actions";
 
 const SurveyDetailApp = ({
   match,
@@ -38,15 +38,15 @@ const SurveyDetailApp = ({
   deleteSurveyQuestionAction,
   saveSurveyAction,
 }) => {
-  const [activeTab, setActiveTab] = useState('details');
+  const [activeTab, setActiveTab] = useState("details");
   const [dropdownSplitOpen, setDropdownSplitOpen] = useState(false);
 
   useEffect(() => {
-    document.body.classList.add('right-menu');
+    document.body.classList.add("right-menu");
     getSurveyDetailAction();
 
     return () => {
-      document.body.classList.remove('right-menu');
+      document.body.classList.remove("right-menu");
     };
   }, [getSurveyDetailAction]);
 
@@ -68,7 +68,7 @@ const SurveyDetailApp = ({
       <Row className="app-row survey-app">
         <Colxx xxs="12">
           <h1>
-            <i className="simple-icon-refresh heading-icon" />{' '}
+            <i className="simple-icon-refresh heading-icon" />{" "}
             <span className="align-middle d-inline-block pt-1">
               Developer Survey
             </span>
@@ -90,12 +90,8 @@ const SurveyDetailApp = ({
                 color="primary"
               />
               <DropdownMenu right>
-                <DropdownItem>
-                  <IntlMessages id="survey.delete" />
-                </DropdownItem>
-                <DropdownItem disabled>
-                  <IntlMessages id="survey.edit" />
-                </DropdownItem>
+                <DropdownItem>Delete</DropdownItem>
+                <DropdownItem disabled>Edit</DropdownItem>
               </DropdownMenu>
             </ButtonDropdown>
           </div>
@@ -107,12 +103,12 @@ const SurveyDetailApp = ({
                 <NavItem>
                   <NavLink
                     className={classnames({
-                      active: activeTab === 'details',
-                      'nav-link': true,
+                      active: activeTab === "details",
+                      "nav-link": true,
                     })}
                     location={{}}
                     to="#"
-                    onClick={() => setActiveTab('details')}
+                    onClick={() => setActiveTab("details")}
                   >
                     DETAILS
                   </NavLink>
@@ -122,10 +118,10 @@ const SurveyDetailApp = ({
                     location={{}}
                     to="#"
                     className={classnames({
-                      active: activeTab === 'results',
-                      'nav-link': true,
+                      active: activeTab === "results",
+                      "nav-link": true,
                     })}
-                    onClick={() => setActiveTab('results')}
+                    onClick={() => setActiveTab("results")}
                   >
                     RESULTS
                   </NavLink>

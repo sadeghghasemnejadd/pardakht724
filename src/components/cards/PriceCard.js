@@ -1,8 +1,8 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Card, CardBody } from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { Card, CardBody } from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
 
 const PriceCard = ({ data }) => {
   return (
@@ -28,8 +28,7 @@ const PriceCard = ({ data }) => {
           </ul>
           <div className="text-center">
             <NavLink to={data.link} className="btn btn-link btn-empty btn-lg">
-              <IntlMessages id="pages.purchase" />{' '}
-              <i className="simple-icon-arrow-right" />
+              PURCHASE <i className="simple-icon-arrow-right" />
             </NavLink>
           </div>
         </div>

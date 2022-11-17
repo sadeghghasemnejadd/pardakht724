@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import {
   CustomInput,
   Button,
@@ -9,18 +9,18 @@ import {
   ModalFooter,
   Input,
   Label,
-} from 'reactstrap';
-import Select from 'react-select';
-import CustomSelectInput from 'components/common/CustomSelectInput';
-import IntlMessages from 'helpers/IntlMessages';
+} from "reactstrap";
+import Select from "react-select";
+import CustomSelectInput from "components/common/CustomSelectInput";
+import IntlMessages from "helpers/IntlMessages";
 
-import { addSurveyItem } from 'redux/actions';
+import { addSurveyItem } from "redux/actions";
 
 const initialState = {
-  title: '',
+  title: "",
   label: {},
   category: {},
-  status: 'ACTIVE',
+  status: "ACTIVE",
 };
 
 const AddNewSurveyModal = ({
@@ -52,13 +52,9 @@ const AddNewSurveyModal = ({
       wrapClassName="modal-right"
       backdrop="static"
     >
-      <ModalHeader toggle={toggleModal}>
-        <IntlMessages id="survey.add-new-title" />
-      </ModalHeader>
+      <ModalHeader toggle={toggleModal}>Add New Survey</ModalHeader>
       <ModalBody>
-        <Label className="mt-4">
-          <IntlMessages id="survey.title" />
-        </Label>
+        <Label className="mt-4">Title</Label>
         <Input
           type="text"
           defaultValue={state.title}
@@ -67,9 +63,7 @@ const AddNewSurveyModal = ({
           }
         />
 
-        <Label className="mt-4">
-          <IntlMessages id="survey.category" />
-        </Label>
+        <Label className="mt-4">Category</Label>
         <Select
           components={{ Input: CustomSelectInput }}
           className="react-select"
@@ -81,9 +75,7 @@ const AddNewSurveyModal = ({
           value={state.category}
           onChange={(val) => setState({ ...state, category: val })}
         />
-        <Label className="mt-4">
-          <IntlMessages id="survey.label" />
-        </Label>
+        <Label className="mt-4">Label</Label>
         <Select
           components={{ Input: CustomSelectInput }}
           className="react-select"
@@ -101,19 +93,17 @@ const AddNewSurveyModal = ({
           onChange={(val) => setState({ ...state, label: val })}
         />
 
-        <Label className="mt-4">
-          <IntlMessages id="survey.status" />
-        </Label>
+        <Label className="mt-4">Status</Label>
         <CustomInput
           type="radio"
           id="exCustomRadio"
           name="customRadio"
           label="COMPLETED"
-          checked={state.status === 'COMPLETED'}
+          checked={state.status === "COMPLETED"}
           onChange={(event) =>
             setState({
               ...state,
-              status: event.target.value === 'on' ? 'COMPLETED' : 'ACTIVE',
+              status: event.target.value === "on" ? "COMPLETED" : "ACTIVE",
             })
           }
         />
@@ -122,21 +112,21 @@ const AddNewSurveyModal = ({
           id="exCustomRadio2"
           name="customRadio2"
           label="ACTIVE"
-          checked={state.status === 'ACTIVE'}
+          checked={state.status === "ACTIVE"}
           onChange={(event) =>
             setState({
               ...state,
-              status: event.target.value !== 'on' ? 'COMPLETED' : 'ACTIVE',
+              status: event.target.value !== "on" ? "COMPLETED" : "ACTIVE",
             })
           }
         />
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" outline onClick={toggleModal}>
-          <IntlMessages id="survey.cancel" />
+          Cancel
         </Button>
         <Button color="primary" onClick={() => addNetItem()}>
-          <IntlMessages id="survey.submit" />
+          Submit
         </Button>
       </ModalFooter>
     </Modal>

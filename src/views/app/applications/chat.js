@@ -147,7 +147,7 @@ const ChatApp = ({
         </Colxx>
       </Row>
       <SaySomething
-        placeholder={messages["chat.saysomething"]}
+        placeholder="Say something.."
         messageInput={messageInput}
         handleChatInputPress={handleChatInputPress}
         handleChatInputChange={(e) => {

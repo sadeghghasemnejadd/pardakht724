@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from "react";
+import { connect } from "react-redux";
 import {
   CustomInput,
   Button,
@@ -9,19 +9,19 @@ import {
   ModalFooter,
   Input,
   Label,
-} from 'reactstrap';
-import Select from 'react-select';
-import CustomSelectInput from 'components/common/CustomSelectInput';
-import IntlMessages from 'helpers/IntlMessages';
+} from "reactstrap";
+import Select from "react-select";
+import CustomSelectInput from "components/common/CustomSelectInput";
+import IntlMessages from "helpers/IntlMessages";
 
-import { addTodoItem } from 'redux/actions';
+import { addTodoItem } from "redux/actions";
 
 const initialState = {
-  title: '',
-  detail: '',
+  title: "",
+  detail: "",
   label: {},
   category: {},
-  status: 'PENDING',
+  status: "PENDING",
 };
 
 const AddNewTodoModal = ({
@@ -54,13 +54,9 @@ const AddNewTodoModal = ({
       wrapClassName="modal-right"
       backdrop="static"
     >
-      <ModalHeader toggle={toggleModal}>
-        <IntlMessages id="todo.add-new-title" />
-      </ModalHeader>
+      <ModalHeader toggle={toggleModal}>Add New Todo</ModalHeader>
       <ModalBody>
-        <Label className="mt-4">
-          <IntlMessages id="todo.title" />
-        </Label>
+        <Label className="mt-4">Title</Label>
         <Input
           type="text"
           defaultValue={state.title}
@@ -68,9 +64,7 @@ const AddNewTodoModal = ({
             setState({ ...state, title: event.target.value })
           }
         />
-        <Label className="mt-4">
-          <IntlMessages id="todo.detail" />
-        </Label>
+        <Label className="mt-4">Detail</Label>
         <Input
           type="textarea"
           defaultValue={state.detail}
@@ -79,9 +73,7 @@ const AddNewTodoModal = ({
           }
         />
 
-        <Label className="mt-4">
-          <IntlMessages id="todo.category" />
-        </Label>
+        <Label className="mt-4">Category</Label>
         <Select
           components={{ Input: CustomSelectInput }}
           className="react-select"
@@ -93,9 +85,7 @@ const AddNewTodoModal = ({
           value={state.category}
           onChange={(val) => setState({ ...state, category: val })}
         />
-        <Label className="mt-4">
-          <IntlMessages id="todo.label" />
-        </Label>
+        <Label className="mt-4">Label</Label>
         <Select
           components={{ Input: CustomSelectInput }}
           className="react-select"
@@ -113,19 +103,17 @@ const AddNewTodoModal = ({
           onChange={(val) => setState({ ...state, label: val })}
         />
 
-        <Label className="mt-4">
-          <IntlMessages id="todo.status" />
-        </Label>
+        <Label className="mt-4">Status</Label>
         <CustomInput
           type="radio"
           id="exCustomRadio"
           name="customRadio"
           label="COMPLETED"
-          checked={state.status === 'COMPLETED'}
+          checked={state.status === "COMPLETED"}
           onChange={(event) =>
             setState({
               ...state,
-              status: event.target.value === 'on' ? 'COMPLETED' : 'PENDING',
+              status: event.target.value === "on" ? "COMPLETED" : "PENDING",
             })
           }
         />
@@ -134,22 +122,22 @@ const AddNewTodoModal = ({
           id="exCustomRadio2"
           name="customRadio2"
           label="PENDING"
-          defaultChecked={state.status === 'PENDING'}
+          defaultChecked={state.status === "PENDING"}
           onChange={(event) =>
             setState({
               ...state,
-              status: event.target.value !== 'on' ? 'COMPLETED' : 'PENDING',
+              status: event.target.value !== "on" ? "COMPLETED" : "PENDING",
             })
           }
         />
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" outline onClick={toggleModal}>
-          <IntlMessages id="todo.cancel" />
+          Cancel
         </Button>
         <Button color="primary" onClick={() => addNetItem()}>
-          <IntlMessages id="todo.submit" />
-        </Button>{' '}
+          Submit
+        </Button>{" "}
       </ModalFooter>
     </Modal>
   );

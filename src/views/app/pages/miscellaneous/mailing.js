@@ -1,9 +1,9 @@
 /* eslint-disable react/no-danger */
-import React from 'react';
-import { Row, Card, CardBody } from 'reactstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Separator, Colxx } from 'components/common/CustomBootstrap';
-import IntlMessages from 'helpers/IntlMessages';
+import React from "react";
+import { Row, Card, CardBody } from "reactstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Separator, Colxx } from "components/common/CustomBootstrap";
+import IntlMessages from "helpers/IntlMessages";
 
 const Mailing = ({ match }) => {
   return (
@@ -18,7 +18,10 @@ const Mailing = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card className="mb-5">
             <CardBody>
-              <IntlMessages id="pages.mailing-info" />
+              Mailing templates use inline styling and table layout to be
+              displayed well at various service providers. To provide better
+              usability we include it as regular html with
+              dangerouslySetInnerHTML.
             </CardBody>
           </Card>
 

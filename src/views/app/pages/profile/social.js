@@ -50,22 +50,14 @@ const ProfileSocial = ({ match }) => {
                 outline
                 className="top-right-button top-right-button-single"
               >
-                <IntlMessages id="pages.actions" />
+                ACTIONS
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem header>
-                  <IntlMessages id="pages.header" />
-                </DropdownItem>
-                <DropdownItem disabled>
-                  <IntlMessages id="pages.delete" />
-                </DropdownItem>
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
+                <DropdownItem header>Header</DropdownItem>
+                <DropdownItem disabled>Delete</DropdownItem>
+                <DropdownItem>Another action</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
+                <DropdownItem>Another action</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
@@ -83,7 +75,7 @@ const ProfileSocial = ({ match }) => {
                 to="#"
                 location={{}}
               >
-                <IntlMessages id="pages.profile" />
+                PROFILE
               </NavLink>
             </NavItem>
             <NavItem>
@@ -96,7 +88,7 @@ const ProfileSocial = ({ match }) => {
                 to="#"
                 location={{}}
               >
-                <IntlMessages id="pages.images" />
+                IMAGES
               </NavLink>
             </NavItem>
             <NavItem>
@@ -109,7 +101,7 @@ const ProfileSocial = ({ match }) => {
                 to="#"
                 location={{}}
               >
-                <IntlMessages id="pages.friends" />
+                FRIENDS
               </NavLink>
             </NavItem>
           </Nav>
@@ -146,12 +138,10 @@ const ProfileSocial = ({ match }) => {
                         hundred RSS feeds. I build websites that delight and
                         inform. I do it well.
                       </p>
-                      <p className="text-muted text-small mb-2">
-                        <IntlMessages id="pages.location" />
-                      </p>
+                      <p className="text-muted text-small mb-2">Location</p>
                       <p className="mb-3">Nairobi, Kenya</p>
                       <p className="text-muted text-small mb-2">
-                        <IntlMessages id="pages.responsibilities" />
+                        Responsibilities
                       </p>
                       <p className="mb-3">
                         <Badge
@@ -208,18 +198,14 @@ const ProfileSocial = ({ match }) => {
 
                   <Card className="mb-4">
                     <CardBody>
-                      <CardTitle>
-                        <IntlMessages id="pages.similar-projects" />
-                      </CardTitle>
+                      <CardTitle>Similar Projects</CardTitle>
                       <GalleryDetail />
                     </CardBody>
                   </Card>
 
                   <Card className="mb-4">
                     <CardBody>
-                      <CardTitle>
-                        <IntlMessages id="pages.who-to-follow" />
-                      </CardTitle>
+                      <CardTitle>Who to Follow</CardTitle>
                       <div className="remove-last-border remove-last-margin remove-last-padding">
                         {followData.map((itemData) => {
                           return (
@@ -235,9 +221,7 @@ const ProfileSocial = ({ match }) => {
 
                   <Card className="mb-4">
                     <CardBody>
-                      <CardTitle>
-                        <IntlMessages id="pages.recent-posts" />
-                      </CardTitle>
+                      <CardTitle>Recent Posts</CardTitle>
                       <div className="remove-last-border remove-last-margin remove-last-padding">
                         {recentPostsData.map((itemData) => {
                           return (

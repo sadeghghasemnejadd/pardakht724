@@ -49,22 +49,14 @@ const ProfilePortfolio = ({ match }) => {
                 outline
                 className="top-right-button top-right-button-single"
               >
-                <IntlMessages id="pages.actions" />
+                ACTIONS
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem header>
-                  <IntlMessages id="pages.header" />
-                </DropdownItem>
-                <DropdownItem disabled>
-                  <IntlMessages id="pages.delete" />
-                </DropdownItem>
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
+                <DropdownItem header>Header</DropdownItem>
+                <DropdownItem disabled>Delete</DropdownItem>
+                <DropdownItem>Another action</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
+                <DropdownItem>Another action</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
@@ -84,7 +76,7 @@ const ProfilePortfolio = ({ match }) => {
                 location={{}}
                 to="#"
               >
-                <IntlMessages id="pages.details" />
+                DETAILS
               </NavLink>
             </NavItem>
             <NavItem>
@@ -99,7 +91,7 @@ const ProfilePortfolio = ({ match }) => {
                 location={{}}
                 to="#"
               >
-                <IntlMessages id="pages.followers" />
+                FOLLOWERS
               </NavLink>
             </NavItem>
           </Nav>
@@ -130,12 +122,10 @@ const ProfilePortfolio = ({ match }) => {
                         hundred RSS feeds. I build websites that delight and
                         inform. I do it well.
                       </p>
-                      <p className="text-muted text-small mb-2">
-                        <IntlMessages id="pages.location" />
-                      </p>
+                      <p className="text-muted text-small mb-2">Location</p>
                       <p className="mb-3">Nairobi, Kenya</p>
                       <p className="text-muted text-small mb-2">
-                        <IntlMessages id="pages.responsibilities" />
+                        Responsibilities
                       </p>
                       <p className="mb-3">
                         <Badge
@@ -192,9 +182,7 @@ const ProfilePortfolio = ({ match }) => {
 
                   <Card className="mb-4">
                     <CardBody>
-                      <CardTitle>
-                        <IntlMessages id="pages.recent-posts" />
-                      </CardTitle>
+                      <CardTitle>Recent Posts</CardTitle>
                       <div className="remove-last-border remove-last-margin remove-last-padding">
                         {recentPostsData.map((itemData) => {
                           return (

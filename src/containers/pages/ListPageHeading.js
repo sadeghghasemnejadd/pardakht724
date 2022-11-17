@@ -58,7 +58,7 @@ const ListPageHeading = ({
               className="top-right-button"
               onClick={() => toggleModal()}
             >
-              <IntlMessages id="pages.add-new" />
+              ADD NEW
             </Button>
             {"  "}
             <ButtonDropdown
@@ -90,12 +90,8 @@ const ListPageHeading = ({
                 className="dropdown-toggle-split btn-lg"
               />
               <DropdownMenu right>
-                <DropdownItem>
-                  <IntlMessages id="pages.delete" />
-                </DropdownItem>
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
+                <DropdownItem>Delete</DropdownItem>
+                <DropdownItem>Another action</DropdownItem>
               </DropdownMenu>
             </ButtonDropdown>
           </div>
@@ -108,7 +104,7 @@ const ListPageHeading = ({
             className="pt-0 pl-0 d-inline-block d-md-none"
             onClick={() => setDisplayOptionsIsOpen(!displayOptionsIsOpen)}
           >
-            <IntlMessages id="pages.display-options" />{" "}
+            Display Options{" "}
             <i className="simple-icon-arrow-down align-middle" />
           </Button>
           <Collapse
@@ -149,8 +145,7 @@ const ListPageHeading = ({
             <div className="d-block d-md-inline-block pt-1">
               <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                 <DropdownToggle caret color="outline-dark" size="xs">
-                  <IntlMessages id="pages.orderby" />
-                  {selectedOrderOption.label}
+                  Order By :{selectedOrderOption.label}
                 </DropdownToggle>
                 <DropdownMenu>
                   {orderOptions.map((order, index) => {
@@ -177,11 +172,10 @@ const ListPageHeading = ({
             </div>
             <div className="float-md-right pt-1">
               <span className="text-muted text-small mr-1">
-                <IntlMessages id="pages.viewing" />
-                {startIndex + 1}-
+                Viewing :{startIndex + 1}-
                 {totalItemCount >= endIndex ? endIndex : totalItemCount}
                 {` | `}
-                <IntlMessages id="pages.total" />
+                Total:
                 {totalItemCount}
               </span>
               <UncontrolledDropdown className="d-inline-block">

@@ -92,10 +92,10 @@ const Post = ({ data, className, intl }) => {
         {renderLikeAndCommentCount(messages)}
         <div className="mt-5 remove-last-border">{renderComments(data)}</div>
         <InputGroup className="comment-container">
-          <Input placeholder={messages["pages.addComment"]} />
+          <Input placeholder="Add a comment" />
           <InputGroupAddon addonType="append">
             <Button color="primary">
-              <span className="d-inline-block">{messages["pages.send"]}</span>{" "}
+              <span className="d-inline-block">Send</span>{" "}
               <i className="simple-icon-arrow-right ml-2" />
             </Button>
           </InputGroupAddon>

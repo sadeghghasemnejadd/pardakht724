@@ -21,17 +21,11 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
       wrapClassName="modal-right"
       backdrop="static"
     >
-      <ModalHeader toggle={toggleModal}>
-        <IntlMessages id="pages.add-new-modal-title" />
-      </ModalHeader>
+      <ModalHeader toggle={toggleModal}>ADD NEW</ModalHeader>
       <ModalBody>
-        <Label>
-          <IntlMessages id="pages.product-name" />
-        </Label>
+        <Label>Product Name</Label>
         <Input />
-        <Label className="mt-4">
-          <IntlMessages id="pages.category" />
-        </Label>
+        <Label className="mt-4">Category</Label>
         <Select
           components={{ Input: CustomSelectInput }}
           className="react-select"
@@ -39,13 +33,9 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
           name="form-field-name"
           options={categories}
         />
-        <Label className="mt-4">
-          <IntlMessages id="pages.description" />
-        </Label>
+        <Label className="mt-4">Description</Label>
         <Input type="textarea" name="text" id="exampleText" />
-        <Label className="mt-4">
-          <IntlMessages id="pages.status" />
-        </Label>
+        <Label className="mt-4">Status</Label>
         <CustomInput
           type="radio"
           id="exCustomRadio"
@@ -61,10 +51,10 @@ const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" outline onClick={toggleModal}>
-          <IntlMessages id="pages.cancel" />
+          Cancel
         </Button>
         <Button color="primary" onClick={toggleModal}>
-          <IntlMessages id="pages.submit" />
+          Submit
         </Button>{" "}
       </ModalFooter>
     </Modal>

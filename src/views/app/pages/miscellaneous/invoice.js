@@ -1,9 +1,9 @@
 /* eslint-disable react/no-danger */
-import React from 'react';
-import { Row, Card, CardBody, Table } from 'reactstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Separator, Colxx } from 'components/common/CustomBootstrap';
-import IntlMessages from 'helpers/IntlMessages';
+import React from "react";
+import { Row, Card, CardBody, Table } from "reactstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Separator, Colxx } from "components/common/CustomBootstrap";
+import IntlMessages from "helpers/IntlMessages";
 
 const Invoice = ({ match }) => {
   return (
@@ -18,7 +18,8 @@ const Invoice = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-5">
             <CardBody>
-              <IntlMessages id="pages.invoice-info" />
+              Invoice template has an inline styled version for usage outside of
+              the project as well as React version.
             </CardBody>
           </Card>
         </Colxx>
@@ -26,9 +27,7 @@ const Invoice = ({ match }) => {
 
       <Row>
         <Colxx xxs="12">
-          <h3 className="mb-4">
-            <IntlMessages id="pages.react-version" />
-          </h3>
+          <h3 className="mb-4">React Version</h3>
         </Colxx>
       </Row>
 
@@ -146,7 +145,7 @@ const Invoice = ({ match }) => {
                 <div className="border-bottom pt-3 mb-5" />
                 <p className="text-muted text-small text-center">
                   Invoice was created on a computer and is valid without the
-                  signature and seal.{' '}
+                  signature and seal.{" "}
                 </p>
               </div>
             </CardBody>
@@ -156,9 +155,7 @@ const Invoice = ({ match }) => {
 
       <Row>
         <Colxx xxs="12">
-          <h3 className="mb-4">
-            <IntlMessages id="pages.inline-version" />
-          </h3>
+          <h3 className="mb-4">Inline Styled Html Version</h3>
         </Colxx>
       </Row>
 

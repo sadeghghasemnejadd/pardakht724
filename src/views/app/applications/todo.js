@@ -117,7 +117,7 @@ const TodoApp = ({
                   className="top-right-button"
                   onClick={() => setModalOpen(true)}
                 >
-                  <IntlMessages id="todo.add-new" />
+                  ADD NEW
                 </Button>{" "}
                 <ButtonDropdown
                   isOpen={dropdownSplitOpen}
@@ -149,12 +149,8 @@ const TodoApp = ({
                     className="dropdown-toggle-split btn-lg"
                   />
                   <DropdownMenu right>
-                    <DropdownItem>
-                      <IntlMessages id="todo.action" />
-                    </DropdownItem>
-                    <DropdownItem>
-                      <IntlMessages id="todo.another-action" />
-                    </DropdownItem>
+                    <DropdownItem>Action</DropdownItem>
+                    <DropdownItem>Another action</DropdownItem>
                   </DropdownMenu>
                 </ButtonDropdown>
               </div>
@@ -168,7 +164,7 @@ const TodoApp = ({
               className="pt-0 pl-0 d-inline-block d-md-none"
               onClick={() => setDisplayOptionsIsOpen(!displayOptionsIsOpen)}
             >
-              <IntlMessages id="todo.display-options" />{" "}
+              Display Options{" "}
               <i className="simple-icon-arrow-down align-middle" />
             </Button>
             <Collapse
@@ -179,8 +175,7 @@ const TodoApp = ({
               <div className="d-block mb-2 d-md-inline-block">
                 <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                   <DropdownToggle caret color="outline-dark" size="xs">
-                    <IntlMessages id="todo.orderby" />
-                    {orderColumn ? orderColumn.label : ""}
+                    Order By :{orderColumn ? orderColumn.label : ""}
                   </DropdownToggle>
                   <DropdownMenu>
                     {orderColumns.map((o, index) => {

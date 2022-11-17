@@ -51,22 +51,14 @@ const DetailsPages = ({ match, intl }) => {
                 outline
                 className="top-right-button top-right-button-single"
               >
-                <IntlMessages id="pages.actions" />
+                ACTIONS
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem header>
-                  <IntlMessages id="pages.header" />
-                </DropdownItem>
-                <DropdownItem disabled>
-                  <IntlMessages id="pages.delete" />
-                </DropdownItem>
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
+                <DropdownItem header>Header</DropdownItem>
+                <DropdownItem disabled>Delete</DropdownItem>
+                <DropdownItem>Another action</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
+                <DropdownItem>Another action</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
@@ -121,7 +113,7 @@ const DetailsPages = ({ match, intl }) => {
                         to="#"
                         location={{}}
                       >
-                        <IntlMessages id="pages.details-title" />
+                        DETAILS
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -134,8 +126,7 @@ const DetailsPages = ({ match, intl }) => {
                         to="#"
                         location={{}}
                       >
-                        <IntlMessages id="pages.comments-title" />
-                        (19)
+                        Comments (19)
                       </NavLink>
                     </NavItem>
                     <NavItem>
@@ -148,8 +139,7 @@ const DetailsPages = ({ match, intl }) => {
                         to="#"
                         location={{}}
                       >
-                        <IntlMessages id="pages.questions-title" />
-                        (6)
+                        Questions (6)
                       </NavLink>
                     </NavItem>
                   </Nav>
@@ -266,12 +256,10 @@ const DetailsPages = ({ match, intl }) => {
                             );
                           })}
                           <InputGroup className="comment-container">
-                            <Input placeholder={messages["pages.addComment"]} />
+                            <Input placeholder="Add a comment" />
                             <InputGroupAddon addonType="append">
                               <Button color="primary">
-                                <span className="d-inline-block">
-                                  {messages["pages.send"]}
-                                </span>{" "}
+                                <span className="d-inline-block">Send</span>{" "}
                                 <i className="simple-icon-arrow-right ml-2" />
                               </Button>
                             </InputGroupAddon>
@@ -308,14 +296,14 @@ const DetailsPages = ({ match, intl }) => {
                       <NavLink to="#" location={{}}>
                         <i className="simple-icon-heart mr-1" />
                       </NavLink>
-                      <span>4 {messages["pages.likes"]}</span>
+                      <span>4 Likes</span>
                     </div>
 
                     <div className="post-icon mr-3 d-inline-block">
                       <NavLink to="#" location={{}}>
                         <i className="simple-icon-bubble mr-1" />
                       </NavLink>
-                      <span>2 {messages["pages.comments-title"]}</span>
+                      <span>2 Comments</span>
                     </div>
                   </div>
                   <p className="mb-3">
@@ -356,9 +344,7 @@ const DetailsPages = ({ match, intl }) => {
               </Card>
               <Card className="mb-4">
                 <CardBody>
-                  <CardTitle>
-                    <IntlMessages id="pages.similar-projects" />
-                  </CardTitle>
+                  <CardTitle>Similar Projects</CardTitle>
                   <GalleryDetail />
                 </CardBody>
               </Card>

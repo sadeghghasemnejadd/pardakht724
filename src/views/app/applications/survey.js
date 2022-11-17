@@ -120,7 +120,7 @@ const SurveyApp = ({
                   className="top-right-button mr-1"
                   onClick={() => setModalOpen(true)}
                 >
-                  <IntlMessages id="survey.add-new" />
+                  ADD NEW
                 </Button>
                 <ButtonDropdown
                   isOpen={dropdownSplitOpen}
@@ -152,12 +152,8 @@ const SurveyApp = ({
                     className="dropdown-toggle-split btn-lg"
                   />
                   <DropdownMenu right>
-                    <DropdownItem>
-                      <IntlMessages id="survey.delete" />
-                    </DropdownItem>
-                    <DropdownItem>
-                      <IntlMessages id="survey.another-action" />
-                    </DropdownItem>
+                    <DropdownItem>Delete</DropdownItem>
+                    <DropdownItem>Another action</DropdownItem>
                   </DropdownMenu>
                 </ButtonDropdown>
               </div>
@@ -174,7 +170,7 @@ const SurveyApp = ({
                 setDisplayOptionsIsOpen(!displayOptionsIsOpen);
               }}
             >
-              <IntlMessages id="survey.display-options" />{" "}
+              Display Options{" "}
               <i className="simple-icon-arrow-down align-middle" />
             </Button>
 
@@ -186,8 +182,7 @@ const SurveyApp = ({
               <div className="d-block d-md-inline-block">
                 <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                   <DropdownToggle caret color="outline-dark" size="xs">
-                    <IntlMessages id="survey.orderby" />
-                    {orderColumn ? orderColumn.label : ""}
+                    Order By :{orderColumn ? orderColumn.label : ""}
                   </DropdownToggle>
                   <DropdownMenu>
                     {orderColumns.map((o, index) => {

@@ -46,22 +46,14 @@ const DetailsAltPages = ({ match, intl }) => {
                 outline
                 className="top-right-button top-right-button-single"
               >
-                <IntlMessages id="pages.actions" />
+                ACTIONS
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem header>
-                  <IntlMessages id="pages.header" />
-                </DropdownItem>
-                <DropdownItem disabled>
-                  <IntlMessages id="pages.delete" />
-                </DropdownItem>
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
+                <DropdownItem header>Header</DropdownItem>
+                <DropdownItem disabled>Delete</DropdownItem>
+                <DropdownItem>Another action</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>
-                  <IntlMessages id="pages.another-action" />
-                </DropdownItem>
+                <DropdownItem>Another action</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
@@ -79,7 +71,7 @@ const DetailsAltPages = ({ match, intl }) => {
                 })}
                 onClick={() => setActiveTab("details")}
               >
-                <IntlMessages id="pages.details" />
+                DETAILS
               </NavLink>
             </NavItem>
             <NavItem>
@@ -92,7 +84,7 @@ const DetailsAltPages = ({ match, intl }) => {
                 })}
                 onClick={() => setActiveTab("orders")}
               >
-                <IntlMessages id="pages.orders" />
+                ORDERS
               </NavLink>
             </NavItem>
           </Nav>
@@ -114,9 +106,7 @@ const DetailsAltPages = ({ match, intl }) => {
                     />
 
                     <CardBody>
-                      <p className="text-muted text-small mb-2">
-                        <IntlMessages id="pages.description" />
-                      </p>
+                      <p className="text-muted text-small mb-2">Description</p>
                       <p className="mb-3">
                         It’s all about simplicity…Less is more. Chocolate Cake
                         exclusively brings you the classic chocolate cake. This
@@ -130,20 +120,14 @@ const DetailsAltPages = ({ match, intl }) => {
                         with an ice cold glass of milk!
                       </p>
 
-                      <p className="text-muted text-small mb-2">
-                        <IntlMessages id="pages.rating" />
-                      </p>
+                      <p className="text-muted text-small mb-2">Rating</p>
                       <div className="mb-3">
                         <Rating total={5} rating={5} interactive={false} />
                       </div>
 
-                      <p className="text-muted text-small mb-2">
-                        <IntlMessages id="pages.price" />
-                      </p>
+                      <p className="text-muted text-small mb-2">Price</p>
                       <p className="mb-3">$8,14</p>
-                      <p className="text-muted text-small mb-2">
-                        <IntlMessages id="pages.ingredients" />
-                      </p>
+                      <p className="text-muted text-small mb-2">Ingredients</p>
                       <div className="mb-3">
                         <p className="d-sm-inline-block mb-1">
                           <Badge color="outline-secondary mb-1 mr-1" pill>
@@ -170,9 +154,7 @@ const DetailsAltPages = ({ match, intl }) => {
                         </p>
                       </div>
 
-                      <p className="text-muted text-small mb-2">
-                        <IntlMessages id="pages.is-vegan" />
-                      </p>
+                      <p className="text-muted text-small mb-2">Is Vegan</p>
                       <p>No</p>
                     </CardBody>
                   </Card>
@@ -180,7 +162,7 @@ const DetailsAltPages = ({ match, intl }) => {
                     <Colxx xxs="12" className="mb-4">
                       <RadialProgressCard
                         className="mb-4"
-                        title={messages["pages.order-status"]}
+                        title="Order Status"
                         percent={85}
                         isSortable={false}
                       />
@@ -188,7 +170,7 @@ const DetailsAltPages = ({ match, intl }) => {
                     <Colxx xxs="12" className="mb-4">
                       <RadialProgressCard
                         className="mb-4"
-                        title={messages["pages.order-status"]}
+                        title="Order Status"
                         percent={40}
                         isSortable={false}
                       />

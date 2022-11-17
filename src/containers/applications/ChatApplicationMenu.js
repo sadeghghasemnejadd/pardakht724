@@ -91,7 +91,7 @@ const ChatApplicationMenu = ({
               })}
               onClick={() => toggleMenu("messages")}
             >
-              <IntlMessages id="chat.messages" />
+              Messages
             </NavLink>
           </NavItem>
           <NavItem className="w-50 text-center">
@@ -104,7 +104,7 @@ const ChatApplicationMenu = ({
               })}
               onClick={() => toggleAppMenu("contacts")}
             >
-              <IntlMessages id="chat.contacts" />
+              Contacts
             </NavLink>
           </NavItem>
         </Nav>

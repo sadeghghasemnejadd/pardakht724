@@ -1,15 +1,14 @@
-
-import React from 'react';
-import { Row, Card, CardBody, CardTitle } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import LinesEllipsis from 'react-lines-ellipsis';
-import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Separator, Colxx } from 'components/common/CustomBootstrap';
-import SingleLightbox from 'components/pages/SingleLightbox';
-import VideoPlayer from 'components/common/VideoPlayer';
-import { blogData, blogCategories } from 'data/blog';
-import IntlMessages from 'helpers/IntlMessages';
+import React from "react";
+import { Row, Card, CardBody, CardTitle } from "reactstrap";
+import { NavLink } from "react-router-dom";
+import LinesEllipsis from "react-lines-ellipsis";
+import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Separator, Colxx } from "components/common/CustomBootstrap";
+import SingleLightbox from "components/pages/SingleLightbox";
+import VideoPlayer from "components/common/VideoPlayer";
+import { blogData, blogCategories } from "data/blog";
+import IntlMessages from "helpers/IntlMessages";
 
 const recentPosts = blogData.slice(0, 4);
 const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
@@ -130,8 +129,8 @@ const BlogDetail = ({ match }) => {
                 poster="/assets/img/video/poster.jpg"
                 sources={[
                   {
-                    src: 'https://github.com/bower-media-samples/big-buck-bunny-1080p-60fps-30s/raw/master/video.mp4',
-                    type: 'video/mp4',
+                    src: "https://github.com/bower-media-samples/big-buck-bunny-1080p-60fps-30s/raw/master/video.mp4",
+                    type: "video/mp4",
                   },
                 ]}
               />
@@ -149,14 +148,12 @@ const BlogDetail = ({ match }) => {
           </Card>
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="pages.recent-posts" />
-              </CardTitle>
+              <CardTitle>Recent Posts</CardTitle>
               {recentPosts.map((blogItem, index) => {
                 return (
                   <div
                     className={`d-flex flex-row ${
-                      index === recentPosts.length - 1 ? '' : 'mb-3'
+                      index === recentPosts.length - 1 ? "" : "mb-3"
                     }`}
                     key={index}
                   >
@@ -188,9 +185,7 @@ const BlogDetail = ({ match }) => {
           </Card>
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="todo.categories" />
-              </CardTitle>
+              <CardTitle>Categories</CardTitle>
               {blogCategories.map((categoryItem, index) => {
                 return (
                   <div
