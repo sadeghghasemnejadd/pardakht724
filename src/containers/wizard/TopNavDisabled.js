@@ -49,13 +49,11 @@ const TopNavDisabled = ({ intl }) => {
               <div className="wizard-basic-step">
                 <Form>
                   <FormGroup>
-                    <Label>
-                      <IntlMessages id="forms.name" />
-                    </Label>
+                    <Label>Name</Label>
                     <Input
                       type="text"
                       name="name"
-                      placeholder={messages["forms.name"]}
+                      placeholder="Name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
@@ -71,13 +69,11 @@ const TopNavDisabled = ({ intl }) => {
               <div className="wizard-basic-step">
                 <Form>
                   <FormGroup>
-                    <Label>
-                      <IntlMessages id="forms.email" />
-                    </Label>
+                    <Label>E-mail</Label>
                     <Input
                       type="email"
                       name="email"
-                      placeholder={messages["forms.email"]}
+                      placeholder="E-mail"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -93,13 +89,11 @@ const TopNavDisabled = ({ intl }) => {
               <div className="wizard-basic-step">
                 <Form>
                   <FormGroup>
-                    <Label>
-                      <IntlMessages id="forms.password" />
-                    </Label>
+                    <Label>Password</Label>
                     <Input
                       type="password"
                       name="password"
-                      placeholder={messages["forms.password"]}
+                      placeholder="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />

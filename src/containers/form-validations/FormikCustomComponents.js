@@ -1,10 +1,9 @@
-
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import { Row, Card, CardBody, FormGroup, Label, Button } from 'reactstrap';
-import { Colxx } from 'components/common/CustomBootstrap';
-import IntlMessages from 'helpers/IntlMessages';
+import React from "react";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import { Row, Card, CardBody, FormGroup, Label, Button } from "reactstrap";
+import { Colxx } from "components/common/CustomBootstrap";
+import IntlMessages from "helpers/IntlMessages";
 import {
   FormikReactSelect,
   FormikCheckboxGroup,
@@ -16,46 +15,46 @@ import {
   FormikTagsInput,
   FormikSwitch,
   FormikDatePicker,
-} from './FormikFields';
+} from "./FormikFields";
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required!'),
-  select: Yup.string().required('A select option is required!'),
+    .email("Invalid email address")
+    .required("Email is required!"),
+  select: Yup.string().required("A select option is required!"),
   reactSelect: Yup.array()
-    .min(3, 'Pick at least 3 tags')
+    .min(3, "Pick at least 3 tags")
     .of(
       Yup.object().shape({
         label: Yup.string().required(),
         value: Yup.string().required(),
       })
     ),
-  checkboxSingle: Yup.bool().oneOf([true], 'Must agree to something'),
-  checkboxCustomSingle: Yup.bool().oneOf([true], 'Must agree to something'),
+  checkboxSingle: Yup.bool().oneOf([true], "Must agree to something"),
+  checkboxCustomSingle: Yup.bool().oneOf([true], "Must agree to something"),
   checkboxGroup: Yup.array()
-    .min(2, 'Pick at least 2 tags')
-    .required('At least one checkbox is required'),
+    .min(2, "Pick at least 2 tags")
+    .required("At least one checkbox is required"),
 
   customCheckGroup: Yup.array()
-    .min(2, 'Pick at least 2 tags')
-    .required('At least one checkbox is required'),
+    .min(2, "Pick at least 2 tags")
+    .required("At least one checkbox is required"),
 
-  radioGroup: Yup.string().required('A radio option is required'),
-  customRadioGroup: Yup.string().required('A radio option is required'),
+  radioGroup: Yup.string().required("A radio option is required"),
+  customRadioGroup: Yup.string().required("A radio option is required"),
   tags: Yup.array()
-    .min(3, 'Pick at least 3 tags')
-    .required('At least one checkbox is required'),
-  switch: Yup.bool().oneOf([true], 'Must agree to something'),
-  date: Yup.date().nullable().required('Date required'),
+    .min(3, "Pick at least 3 tags")
+    .required("At least one checkbox is required"),
+  switch: Yup.bool().oneOf([true], "Must agree to something"),
+  date: Yup.date().nullable().required("Date required"),
 });
 
 const options = [
-  { value: 'food', label: 'Food' },
-  { value: 'beingfabulous', label: 'Being Fabulous', disabled: true },
-  { value: 'reasonml', label: 'ReasonML' },
-  { value: 'unicorns', label: 'Unicorns' },
-  { value: 'kittens', label: 'Kittens' },
+  { value: "food", label: "Food" },
+  { value: "beingfabulous", label: "Being Fabulous", disabled: true },
+  { value: "reasonml", label: "ReasonML" },
+  { value: "unicorns", label: "Unicorns" },
+  { value: "kittens", label: "Kittens" },
 ];
 
 const FormikCustomComponents = () => {
@@ -78,16 +77,16 @@ const FormikCustomComponents = () => {
             <h6 className="mb-4">Custom Components and Layouts with Yup</h6>
             <Formik
               initialValues={{
-                email: 'test@test.com',
-                select: '3',
-                reactSelect: [{ value: 'reasonml', label: 'ReasonML' }],
-                checkboxGroup: ['kittens'],
-                customCheckGroup: ['unicorns'],
+                email: "test@test.com",
+                select: "3",
+                reactSelect: [{ value: "reasonml", label: "ReasonML" }],
+                checkboxGroup: ["kittens"],
+                customCheckGroup: ["unicorns"],
                 checkboxSingle: true,
                 checkboxCustomSingle: false,
-                radioGroup: '',
-                customRadioGroup: '',
-                tags: ['cake', 'dessert'],
+                radioGroup: "",
+                customRadioGroup: "",
+                tags: ["cake", "dessert"],
                 switch: false,
                 date: null,
               }}
@@ -107,9 +106,7 @@ const FormikCustomComponents = () => {
               }) => (
                 <Form className="av-tooltip tooltip-label-right">
                   <FormGroup className="error-l-100">
-                    <Label>
-                      <IntlMessages id="forms.email" />
-                    </Label>
+                    <Label>E-mail</Label>
                     <Field className="form-control" name="email" />
                     {errors.email && touched.email ? (
                       <div className="invalid-feedback d-block">

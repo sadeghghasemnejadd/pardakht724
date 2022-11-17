@@ -323,9 +323,7 @@ const DetailsPages = ({ match, intl }) => {
                     viverra non. Mauris posuere erat sapien, a convallis libero
                     lobortis sit amet. Suspendisse in orci tellus.
                   </p>
-                  <p className="text-muted text-small mb-2">
-                    {messages["forms.tags"]}
-                  </p>
+                  <p className="text-muted text-small mb-2">Tags</p>
                   <p className="mb-3">
                     <Badge color="outline-secondary" className="mb-1 mr-1" pill>
                       FRONTEND

@@ -105,7 +105,7 @@ const Validation = ({ intl }) => {
                   {({ errors, touched }) => (
                     <Form className="av-tooltip tooltip-label-right">
                       <FormGroup>
-                        <Label>{messages["forms.name"]}</Label>
+                        <Label>Name</Label>
                         <Field
                           className="form-control"
                           name="name"
@@ -139,7 +139,7 @@ const Validation = ({ intl }) => {
                   {({ errors, touched }) => (
                     <Form className="av-tooltip tooltip-label-right">
                       <FormGroup>
-                        <Label>{messages["forms.email"]}</Label>
+                        <Label>E-mail</Label>
                         <Field
                           className="form-control"
                           name="email"
@@ -173,7 +173,7 @@ const Validation = ({ intl }) => {
                   {({ errors, touched }) => (
                     <Form className="av-tooltip tooltip-label-right error-l-75">
                       <FormGroup>
-                        <Label>{messages["forms.password"]}</Label>
+                        <Label>Password</Label>
                         <Field
                           className="form-control"
                           name="password"

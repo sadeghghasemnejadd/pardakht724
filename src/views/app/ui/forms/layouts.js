@@ -57,34 +57,28 @@ const FormLayoutsUi = ({ match, intl }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="forms.basic" />
-              </CardTitle>
+              <CardTitle>Basic</CardTitle>
               <Form>
                 <FormGroup>
-                  <Label for="exampleEmail">
-                    <IntlMessages id="forms.email" />
-                  </Label>
+                  <Label for="exampleEmail">E-mail</Label>
                   <Input
                     type="email"
                     name="email"
                     id="exampleEmail"
-                    placeholder={messages["forms.email"]}
+                    placeholder="E-mail"
                   />
                   <FormText color="muted">
-                    <IntlMessages id="forms.email-muted" />
+                    We'll never share your email with anyone else.
                   </FormText>
                 </FormGroup>
 
                 <FormGroup>
-                  <Label for="passwordBasic">
-                    <IntlMessages id="forms.password" />
-                  </Label>
+                  <Label for="passwordBasic">Password</Label>
                   <Input
                     type="password"
                     name="passwordBasic"
                     id="passwordBasic"
-                    placeholder={messages["forms.password"]}
+                    placeholder="Password"
                   />
                 </FormGroup>
 
@@ -97,7 +91,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                 </FormGroup>
 
                 <Button color="primary" className="mt-4">
-                  <IntlMessages id="forms.submit" />
+                  Submit
                 </Button>
               </Form>
             </CardBody>
@@ -109,59 +103,57 @@ const FormLayoutsUi = ({ match, intl }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="forms.horizontal" />
-              </CardTitle>
+              <CardTitle>Horizontal</CardTitle>
               <Form>
                 <FormGroup row>
                   <Label for="emailHorizontal" sm={2}>
-                    <IntlMessages id="forms.email" />
+                    E-mail
                   </Label>
                   <Colxx sm={10}>
                     <Input
                       type="email"
                       name="email"
                       id="emailHorizontal"
-                      placeholder={messages["forms.email"]}
+                      placeholder="E-mail"
                     />
                   </Colxx>
                 </FormGroup>
 
                 <FormGroup row>
                   <Label for="passwordHorizontal" sm={2}>
-                    <IntlMessages id="forms.password" />
+                    Password
                   </Label>
                   <Colxx sm={10}>
                     <Input
                       type="password"
                       name="password"
                       id="passwordHorizontal"
-                      placeholder={messages["forms.password"]}
+                      placeholder="Password"
                     />
                   </Colxx>
                 </FormGroup>
 
                 <FormGroup row>
                   <Label sm={2} className="pt-0">
-                    <IntlMessages id="forms.radios" />
+                    Radios
                   </Label>
                   <Colxx sm={10}>
                     <FormGroup check>
                       <Label check>
                         <Input type="radio" name="radio1" />
-                        <IntlMessages id="forms.first-radio" />
+                        First radio
                       </Label>
                     </FormGroup>
                     <FormGroup check>
                       <Label check>
                         <Input type="radio" name="radio1" />
-                        <IntlMessages id="forms.second-radio" />
+                        Second radio
                       </Label>
                     </FormGroup>
                     <FormGroup check disabled>
                       <Label check>
                         <Input type="radio" name="radio1" disabled />
-                        <IntlMessages id="forms.third-radio-disabled" />
+                        Third disabled radio
                       </Label>
                     </FormGroup>
                   </Colxx>
@@ -169,21 +161,18 @@ const FormLayoutsUi = ({ match, intl }) => {
 
                 <FormGroup row>
                   <Label sm={2} className="pt-0">
-                    <IntlMessages id="forms.checkbox" />
+                    Checkbox
                   </Label>
                   <Colxx sm={10}>
                     <FormGroup check>
                       <Label check>
-                        <Input type="checkbox" name="check1" /> Example
-                        <IntlMessages id="forms.checkbox" />
+                        <Input type="checkbox" name="check1" /> Example Checkbox
                       </Label>
                     </FormGroup>
                   </Colxx>
                 </FormGroup>
 
-                <Button color="primary">
-                  <IntlMessages id="forms.signin" />
-                </Button>
+                <Button color="primary">Sign in</Button>
               </Form>
             </CardBody>
           </Card>
@@ -194,22 +183,16 @@ const FormLayoutsUi = ({ match, intl }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="forms.top-labels-over-line" />
-              </CardTitle>
+              <CardTitle>Top Labels Over Line</CardTitle>
 
               <Form>
                 <Label className="form-group has-float-label">
                   <Input type="email" />
-                  <span>
-                    <IntlMessages id="forms.email" />
-                  </span>
+                  <span>E-mail</span>
                 </Label>
                 <Label className="form-group has-float-label">
                   <Input type="password" />
-                  <span>
-                    <IntlMessages id="forms.password" />
-                  </span>
+                  <span>Password</span>
                 </Label>
                 <div className="form-group has-float-label">
                   <TagsInput
@@ -217,18 +200,14 @@ const FormLayoutsUi = ({ match, intl }) => {
                     onChange={(val) => setTagsLO(val)}
                     inputProps={{ placeholder: "" }}
                   />
-                  <span>
-                    <IntlMessages id="forms.tags" />
-                  </span>
+                  <span>Tags</span>
                 </div>
                 <div className="form-group has-float-label">
                   <DatePicker
                     selected={startDateLO}
                     onChange={(val) => setStartDateLO(val)}
                   />
-                  <span>
-                    <IntlMessages id="forms.date" />
-                  </span>
+                  <span>Date</span>
                 </div>
 
                 <div className="form-group has-float-label">
@@ -242,14 +221,10 @@ const FormLayoutsUi = ({ match, intl }) => {
                     options={selectData}
                     placeholder=""
                   />
-                  <span>
-                    <IntlMessages id="forms.state" />
-                  </span>
+                  <span>State</span>
                 </div>
 
-                <Button color="primary">
-                  <IntlMessages id="forms.submit" />
-                </Button>
+                <Button color="primary">Submit</Button>
               </Form>
             </CardBody>
           </Card>
@@ -260,30 +235,22 @@ const FormLayoutsUi = ({ match, intl }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="forms.top-labels-in-input" />
-              </CardTitle>
+              <CardTitle>Top Labels In Input</CardTitle>
 
               <Form>
                 <FormGroup className="form-group has-top-label">
-                  <Label>
-                    <IntlMessages id="forms.email-u" />
-                  </Label>
+                  <Label>E-MAIL</Label>
                   <Input type="email" />
                 </FormGroup>
 
                 <FormGroup className="form-group has-top-label">
-                  <Label>
-                    <IntlMessages id="forms.password-u" />
-                  </Label>
+                  <Label>PASSWORD</Label>
 
                   <Input type="password" />
                 </FormGroup>
 
                 <FormGroup className="form-group has-top-label">
-                  <Label>
-                    <IntlMessages id="forms.tags-u" />
-                  </Label>
+                  <Label>TAGS</Label>
                   <TagsInput
                     value={tagsLT}
                     onChange={(val) => setTagsLT(val)}
@@ -291,9 +258,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                   />
                 </FormGroup>
                 <FormGroup className="form-group has-top-label">
-                  <Label>
-                    <IntlMessages id="forms.date-u" />
-                  </Label>
+                  <Label>DATE</Label>
                   <DatePicker
                     shouldCloseOnSelect
                     selected={startDateLT}
@@ -302,9 +267,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                 </FormGroup>
 
                 <FormGroup className="form-group has-top-label">
-                  <Label>
-                    <IntlMessages id="forms.state-u" />
-                  </Label>
+                  <Label>STATE</Label>
                   <Select
                     components={{ Input: CustomSelectInput }}
                     className="react-select"
@@ -317,9 +280,7 @@ const FormLayoutsUi = ({ match, intl }) => {
                   />
                 </FormGroup>
 
-                <Button color="primary">
-                  <IntlMessages id="forms.submit" />
-                </Button>
+                <Button color="primary">Submit</Button>
               </Form>
             </CardBody>
           </Card>
@@ -330,86 +291,72 @@ const FormLayoutsUi = ({ match, intl }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="forms.grid" />
-              </CardTitle>
+              <CardTitle>Form Grid</CardTitle>
               <Form>
                 <FormGroup row>
                   <Colxx sm={6}>
                     <FormGroup>
-                      <Label for="exampleEmailGrid">
-                        <IntlMessages id="forms.email" />
-                      </Label>
+                      <Label for="exampleEmailGrid">E-mail</Label>
                       <Input
                         type="email"
                         name="exampleEmailGrid"
                         id="exampleEmailGrid"
-                        placeholder={messages["forms.email"]}
+                        placeholder="E-mail"
                       />
                     </FormGroup>
                   </Colxx>
 
                   <Colxx sm={6}>
                     <FormGroup>
-                      <Label for="examplePasswordGrid">
-                        <IntlMessages id="forms.password" />
-                      </Label>
+                      <Label for="examplePasswordGrid">Password</Label>
                       <Input
                         type="password"
                         name="examplePasswordGrid"
                         id="examplePasswordGrid"
-                        placeholder={messages["forms.password"]}
+                        placeholder="Password"
                       />
                     </FormGroup>
                   </Colxx>
 
                   <Colxx sm={12}>
                     <FormGroup>
-                      <Label for="exampleAddressGrid">
-                        <IntlMessages id="forms.address" />
-                      </Label>
+                      <Label for="exampleAddressGrid">Address</Label>
                       <Input
                         type="text"
                         name="exampleAddressGrid"
                         id="exampleAddressGrid"
-                        placeholder={messages["forms.address"]}
+                        placeholder="Address"
                       />
                     </FormGroup>
                   </Colxx>
 
                   <Colxx sm={12}>
                     <FormGroup>
-                      <Label for="exampleAddress2Grid">
-                        <IntlMessages id="forms.address2" />
-                      </Label>
+                      <Label for="exampleAddress2Grid">Address 2</Label>
                       <Input
                         type="text"
                         name="exampleAddress2Grid"
                         id="exampleAddress2Grid"
-                        placeholder={messages["forms.address"]}
+                        placeholder="Address"
                       />
                     </FormGroup>
                   </Colxx>
 
                   <Colxx sm={6}>
                     <FormGroup>
-                      <Label for="exampleEmailGrid">
-                        <IntlMessages id="forms.city" />
-                      </Label>
+                      <Label for="exampleEmailGrid">City</Label>
                       <Input
                         type="text"
                         name="exampleTextGrid"
                         id="exampleTextGrid"
-                        placeholder={messages["forms.city"]}
+                        placeholder="City"
                       />
                     </FormGroup>
                   </Colxx>
 
                   <Colxx sm={4}>
                     <FormGroup>
-                      <Label>
-                        <IntlMessages id="forms.state" />
-                      </Label>
+                      <Label>State</Label>
                       <Input type="select">
                         <option>Option 1</option>
                         <option>Option 2</option>
@@ -422,22 +369,18 @@ const FormLayoutsUi = ({ match, intl }) => {
 
                   <Colxx sm={2}>
                     <FormGroup>
-                      <Label for="exampleZipGrid">
-                        <IntlMessages id="forms.zip" />
-                      </Label>
+                      <Label for="exampleZipGrid">Zip</Label>
                       <Input
                         type="text"
                         name="exampleZipGrid"
                         id="exampleZipGrid"
-                        placeholder={messages["forms.zip"]}
+                        placeholder="Zip"
                       />
                     </FormGroup>
                   </Colxx>
                 </FormGroup>
 
-                <Button color="primary">
-                  <IntlMessages id="forms.signup" />
-                </Button>
+                <Button color="primary">Signup</Button>
               </Form>
             </CardBody>
           </Card>

@@ -29,7 +29,7 @@ const DatePickerExamples = ({ intl }) => {
               <DatePicker
                 selected={startDate}
                 onChange={setStartDate}
-                placeholderText={messages["forms.date"]}
+                placeholderText="Date"
               />
             </div>
             <label>
@@ -65,7 +65,7 @@ const DatePickerExamples = ({ intl }) => {
                 <DatePicker
                   selected={startDateTime}
                   onChange={setStartDateTime}
-                  placeholderText={messages["forms.date"]}
+                  placeholderText="Date"
                   showTimeSelect
                   timeFormat="HH:mm"
                   timeIntervals={15}
