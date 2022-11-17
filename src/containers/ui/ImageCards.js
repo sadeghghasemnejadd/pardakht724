@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   CardText,
   CardSubtitle,
@@ -8,17 +8,15 @@ import {
   CardTitle,
   CardImg,
   Badge,
-} from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx } from 'components/common/CustomBootstrap';
+} from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx } from "components/common/CustomBootstrap";
 
 const ImageCards = () => {
   return (
     <Row>
       <Colxx xxs="12">
-        <CardTitle className="mb-4">
-          <IntlMessages id="cards.image-card" />
-        </CardTitle>
+        <CardTitle className="mb-4">Image Card</CardTitle>
         <Row>
           <Colxx xxs="12" xs="6" lg="4">
             <Card className="mb-4">

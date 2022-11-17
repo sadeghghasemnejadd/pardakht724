@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   CardText,
   Row,
@@ -6,17 +6,15 @@ import {
   CardTitle,
   CardImg,
   CardImgOverlay,
-} from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx } from 'components/common/CustomBootstrap';
+} from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx } from "components/common/CustomBootstrap";
 
 const ImageOverlayCard = () => {
   return (
     <Row>
       <Colxx xxs="12">
-        <CardTitle className="mb-4">
-          <IntlMessages id="cards.image-overlay-card" />
-        </CardTitle>
+        <CardTitle className="mb-4">Image Overlay Card</CardTitle>
         <Row>
           <Colxx xxs="12" xs="6" lg="3">
             <Card inverse className="mb-4">

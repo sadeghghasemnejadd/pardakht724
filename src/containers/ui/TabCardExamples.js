@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Row,
   Card,
@@ -10,23 +10,21 @@ import {
   TabContent,
   TabPane,
   Button,
-} from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+} from "reactstrap";
+import { NavLink } from "react-router-dom";
 
-import classnames from 'classnames';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx } from 'components/common/CustomBootstrap';
+import classnames from "classnames";
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx } from "components/common/CustomBootstrap";
 
 const TabCardExamples = () => {
-  const [activeFirstTab, setActiveFirstTab] = useState('1');
-  const [activeSecondTab, setActiveSecondTab] = useState('1');
+  const [activeFirstTab, setActiveFirstTab] = useState("1");
+  const [activeSecondTab, setActiveSecondTab] = useState("1");
 
   return (
     <Row>
       <Colxx xxs="12">
-        <CardTitle className="mb-4">
-          <IntlMessages id="cards.tab-card" />
-        </CardTitle>
+        <CardTitle className="mb-4">Tab Card</CardTitle>
         <Row>
           <Colxx xxs="12" xs="6" lg="3">
             <Card className="mb-4">
@@ -37,11 +35,11 @@ const TabCardExamples = () => {
                       to="#"
                       location={{}}
                       className={classnames({
-                        active: activeFirstTab === '1',
-                        'nav-link': true,
+                        active: activeFirstTab === "1",
+                        "nav-link": true,
                       })}
                       onClick={() => {
-                        setActiveFirstTab('1');
+                        setActiveFirstTab("1");
                       }}
                     >
                       Tab 1
@@ -52,11 +50,11 @@ const TabCardExamples = () => {
                       to="#"
                       location={{}}
                       className={classnames({
-                        active: activeFirstTab === '2',
-                        'nav-link': true,
+                        active: activeFirstTab === "2",
+                        "nav-link": true,
                       })}
                       onClick={() => {
-                        setActiveFirstTab('2');
+                        setActiveFirstTab("2");
                       }}
                     >
                       Tab 2
@@ -67,11 +65,11 @@ const TabCardExamples = () => {
                       to="#"
                       location={{}}
                       className={classnames({
-                        active: activeFirstTab === '3',
-                        'nav-link': true,
+                        active: activeFirstTab === "3",
+                        "nav-link": true,
                       })}
                       onClick={() => {
-                        setActiveFirstTab('3');
+                        setActiveFirstTab("3");
                       }}
                     >
                       Tab 3
@@ -136,11 +134,11 @@ const TabCardExamples = () => {
                       to="#"
                       location={{}}
                       className={classnames({
-                        active: activeSecondTab === '1',
-                        'nav-link': true,
+                        active: activeSecondTab === "1",
+                        "nav-link": true,
                       })}
                       onClick={() => {
-                        setActiveSecondTab('1');
+                        setActiveSecondTab("1");
                       }}
                     >
                       Tab 1
@@ -151,11 +149,11 @@ const TabCardExamples = () => {
                       to="#"
                       location={{}}
                       className={classnames({
-                        active: activeSecondTab === '2',
-                        'nav-link': true,
+                        active: activeSecondTab === "2",
+                        "nav-link": true,
                       })}
                       onClick={() => {
-                        setActiveSecondTab('2');
+                        setActiveSecondTab("2");
                       }}
                     >
                       Tab 2

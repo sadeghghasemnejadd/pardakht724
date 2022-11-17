@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Row,
   Card,
@@ -8,22 +8,20 @@ import {
   CardImg,
   CardText,
   Button,
-} from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+} from "reactstrap";
+import { NavLink } from "react-router-dom";
 
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx } from 'components/common/CustomBootstrap';
-import ThumbnailImage from 'components/cards/ThumbnailImage';
-import ThumbnailLetters from 'components/cards/ThumbnailLetters';
-import { adminRoot } from 'constants/defaultValues';
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx } from "components/common/CustomBootstrap";
+import ThumbnailImage from "components/cards/ThumbnailImage";
+import ThumbnailLetters from "components/cards/ThumbnailLetters";
+import { adminRoot } from "constants/defaultValues";
 
 const UserCardExamples = () => {
   return (
     <Row>
       <Colxx xxs="12">
-        <CardTitle className="mb-4">
-          <IntlMessages id="cards.user-card" />
-        </CardTitle>
+        <CardTitle className="mb-4">User Card</CardTitle>
         <Row>
           <Colxx md="6" sm="6" lg="4" xxs="12">
             <Card className="mb-4">
