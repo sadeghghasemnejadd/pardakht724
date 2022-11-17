@@ -36,9 +36,7 @@ const InputGroupsUi = ({ intl, match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="input-groups.basic" />
-              </CardTitle>
+              <CardTitle>Basic</CardTitle>
 
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">@</InputGroupAddon>
@@ -76,33 +74,25 @@ const InputGroupsUi = ({ intl, match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="input-groups.sizing" />
-              </CardTitle>
+              <CardTitle>Sizing</CardTitle>
 
               <InputGroup size="sm" className="mb-3">
                 <InputGroupAddon addonType="prepend">
-                  <span className="input-group-text">
-                    <IntlMessages id="input-groups.small" />
-                  </span>
+                  <span className="input-group-text">Small</span>
                 </InputGroupAddon>
                 <Input />
               </InputGroup>
 
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">
-                  <span className="input-group-text">
-                    <IntlMessages id="input-groups.default" />
-                  </span>
+                  <span className="input-group-text">Default</span>
                 </InputGroupAddon>
                 <Input />
               </InputGroup>
 
               <InputGroup size="lg">
                 <InputGroupAddon addonType="prepend">
-                  <span className="input-group-text">
-                    <IntlMessages id="input-groups.large" />
-                  </span>
+                  <span className="input-group-text">Large</span>
                 </InputGroupAddon>
                 <Input />
               </InputGroup>
@@ -111,9 +101,7 @@ const InputGroupsUi = ({ intl, match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="input-groups.checkboxes-and-radios" />
-              </CardTitle>
+              <CardTitle>Checkboxes and radios</CardTitle>
 
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">
@@ -145,15 +133,11 @@ const InputGroupsUi = ({ intl, match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="input-groups.multiple-inputs" />
-              </CardTitle>
+              <CardTitle>Multiple Inputs</CardTitle>
 
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
-                  <span className="input-group-text">
-                    <IntlMessages id="input-groups.first-and-last-name" />
-                  </span>
+                  <span className="input-group-text">First and last name</span>
                 </InputGroupAddon>
                 <Input />
                 <Input />
@@ -163,9 +147,7 @@ const InputGroupsUi = ({ intl, match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="input-groups.multiple-addons" />
-              </CardTitle>
+              <CardTitle>Multiple Addons</CardTitle>
 
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">
@@ -187,14 +169,12 @@ const InputGroupsUi = ({ intl, match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="input-groups.button-addons" />
-              </CardTitle>
+              <CardTitle>Button Addons</CardTitle>
 
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">
                   <Button outline color="secondary">
-                    <IntlMessages id="input-groups.button" />
+                    Button
                   </Button>
                 </InputGroupAddon>
                 <Input />
@@ -204,7 +184,7 @@ const InputGroupsUi = ({ intl, match }) => {
                 <Input />
                 <InputGroupAddon addonType="append">
                   <Button outline color="secondary">
-                    <IntlMessages id="input-groups.button" />
+                    Button
                   </Button>
                 </InputGroupAddon>
               </InputGroup>
@@ -212,10 +192,10 @@ const InputGroupsUi = ({ intl, match }) => {
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">
                   <Button outline color="secondary">
-                    <IntlMessages id="input-groups.button" />
+                    Button
                   </Button>
                   <Button outline color="secondary">
-                    <IntlMessages id="input-groups.button" />
+                    Button
                   </Button>
                 </InputGroupAddon>
                 <Input />
@@ -225,10 +205,10 @@ const InputGroupsUi = ({ intl, match }) => {
                 <Input />
                 <InputGroupAddon addonType="append">
                   <Button outline color="secondary">
-                    <IntlMessages id="input-groups.button" />
+                    Button
                   </Button>
                   <Button outline color="secondary">
-                    <IntlMessages id="input-groups.button" />
+                    Button
                   </Button>
                 </InputGroupAddon>
               </InputGroup>
@@ -237,28 +217,18 @@ const InputGroupsUi = ({ intl, match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="input-groups.buttons-with-dropdowns" />
-              </CardTitle>
+              <CardTitle>Buttons with Dropdowns</CardTitle>
               <InputGroup className="mb-3">
                 <UncontrolledDropdown addonType="prepend">
                   <DropdownToggle caret outline color="secondary">
-                    <IntlMessages id="input-groups.dropdown" />
+                    Dropdown
                   </DropdownToggle>
                   <DropdownMenu>
-                    <DropdownItem header>
-                      <IntlMessages id="input-groups.header" />
-                    </DropdownItem>
-                    <DropdownItem disabled>
-                      <IntlMessages id="input-groups.action" />
-                    </DropdownItem>
-                    <DropdownItem>
-                      <IntlMessages id="input-groups.another-action" />
-                    </DropdownItem>
+                    <DropdownItem header>Header</DropdownItem>
+                    <DropdownItem disabled>Action</DropdownItem>
+                    <DropdownItem>Another Action</DropdownItem>
                     <DropdownItem divider />
-                    <DropdownItem>
-                      <IntlMessages id="input-groups.another-action" />
-                    </DropdownItem>
+                    <DropdownItem>Another Action</DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
                 <Input />
@@ -268,22 +238,14 @@ const InputGroupsUi = ({ intl, match }) => {
                 <Input />
                 <UncontrolledDropdown addonType="append">
                   <DropdownToggle caret outline color="secondary">
-                    <IntlMessages id="input-groups.dropdown" />
+                    Dropdown
                   </DropdownToggle>
                   <DropdownMenu>
-                    <DropdownItem header>
-                      <IntlMessages id="input-groups.header" />
-                    </DropdownItem>
-                    <DropdownItem disabled>
-                      <IntlMessages id="input-groups.action" />
-                    </DropdownItem>
-                    <DropdownItem>
-                      <IntlMessages id="input-groups.another-action" />
-                    </DropdownItem>
+                    <DropdownItem header>Header</DropdownItem>
+                    <DropdownItem disabled>Action</DropdownItem>
+                    <DropdownItem>Another Action</DropdownItem>
                     <DropdownItem divider />
-                    <DropdownItem>
-                      <IntlMessages id="input-groups.another-action" />
-                    </DropdownItem>
+                    <DropdownItem>Another Action</DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </InputGroup>
@@ -292,9 +254,7 @@ const InputGroupsUi = ({ intl, match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="input-groups.custom-file-input" />
-              </CardTitle>
+              <CardTitle>Custom File Input</CardTitle>
 
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">Upload</InputGroupAddon>
@@ -317,7 +277,7 @@ const InputGroupsUi = ({ intl, match }) => {
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">
                   <Button outline color="secondary">
-                    <IntlMessages id="input-groups.button" />
+                    Button
                   </Button>
                 </InputGroupAddon>
                 <CustomInput
@@ -335,7 +295,7 @@ const InputGroupsUi = ({ intl, match }) => {
                 />
                 <InputGroupAddon addonType="append">
                   <Button outline color="secondary">
-                    <IntlMessages id="input-groups.button" />
+                    Button
                   </Button>
                 </InputGroupAddon>
               </InputGroup>
