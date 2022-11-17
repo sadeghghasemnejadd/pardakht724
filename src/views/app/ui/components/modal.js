@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Row,
   Card,
@@ -12,10 +12,10 @@ import {
   FormGroup,
   Input,
   Label,
-} from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+} from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
 const ModalUi = ({ match }) => {
   const [modalBasic, setModalBasic] = useState(false);
@@ -42,24 +42,20 @@ const ModalUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="modal.basic" />
-              </CardTitle>
+              <CardTitle>Basic</CardTitle>
               <div>
                 <Button
                   color="primary"
                   outline
                   onClick={() => setModalBasic(true)}
                 >
-                  <IntlMessages id="modal.launch-demo-modal" />
+                  Launch Demo Modal
                 </Button>
                 <Modal
                   isOpen={modalBasic}
                   toggle={() => setModalBasic(!modalBasic)}
                 >
-                  <ModalHeader>
-                    <IntlMessages id="modal.modal-title" />
-                  </ModalHeader>
+                  <ModalHeader>Modal title</ModalHeader>
                   <ModalBody>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                     sed do eiusmod tempor incididunt ut labore et dolore magna
@@ -76,7 +72,7 @@ const ModalUi = ({ match }) => {
                       onClick={() => setModalBasic(false)}
                     >
                       Do Something
-                    </Button>{' '}
+                    </Button>{" "}
                     <Button
                       color="secondary"
                       onClick={() => setModalBasic(false)}
@@ -91,16 +87,14 @@ const ModalUi = ({ match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="modal.scrolling-long-content" />
-              </CardTitle>
+              <CardTitle>Scrolling Long Content</CardTitle>
               <div>
                 <Button
                   color="primary"
                   outline
                   onClick={() => setModalLong(true)}
                 >
-                  <IntlMessages id="modal.launch-demo-modal" />
+                  Launch Demo Modal
                 </Button>
                 <Modal
                   isOpen={modalLong}
@@ -139,7 +133,7 @@ const ModalUi = ({ match }) => {
                     eget velit viverra condimentum. Vestibulum pulvinar enim
                     mattis pharetra tristique. Donec hendrerit vitae lorem at
                     malesuada. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{' '}
+                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{" "}
                     <br /> Nam consequat nunc neque, nec bibendum ante mollis
                     nec. Cras porta ante a ex condimentum imperdiet. Cras
                     vehicula velit in erat semper, sed bibendum ligula vehicula.
@@ -149,7 +143,7 @@ const ModalUi = ({ match }) => {
                     eget velit viverra condimentum. Vestibulum pulvinar enim
                     mattis pharetra tristique. Donec hendrerit vitae lorem at
                     malesuada. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{' '}
+                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{" "}
                     <br /> Nam consequat nunc neque, nec bibendum ante mollis
                     nec. Cras porta ante a ex condimentum imperdiet. Cras
                     vehicula velit in erat semper, sed bibendum ligula vehicula.
@@ -159,7 +153,7 @@ const ModalUi = ({ match }) => {
                     eget velit viverra condimentum. Vestibulum pulvinar enim
                     mattis pharetra tristique. Donec hendrerit vitae lorem at
                     malesuada. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{' '}
+                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{" "}
                     <br /> Nam consequat nunc neque, nec bibendum ante mollis
                     nec. Cras porta ante a ex condimentum imperdiet. Cras
                     vehicula velit in erat semper, sed bibendum ligula vehicula.
@@ -169,7 +163,7 @@ const ModalUi = ({ match }) => {
                     eget velit viverra condimentum. Vestibulum pulvinar enim
                     mattis pharetra tristique. Donec hendrerit vitae lorem at
                     malesuada. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{' '}
+                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{" "}
                     <br /> Nam consequat nunc neque, nec bibendum ante mollis
                     nec. Cras porta ante a ex condimentum imperdiet. Cras
                     vehicula velit in erat semper, sed bibendum ligula vehicula.
@@ -179,7 +173,7 @@ const ModalUi = ({ match }) => {
                     eget velit viverra condimentum. Vestibulum pulvinar enim
                     mattis pharetra tristique. Donec hendrerit vitae lorem at
                     malesuada. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{' '}
+                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{" "}
                     <br /> Nam consequat nunc neque, nec bibendum ante mollis
                     nec. Cras porta ante a ex condimentum imperdiet. Cras
                     vehicula velit in erat semper, sed bibendum ligula vehicula.
@@ -189,7 +183,7 @@ const ModalUi = ({ match }) => {
                     eget velit viverra condimentum. Vestibulum pulvinar enim
                     mattis pharetra tristique. Donec hendrerit vitae lorem at
                     malesuada. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{' '}
+                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{" "}
                     <br /> Nam consequat nunc neque, nec bibendum ante mollis
                     nec. Cras porta ante a ex condimentum imperdiet. Cras
                     vehicula velit in erat semper, sed bibendum ligula vehicula.
@@ -199,7 +193,7 @@ const ModalUi = ({ match }) => {
                     eget velit viverra condimentum. Vestibulum pulvinar enim
                     mattis pharetra tristique. Donec hendrerit vitae lorem at
                     malesuada. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{' '}
+                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{" "}
                     <br /> Nam consequat nunc neque, nec bibendum ante mollis
                     nec. Cras porta ante a ex condimentum imperdiet. Cras
                     vehicula velit in erat semper, sed bibendum ligula vehicula.
@@ -209,7 +203,7 @@ const ModalUi = ({ match }) => {
                     eget velit viverra condimentum. Vestibulum pulvinar enim
                     mattis pharetra tristique. Donec hendrerit vitae lorem at
                     malesuada. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{' '}
+                    adipiscing elit. Nulla a diam eu sem gravida ultrices.{" "}
                     <br /> Nam consequat nunc neque, nec bibendum ante mollis
                     nec. Cras porta ante a ex condimentum imperdiet. Cras
                     vehicula velit in erat semper, sed bibendum ligula vehicula.
@@ -224,7 +218,7 @@ const ModalUi = ({ match }) => {
                   <ModalFooter>
                     <Button color="primary" onClick={() => setModalLong(false)}>
                       Do Something
-                    </Button>{' '}
+                    </Button>{" "}
                     <Button
                       color="secondary"
                       onClick={() => setModalLong(false)}
@@ -239,21 +233,17 @@ const ModalUi = ({ match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="modal.backdrop" />
-              </CardTitle>
+              <CardTitle>Backdrop</CardTitle>
               <div>
                 <FormGroup className="mr-2">
-                  <Label for="backdrop">
-                    <IntlMessages id="modal.backdrop-value" />
-                  </Label>
+                  <Label for="backdrop">Backdrop value</Label>
                   <Input
                     type="select"
                     name="backdrop"
                     id="backdrop"
                     onChange={(e) => {
                       const val =
-                        e.target.value !== 'static'
+                        e.target.value !== "static"
                           ? JSON.parse(e.target.value)
                           : e.target.value;
                       setBackdrop(val);
@@ -270,7 +260,7 @@ const ModalUi = ({ match }) => {
                   outline
                   onClick={() => setModalBack(true)}
                 >
-                  <IntlMessages id="modal.launch-demo-modal" />
+                  Launch Demo Modal
                 </Button>
                 <Modal
                   isOpen={modalBack}
@@ -291,7 +281,7 @@ const ModalUi = ({ match }) => {
                   <ModalFooter>
                     <Button color="primary" onClick={() => setModalBack(false)}>
                       Do Something
-                    </Button>{' '}
+                    </Button>{" "}
                     <Button
                       color="secondary"
                       onClick={() => setModalBack(false)}
@@ -306,16 +296,14 @@ const ModalUi = ({ match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="modal.right-modal" />
-              </CardTitle>
+              <CardTitle>Right Modal</CardTitle>
               <div>
                 <Button
                   color="primary"
                   outline
                   onClick={() => setModalRight(true)}
                 >
-                  <IntlMessages id="modal.launch-right-modal" />
+                  Launch Right Modal
                 </Button>
                 <Modal
                   isOpen={modalRight}
@@ -339,7 +327,7 @@ const ModalUi = ({ match }) => {
                       onClick={() => setModalRight(false)}
                     >
                       Do Something
-                    </Button>{' '}
+                    </Button>{" "}
                     <Button
                       color="secondary"
                       onClick={() => setModalRight(false)}
@@ -354,16 +342,14 @@ const ModalUi = ({ match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="modal.nested-modal" />
-              </CardTitle>
+              <CardTitle>Nested Modal</CardTitle>
               <div>
                 <Button
                   color="primary"
                   outline
                   onClick={() => setModalNestedContainer(true)}
                 >
-                  <IntlMessages id="modal.launch-demo-modal" />
+                  Launch Demo Modal
                 </Button>
 
                 <Modal
@@ -410,7 +396,7 @@ const ModalUi = ({ match }) => {
                           onClick={() => setModalNested(false)}
                         >
                           Done
-                        </Button>{' '}
+                        </Button>{" "}
                         <Button
                           color="secondary"
                           onClick={() => {
@@ -429,7 +415,7 @@ const ModalUi = ({ match }) => {
                       onClick={() => setModalNestedContainer(false)}
                     >
                       Do Something
-                    </Button>{' '}
+                    </Button>{" "}
                     <Button
                       color="secondary"
                       onClick={() => setModalNestedContainer(false)}
@@ -444,9 +430,7 @@ const ModalUi = ({ match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="modal.size" />
-              </CardTitle>
+              <CardTitle>Size</CardTitle>
               <div>
                 <Button
                   className="mr-2 mb-2"
@@ -454,7 +438,7 @@ const ModalUi = ({ match }) => {
                   outline
                   onClick={() => setModalLarge(true)}
                 >
-                  <IntlMessages id="modal.launch-large-modal" />
+                  Launch Large Modal
                 </Button>
 
                 <Button
@@ -463,7 +447,7 @@ const ModalUi = ({ match }) => {
                   outline
                   onClick={() => setModalSmall(true)}
                 >
-                  <IntlMessages id="modal.launch-small-modal" />
+                  Launch Small Modal
                 </Button>
 
                 <Modal
