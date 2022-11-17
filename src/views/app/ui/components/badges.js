@@ -1,8 +1,8 @@
-import React from 'react';
-import { Badge, Button, Row, Card, CardBody, CardTitle } from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+import React from "react";
+import { Badge, Button, Row, Card, CardBody, CardTitle } from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
 const BadgesUi = ({ match }) => {
   return (
@@ -17,9 +17,7 @@ const BadgesUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="badge.sizes" />
-              </CardTitle>
+              <CardTitle>Sizes</CardTitle>
               <h1>
                 Example Heading <Badge color="secondary">New</Badge>
               </h1>
@@ -45,32 +43,30 @@ const BadgesUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="badge.colors" />
-              </CardTitle>
+              <CardTitle>Colors</CardTitle>
               <Badge color="primary" pill className="mb-1">
-                <IntlMessages id="badge.primary" />
-              </Badge>{' '}
+                Primary
+              </Badge>{" "}
               <Badge color="secondary" pill className="mb-1">
-                <IntlMessages id="badge.secondary" />
-              </Badge>{' '}
+                Secondary
+              </Badge>{" "}
               <Badge color="success" pill className="mb-1">
-                <IntlMessages id="badge.success" />
-              </Badge>{' '}
+                Success
+              </Badge>{" "}
               <Badge color="danger" pill className="mb-1">
-                <IntlMessages id="badge.danger" />
-              </Badge>{' '}
+                Danger
+              </Badge>{" "}
               <Badge color="warning" pill className="mb-1">
-                <IntlMessages id="badge.warning" />
-              </Badge>{' '}
+                Warning
+              </Badge>{" "}
               <Badge color="info" pill className="mb-1">
-                <IntlMessages id="badge.info" />
-              </Badge>{' '}
+                Info
+              </Badge>{" "}
               <Badge color="light" pill className="mb-1">
-                <IntlMessages id="badge.light" />
-              </Badge>{' '}
+                Light
+              </Badge>{" "}
               <Badge color="dark" pill className="mb-1">
-                <IntlMessages id="badge.dark" />
+                Dark
               </Badge>
             </CardBody>
           </Card>
@@ -79,32 +75,30 @@ const BadgesUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="badge.outline" />
-              </CardTitle>
+              <CardTitle>Outline</CardTitle>
               <Badge color="outline-primary" pill className="mb-1">
-                <IntlMessages id="badge.primary" />
-              </Badge>{' '}
+                Primary
+              </Badge>{" "}
               <Badge color="outline-secondary" pill className="mb-1">
-                <IntlMessages id="badge.secondary" />
-              </Badge>{' '}
+                Secondary
+              </Badge>{" "}
               <Badge color="outline-success" pill className="mb-1">
-                <IntlMessages id="badge.success" />
-              </Badge>{' '}
+                Success
+              </Badge>{" "}
               <Badge color="outline-danger" pill className="mb-1">
-                <IntlMessages id="badge.danger" />
-              </Badge>{' '}
+                Danger
+              </Badge>{" "}
               <Badge color="outline-warning" pill className="mb-1">
-                <IntlMessages id="badge.warning" />
-              </Badge>{' '}
+                Warning
+              </Badge>{" "}
               <Badge color="outline-info" pill className="mb-1">
-                <IntlMessages id="badge.info" />
-              </Badge>{' '}
+                Info
+              </Badge>{" "}
               <Badge color="outline-light" pill className="mb-1">
-                <IntlMessages id="badge.light" />
-              </Badge>{' '}
+                Light
+              </Badge>{" "}
               <Badge color="outline-dark" pill className="mb-1">
-                <IntlMessages id="badge.dark" />
+                Dark
               </Badge>
             </CardBody>
           </Card>
@@ -113,32 +107,30 @@ const BadgesUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="badge.links" />
-              </CardTitle>
+              <CardTitle>Links</CardTitle>
               <Badge href="#" color="primary" className="mb-1">
-                <IntlMessages id="badge.primary" />
-              </Badge>{' '}
+                Primary
+              </Badge>{" "}
               <Badge href="#" color="secondary" className="mb-1">
-                <IntlMessages id="badge.secondary" />
-              </Badge>{' '}
+                Secondary
+              </Badge>{" "}
               <Badge href="#" color="success" className="mb-1">
-                <IntlMessages id="badge.success" />
-              </Badge>{' '}
+                Success
+              </Badge>{" "}
               <Badge href="#" color="danger" className="mb-1">
-                <IntlMessages id="badge.danger" />
-              </Badge>{' '}
+                Danger
+              </Badge>{" "}
               <Badge href="#" color="warning" className="mb-1">
-                <IntlMessages id="badge.warning" />
-              </Badge>{' '}
+                Warning
+              </Badge>{" "}
               <Badge href="#" color="info" className="mb-1">
-                <IntlMessages id="badge.info" />
-              </Badge>{' '}
+                Info
+              </Badge>{" "}
               <Badge href="#" color="light" className="mb-1">
-                <IntlMessages id="badge.light" />
-              </Badge>{' '}
+                Light
+              </Badge>{" "}
               <Badge href="#" color="dark" className="mb-1">
-                <IntlMessages id="badge.dark" />
+                Dark
               </Badge>
             </CardBody>
           </Card>
@@ -147,12 +139,10 @@ const BadgesUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="badge.counter-badges" />
-              </CardTitle>
+              <CardTitle>Counter Badges</CardTitle>
               <Button color="primary">
                 Notifications <Badge color="light">4</Badge>
-              </Button>{' '}
+              </Button>{" "}
               <Button color="primary" outline>
                 Notifications <Badge color="secondary">4</Badge>
               </Button>
@@ -163,33 +153,31 @@ const BadgesUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="badge.bootstrap-default" />
-              </CardTitle>
+              <CardTitle>Bootstrap Default</CardTitle>
               <Badge color="primary" className="mb-1">
-                <IntlMessages id="badge.primary" />
-              </Badge>{' '}
+                Primary
+              </Badge>{" "}
               <Badge color="secondary" className="mb-1">
-                <IntlMessages id="badge.secondary" />
-              </Badge>{' '}
+                Secondary
+              </Badge>{" "}
               <Badge color="success" className="mb-1">
-                <IntlMessages id="badge.success" />
-              </Badge>{' '}
+                Success
+              </Badge>{" "}
               <Badge color="danger" className="mb-1">
-                <IntlMessages id="badge.danger" />
-              </Badge>{' '}
+                Danger
+              </Badge>{" "}
               <Badge color="warning" className="mb-1">
-                <IntlMessages id="badge.warning" />
-              </Badge>{' '}
+                Warning
+              </Badge>{" "}
               <Badge color="info" className="mb-1">
-                <IntlMessages id="badge.info" />
-              </Badge>{' '}
+                Info
+              </Badge>{" "}
               <Badge color="light" className="mb-1">
-                <IntlMessages id="badge.light" />
-              </Badge>{' '}
+                Light
+              </Badge>{" "}
               <Badge color="dark" className="mb-1">
-                <IntlMessages id="badge.dark" />
-              </Badge>{' '}
+                Dark
+              </Badge>{" "}
             </CardBody>
           </Card>
         </Colxx>
