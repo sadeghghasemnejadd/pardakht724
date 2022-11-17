@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Alert,
   UncontrolledAlert,
@@ -6,11 +6,11 @@ import {
   Card,
   CardBody,
   CardTitle,
-} from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import NotificationExamples from 'containers/ui/NotificationExamples';
+} from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import NotificationExamples from "containers/ui/NotificationExamples";
 
 const AlertsUi = ({ match }) => {
   const [visible, setVisible] = useState(true);
@@ -31,32 +31,30 @@ const AlertsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="alert.rounded" />
-              </CardTitle>
+              <CardTitle>Rounded Alert</CardTitle>
               <Alert color="primary" className="rounded">
-                <IntlMessages id="alert.primary-text" />
+                This is a primary alert—check it out!
               </Alert>
               <Alert color="secondary" className="rounded">
-                <IntlMessages id="alert.secondary-text" />
+                This is a secondary alert—check it out!
               </Alert>
               <Alert color="success" className="rounded">
-                <IntlMessages id="alert.success-text" />
+                This is a success alert—check it out!
               </Alert>
               <Alert color="danger" className="rounded">
-                <IntlMessages id="alert.danger-text" />
+                This is a danger alert—check it out!
               </Alert>
               <Alert color="warning" className="rounded">
-                <IntlMessages id="alert.warning-text" />
+                This is a warning alert—check it out!
               </Alert>
               <Alert color="info" className="rounded">
-                <IntlMessages id="alert.info-text" />
+                This is a info alert—check it out!
               </Alert>
               <Alert color="light" className="rounded">
-                <IntlMessages id="alert.light-text" />
+                This is a light alert—check it out!
               </Alert>
               <Alert color="dark" className="rounded">
-                <IntlMessages id="alert.dark-text" />
+                This is a dark alert—check it out!
               </Alert>
             </CardBody>
           </Card>
@@ -65,33 +63,23 @@ const AlertsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="alert.default" />
-              </CardTitle>
+              <CardTitle>Default Alert</CardTitle>
               <Alert color="primary">
-                <IntlMessages id="alert.primary-text" />
+                This is a primary alert—check it out!
               </Alert>
               <Alert color="secondary">
-                <IntlMessages id="alert.secondary-text" />
+                This is a secondary alert—check it out!
               </Alert>
               <Alert color="success">
-                <IntlMessages id="alert.success-text" />
+                This is a success alert—check it out!
               </Alert>
-              <Alert color="danger">
-                <IntlMessages id="alert.danger-text" />
-              </Alert>
+              <Alert color="danger">This is a danger alert—check it out!</Alert>
               <Alert color="warning">
-                <IntlMessages id="alert.warning-text" />
+                This is a warning alert—check it out!
               </Alert>
-              <Alert color="info">
-                <IntlMessages id="alert.info-text" />
-              </Alert>
-              <Alert color="light">
-                <IntlMessages id="alert.light-text" />
-              </Alert>
-              <Alert color="dark">
-                <IntlMessages id="alert.dark-text" />
-              </Alert>
+              <Alert color="info">This is a info alert—check it out!</Alert>
+              <Alert color="light">This is a light alert—check it out!</Alert>
+              <Alert color="dark">This is a dark alert—check it out!</Alert>
             </CardBody>
           </Card>
         </Colxx>
@@ -99,19 +87,18 @@ const AlertsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="alert.dismissing" />
-              </CardTitle>
+              <CardTitle>Dismissing Alert</CardTitle>
               <Alert
                 color="warning"
                 className="rounded"
                 isOpen={visible}
                 toggle={() => setVisible(!visible)}
               >
-                <IntlMessages id="alert.dismissing-text" />
+                Holy guacamole! You should check in on some of those fields
+                below.
               </Alert>
               <UncontrolledAlert color="warning" fade={false}>
-                <IntlMessages id="alert.dismissing-without-animate-text" />
+                I am an alert and I can be dismissed without animating!
               </UncontrolledAlert>
             </CardBody>
           </Card>
