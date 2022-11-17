@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Row,
   Card,
@@ -12,10 +12,10 @@ import {
   Button,
   CardSubtitle,
   UncontrolledDropdown,
-} from 'reactstrap';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import IntlMessages from 'helpers/IntlMessages';
+} from "reactstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import IntlMessages from "helpers/IntlMessages";
 
 const DropDownsUi = ({ match }) => {
   const [dropdownBasicOpen, setDropdownBasicOpen] = useState(false);
@@ -39,58 +39,36 @@ const DropDownsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="dropdowns.basic" />
-              </CardTitle>
-              <CardSubtitle>
-                <IntlMessages id="dropdowns.controlled" />
-              </CardSubtitle>
+              <CardTitle>Basic</CardTitle>
+              <CardSubtitle>Controlled</CardSubtitle>
               <Dropdown
                 isOpen={dropdownBasicOpen}
                 toggle={() => setDropdownBasicOpen(!dropdownBasicOpen)}
                 className="mb-5"
               >
                 <DropdownToggle caret color="secondary" outline>
-                  <IntlMessages id="dropdowns.dropdown" />
+                  Dropdown
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem header>
-                    <IntlMessages id="dropdowns.header" />
-                  </DropdownItem>
-                  <DropdownItem disabled>
-                    <IntlMessages id="dropdowns.action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem header>Header</DropdownItem>
+                  <DropdownItem disabled>Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
 
-              <CardSubtitle>
-                <IntlMessages id="dropdowns.uncontrolled" />
-              </CardSubtitle>
+              <CardSubtitle>Uncontrolled</CardSubtitle>
               <UncontrolledDropdown>
                 <DropdownToggle caret color="secondary" outline>
-                  <IntlMessages id="dropdowns.dropdown" />
+                  Dropdown
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem header>
-                    <IntlMessages id="dropdowns.header" />
-                  </DropdownItem>
-                  <DropdownItem disabled>
-                    <IntlMessages id="dropdowns.action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem header>Header</DropdownItem>
+                  <DropdownItem disabled>Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </CardBody>
@@ -102,31 +80,19 @@ const DropDownsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="dropdowns.split-button" />
-              </CardTitle>
+              <CardTitle>Split Button Dropdowns</CardTitle>
               <ButtonDropdown
                 isOpen={dropdownSplitOpen}
                 toggle={() => setDropdownSplitOpen(!dropdownSplitOpen)}
               >
-                <Button color="secondary">
-                  <IntlMessages id="dropdowns.action" />
-                </Button>
+                <Button color="secondary">Action</Button>
                 <DropdownToggle caret color="secondary" />
                 <DropdownMenu>
-                  <DropdownItem header>
-                    <IntlMessages id="dropdowns.header" />
-                  </DropdownItem>
-                  <DropdownItem disabled>
-                    <IntlMessages id="dropdowns.action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem header>Header</DropdownItem>
+                  <DropdownItem disabled>Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
             </CardBody>
@@ -138,24 +104,18 @@ const DropDownsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="dropdowns.sizing" />
-              </CardTitle>
+              <CardTitle>Sizing</CardTitle>
               <ButtonDropdown
                 className="mr-1 mb-1"
                 isOpen={isOpenSizingLg}
                 toggle={() => setIsOpenSizingLg(!isOpenSizingLg)}
               >
                 <DropdownToggle caret size="lg" outline color="info">
-                  <IntlMessages id="dropdowns.large-button" />
+                  Large Button
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
 
@@ -165,15 +125,11 @@ const DropDownsUi = ({ match }) => {
                 toggle={() => setIsOpenSizingSm(!isOpenSizingSm)}
               >
                 <DropdownToggle caret size="sm" outline color="info">
-                  <IntlMessages id="dropdowns.small-button" />
+                  Small Button
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
 
@@ -183,15 +139,11 @@ const DropDownsUi = ({ match }) => {
                 toggle={() => setIsOpenSizingXs(!isOpenSizingXs)}
               >
                 <DropdownToggle caret size="xs" outline color="info">
-                  <IntlMessages id="dropdowns.small-button" />
+                  Small Button
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
             </CardBody>
@@ -203,25 +155,17 @@ const DropDownsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="dropdowns.drop-directions" />
-              </CardTitle>
+              <CardTitle>Drop Directions</CardTitle>
               <ButtonDropdown
                 direction="up"
                 className="mr-1 mb-5"
                 isOpen={btnDropUp}
                 toggle={() => setBtnDropUp(!btnDropUp)}
               >
-                <DropdownToggle caret>
-                  <IntlMessages id="dropdowns.dropup" />
-                </DropdownToggle>
+                <DropdownToggle caret>Dropup</DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
 
@@ -231,16 +175,10 @@ const DropDownsUi = ({ match }) => {
                 isOpen={btnDropLeft}
                 toggle={() => setBtnDropLeft(!btnDropLeft)}
               >
-                <DropdownToggle caret>
-                  <IntlMessages id="dropdowns.dropleft" />
-                </DropdownToggle>
+                <DropdownToggle caret>Dropleft</DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
 
@@ -250,16 +188,10 @@ const DropDownsUi = ({ match }) => {
                 isOpen={btnDropRight}
                 toggle={() => setBtnDropRight(!btnDropRight)}
               >
-                <DropdownToggle caret>
-                  <IntlMessages id="dropdowns.dropright" />
-                </DropdownToggle>
+                <DropdownToggle caret>Dropright</DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
             </CardBody>
@@ -271,55 +203,33 @@ const DropDownsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="dropdowns.drop-directions" />
-              </CardTitle>
-              <CardSubtitle>
-                <IntlMessages id="dropdowns.left" />
-              </CardSubtitle>
+              <CardTitle>Drop Directions</CardTitle>
+              <CardSubtitle>Left</CardSubtitle>
               <UncontrolledDropdown className="mb-5">
                 <DropdownToggle caret color="secondary" outline>
-                  <IntlMessages id="dropdowns.dropdown" />
+                  Dropdown
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem header>
-                    <IntlMessages id="dropdowns.header" />
-                  </DropdownItem>
-                  <DropdownItem disabled>
-                    <IntlMessages id="dropdowns.action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem header>Header</DropdownItem>
+                  <DropdownItem disabled>Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
 
-              <CardSubtitle>
-                <IntlMessages id="dropdowns.right" />
-              </CardSubtitle>
+              <CardSubtitle>Right</CardSubtitle>
 
               <UncontrolledDropdown>
                 <DropdownToggle caret color="secondary" outline>
-                  <IntlMessages id="dropdowns.dropdown" />
+                  Dropdown
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem header>
-                    <IntlMessages id="dropdowns.header" />
-                  </DropdownItem>
-                  <DropdownItem disabled>
-                    <IntlMessages id="dropdowns.action" />
-                  </DropdownItem>
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem header>Header</DropdownItem>
+                  <DropdownItem disabled>Action</DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem>
-                    <IntlMessages id="dropdowns.another-action" />
-                  </DropdownItem>
+                  <DropdownItem>Another Action</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
             </CardBody>
