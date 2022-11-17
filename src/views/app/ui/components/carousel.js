@@ -1,11 +1,10 @@
-
-import React from 'react';
-import { Row, Card, CardBody, CardTitle } from 'reactstrap';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import IntlMessages from 'helpers/IntlMessages';
-import { items } from 'data/carouselItems';
-import GlideComponent from 'components/carousel/GlideComponent';
+import React from "react";
+import { Row, Card, CardBody, CardTitle } from "reactstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import IntlMessages from "helpers/IntlMessages";
+import { items } from "data/carouselItems";
+import GlideComponent from "components/carousel/GlideComponent";
 
 const BasicCarouselItem = ({ title, img, detail, badges }) => {
   return (
@@ -22,7 +21,7 @@ const BasicCarouselItem = ({ title, img, detail, badges }) => {
                     b.color
                   } position-absolute ${
                     index === 0
-                      ? 'badge-top-left'
+                      ? "badge-top-left"
                       : `badge-top-left-${index + 1}`
                   }`}
                 >
@@ -68,7 +67,7 @@ const SingleCarouselItem = ({ title, img, category, detail, badges }) => {
                     <span
                       key={index}
                       className={`badge badge-pill badge-${b.color} ${
-                        index < badges.length && 'mr-1'
+                        index < badges.length && "mr-1"
                       }`}
                     >
                       {b.title}
@@ -98,7 +97,7 @@ const NoControlCarouselItem = ({ title, img, detail, badges }) => {
                     b.color
                   } position-absolute ${
                     index === 0
-                      ? 'badge-top-left'
+                      ? "badge-top-left"
                       : `badge-top-left-${index + 1}`
                   }`}
                 >
@@ -131,16 +130,14 @@ const CarouselUi = ({ match }) => {
       </Row>
       <Row>
         <Colxx xxs="12">
-          <CardTitle>
-            <IntlMessages id="carousel.basic" />
-          </CardTitle>
+          <CardTitle>Carousel Basic</CardTitle>
         </Colxx>
         <Colxx xxs="12" className="pl-0 pr-0 mb-5">
           <GlideComponent
             settings={{
               gap: 5,
               perView: 3,
-              type: 'carousel',
+              type: "carousel",
               breakpoints: {
                 600: { perView: 1 },
                 1400: { perView: 2 },
@@ -159,16 +156,14 @@ const CarouselUi = ({ match }) => {
       </Row>
       <Row>
         <Colxx xxs="12">
-          <CardTitle>
-            <IntlMessages id="carousel.single" />
-          </CardTitle>
+          <CardTitle>Carousel Single</CardTitle>
         </Colxx>
         <Colxx xxs="12" className="pl-0 pr-0 mb-5">
           <GlideComponent
             settings={{
               gap: 5,
               perView: 1,
-              type: 'carousel',
+              type: "carousel",
             }}
           >
             {items.map((item) => {
@@ -183,16 +178,14 @@ const CarouselUi = ({ match }) => {
       </Row>
       <Row>
         <Colxx xxs="12">
-          <CardTitle>
-            <IntlMessages id="carousel.without-controls" />
-          </CardTitle>
+          <CardTitle>Carousel Without Controls</CardTitle>
         </Colxx>
         <Colxx xxs="12" className="pl-0 pr-0 mb-5">
           <GlideComponent
             settings={{
               gap: 5,
               perView: 4,
-              type: 'carousel',
+              type: "carousel",
               breakpoints: {
                 480: { perView: 1 },
                 800: { perView: 2 },
