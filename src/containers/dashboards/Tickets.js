@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { Card, CardBody, CardTitle } from "reactstrap";
 
-import IntlMessages from "helpers/IntlMessages";
 import data from "data/tickets";
 import { adminRoot } from "constants/defaultValues";
 

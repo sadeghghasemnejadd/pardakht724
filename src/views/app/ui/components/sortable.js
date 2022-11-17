@@ -1,33 +1,32 @@
-import React, { useState } from 'react';
-import { Row, Card, CardBody } from 'reactstrap';
-import { ReactSortable } from 'react-sortablejs';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+import React, { useState } from "react";
+import { Row, Card, CardBody } from "reactstrap";
+import { ReactSortable } from "react-sortablejs";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
 const SortableUi = ({ match }) => {
   const [listColumns, setListColumns] = useState([
     {
-      icon: 'iconsminds-clock',
-      title: 'Pending Orders',
+      icon: "iconsminds-clock",
+      title: "Pending Orders",
       value: 14,
       id: 1,
     },
     {
-      icon: 'iconsminds-basket-coins',
-      title: 'Completed Orders',
+      icon: "iconsminds-basket-coins",
+      title: "Completed Orders",
       value: 32,
       id: 2,
     },
     {
-      icon: 'iconsminds-arrow-refresh',
-      title: 'Refund Requests',
+      icon: "iconsminds-arrow-refresh",
+      title: "Refund Requests",
       value: 74,
       id: 3,
     },
     {
-      icon: 'iconsminds-mail-read',
-      title: 'New Comments',
+      icon: "iconsminds-mail-read",
+      title: "New Comments",
       value: 25,
       id: 4,
     },
@@ -35,19 +34,19 @@ const SortableUi = ({ match }) => {
   const [listBasic, setListBasic] = useState([
     {
       id: 1,
-      title: 'Angel Cake',
+      title: "Angel Cake",
     },
     {
       id: 2,
-      title: 'Bibingka',
+      title: "Bibingka",
     },
     {
       id: 3,
-      title: 'Cremeschnitte',
+      title: "Cremeschnitte",
     },
     {
       id: 4,
-      title: 'Faworki',
+      title: "Faworki",
     },
   ]);
 
@@ -55,15 +54,13 @@ const SortableUi = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.sortable" match={match} />
+          <Breadcrumb heading="Sortable" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>
       <Row>
         <Colxx xxs="12">
-          <h5 className="mb-4">
-            <IntlMessages id="sortable.columns" />
-          </h5>
+          <h5 className="mb-4">Sorting Columns</h5>
           <ReactSortable
             className="row icon-cards-row mb-2"
             list={listColumns}
@@ -93,9 +90,7 @@ const SortableUi = ({ match }) => {
       </Row>
       <Row>
         <Colxx xxs="12">
-          <h5 className="mb-4">
-            <IntlMessages id="sortable.basic" />
-          </h5>
+          <h5 className="mb-4">Basic</h5>
 
           <Card className="mb-4">
             <CardBody>

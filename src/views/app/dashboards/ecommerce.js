@@ -1,22 +1,22 @@
-import React from 'react';
-import { Row } from 'reactstrap';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import IconCardsCarousel from 'containers/dashboards/IconCardsCarousel';
-import RecentOrders from 'containers/dashboards/RecentOrders';
-import Tickets from 'containers/dashboards/Tickets';
-import Calendar from 'containers/dashboards/Calendar';
-import BestSellers from 'containers/dashboards/BestSellers';
-import Cakes from 'containers/dashboards/Cakes';
-import SalesChartCard from 'containers/dashboards/SalesChartCard';
-import ProductCategoriesDoughnut from 'containers/dashboards/ProductCategoriesDoughnut';
+import React from "react";
+import { Row } from "reactstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import IconCardsCarousel from "containers/dashboards/IconCardsCarousel";
+import RecentOrders from "containers/dashboards/RecentOrders";
+import Tickets from "containers/dashboards/Tickets";
+import Calendar from "containers/dashboards/Calendar";
+import BestSellers from "containers/dashboards/BestSellers";
+import Cakes from "containers/dashboards/Cakes";
+import SalesChartCard from "containers/dashboards/SalesChartCard";
+import ProductCategoriesDoughnut from "containers/dashboards/ProductCategoriesDoughnut";
 
 const EcommerceDashboard = ({ match }) => {
   return (
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.ecommerce" match={match} />
+          <Breadcrumb heading="Ecommerce" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

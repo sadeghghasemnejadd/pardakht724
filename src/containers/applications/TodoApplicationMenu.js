@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import classnames from "classnames";
 
-import IntlMessages from "helpers/IntlMessages";
 import ApplicationMenu from "components/common/ApplicationMenu";
 import { getTodoListWithFilter } from "redux/actions";
 

@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { Row, Card, CardBody, CardTitle } from "reactstrap";
 
-import IntlMessages from "helpers/IntlMessages";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
 
@@ -21,7 +20,7 @@ const ComponentsUi = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.form-components" match={match} />
+          <Breadcrumb heading="Form Components" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

@@ -13,7 +13,6 @@ import {
 } from "reactstrap";
 
 import { Colxx, Separator } from "components/common/CustomBootstrap";
-import IntlMessages from "helpers/IntlMessages";
 
 import { DataListIcon, ThumbListIcon, ImageListIcon } from "components/svg";
 import Breadcrumb from "../navs/Breadcrumb";
@@ -47,9 +46,7 @@ const ListPageHeading = ({
     <Row>
       <Colxx xxs="12">
         <div className="mb-2">
-          <h1>
-            <IntlMessages id={heading} />
-          </h1>
+          <h1>Data List</h1>
 
           <div className="text-zero top-right-button-container">
             <Button

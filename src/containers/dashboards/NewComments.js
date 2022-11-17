@@ -4,8 +4,6 @@ import { Card, CardBody, CardTitle } from "reactstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { NavLink } from "react-router-dom";
 
-import IntlMessages from "helpers/IntlMessages";
-
 import { comments } from "data/comments";
 import Rating from "components/common/Rating";
 import { adminRoot } from "constants/defaultValues";

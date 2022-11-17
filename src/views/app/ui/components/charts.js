@@ -2,7 +2,6 @@ import React from "react";
 import { Row, Card, CardBody, CardTitle, CardSubtitle } from "reactstrap";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
-import IntlMessages from "helpers/IntlMessages";
 
 import {
   DoughnutChart,
@@ -31,7 +30,7 @@ const ChartsUi = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.charts" match={match} />
+          <Breadcrumb heading="Charts" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

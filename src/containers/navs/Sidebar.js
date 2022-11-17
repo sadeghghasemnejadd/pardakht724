@@ -6,8 +6,6 @@ import { NavLink, withRouter } from "react-router-dom";
 import classnames from "classnames";
 import PerfectScrollbar from "react-perfect-scrollbar";
 
-import IntlMessages from "helpers/IntlMessages";
-
 import {
   setContainerClassnames,
   addContainerClassname,

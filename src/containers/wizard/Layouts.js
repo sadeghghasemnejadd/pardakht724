@@ -2,7 +2,6 @@
 import React from "react";
 import { Card, CardBody, Row } from "reactstrap";
 import { Wizard, Steps, Step } from "react-albus";
-import IntlMessages from "helpers/IntlMessages";
 import BottomNavigation from "components/wizard/BottomNavigation";
 import TopNavigation from "components/wizard/TopNavigation";
 import { Colxx } from "components/common/CustomBootstrap";
@@ -40,41 +39,25 @@ const Layouts = ({ intl }) => {
                 topNavClick={topNavClick}
               />
               <Steps>
-                <Step
-                  id="step1"
-                  name={messages["wizard.step-name-1"]}
-                  desc={messages["wizard.step-desc-1"]}
-                >
+                <Step id="step1" name="Step 1" desc="First step description">
                   <div className="wizard-basic-step text-center">
-                    <p>
-                      <IntlMessages id="wizard.content-1" />
-                    </p>
+                    <p>Step content for first step.</p>
                   </div>
                 </Step>
-                <Step
-                  id="step2"
-                  name={messages["wizard.step-name-2"]}
-                  desc={messages["wizard.step-desc-2"]}
-                >
+                <Step id="step2" name="Step 2" desc="Second step description">
                   <div className="wizard-basic-step text-center">
-                    <p>
-                      <IntlMessages id="wizard.content-2" />
-                    </p>
+                    <p>Step content for second step.</p>
                   </div>
                 </Step>
                 <Step
                   id="step3"
-                  name={messages["wizard.step-name-3"]}
-                  desc={messages["wizard.step-desc-3"]}
+                  name="Step 3"
+                  desc="Third step description"
                   hideTopNav
                 >
                   <div className="wizard-basic-step text-center">
-                    <h2 className="mb-2">
-                      <IntlMessages id="wizard.content-thanks" />
-                    </h2>
-                    <p>
-                      <IntlMessages id="wizard.content-3" />
-                    </p>
+                    <h2 className="mb-2">Thank You!</h2>
+                    <p>Last step content!</p>
                   </div>
                 </Step>
               </Steps>
@@ -82,8 +65,8 @@ const Layouts = ({ intl }) => {
                 onClickNext={onClickNext}
                 onClickPrev={onClickPrev}
                 className="justify-content-between"
-                prevLabel={messages["wizard.prev"]}
-                nextLabel={messages["wizard.next"]}
+                prevLabel="Back"
+                nextLabel="Next"
               />
             </Wizard>
           </CardBody>
@@ -99,41 +82,25 @@ const Layouts = ({ intl }) => {
                 topNavClick={topNavClick}
               />
               <Steps>
-                <Step
-                  id="step1"
-                  name={messages["wizard.step-name-1"]}
-                  desc={messages["wizard.step-desc-1"]}
-                >
+                <Step id="step1" name="Step 1" desc="First step description">
                   <div className="wizard-basic-step">
-                    <p>
-                      <IntlMessages id="wizard.content-1" />
-                    </p>
+                    <p>Step content for first step.</p>
                   </div>
                 </Step>
-                <Step
-                  id="step2"
-                  name={messages["wizard.step-name-2"]}
-                  desc={messages["wizard.step-desc-2"]}
-                >
+                <Step id="step2" name="Step 2" desc="Second step description">
                   <div className="wizard-basic-step">
-                    <p>
-                      <IntlMessages id="wizard.content-2" />
-                    </p>
+                    <p>Step content for second step.</p>
                   </div>
                 </Step>
                 <Step
                   id="step3"
-                  name={messages["wizard.step-name-3"]}
-                  desc={messages["wizard.step-desc-3"]}
+                  name="Step 3"
+                  desc="Third step description"
                   hideTopNav
                 >
                   <div className="wizard-basic-step">
-                    <h2 className="mb-2">
-                      <IntlMessages id="wizard.content-thanks" />
-                    </h2>
-                    <p>
-                      <IntlMessages id="wizard.content-3" />
-                    </p>
+                    <h2 className="mb-2">Thank You!</h2>
+                    <p>Last step content!</p>
                   </div>
                 </Step>
               </Steps>
@@ -141,8 +108,8 @@ const Layouts = ({ intl }) => {
                 onClickNext={onClickNext}
                 onClickPrev={onClickPrev}
                 className="justify-content-start"
-                prevLabel={messages["wizard.prev"]}
-                nextLabel={messages["wizard.next"]}
+                prevLabel="Back"
+                nextLabel="Next"
               />
             </Wizard>
           </CardBody>

@@ -1,6 +1,5 @@
 import React from "react";
 import { FormGroup, Label, CustomInput, Form } from "reactstrap";
-import IntlMessages from "helpers/IntlMessages";
 
 const CustomInputExample = () => {
   return (

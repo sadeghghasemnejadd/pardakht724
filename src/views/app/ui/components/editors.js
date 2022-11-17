@@ -3,7 +3,6 @@ import { Row, Card, CardBody, CardTitle } from "reactstrap";
 import ReactQuill from "react-quill";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
-import IntlMessages from "helpers/IntlMessages";
 
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
@@ -44,7 +43,7 @@ const EditorsUi = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.editors" match={match} />
+          <Breadcrumb heading="Editors" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

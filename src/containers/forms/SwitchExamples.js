@@ -3,7 +3,6 @@ import { Card, CardBody, CardTitle, Row } from "reactstrap";
 import Switch from "rc-switch";
 import "rc-switch/assets/index.css";
 
-import IntlMessages from "helpers/IntlMessages";
 import { Colxx } from "components/common/CustomBootstrap";
 
 const SwitchExamples = () => {

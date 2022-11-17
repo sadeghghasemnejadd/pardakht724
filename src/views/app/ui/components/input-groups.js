@@ -15,7 +15,6 @@ import {
   CustomInput,
   UncontrolledDropdown,
 } from "reactstrap";
-import IntlMessages from "helpers/IntlMessages";
 
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
@@ -27,7 +26,7 @@ const InputGroupsUi = ({ intl, match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.input-groups" match={match} />
+          <Breadcrumb heading="Input Groups" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

@@ -1,10 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-danger */
-import React, { useState } from 'react';
-import { Row, Collapse, Card, Button } from 'reactstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Separator, Colxx } from 'components/common/CustomBootstrap';
-import faqData from 'data/faq';
+import React, { useState } from "react";
+import { Row, Collapse, Card, Button } from "reactstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Separator, Colxx } from "components/common/CustomBootstrap";
+import faqData from "data/faq";
 
 const Faq = ({ match }) => {
   const [showingIndex, setShowIndex] = useState(0);
@@ -12,7 +12,7 @@ const Faq = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.faq" match={match} />
+          <Breadcrumb heading="Faq" match={match} />
           <Separator className="mb-5" />
         </Colxx>
 

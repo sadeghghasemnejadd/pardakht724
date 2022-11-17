@@ -2,7 +2,6 @@
 import React from "react";
 import { Card, CardBody, CardTitle, Progress } from "reactstrap";
 
-import IntlMessages from "helpers/IntlMessages";
 import data from "data/profileStatuses";
 
 const ProfileStatuses = ({ cardClass = "h-100" }) => {

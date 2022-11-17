@@ -26,7 +26,6 @@ import Select from "react-select";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
 
-import IntlMessages from "helpers/IntlMessages";
 import CustomSelectInput from "components/common/CustomSelectInput";
 
 const selectData = [
@@ -49,7 +48,7 @@ const FormLayoutsUi = ({ match, intl }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.form-layouts" match={match} />
+          <Breadcrumb heading="Form Layouts" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

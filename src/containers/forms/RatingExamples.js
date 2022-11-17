@@ -1,7 +1,6 @@
 import React from "react";
 import { Row } from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
-import IntlMessages from "helpers/IntlMessages";
 import Rating from "components/common/Rating";
 
 const RatingExamples = () => {

@@ -8,7 +8,6 @@ import { Separator, Colxx } from "components/common/CustomBootstrap";
 import SingleLightbox from "components/pages/SingleLightbox";
 import VideoPlayer from "components/common/VideoPlayer";
 import { blogData, blogCategories } from "data/blog";
-import IntlMessages from "helpers/IntlMessages";
 
 const recentPosts = blogData.slice(0, 4);
 const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
@@ -18,7 +17,7 @@ const BlogDetail = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.blog-detail" match={match} />
+          <Breadcrumb heading="Blog Detail" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Row,
   Card,
@@ -16,18 +16,17 @@ import {
   PaginationLink,
   Breadcrumb,
   BreadcrumbItem,
-} from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
+} from "reactstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
 
-import BreadcrumbContainer from 'containers/navs/Breadcrumb';
+import BreadcrumbContainer from "containers/navs/Breadcrumb";
 
 const NavigationUi = ({ match }) => {
   return (
     <>
       <Row>
         <Colxx xxs="12">
-          <BreadcrumbContainer heading="menu.navigation" match={match} />
+          <BreadcrumbContainer heading="Navigation" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>
@@ -36,28 +35,22 @@ const NavigationUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="nav.basic" />
-              </CardTitle>
+              <CardTitle>Nav Basic</CardTitle>
               <Nav>
                 <NavItem>
                   <NavLink active href="#">
-                    <IntlMessages id="nav.active" />
+                    Active
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="disabled" href="#">
-                    <IntlMessages id="nav.disabled" />
+                    Disabled
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -70,29 +63,23 @@ const NavigationUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="nav.horizontal-alignment" />
-              </CardTitle>
+              <CardTitle>Nav Horizontal Alignment</CardTitle>
 
               <Nav className="justify-content-center">
                 <NavItem>
                   <NavLink active href="#">
-                    <IntlMessages id="nav.active" />
+                    Active
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="disabled" href="#">
-                    <IntlMessages id="nav.disabled" />
+                    Disabled
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -100,22 +87,18 @@ const NavigationUi = ({ match }) => {
               <Nav className="justify-content-end">
                 <NavItem>
                   <NavLink active href="#">
-                    <IntlMessages id="nav.active" />
+                    Active
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="disabled" href="#">
-                    <IntlMessages id="nav.disabled" />
+                    Disabled
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -128,29 +111,23 @@ const NavigationUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="nav.vertical-alignment" />
-              </CardTitle>
+              <CardTitle>Nav Vertical Alignment</CardTitle>
 
               <Nav className="flex-column">
                 <NavItem>
                   <NavLink active href="#">
-                    <IntlMessages id="nav.active" />
+                    Active
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="disabled" href="#">
-                    <IntlMessages id="nav.disabled" />
+                    Disabled
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -163,29 +140,23 @@ const NavigationUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="nav.pills" />
-              </CardTitle>
+              <CardTitle>Nav Pills</CardTitle>
 
               <Nav className="nav-pills">
                 <NavItem>
                   <NavLink active href="#">
-                    <IntlMessages id="nav.active" />
+                    Active
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="disabled" href="#">
-                    <IntlMessages id="nav.disabled" />
+                    Disabled
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -198,29 +169,23 @@ const NavigationUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="nav.fill-justify" />
-              </CardTitle>
+              <CardTitle>Nav Fill and Justify</CardTitle>
 
               <Nav pills className="nav-fill">
                 <NavItem>
                   <NavLink active href="#">
-                    <IntlMessages id="nav.active" />
+                    Active
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.longer-link" />
-                  </NavLink>
+                  <NavLink href="#">Longer nav link</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="disabled" href="#">
-                    <IntlMessages id="nav.disabled" />
+                    Disabled
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -233,51 +198,37 @@ const NavigationUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="nav.pills-dropdowns" />
-              </CardTitle>
+              <CardTitle>Nav Pills with Dropdowns</CardTitle>
 
               <Nav pills>
                 <NavItem>
                   <NavLink href="#" active>
-                    <IntlMessages id="nav.link" />
+                    Link
                   </NavLink>
                 </NavItem>
 
                 <UncontrolledDropdown nav>
                   <DropdownToggle className="nav-link" caret color="empty">
-                    <IntlMessages id="nav.dropdown" />
+                    Dropdown
                   </DropdownToggle>
                   <DropdownMenu>
-                    <DropdownItem header>
-                      <IntlMessages id="nav.header" />
-                    </DropdownItem>
-                    <DropdownItem disabled>
-                      <IntlMessages id="nav.action" />
-                    </DropdownItem>
-                    <DropdownItem>
-                      <IntlMessages id="nav.another-action" />
-                    </DropdownItem>
+                    <DropdownItem header>Header</DropdownItem>
+                    <DropdownItem disabled>Action</DropdownItem>
+                    <DropdownItem>Another Action</DropdownItem>
                     <DropdownItem divider />
-                    <DropdownItem>
-                      <IntlMessages id="nav.another-action" />
-                    </DropdownItem>
+                    <DropdownItem>Another Action</DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
 
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.link" />
-                  </NavLink>
+                  <NavLink href="#">Link</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink href="#">
-                    <IntlMessages id="nav.another-link" />
-                  </NavLink>
+                  <NavLink href="#">Another Link</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="disabled" href="#">
-                    <IntlMessages id="nav.disabled-link" />
+                    Disabled Link
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -290,9 +241,7 @@ const NavigationUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="nav.pagination-basic" />
-              </CardTitle>
+              <CardTitle>Pagination Basic</CardTitle>
 
               <Pagination aria-label="Page navigation example">
                 <PaginationItem>
@@ -334,12 +283,8 @@ const NavigationUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="nav.pagination-sizing" />
-              </CardTitle>
-              <h6 className="mb-3">
-                <IntlMessages id="nav.large" />
-              </h6>
+              <CardTitle>Pagination Sizing</CardTitle>
+              <h6 className="mb-3">Large</h6>
               <Pagination size="lg" aria-label="Page navigation example">
                 <PaginationItem>
                   <PaginationLink className="first" href="#">
@@ -372,9 +317,7 @@ const NavigationUi = ({ match }) => {
                 </PaginationItem>
               </Pagination>
 
-              <h6 className="mb-3">
-                <IntlMessages id="nav.small" />
-              </h6>
+              <h6 className="mb-3">Small</h6>
               <Pagination size="sm" aria-label="Page navigation example">
                 <PaginationItem>
                   <PaginationLink className="first" href="#">
@@ -415,12 +358,8 @@ const NavigationUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="nav.pagination-alignment" />
-              </CardTitle>
-              <h6 className="mb-3">
-                <IntlMessages id="nav.center" />
-              </h6>
+              <CardTitle>Pagination Alignment</CardTitle>
+              <h6 className="mb-3">Center</h6>
               <Pagination
                 size="sm"
                 aria-label="Page navigation example"
@@ -457,9 +396,7 @@ const NavigationUi = ({ match }) => {
                 </PaginationItem>
               </Pagination>
 
-              <h6 className="mb-3">
-                <IntlMessages id="nav.right" />
-              </h6>
+              <h6 className="mb-3">Right</h6>
               <Pagination
                 size="sm"
                 aria-label="Page navigation example"
@@ -504,9 +441,7 @@ const NavigationUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="nav.breadcrumb-basic" />
-              </CardTitle>
+              <CardTitle>Breadcrumb Basic</CardTitle>
               <Breadcrumb>
                 <BreadcrumbItem active>Home</BreadcrumbItem>
               </Breadcrumb>

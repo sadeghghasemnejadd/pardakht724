@@ -1,7 +1,6 @@
 /* eslint-disable no-alert */
 import React from "react";
 import { Card, CardBody, CardTitle, Button, CardSubtitle } from "reactstrap";
-import IntlMessages from "helpers/IntlMessages";
 import { NotificationManager } from "components/common/react-notifications";
 
 const NotificationExamples = () => {
@@ -104,7 +103,7 @@ const NotificationExamples = () => {
           color="success"
           onClick={() => createNotification("success")}
         >
-          <IntlMessages id="alert.success" />
+          Success
         </Button>{" "}
         <Button
           outline
@@ -149,7 +148,7 @@ const NotificationExamples = () => {
           color="success"
           onClick={() => createNotification("success", "filled")}
         >
-          <IntlMessages id="alert.success" />
+          Success
         </Button>{" "}
         <Button
           className="mb-3"

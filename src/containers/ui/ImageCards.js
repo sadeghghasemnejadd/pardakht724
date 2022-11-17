@@ -9,7 +9,6 @@ import {
   CardImg,
   Badge,
 } from "reactstrap";
-import IntlMessages from "helpers/IntlMessages";
 import { Colxx } from "components/common/CustomBootstrap";
 
 const ImageCards = () => {

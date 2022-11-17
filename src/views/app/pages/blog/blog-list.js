@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React from "react";
 import {
   Row,
   Card,
@@ -8,13 +8,13 @@ import {
   Pagination,
   PaginationItem,
   PaginationLink,
-} from 'reactstrap';
-import LinesEllipsis from 'react-lines-ellipsis';
-import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC';
-import { NavLink } from 'react-router-dom';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Separator, Colxx } from 'components/common/CustomBootstrap';
-import { blogData } from 'data/blog';
+} from "reactstrap";
+import LinesEllipsis from "react-lines-ellipsis";
+import responsiveHOC from "react-lines-ellipsis/lib/responsiveHOC";
+import { NavLink } from "react-router-dom";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Separator, Colxx } from "components/common/CustomBootstrap";
+import { blogData } from "data/blog";
 
 const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 
@@ -23,7 +23,7 @@ const BlogList = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.blog-list" match={match} />
+          <Breadcrumb heading="Blog List" match={match} />
           <Separator className="mb-5" />
         </Colxx>
         {blogData.map((blogItem, index) => {

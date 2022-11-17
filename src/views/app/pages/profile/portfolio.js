@@ -22,7 +22,6 @@ import { NavLink } from "react-router-dom";
 import classnames from "classnames";
 import Breadcrumb from "containers/navs/Breadcrumb";
 import { Colxx } from "components/common/CustomBootstrap";
-import IntlMessages from "helpers/IntlMessages";
 import SingleLightbox from "components/pages/SingleLightbox";
 import recentPostsData from "data/recentposts";
 import RecentPost from "components/common/RecentPost";

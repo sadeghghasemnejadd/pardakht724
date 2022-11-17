@@ -1,17 +1,17 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
-import { Row, Card, CardBody } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Separator, Colxx } from 'components/common/CustomBootstrap';
-import knowledgeBaseData from 'data/knowledgebase';
+import React from "react";
+import { Row, Card, CardBody } from "reactstrap";
+import { NavLink } from "react-router-dom";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Separator, Colxx } from "components/common/CustomBootstrap";
+import knowledgeBaseData from "data/knowledgebase";
 
 const KnowledgeBase = ({ match }) => {
   return (
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.faq" match={match} />
+          <Breadcrumb heading="Faq" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

@@ -9,7 +9,6 @@ import {
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
 
-import IntlMessages from "helpers/IntlMessages";
 import { Colxx } from "components/common/CustomBootstrap";
 
 const statusText = {

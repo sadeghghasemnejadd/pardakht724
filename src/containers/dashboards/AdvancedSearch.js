@@ -12,7 +12,6 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 
-import IntlMessages from "helpers/IntlMessages";
 import CustomSelectInput from "components/common/CustomSelectInput";
 
 const selectData = [

@@ -3,7 +3,6 @@ import { Row, Card, CardBody, CardTitle } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import IntlMessages from "helpers/IntlMessages";
 import { Colxx } from "components/common/CustomBootstrap";
 
 const DatePickerExamples = ({ intl }) => {

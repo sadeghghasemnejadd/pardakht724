@@ -17,7 +17,7 @@ const DashboardContent = ({ intl, match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.content" match={match} />
+          <Breadcrumb heading="Content" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

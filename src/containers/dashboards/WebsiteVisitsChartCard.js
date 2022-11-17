@@ -8,7 +8,6 @@ import {
   DropdownMenu,
 } from "reactstrap";
 
-import IntlMessages from "helpers/IntlMessages";
 import { AreaChart } from "components/charts";
 
 import { areaChartData } from "data/charts";

@@ -2,7 +2,6 @@ import React from "react";
 import { Row, Card, CardBody, CardTitle } from "reactstrap";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
-import IntlMessages from "helpers/IntlMessages";
 import { items } from "data/carouselItems";
 import GlideComponent from "components/carousel/GlideComponent";
 
@@ -124,7 +123,7 @@ const CarouselUi = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.carousel" match={match} />
+          <Breadcrumb heading="Carousel" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Row } from "reactstrap";
 import Select from "react-select";
-import IntlMessages from "helpers/IntlMessages";
 import CustomSelectInput from "components/common/CustomSelectInput";
 import { Colxx } from "components/common/CustomBootstrap";
 

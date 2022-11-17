@@ -8,7 +8,6 @@ import { Card, CardBody, CardTitle } from "reactstrap";
 import { useTable, usePagination, useSortBy } from "react-table";
 import classnames from "classnames";
 
-import IntlMessages from "helpers/IntlMessages";
 import DatatablePagination from "components/DatatablePagination";
 
 import products from "data/products";
@@ -204,7 +203,6 @@ export const ReactTableWithPaginationCard = ({
     <Card className="mb-4">
       <CardBody>
         <CardTitle>
-          {/* <IntlMessages id={title} /> */}
           <span>{title}</span>
         </CardTitle>
         {/* <Table columns={cols} data={products} /> */}
@@ -251,9 +249,7 @@ export const ReactTableDivided = () => {
   );
   return (
     <div className="mb-4">
-      <CardTitle>
-        <IntlMessages id="table.divided" />
-      </CardTitle>
+      <CardTitle>Divided Table</CardTitle>
       <Table columns={cols} data={products} divided />
     </div>
   );
@@ -263,7 +259,7 @@ function TH({ headerProps, classes, column, children }) {
   const dispatch = useDispatch();
   const [sort, setSort] = useState(false);
   const { id, isSort } = column;
-  
+
   const handleSort = () => {
     if (!isSort) return;
     setSort(!sort);

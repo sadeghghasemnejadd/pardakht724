@@ -11,7 +11,6 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import CustomSelectInput from "components/common/CustomSelectInput";
-import IntlMessages from "helpers/IntlMessages";
 
 const AddNewModal = ({ modalOpen, toggleModal, categories }) => {
   return (

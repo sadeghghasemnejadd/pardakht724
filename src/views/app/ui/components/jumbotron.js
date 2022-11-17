@@ -1,6 +1,5 @@
 import React from "react";
 import { Row, Card, CardBody, Jumbotron, Button } from "reactstrap";
-import IntlMessages from "helpers/IntlMessages";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
 
@@ -9,7 +8,7 @@ const JumbotronUi = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.jumbotron" match={match} />
+          <Breadcrumb heading="Jumbotron" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

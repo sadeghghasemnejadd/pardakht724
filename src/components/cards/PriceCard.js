@@ -2,7 +2,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Card, CardBody } from "reactstrap";
-import IntlMessages from "helpers/IntlMessages";
 
 const PriceCard = ({ data }) => {
   return (

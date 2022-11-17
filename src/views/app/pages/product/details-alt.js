@@ -20,7 +20,6 @@ import Rating from "components/common/Rating";
 
 import Breadcrumb from "containers/navs/Breadcrumb";
 import { Colxx } from "components/common/CustomBootstrap";
-import IntlMessages from "helpers/IntlMessages";
 import RadialProgressCard from "components/cards/RadialProgressCard";
 import SmallLineCharts from "containers/dashboards/SmallLineCharts";
 import WebsiteVisitsChartCard from "containers/dashboards/WebsiteVisitsChartCard";

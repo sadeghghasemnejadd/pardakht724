@@ -3,14 +3,13 @@ import React from "react";
 import { Row, Card, CardBody } from "reactstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
 import { Separator, Colxx } from "components/common/CustomBootstrap";
-import IntlMessages from "helpers/IntlMessages";
 
 const Mailing = ({ match }) => {
   return (
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.mailing" match={match} />
+          <Breadcrumb heading="Mailing" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

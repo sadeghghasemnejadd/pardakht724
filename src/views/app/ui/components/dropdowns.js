@@ -15,7 +15,6 @@ import {
 } from "reactstrap";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
-import IntlMessages from "helpers/IntlMessages";
 
 const DropDownsUi = ({ match }) => {
   const [dropdownBasicOpen, setDropdownBasicOpen] = useState(false);
@@ -31,7 +30,7 @@ const DropDownsUi = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.dropdowns" match={match} />
+          <Breadcrumb heading="Dropdowns" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

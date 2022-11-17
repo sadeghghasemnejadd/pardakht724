@@ -1,15 +1,14 @@
-import React from 'react';
-import { Row, Card, CardBody, CardTitle } from 'reactstrap';
-import { YMaps, Map, Placemark } from 'react-yandex-maps';
+import React from "react";
+import { Row, Card, CardBody, CardTitle } from "reactstrap";
+import { YMaps, Map, Placemark } from "react-yandex-maps";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker,
-} from 'react-google-maps';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+} from "react-google-maps";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
 const MapWithAMarker = withScriptjs(
   withGoogleMap(() => (
@@ -24,7 +23,7 @@ const MapsUi = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.maps" match={match} />
+          <Breadcrumb heading="Maps" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>
@@ -32,9 +31,7 @@ const MapsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="maps.google" />
-              </CardTitle>
+              <CardTitle>Google</CardTitle>
               <MapWithAMarker
                 googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCO8MfadmlotuuHC8wmjwL_46I5QAMIiRU&v=3.exp&libraries=geometry,drawing,places"
                 loadingElement={<div className="map-item" />}
@@ -46,11 +43,9 @@ const MapsUi = ({ match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="maps.yandex" />
-              </CardTitle>
+              <CardTitle>Yandex</CardTitle>
               <div className="map-item">
-                <YMaps query={{ lang: 'en-US' }}>
+                <YMaps query={{ lang: "en-US" }}>
                   <Map
                     className="map-item"
                     defaultState={{ center: [-34.397, 150.644], zoom: 9 }}

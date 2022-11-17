@@ -14,7 +14,6 @@ import {
 import { NavLink } from "react-router-dom";
 
 import classnames from "classnames";
-import IntlMessages from "helpers/IntlMessages";
 import { Colxx } from "components/common/CustomBootstrap";
 
 const TabCardExamples = () => {

@@ -1,13 +1,13 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useState } from 'react';
-import { Row, Card, CardBody } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { Row, Card, CardBody } from "reactstrap";
+import { NavLink } from "react-router-dom";
+import axios from "axios";
 
-import Pagination from 'containers/pages/Pagination';
-import { servicePath } from 'constants/defaultValues';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { Separator, Colxx } from 'components/common/CustomBootstrap';
+import Pagination from "containers/pages/Pagination";
+import { servicePath } from "constants/defaultValues";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { Separator, Colxx } from "components/common/CustomBootstrap";
 
 const apiUrl = `${servicePath}/cakes/paging`;
 
@@ -15,7 +15,7 @@ const Search = ({ match }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [keyword] = useState('Cake');
+  const [keyword] = useState("Cake");
   const [pageSize] = useState(10);
   const [totalPage, setTotalPage] = useState(0);
 
@@ -41,7 +41,7 @@ const Search = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.search" match={match} />
+          <Breadcrumb heading="Search" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>
@@ -54,7 +54,7 @@ const Search = ({ match }) => {
                   return (
                     <div
                       key={`item_${i}`}
-                      className={`${items.length !== i + 1 ? 'mb-3' : ''}`}
+                      className={`${items.length !== i + 1 ? "mb-3" : ""}`}
                     >
                       <NavLink to={`#${item.id}`} className="w-40 w-sm-100">
                         <p className="list-item-heading mb-1 color-theme-1">

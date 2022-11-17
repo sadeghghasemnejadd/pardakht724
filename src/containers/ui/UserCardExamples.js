@@ -11,7 +11,6 @@ import {
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
 
-import IntlMessages from "helpers/IntlMessages";
 import { Colxx } from "components/common/CustomBootstrap";
 import ThumbnailImage from "components/cards/ThumbnailImage";
 import ThumbnailLetters from "components/cards/ThumbnailLetters";

@@ -3,7 +3,6 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Row, Card, CardBody, FormGroup, Label, Button } from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
-import IntlMessages from "helpers/IntlMessages";
 import {
   FormikReactSelect,
   FormikCheckboxGroup,

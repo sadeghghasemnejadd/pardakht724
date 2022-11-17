@@ -16,7 +16,6 @@ import {
 import Select from "react-select";
 
 import { Colxx } from "components/common/CustomBootstrap";
-import IntlMessages from "helpers/IntlMessages";
 import CustomSelectInput from "components/common/CustomSelectInput";
 
 const selectData = [

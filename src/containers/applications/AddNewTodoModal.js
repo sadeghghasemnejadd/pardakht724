@@ -12,7 +12,6 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import CustomSelectInput from "components/common/CustomSelectInput";
-import IntlMessages from "helpers/IntlMessages";
 
 import { addTodoItem } from "redux/actions";
 

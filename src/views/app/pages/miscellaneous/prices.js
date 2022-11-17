@@ -6,7 +6,6 @@ import { Separator, Colxx } from "components/common/CustomBootstrap";
 import pricesData from "data/prices";
 import PriceCard from "components/cards/PriceCard";
 import FeatureComparison from "containers/pages/FeatureComparison";
-import IntlMessages from "helpers/IntlMessages";
 import { getCurrentLanguage } from "helpers/Utils";
 
 const locale = getCurrentLanguage();
@@ -16,7 +15,7 @@ const Prices = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.prices" match={match} />
+          <Breadcrumb heading="Prices" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

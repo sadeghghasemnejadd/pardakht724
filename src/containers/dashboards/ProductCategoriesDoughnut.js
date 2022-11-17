@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, CardBody, CardTitle } from "reactstrap";
 
-import IntlMessages from "helpers/IntlMessages";
 import { DoughnutChart } from "components/charts";
 
 import { doughnutChartData } from "data/charts";

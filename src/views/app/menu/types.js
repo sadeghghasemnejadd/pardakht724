@@ -5,7 +5,6 @@ import { Row, Button } from "reactstrap";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
 
-import IntlMessages from "helpers/IntlMessages";
 import { setContainerClassnames } from "redux/actions";
 
 const MenuTypes = ({
@@ -55,7 +54,7 @@ const MenuTypes = ({
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.types" match={match} />
+          <Breadcrumb heading="Menu Types" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

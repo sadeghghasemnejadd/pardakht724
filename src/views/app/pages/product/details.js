@@ -24,7 +24,6 @@ import { NavLink } from "react-router-dom";
 import classnames from "classnames";
 import Breadcrumb from "containers/navs/Breadcrumb";
 import { Separator, Colxx } from "components/common/CustomBootstrap";
-import IntlMessages from "helpers/IntlMessages";
 import GlideComponentThumbs from "components/carousel/GlideComponentThumbs";
 import { detailImages, detailThumbs } from "data/carouselItems";
 import detailsQuestionsData from "data/questions";

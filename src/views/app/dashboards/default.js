@@ -28,7 +28,7 @@ const DefaultDashboard = ({ intl, match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.default" match={match} />
+          <Breadcrumb heading="Default" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

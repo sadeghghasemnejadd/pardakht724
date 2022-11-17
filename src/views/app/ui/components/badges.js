@@ -1,6 +1,5 @@
 import React from "react";
 import { Badge, Button, Row, Card, CardBody, CardTitle } from "reactstrap";
-import IntlMessages from "helpers/IntlMessages";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
 
@@ -9,7 +8,7 @@ const BadgesUi = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.badges" match={match} />
+          <Breadcrumb heading="Badges" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

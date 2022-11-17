@@ -13,7 +13,6 @@ import {
   CardTitle,
 } from "reactstrap";
 
-import IntlMessages from "helpers/IntlMessages";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Breadcrumb from "containers/navs/Breadcrumb";
 import StateButtonExample from "containers/ui/StateButtonExample";
@@ -38,7 +37,7 @@ const ButtonsUi = ({ match }) => {
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.buttons" match={match} />
+          <Breadcrumb heading="Buttons" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>

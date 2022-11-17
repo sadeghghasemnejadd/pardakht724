@@ -1,36 +1,31 @@
-import React from 'react';
-import { Row, Card, CardBody, CardTitle, Table } from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+import React from "react";
+import { Row, Card, CardBody, CardTitle, Table } from "reactstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 import {
   ReactTableWithPaginationCard,
   ReactTableDivided,
-} from 'containers/ui/ReactTableCards-main';
+} from "containers/ui/ReactTableCards-main";
 
 const TablesUi = ({ match }) => {
   return (
     <>
       <Row>
         <Colxx xxs="12">
-          <Breadcrumb heading="menu.tables" match={match} />
+          <Breadcrumb heading="Tables" match={match} />
           <Separator className="mb-5" />
         </Colxx>
       </Row>
 
       <Row className="mb-5">
         <Colxx xxs="12">
-          <h3 className="mb-4">
-            <IntlMessages id="table.bootstrap-tables" />
-          </h3>
+          <h3 className="mb-4">Bootstrap Tables</h3>
         </Colxx>
 
         <Colxx xxs="6">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="table.bootstrap-basic" />
-              </CardTitle>
+              <CardTitle>Basic Table</CardTitle>
               <Table>
                 <thead>
                   <tr>
@@ -68,9 +63,7 @@ const TablesUi = ({ match }) => {
         <Colxx xxs="6">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="table.bootstrap-striped" />
-              </CardTitle>
+              <CardTitle>Striped Rows</CardTitle>
 
               <Table striped>
                 <thead>
@@ -109,9 +102,7 @@ const TablesUi = ({ match }) => {
         <Colxx xxs="6">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="table.bootstrap-bordered" />
-              </CardTitle>
+              <CardTitle>Bordered Table</CardTitle>
               <Table bordered>
                 <thead>
                   <tr>
@@ -149,9 +140,7 @@ const TablesUi = ({ match }) => {
         <Colxx xxs="6">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="table.bootstrap-borderless" />
-              </CardTitle>
+              <CardTitle>Borderless Table</CardTitle>
               <Table borderless>
                 <thead>
                   <tr>
@@ -189,9 +178,7 @@ const TablesUi = ({ match }) => {
         <Colxx xxs="6">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="table.bootstrap-hoverable" />
-              </CardTitle>
+              <CardTitle>Hoverable Rows</CardTitle>
               <Table hover>
                 <thead>
                   <tr>
@@ -229,9 +216,7 @@ const TablesUi = ({ match }) => {
         <Colxx xxs="6">
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="table.bootstrap-responsive" />
-              </CardTitle>
+              <CardTitle>Responsive Table</CardTitle>
 
               <Table responsive>
                 <thead>
@@ -282,9 +267,7 @@ const TablesUi = ({ match }) => {
 
       <Row>
         <Colxx xxs="12">
-          <h3 className="mb-4">
-            <IntlMessages id="table.react-tables" />
-          </h3>
+          <h3 className="mb-4">React Tables</h3>
         </Colxx>
 
         <Colxx xxs="12">
@@ -292,7 +275,7 @@ const TablesUi = ({ match }) => {
         </Colxx>
 
         <Colxx xxs="12">
-          <ReactTableDivided />{' '}
+          <ReactTableDivided />{" "}
         </Colxx>
       </Row>
     </>
