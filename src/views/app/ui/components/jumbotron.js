@@ -1,8 +1,8 @@
-import React from 'react';
-import { Row, Card, CardBody, Jumbotron, Button } from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+import React from "react";
+import { Row, Card, CardBody, Jumbotron, Button } from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
 const JumbotronUi = ({ match }) => {
   return (
@@ -18,19 +18,20 @@ const JumbotronUi = ({ match }) => {
           <Card>
             <CardBody>
               <Jumbotron>
-                <h1 className="display-4">
-                  <IntlMessages id="jumbotron.hello-world" />
-                </h1>
+                <h1 className="display-4">Hello, world!</h1>
                 <p className="lead">
-                  <IntlMessages id="jumbotron.lead" />
+                  This is a simple hero unit, a simple jumbotron-style component
+                  for calling extra attention to featured content or
+                  information.
                 </p>
                 <hr className="my-4" />
                 <p>
-                  <IntlMessages id="jumbotron.lead-detail" />
+                  It uses utility classes for typography and spacing to space
+                  content out within the larger container.
                 </p>
                 <p className="lead mb-0">
                   <Button color="primary" size="lg">
-                    <IntlMessages id="jumbotron.learn-more" />
+                    Learn more
                   </Button>
                 </p>
               </Jumbotron>
