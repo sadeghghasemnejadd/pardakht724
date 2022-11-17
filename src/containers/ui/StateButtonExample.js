@@ -1,18 +1,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-promise-reject-errors */
-import React from 'react';
-import { Card, CardBody, CardTitle } from 'reactstrap';
+import React from "react";
+import { Card, CardBody, CardTitle } from "reactstrap";
 
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx } from 'components/common/CustomBootstrap';
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx } from "components/common/CustomBootstrap";
 
-import StateButton from 'components/StateButton';
+import StateButton from "components/StateButton";
 
 const StateButtonExample = () => {
   const handleSuccessButtonClick = () => {
     return new Promise((success, fail) => {
       setTimeout(() => {
-        success('Everything went right!');
+        success("Everything went right!");
       }, 2000);
     });
   };
@@ -20,7 +20,7 @@ const StateButtonExample = () => {
   const handleFailButtonClick = () => {
     return new Promise((success, fail) => {
       setTimeout(() => {
-        fail('Something is wrong!');
+        fail("Something is wrong!");
       }, 2000);
     });
   };
@@ -29,11 +29,11 @@ const StateButtonExample = () => {
     <Colxx xxs="12" className="mb-4">
       <Card>
         <CardBody>
-          <CardTitle>
-            <IntlMessages id="button.states" />
-          </CardTitle>
+          <CardTitle>States</CardTitle>
           <p className="mb-1">
-            <IntlMessages id="button.states-text" />
+            This button shows a spinner for 2 seconds and an error icon for 3
+            seconds before switching to normal state. This states can be
+            triggered by adding and removing classes.
           </p>
           <StateButton
             id="successButton"
@@ -41,10 +41,12 @@ const StateButtonExample = () => {
             className="mb-3"
             onClick={handleSuccessButtonClick}
           >
-            <IntlMessages id="button.click-here" />
+            Click Here
           </StateButton>
           <p className="mb-1">
-            <IntlMessages id="button.states-text-alternate" />
+            This button shows a spinner for 2 seconds and an error icon for 3
+            seconds before switching to normal state. This states can be
+            triggered by adding and removing classes.
           </p>
           <StateButton
             id="failButton"
@@ -52,7 +54,7 @@ const StateButtonExample = () => {
             className="mb-3"
             onClick={handleFailButtonClick}
           >
-            <IntlMessages id="button.click-here" />
+            Click Here
           </StateButton>
         </CardBody>
       </Card>

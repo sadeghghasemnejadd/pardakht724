@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -11,12 +11,12 @@ import {
   Card,
   CardBody,
   CardTitle,
-} from 'reactstrap';
+} from "reactstrap";
 
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import StateButtonExample from 'containers/ui/StateButtonExample';
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import StateButtonExample from "containers/ui/StateButtonExample";
 
 const ButtonsUi = ({ match }) => {
   const [nestingDropdownOpen, setNestingDropdownOpen] = useState(false);
@@ -46,32 +46,30 @@ const ButtonsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="button.rounded" />
-              </CardTitle>
+              <CardTitle>Rounded</CardTitle>
               <Button color="primary" className="mb-2">
-                <IntlMessages id="button.primary" />
-              </Button>{' '}
+                Primary
+              </Button>{" "}
               <Button color="secondary" className="mb-2">
-                <IntlMessages id="button.secondary" />
-              </Button>{' '}
+                Secondary
+              </Button>{" "}
               <Button color="success" className="mb-2">
-                <IntlMessages id="button.success" />
-              </Button>{' '}
+                Success
+              </Button>{" "}
               <Button color="info" className="mb-2">
-                <IntlMessages id="button.info" />
-              </Button>{' '}
+                Info
+              </Button>{" "}
               <Button color="warning" className="mb-2">
-                <IntlMessages id="button.warning" />
-              </Button>{' '}
+                Warning
+              </Button>{" "}
               <Button color="danger" className="mb-2">
-                <IntlMessages id="button.danger" />
-              </Button>{' '}
+                Danger
+              </Button>{" "}
               <Button color="light" className="mb-2">
-                <IntlMessages id="button.light" />
-              </Button>{' '}
+                Light
+              </Button>{" "}
               <Button color="dark" className="mb-2">
-                <IntlMessages id="button.dark" />
+                Dark
               </Button>
             </CardBody>
           </Card>
@@ -80,32 +78,30 @@ const ButtonsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="button.outline" />
-              </CardTitle>
+              <CardTitle>Outline</CardTitle>
               <Button outline color="primary" className="mb-2">
-                <IntlMessages id="button.primary" />
-              </Button>{' '}
+                Primary
+              </Button>{" "}
               <Button outline color="secondary" className="mb-2">
-                <IntlMessages id="button.secondary" />
-              </Button>{' '}
+                Secondary
+              </Button>{" "}
               <Button outline color="success" className="mb-2">
-                <IntlMessages id="button.success" />
-              </Button>{' '}
+                Success
+              </Button>{" "}
               <Button outline color="info" className="mb-2">
-                <IntlMessages id="button.info" />
-              </Button>{' '}
+                Info
+              </Button>{" "}
               <Button outline color="warning" className="mb-2">
-                <IntlMessages id="button.warning" />
-              </Button>{' '}
+                Warning
+              </Button>{" "}
               <Button outline color="danger" className="mb-2">
-                <IntlMessages id="button.danger" />
-              </Button>{' '}
+                Danger
+              </Button>{" "}
               <Button outline color="light" className="mb-2">
-                <IntlMessages id="button.light" />
-              </Button>{' '}
+                Light
+              </Button>{" "}
               <Button outline color="dark" className="mb-2">
-                <IntlMessages id="button.dark" />
+                Dark
               </Button>
             </CardBody>
           </Card>
@@ -116,51 +112,41 @@ const ButtonsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="button.sizes" />
-              </CardTitle>
+              <CardTitle>Sizes</CardTitle>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.large-button" />
-                </h6>
+                <h6 className="mb-2">Large Button</h6>
                 <Button color="primary" size="lg" className="mb-2">
-                  <IntlMessages id="button.large-button" />
-                </Button>{' '}
+                  Large Button
+                </Button>{" "}
                 <Button color="secondary" size="lg" className="mb-2">
-                  <IntlMessages id="button.large-button" />
+                  Large Button
                 </Button>
               </div>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.small-button" />
-                </h6>
+                <h6 className="mb-2">Small Button</h6>
                 <Button color="primary" size="sm" className="mb-2">
-                  <IntlMessages id="button.small-button" />
-                </Button>{' '}
+                  Small Button
+                </Button>{" "}
                 <Button color="secondary" size="sm" className="mb-2">
-                  <IntlMessages id="button.small-button" />
+                  Small Button
                 </Button>
               </div>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.extra-small-button" />
-                </h6>
+                <h6 className="mb-2">Extra Small Button</h6>
                 <Button color="primary" size="xs" className="mb-2">
-                  <IntlMessages id="button.extra-small-button" />
-                </Button>{' '}
+                  Extra Small Button
+                </Button>{" "}
                 <Button color="secondary" size="xs" className="mb-2">
-                  <IntlMessages id="button.extra-small-button" />
+                  Extra Small Button
                 </Button>
               </div>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.block-button" />
-                </h6>
+                <h6 className="mb-2">Block Button</h6>
                 <Button color="primary" block className="mb-2">
-                  <IntlMessages id="button.block-button" />
-                </Button>{' '}
+                  Block Button
+                </Button>{" "}
                 <Button color="secondary" block className="mb-2">
-                  <IntlMessages id="button.block-button" />
+                  Block Button
                 </Button>
               </div>
             </CardBody>
@@ -170,29 +156,23 @@ const ButtonsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="button.states" />
-              </CardTitle>
+              <CardTitle>States</CardTitle>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.active" />
-                </h6>
+                <h6 className="mb-2">Active</h6>
                 <Button color="primary" href="#" className="mb-2">
-                  <IntlMessages id="button.primary-link" />
-                </Button>{' '}
+                  Primary Link
+                </Button>{" "}
                 <Button color="secondary" href="#" className="mb-2">
-                  <IntlMessages id="button.link" />
+                  Link
                 </Button>
               </div>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.disabled" />
-                </h6>
+                <h6 className="mb-2">Disabled</h6>
                 <Button color="primary" disabled className="mb-2">
-                  <IntlMessages id="button.primary-button" />
-                </Button>{' '}
+                  Primary Button
+                </Button>{" "}
                 <Button color="secondary" disabled className="mb-2">
-                  <IntlMessages id="button.button" />
+                  Button
                 </Button>
               </div>
             </CardBody>
@@ -202,29 +182,17 @@ const ButtonsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="button.button-groups" />
-              </CardTitle>
+              <CardTitle>Button Groups</CardTitle>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.basic" />
-                </h6>
+                <h6 className="mb-2">Basic</h6>
                 <ButtonGroup className="mb-2">
-                  <Button color="primary">
-                    <IntlMessages id="button.left" />
-                  </Button>
-                  <Button color="primary">
-                    <IntlMessages id="button.middle" />
-                  </Button>
-                  <Button color="primary">
-                    <IntlMessages id="button.right" />
-                  </Button>
+                  <Button color="primary">Left</Button>
+                  <Button color="primary">Middle</Button>
+                  <Button color="primary">Right</Button>
                 </ButtonGroup>
               </div>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.toolbar" />
-                </h6>
+                <h6 className="mb-2">Toolbar</h6>
                 <ButtonToolbar>
                   <ButtonGroup className="mb-2 mr-1">
                     <Button color="primary">1</Button>
@@ -243,9 +211,7 @@ const ButtonsUi = ({ match }) => {
                 </ButtonToolbar>
               </div>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.sizes" />
-                </h6>
+                <h6 className="mb-2">Sizes</h6>
                 <ButtonGroup size="lg" className="mb-2 mr-1">
                   <Button color="primary">1</Button>
                   <Button color="primary">2</Button>
@@ -268,9 +234,7 @@ const ButtonsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="button.nesting" />
-              </CardTitle>
+              <CardTitle>Nesting</CardTitle>
               <ButtonGroup className="mb-2">
                 <Button>1</Button>
                 <Button>2</Button>
@@ -278,16 +242,10 @@ const ButtonsUi = ({ match }) => {
                   isOpen={nestingDropdownOpen}
                   toggle={() => setNestingDropdownOpen(!nestingDropdownOpen)}
                 >
-                  <DropdownToggle caret>
-                    <IntlMessages id="button.dropdown" />
-                  </DropdownToggle>
+                  <DropdownToggle caret>Dropdown</DropdownToggle>
                   <DropdownMenu>
-                    <DropdownItem>
-                      <IntlMessages id="button.dropdown-link" />
-                    </DropdownItem>
-                    <DropdownItem>
-                      <IntlMessages id="button.dropdown-link" />
-                    </DropdownItem>
+                    <DropdownItem>Dropdown Link</DropdownItem>
+                    <DropdownItem>Dropdown Link</DropdownItem>
                   </DropdownMenu>
                 </ButtonDropdown>
               </ButtonGroup>
@@ -298,13 +256,9 @@ const ButtonsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="button.checkbox-radio-button" />
-              </CardTitle>
+              <CardTitle>Checkbox and Radio Button</CardTitle>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.checkbox" />
-                </h6>
+                <h6 className="mb-2">Checkbox</h6>
                 <ButtonGroup>
                   <Button
                     className="mb-2"
@@ -312,7 +266,7 @@ const ButtonsUi = ({ match }) => {
                     onClick={() => checkButtonCheck(1)}
                     active={checkedCheckboxes.includes(1)}
                   >
-                    <IntlMessages id="button.checkbox" />
+                    Checkbox
                   </Button>
                   <br />
                   <Button
@@ -321,35 +275,33 @@ const ButtonsUi = ({ match }) => {
                     onClick={() => checkButtonCheck(2)}
                     active={checkedCheckboxes.includes(2)}
                   >
-                    <IntlMessages id="button.checkbox" />
+                    Checkbox
                   </Button>
                 </ButtonGroup>
               </div>
               <div className="mb-4">
-                <h6 className="mb-2">
-                  <IntlMessages id="button.radio-button" />
-                </h6>
+                <h6 className="mb-2">Radio Button</h6>
                 <ButtonGroup>
                   <Button
                     color="primary"
                     onClick={() => setSelectedRadio(1)}
                     active={selectedRadio === 1}
                   >
-                    <IntlMessages id="button.radio" />
+                    Radio
                   </Button>
                   <Button
                     color="primary"
                     onClick={() => setSelectedRadio(2)}
                     active={selectedRadio === 2}
                   >
-                    <IntlMessages id="button.radio" />
+                    Radio
                   </Button>
                   <Button
                     color="primary"
                     onClick={() => setSelectedRadio(3)}
                     active={selectedRadio === 3}
                   >
-                    <IntlMessages id="button.radio" />
+                    Radio
                   </Button>
                 </ButtonGroup>
               </div>
@@ -360,32 +312,30 @@ const ButtonsUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="button.default" />
-              </CardTitle>
+              <CardTitle>Bootstrap Default</CardTitle>
               <Button color="primary" className="default mb-2">
-                <IntlMessages id="button.primary" />
-              </Button>{' '}
+                Primary
+              </Button>{" "}
               <Button color="secondary" className="default mb-2">
-                <IntlMessages id="button.secondary" />
-              </Button>{' '}
+                Secondary
+              </Button>{" "}
               <Button color="success" className="default mb-2">
-                <IntlMessages id="button.success" />
-              </Button>{' '}
+                Success
+              </Button>{" "}
               <Button color="info" className="default mb-2">
-                <IntlMessages id="button.info" />
-              </Button>{' '}
+                Info
+              </Button>{" "}
               <Button color="warning" className="default mb-2">
-                <IntlMessages id="button.warning" />
-              </Button>{' '}
+                Warning
+              </Button>{" "}
               <Button color="danger" className="default mb-2">
-                <IntlMessages id="button.danger" />
-              </Button>{' '}
+                Danger
+              </Button>{" "}
               <Button color="light" className="default mb-2">
-                <IntlMessages id="button.light" />
-              </Button>{' '}
+                Light
+              </Button>{" "}
               <Button color="dark" className="default mb-2">
-                <IntlMessages id="button.dark" />
+                Dark
               </Button>
             </CardBody>
           </Card>
