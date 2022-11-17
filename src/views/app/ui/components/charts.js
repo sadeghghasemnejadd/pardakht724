@@ -1,8 +1,8 @@
-import React from 'react';
-import { Row, Card, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import IntlMessages from 'helpers/IntlMessages';
+import React from "react";
+import { Row, Card, CardBody, CardTitle, CardSubtitle } from "reactstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import IntlMessages from "helpers/IntlMessages";
 
 import {
   DoughnutChart,
@@ -13,7 +13,7 @@ import {
   BarChart,
   RadarChart,
   PieChart,
-} from 'components/charts';
+} from "components/charts";
 
 import {
   lineChartData,
@@ -24,7 +24,7 @@ import {
   radarChartData,
   pieChartData,
   doughnutChartData,
-} from 'data/charts';
+} from "data/charts";
 
 const ChartsUi = ({ match }) => {
   return (
@@ -40,23 +40,17 @@ const ChartsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="charts.line" />
-              </CardTitle>
+              <CardTitle>Line Chart</CardTitle>
               <Row>
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>Shadow</CardSubtitle>
                   <div className="chart-container">
                     <LineChart shadow data={lineChartData} />
                   </div>
                 </Colxx>
 
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.no-shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>No Shadow</CardSubtitle>
                   <div className="chart-container">
                     <LineChart data={lineChartData} />
                   </div>
@@ -71,23 +65,17 @@ const ChartsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="charts.polar" />
-              </CardTitle>
+              <CardTitle>Polar Chart</CardTitle>
               <Row>
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>Shadow</CardSubtitle>
                   <div className="chart-container">
                     <PolarAreaChart shadow data={polarAreaChartData} />
                   </div>
                 </Colxx>
 
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.no-shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>No Shadow</CardSubtitle>
                   <div className="chart-container">
                     <PolarAreaChart data={polarAreaChartData} />
                   </div>
@@ -102,23 +90,17 @@ const ChartsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="charts.area" />
-              </CardTitle>
+              <CardTitle>Area Chart</CardTitle>
               <Row>
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>Shadow</CardSubtitle>
                   <div className="chart-container">
                     <AreaChart shadow data={areaChartData} />
                   </div>
                 </Colxx>
 
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.no-shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>No Shadow</CardSubtitle>
                   <div className="chart-container">
                     <AreaChart data={areaChartData} />
                   </div>
@@ -133,23 +115,17 @@ const ChartsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="charts.scatter" />
-              </CardTitle>
+              <CardTitle>Scatter Chart</CardTitle>
               <Row>
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>Shadow</CardSubtitle>
                   <div className="chart-container">
                     <ScatterChart shadow data={scatterChartData} />
                   </div>
                 </Colxx>
 
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.no-shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>No Shadow</CardSubtitle>
                   <div className="chart-container">
                     <ScatterChart data={scatterChartData} />
                   </div>
@@ -164,23 +140,17 @@ const ChartsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="charts.bar" />
-              </CardTitle>
+              <CardTitle>Bar Chart</CardTitle>
               <Row>
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>Shadow</CardSubtitle>
                   <div className="chart-container">
                     <BarChart shadow data={barChartData} />
                   </div>
                 </Colxx>
 
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.no-shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>No Shadow</CardSubtitle>
                   <div className="chart-container">
                     <BarChart data={barChartData} />
                   </div>
@@ -195,23 +165,17 @@ const ChartsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="charts.radar" />
-              </CardTitle>
+              <CardTitle>Radar Chart</CardTitle>
               <Row>
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>Shadow</CardSubtitle>
                   <div className="chart-container">
                     <RadarChart shadow data={radarChartData} />
                   </div>
                 </Colxx>
 
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.no-shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>No Shadow</CardSubtitle>
                   <div className="chart-container">
                     <RadarChart data={radarChartData} />
                   </div>
@@ -226,23 +190,17 @@ const ChartsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="charts.pie" />
-              </CardTitle>
+              <CardTitle>Pie Chart</CardTitle>
               <Row>
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>Shadow</CardSubtitle>
                   <div className="chart-container">
                     <PieChart shadow data={pieChartData} />
                   </div>
                 </Colxx>
 
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.no-shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>No Shadow</CardSubtitle>
                   <div className="chart-container">
                     <PieChart data={pieChartData} />
                   </div>
@@ -257,22 +215,16 @@ const ChartsUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="charts.doughnut" />
-              </CardTitle>
+              <CardTitle>Doughnut Chart</CardTitle>
               <Row>
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>Shadow</CardSubtitle>
                   <div className="chart-container">
                     <DoughnutChart data={doughnutChartData} />
                   </div>
                 </Colxx>
                 <Colxx xxs="12" lg="6" className="mb-5">
-                  <CardSubtitle>
-                    <IntlMessages id="charts.no-shadow" />
-                  </CardSubtitle>
+                  <CardSubtitle>No Shadow</CardSubtitle>
                   <div className="chart-container">
                     <DoughnutChart data={doughnutChartData} />
                   </div>

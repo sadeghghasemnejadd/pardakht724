@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Collapse,
   Button,
@@ -7,10 +7,10 @@ import {
   CardSubtitle,
   CardBody,
   CardTitle,
-} from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
+} from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
 
 const CollapseUi = ({ match }) => {
   const [collapse, setCollapse] = useState(false);
@@ -28,19 +28,15 @@ const CollapseUi = ({ match }) => {
         <Colxx xxs="12">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="collapse.basic" />
-              </CardTitle>
-              <CardSubtitle>
-                <IntlMessages id="collapse.controlled" />
-              </CardSubtitle>
+              <CardTitle>Basic</CardTitle>
+              <CardSubtitle>Controlled</CardSubtitle>
 
               <Button
                 color="primary"
                 onClick={() => setCollapse(!collapse)}
                 className="mb-1"
               >
-                <IntlMessages id="collapse.toggle" />
+                Toggle
               </Button>
               <Collapse isOpen={collapse}>
                 <div className="p-4 border mt-4">
@@ -62,9 +58,7 @@ const CollapseUi = ({ match }) => {
         <Colxx xxs="12" className="mb-4">
           <Card>
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="collapse.accordion" />
-              </CardTitle>
+              <CardTitle>Accordion</CardTitle>
               <>
                 <div className="border">
                   <Button
