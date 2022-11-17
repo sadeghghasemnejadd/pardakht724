@@ -1,11 +1,11 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
-import { Row, Card, CardBody, CardTitle } from 'reactstrap';
-import IntlMessages from 'helpers/IntlMessages';
+import React from "react";
+import { Row, Card, CardBody, CardTitle } from "reactstrap";
+import IntlMessages from "helpers/IntlMessages";
 
-import { Colxx, Separator } from 'components/common/CustomBootstrap';
-import Breadcrumb from 'containers/navs/Breadcrumb';
-import { iconsmind, simplelineicons } from 'data/icons';
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import Breadcrumb from "containers/navs/Breadcrumb";
+import { iconsmind, simplelineicons } from "data/icons";
 
 const IconGroup = ({ iconSet, setIndex }) => {
   return (
@@ -38,8 +38,7 @@ const IconsUi = ({ match }) => {
           <Card className="mb-4">
             <CardBody>
               <CardTitle>
-                <IntlMessages id="icons.simplelineicons" /> (
-                {simplelineicons.length} icons)
+                Simple Line Icons ({simplelineicons.length} icons)
               </CardTitle>
               <div className="simple-line-icons">
                 {simplelineicons.map((icon, index) => {
@@ -56,9 +55,7 @@ const IconsUi = ({ match }) => {
 
           <Card className="mb-4">
             <CardBody>
-              <CardTitle>
-                <IntlMessages id="icons.iconsmind" />
-              </CardTitle>
+              <CardTitle>Iconsmind Icons</CardTitle>
               <div className="mind-icons">
                 {iconsmind.map((iconSet, setIndex) => {
                   return (
