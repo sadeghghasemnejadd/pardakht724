@@ -78,7 +78,6 @@ function Table({
         toast.error("error");
       });
   };
-  console.log(page);
   return (
     <>
       <table
@@ -403,7 +402,7 @@ function TH({ headerProps, classes, column, children }) {
     setSort(!sort);
     dispatch(updateSortData({ [id]: !sort ? 1 : 0 }));
   };
-
+  console.log(sort);
   return (
     <th {...headerProps} onClick={handleSort} className={classes}>
       {children}

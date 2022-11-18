@@ -1,77 +1,21 @@
 import { ReactTableWithPaginationCard as Table } from "containers/ui/ReactTableCards";
-import { useEffect } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { client } from "services/client";
 import Layout from "layout/AppLayout";
-import { Label, FormGroup } from "reactstrap";
+import { Label, FormGroup, Input } from "reactstrap";
 import { makeQueryString } from "services/makeQueryString";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { allUsers, searchUser } from "redux-toolkit/UserSlice";
+import orderStyles from "pages/Dashboard/Users/order.module.css";
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [filterData, setFilterData] = useState(null);
-  const { sortData } = useSelector((state) => state.users);
+  const [filterType, setFilterType] = useState([]);
+  const [order, setOrder] = useState({ type: "id", field: 0 });
 
-  // مقدار سرچ پارامز رو فیکس میکند
-  const searchParams = filterData
-    ? `?search_in=${makeQueryString("", filterData)}`
-    : "";
-
-  // مقدار سرت پارامز رو فیکس میکند
-  const sortParams = sortData
-    ? `${filterData ? "&" : "?"}order_by=${makeQueryString("", sortData)}`
-    : "";
-
-  // به وسیله فانکشن در خواست زده میشه به سمت سرور
-  const fetchUsers = () => {
-    client
-      .get(`/users${searchParams}${sortParams}`, {
-        headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
-      })
-      .then((res) => {
-        if (res.data.status === "ok") {
-          const currentUsers = res.data.users.map((user) => ({
-            ...user,
-            approvals: [
-              user.email_verified,
-              user.national_id_verifying_status,
-              user.selfie_agreement_verifying_status,
-              user.home_phone_verified,
-            ],
-            full_name: `${user.first_name} ${user.last_name}`,
-            actions: [user.id, user.is_employee],
-            // is_employee_label: user.is_employee ? "کارمند" : "مشتری",
-            // home_phone_verified_label: user.home_phone_verified
-            //   ? "تایید شده"
-            //   : "در انتظار تایید",
-            // national_id_verifying_status_label:
-            //   (user.national_id_verifying_status === "verified" &&
-            //     "تایید شده") ||
-            //   (user.national_id_verifying_status === "pending" &&
-            //     "در انتظار تایید") ||
-            //   (user.national_id_verifying_status === "not_verified" &&
-            //     "تایید نشده"),
-            // selfie_agreement_verifying_status_label:
-            //   (user.selfie_agreement_verifying_status === "verified" &&
-            //     "تایید شده") ||
-            //   (user.selfie_agreement_verifying_status === "pending" &&
-            //     "در انتظار تایید") ||
-            //   (user.selfie_agreement_verifying_status === "not_verified" &&
-            //     "تایید نشده"),
-          }));
-          setUsers(currentUsers);
-          setLoading(false);
-        }
-      });
-  };
-  // با هر تغییر سرت دیتا در خواست به سمت سرور زده میشه
-  useEffect(() => {
-    fetchUsers();
-  }, [sortData]);
-
-  //   console.log(users);
+  const dispatch = useDispatch();
 
   // مقادیر عنوان ستون ها
   const cols = useMemo(
@@ -83,20 +27,7 @@ export default function Users() {
         Cell: (props) => <>{props.value}</>,
         isSort: false,
       },
-      // {
-      //   Header: "نام خانوادگی",
-      //   accessor: "last_name",
-      //   cellClass: "text-muted w-10",
-      //   Cell: (props) => <>{props.value}</>,
-      //   isSort: true,
-      // },
-      // {
-      //   Header: "ایمیل",
-      //   accessor: "email",
-      //   cellClass: "text-muted w-10",
-      //   Cell: (props) => <>{props.value}</>,
-      //   isSort: true,
-      // },
+
       {
         Header: "شماره همراه",
         accessor: "mobile",
@@ -104,12 +35,6 @@ export default function Users() {
         Cell: (props) => <>{props.value}</>,
         isSort: true,
       },
-      // {
-      //   Header: "نوع کاربر",
-      //   accessor: "is_employee_label",
-      //   cellClass: "text-muted w-10",
-      //   Cell: (props) => <>{props.value}</>,
-      // },
       {
         Header: "نقش کاربر",
         accessor: "inventer",
@@ -159,22 +84,146 @@ export default function Users() {
     ],
     []
   );
+  ////////////////////////
 
-  //  بعد از مونت شدن کامپوننت یک در خواست به سمت سرور ارسال میشود
   useEffect(() => {
     fetchUsers();
   }, []);
+  const searchParams = filterData
+    ? `?search_in=${makeQueryString("", filterData)}`
+    : "";
+  const typeParams =
+    filterType.length !== 0 ? `?user_type=${filterType.join(",")}` : "";
+  const orderParams = `?order_by=${order.type}:${order.field}`;
+  const checkboxHandler = (e) => {
+    if (e.target.checked) {
+      setFilterType((prevData) =>
+        Array.from(new Set([...prevData, e.target.value]))
+      );
+    }
+  };
+  const selectHandler = (e) => {
+    setOrder((prevData) => {
+      return { type: e.target.value, field: prevData.field };
+    });
+  };
+  const radioHandler = (e) => {
+    if (e.target.checked) {
+      setOrder((prevData) => {
+        return { type: prevData.type, field: e.target.value };
+      });
+    }
+  };
 
-  // این تابع مقادیر فیلتردیتا را ست میکند
   const updateField = (e) => {
     const { name, value } = e.target;
     setFilterData((prev) => ({ ...prev, [name]: value }));
   };
-
-  // تابع اعمال فیلتر
-  const applyFilter = () => {
+  const fetchUsers = async () => {
     setLoading(true);
-    fetchUsers();
+    try {
+      const res = await dispatch(allUsers());
+      if (res.payload.status === "ok") {
+        const currentUsers = res.payload.users.map((user) => ({
+          ...user,
+          approvals: [
+            user.email_verified,
+            user.national_id_verifying_status,
+            user.selfie_agreement_verifying_status,
+            user.home_phone_verified,
+          ],
+          full_name: `${user.first_name} ${user.last_name}`,
+          actions: [user.id, user.is_employee],
+        }));
+        setUsers(currentUsers);
+        setLoading(false);
+        setFilterData(null);
+        setFilterType([]);
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
+  const applyFilterByName = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    try {
+      const res = await dispatch(searchUser(searchParams));
+      if (res.payload.status === "ok") {
+        const currentUsers = res.payload.users.map((user) => ({
+          ...user,
+          approvals: [
+            user.email_verified,
+            user.national_id_verifying_status,
+            user.selfie_agreement_verifying_status,
+            user.home_phone_verified,
+          ],
+          full_name: `${user.first_name} ${user.last_name}`,
+          actions: [user.id, user.is_employee],
+        }));
+        setUsers(currentUsers);
+        setLoading(false);
+        setFilterData(null);
+        setFilterType([]);
+        setOrder({ type: "id", field: 0 });
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
+  const applyFilterByType = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    try {
+      const res = await dispatch(searchUser(typeParams));
+      if (res.payload.status === "ok") {
+        const currentUsers = res.payload.users.map((user) => ({
+          ...user,
+          approvals: [
+            user.email_verified,
+            user.national_id_verifying_status,
+            user.selfie_agreement_verifying_status,
+            user.home_phone_verified,
+          ],
+          full_name: `${user.first_name} ${user.last_name}`,
+          actions: [user.id, user.is_employee],
+        }));
+        setUsers(currentUsers);
+        setLoading(false);
+        setFilterData(null);
+        setFilterType([]);
+        setOrder({ type: "id", field: 0 });
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
+  const applyOrder = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    try {
+      const res = await dispatch(searchUser(orderParams));
+      if (res.payload.status === "ok") {
+        const currentUsers = res.payload.users.map((user) => ({
+          ...user,
+          approvals: [
+            user.email_verified,
+            user.national_id_verifying_status,
+            user.selfie_agreement_verifying_status,
+            user.home_phone_verified,
+          ],
+          full_name: `${user.first_name} ${user.last_name}`,
+          actions: [user.id, user.is_employee],
+        }));
+        setUsers(currentUsers);
+        setLoading(false);
+        setFilterData(null);
+        setFilterType([]);
+        setOrder({ type: "id", field: 0 });
+      }
+    } catch (err) {
+      throw err;
+    }
   };
 
   return (
@@ -184,10 +233,52 @@ export default function Users() {
         <Table
           rowIsLink
           cols={cols}
-          title="لیست قیمت ارزها"
+          title="لیست کاربران"
           data={users}
           message="کاربری با این مشخصات وجود ندارد"
         >
+          <form className={orderStyles.order__form} onSubmit={applyOrder}>
+            <FormGroup className={orderStyles.order__select}>
+              <label htmlFor="orderlist">مرتب سازی بر اساس : </label>
+              <select
+                aria-label="orderlist"
+                id="orderlist"
+                onChange={selectHandler}
+              >
+                <option value="id">ای دی کاربر</option>
+                <option value="email">ایمیل</option>
+                <option value="mobile">شماره همراه</option>
+                <option value="last_name">نام خانوادگی</option>
+              </select>
+            </FormGroup>
+            <FormGroup className={orderStyles.order__radio}>
+              <input
+                type="radio"
+                name="ascendant-or-anticlimactic"
+                id="ascendant"
+                value="1"
+                onChange={radioHandler}
+              />
+              <label className="form-check-label" htmlFor="ascendant">
+                صعودی
+              </label>
+            </FormGroup>
+            <FormGroup className={orderStyles.order__radio}>
+              <input
+                type="radio"
+                name="ascendant-or-anticlimactic"
+                id="ascendant"
+                value="0"
+                onChange={radioHandler}
+              />
+              <label className="form-check-label" htmlFor="ascendant">
+                نزولی
+              </label>
+            </FormGroup>
+            <button className="ml-5 btn btn-primary btn-lg" type="submit">
+              مرتب کردن
+            </button>
+          </form>
           <button
             className="btn btn-warning mb-5"
             onClick={() => {
@@ -196,8 +287,13 @@ export default function Users() {
           >
             فیلتر پیشرفته
           </button>
+
           <div>
-            <div className="d-flex w-100 align-items-center">
+            {isOpen && <h6>فیلتر بر اساس اطلاعات شخصی</h6>}
+            <form
+              className="d-flex w-100 align-items-center mt-4"
+              onSubmit={applyFilterByName}
+            >
               <FormGroup className="form-group has-float-label w-20">
                 <Label>
                   <span>نام خانوادگی</span>
@@ -246,10 +342,68 @@ export default function Users() {
                   </FormGroup>
                 </>
               )}
-              <button className="ml-5 btn btn-primary" onClick={applyFilter}>
+              <button
+                className="ml-5 btn btn-primary btn-lg"
+                type="submit"
+                onClick={applyFilterByName}
+              >
                 فیلتر
               </button>
-            </div>
+            </form>
+            {isOpen && (
+              <div className="mt-4 mb-4">
+                <h6>فیلتر بر اساس نوع همکاری</h6>
+                <form
+                  className="d-flex w-100 align-items-center mt-4 "
+                  onSubmit={applyFilterByType}
+                >
+                  <FormGroup check inline className="form-check">
+                    <input
+                      type="checkbox"
+                      value="0"
+                      onChange={checkboxHandler}
+                      className="form-check-input"
+                      id="m-0"
+                    />
+                    <Label check className="form-check-label" for="m-0">
+                      مشتری
+                    </Label>
+                  </FormGroup>
+                  <FormGroup check inline className="form-check">
+                    <input
+                      type="checkbox"
+                      value="1"
+                      onChange={checkboxHandler}
+                      className="form-check-input"
+                      id="m-1"
+                    />
+                    <Label check className="form-check-label" for="m-1">
+                      کارمند
+                    </Label>
+                  </FormGroup>
+                  <FormGroup check inline className="form-check">
+                    <input
+                      type="checkbox"
+                      value="2"
+                      onChange={checkboxHandler}
+                      className="form-check-input"
+                      id="m-2"
+                    />
+                    <Label check className="form-check-label" for="m-2">
+                      همکار
+                    </Label>
+                  </FormGroup>
+                  <button
+                    className="ml-5 btn btn-primary btn-lg"
+                    type="submit"
+                    onClick={applyFilterByType}
+                  >
+                    فیلتر
+                  </button>
+                </form>
+              </div>
+            )}
+            <hr />
           </div>
         </Table>
       )}

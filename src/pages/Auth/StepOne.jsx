@@ -12,27 +12,23 @@ let validationSchema = yup.object({
     .max(11, "شماره موبایل وارد شده نادرست است")
     .required("شماره موبایل الزامی است"),
   password: yup.string().required("وارد کردن رمز عبور الزامی است"),
-
 });
 
 const initialValues = { mobile: "09176900000", password: "secret" };
 
-
 export default function StepOne({ setActiveStep, getMobileValue }) {
-
-  const { loading } = useSelector(store => store.auth)
-  const dispatch = useDispatch()
+  const { loading } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
 
   const onUserLogin = async (values) => {
     try {
-      const res = await dispatch(loginAdmin(values))
+      const res = await dispatch(loginAdmin(values));
       if (res.payload.status === "ok") {
         setActiveStep(1);
         getMobileValue(values.mobile);
       }
-    }
-    catch (err) {
-      toast.error(err.response.data.error.detail)
+    } catch (err) {
+      toast.error(err.response.data.error.detail);
     }
   };
 
@@ -65,8 +61,9 @@ export default function StepOne({ setActiveStep, getMobileValue }) {
           <div className="d-flex justify-content-end align-items-end mt-5">
             <Button
               color="primary"
-              className={`btn-shadow btn-multiple-state ${loading ? "show-spinner" : ""
-                }`}
+              className={`btn-shadow btn-multiple-state ${
+                loading ? "show-spinner" : ""
+              }`}
               size="lg"
               type="submit"
               disabled={loading}
