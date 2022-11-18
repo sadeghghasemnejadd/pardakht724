@@ -19,10 +19,9 @@ const validationSchema = Yup.object({
 });
 
 export default function StepFour() {
+  const { loading } = useSelector((state) => state.user_profile);
 
-  const { loading } = useSelector(state => state.user_profile)
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const history = useHistory();
 
@@ -32,20 +31,19 @@ export default function StepFour() {
 
   const sendPhone = async (values) => {
     try {
-      const formData = new FormData()
-      formData.append('home_phone', values.phone)
-      const res = await dispatch(setHomePhone(formData))
+      const formData = new FormData();
+      formData.append("home_phone", values.phone);
+      const res = await dispatch(setHomePhone(formData));
+      console.log(res);
       if (res.payload.status === "ok") {
         toast.success("کد تاییدیه به شماره همراه شما ارسال شد");
         setActiveStep(true);
         setPhone(values.phone);
-      }
-      else {
+      } else {
         toast.warn("مقادیر وارد شده اشتباه است");
       }
-    }
-    catch (err) {
-      toast.error(err.response.data.error.detail)
+    } catch (err) {
+      toast.error(err.response.data.error.detail);
     }
   };
 
@@ -54,20 +52,18 @@ export default function StepFour() {
 
     if (otp.length === 6) {
       try {
-        const formData = new FormData()
-        formData.append('home_phone', phone)
-        formData.append('confirmation_key', otp)
-        const res = await dispatch(setConfirmHomePhone(formData))
+        const formData = new FormData();
+        formData.append("home_phone", phone);
+        formData.append("confirmation_key", otp);
+        const res = await dispatch(setConfirmHomePhone(formData));
         if (res.payload.status === "ok") {
           toast.success("اطلاعات با موفقیت ثبت شد");
           history.push("/");
-        }
-        else {
+        } else {
           toast.warn("مقادیر وارد شده اشتباه است");
         }
-      }
-      catch (err) {
-        toast.error(err.response.data.error.detail)
+      } catch (err) {
+        toast.error(err.response.data.error.detail);
       }
     }
   };
@@ -97,8 +93,9 @@ export default function StepFour() {
                 <div className="d-flex justify-content-end align-items-center mt-4">
                   <Button
                     color="primary"
-                    className={`btn-shadow btn-multiple-state ${loading ? "show-spinner" : ""
-                      }`}
+                    className={`btn-shadow btn-multiple-state ${
+                      loading ? "show-spinner" : ""
+                    }`}
                     size="lg"
                     type="submit"
                   >
@@ -134,7 +131,9 @@ export default function StepFour() {
           <div className="d-flex justify-content-end align-items-center mt-4">
             <Button
               color="primary"
-              className={`btn-shadow btn-multiple-state ${loading ? "show-spinner" : ""}`}
+              className={`btn-shadow btn-multiple-state ${
+                loading ? "show-spinner" : ""
+              }`}
               size="lg"
               type="submit"
             >

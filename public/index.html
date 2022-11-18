@@ -1,34 +1,41 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <link
+      rel="stylesheet"
+      href="/assets/fonts/simple-line-icons/css/simple-line-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/fonts/iconsmind-s/css/iconsminds.css"
+    />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>پنل ادمین</title>
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="theme-color" content="#000000" />
-  <link rel="stylesheet" href="/assets/fonts/simple-line-icons/css/simple-line-icons.css">
-  <link rel="stylesheet" href="/assets/fonts/iconsmind-s/css/iconsminds.css">
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <title>پنل ادمین</title>
-</head>
-
-<body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <script>
-    var theme = "light.purplemonster";
-    try {
-      if (localStorage.getItem("__theme_selected_color")) {
-        theme = localStorage.getItem("__theme_selected_color");
+  <body class="rtl">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script>
+      var theme = "light.purplemonster";
+      try {
+        if (localStorage.getItem("__theme_selected_color")) {
+          theme = localStorage.getItem("__theme_selected_color");
+        }
+      } catch (error) {
+        theme = "light.purplemonster";
       }
-    } catch (error) {
-      theme = "light.purplemonster"
-    }
-    if (theme.indexOf("dark") !== -1) {
-      document.documentElement.style.background = "#1b191b";
-    }
-  </script>
-  <div id="root">
-    <div class="loading"></div>
-  </div>
-</body>
-
+      if (theme.indexOf("dark") !== -1) {
+        document.documentElement.style.background = "#1b191b";
+      }
+    </script>
+    <div id="root">
+      <div class="loading"></div>
+    </div>
+  </body>
 </html>

@@ -7,10 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNationalId } from "redux-toolkit/ProfileSlice";
 
 export default function StepTwo({ handleNextStep }) {
+  const { loading } = useSelector((state) => state.user_profile);
 
-  const { loading } = useSelector(state => state.user_profile)
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const fileRef = useRef(null);
   const [is_foreign, setIs_foreign] = useState(0);
@@ -29,28 +28,30 @@ export default function StepTwo({ handleNextStep }) {
 
   const handleSubmit = async (values) => {
     if (nationalCard.front && nationalCard.rear) {
-      if(nationalCard.front.size >= 1000000 || nationalCard.rear.size >= 1000000){
-        toast.warn('حجم تصویر نباید بیشتر از 1 مگابایت باشد')
-        return
+      if (
+        nationalCard.front.size >= 1000000 ||
+        nationalCard.rear.size >= 1000000
+      ) {
+        toast.warn("حجم تصویر نباید بیشتر از 1 مگابایت باشد");
+        return;
       }
       try {
+        console.log(values);
         const formData = new FormData();
         formData.append("front", nationalCard.front);
         formData.append("rear", nationalCard.rear);
         formData.append("national_id", values.national_id);
         formData.append("is_foreign", is_foreign);
+        const res = await dispatch(setNationalId(formData));
 
-        const res = await dispatch(setNationalId(formData))
         if (res.payload.status === "ok") {
           toast.success("اطلاعات با موفقیت ثبت شد");
           handleNextStep();
-        }
-        else {
+        } else {
           toast.warn("مقادیر وارد شده اشتباه است");
         }
-      }
-      catch (err) {
-        toast.error(err.response.data.error.detail)
+      } catch (err) {
+        toast.error(err.response.data.error.detail);
       }
     } else {
       setIsValidation(true);
@@ -58,21 +59,21 @@ export default function StepTwo({ handleNextStep }) {
   };
 
   const initialValues = {
-    national_id: '',
+    national_id: "",
   };
 
   const validationSchema = yup.object({
     national_id: !is_foreign
       ? yup
-        .string()
-        .required("وارد کردن کد ملی الزامی است")
-        .min(10, "کد ملی نمی تواند کمتر از 10 رقم باشد")
-        .max(10, "کد ملی نمی تواند بیشتر از 10 رقم باشد")
+          .string()
+          .required("وارد کردن کد ملی الزامی است")
+          .min(10, "کد ملی نمی تواند کمتر از 10 رقم باشد")
+          .max(10, "کد ملی نمی تواند بیشتر از 10 رقم باشد")
       : yup
-        .string()
-        .required("وارد کردن کد ملی الزامی است")
-        .min(7, "کد ملی نمی تواند کمتر از 7 رقم باشد")
-        .max(9, "کد ملی نمی تواند بیشتر از 9 رقم باشد"),
+          .string()
+          .required("وارد کردن کد ملی الزامی است")
+          .min(7, "کد ملی نمی تواند کمتر از 7 رقم باشد")
+          .max(9, "کد ملی نمی تواند بیشتر از 9 رقم باشد"),
   });
 
   return (
@@ -141,7 +142,7 @@ export default function StepTwo({ handleNextStep }) {
                   id="is-foreign"
                   name="is-foreign"
                   type="checkbox"
-                  onChange={e => setIs_foreign(e.target.checked ? 1 : 0)}
+                  onChange={(e) => setIs_foreign(e.target.checked ? 1 : 0)}
                   defaultChecked={is_foreign}
                 />
                 <Label check for="is-foreign" className="ml-4">
@@ -160,7 +161,9 @@ export default function StepTwo({ handleNextStep }) {
 
                 <Button
                   color="primary"
-                  className={`btn-shadow btn-multiple-state ${loading ? "show-spinner" : ""}`}
+                  className={`btn-shadow btn-multiple-state ${
+                    loading ? "show-spinner" : ""
+                  }`}
                   size="lg"
                   type="submit"
                 >
