@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import Router from "./router/Router";
-import { IntlProvider } from "react-intl";
 
 import AppLocale from "./lang";
 import { NotificationContainer } from "./components/common/react-notifications";
@@ -20,19 +19,14 @@ const App = ({ locale }) => {
 
   return (
     <div className="h-100">
-      <IntlProvider
-        locale={currentAppLocale.locale}
-        messages={currentAppLocale.messages}
-      >
-        {mainLoading ? (
-          <div className="loading" />
-        ) : (
-          <>
-            <NotificationContainer />
-            <Router />
-          </>
-        )}
-      </IntlProvider>
+      {mainLoading ? (
+        <div className="loading" />
+      ) : (
+        <Fragment>
+          <NotificationContainer />
+          <Router />
+        </Fragment>
+      )}
     </div>
   );
 };

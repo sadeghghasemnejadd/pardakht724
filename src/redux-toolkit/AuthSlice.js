@@ -25,6 +25,7 @@ export const loginConfirmKey = createAsyncThunk(
 
 export const myself = createAsyncThunk("myself", async () => {
   try {
+    console.log(localStorage.getItem("token"));
     const token = localStorage.getItem("token");
     const { data } = await axiosInstance.get("/auth/myself", {
       headers: {
@@ -67,6 +68,7 @@ export const updateAdminPassword = createAsyncThunk(
       );
       return data.data;
     } catch (err) {
+      console.log("hi");
       throw err;
     }
   }
