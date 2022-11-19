@@ -36,15 +36,13 @@ export default function StepTwo({ handleNextStep }) {
         return;
       }
       try {
-        console.log(values);
         const formData = new FormData();
         formData.append("front", nationalCard.front);
         formData.append("rear", nationalCard.rear);
         formData.append("national_id", values.national_id);
         formData.append("is_foreign", is_foreign);
         const res = await dispatch(setNationalId(formData));
-
-        if (res.payload.status === "ok") {
+        if (res.payload) {
           toast.success("اطلاعات با موفقیت ثبت شد");
           handleNextStep();
         } else {

@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAgreement } from "redux-toolkit/ProfileSlice";
 
 export default function StepThree({ handleNextStep }) {
+  const { loading } = useSelector((state) => state.user_profile);
 
-  const { loading } = useSelector(state => state.user_profile)
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [img, setImg] = useState(null);
   const [isValidation, setIsValidation] = useState(false);
@@ -29,19 +28,16 @@ export default function StepThree({ handleNextStep }) {
         const formData = new FormData();
         formData.append("agreement_pdf", img);
 
-        const res = await dispatch(setAgreement(formData))
-        if (res.payload.status === "ok") {
+        const res = await dispatch(setAgreement(formData));
+        if (res.payload) {
           toast.success("اطلاعات با موفقیت ثبت شد");
           handleNextStep();
-        }
-        else {
+        } else {
           toast.warn("مقادیر وارد شده اشتباه است");
         }
+      } catch (err) {
+        toast.error(err.response.data.error.detail);
       }
-      catch (err) {
-        toast.error(err.response.data.error.detail)
-      }
-
     } else {
       setIsValidation(true);
     }
@@ -69,11 +65,20 @@ export default function StepThree({ handleNextStep }) {
         </Label>
       </FormGroup>
       <div className="d-flex justify-content-end align-items-center mt-4">
-        <Button onClick={handleNextStep} size="lg" color="primary" className="mr-3">مرحله بعد</Button>
+        <Button
+          onClick={handleNextStep}
+          size="lg"
+          color="primary"
+          className="mr-3"
+        >
+          مرحله بعد
+        </Button>
 
         <Button
           color="primary"
-          className={`btn-shadow btn-multiple-state ${loading ? "show-spinner" : ""}`}
+          className={`btn-shadow btn-multiple-state ${
+            loading ? "show-spinner" : ""
+          }`}
           size="lg"
           type="submit"
         >
