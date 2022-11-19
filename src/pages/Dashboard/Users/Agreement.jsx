@@ -100,12 +100,11 @@ export default function NationalId() {
       })
       .then((res) => res.data)
       .then((data) => {
-        // console.log(data);
         if (data.status === "ok") {
           const pdfUrl = data.agreement.agreement_pdf;
           let aElement = document.createElement("a");
           aElement.href = pdfUrl;
-          aElement.download = "Agreement.pdf"
+          aElement.download = "Agreement.pdf";
           aElement.click();
         }
       });

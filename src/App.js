@@ -1,15 +1,12 @@
 import React, { Fragment, useEffect } from "react";
 import Router from "./router/Router";
 
-import AppLocale from "./lang";
 import { NotificationContainer } from "./components/common/react-notifications";
 
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { myself } from "redux-toolkit/AuthSlice";
 
-const App = ({ locale }) => {
-  const currentAppLocale = AppLocale[locale];
-
+const App = () => {
   const { mainLoading } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
 
@@ -31,10 +28,4 @@ const App = ({ locale }) => {
   );
 };
 
-const mapStateToProps = ({ settings }) => {
-  const { locale } = settings;
-  return { locale };
-};
-const mapActionsToProps = {};
-
-export default connect(mapStateToProps, mapActionsToProps)(App);
+export default App;

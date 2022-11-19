@@ -23,7 +23,6 @@ export default function StepTwo({ mobile }) {
           dispatch(myself());
         }
       } catch (err) {
-        console.log(err.response);
         toast.error(err.response.data.error.detail);
       }
     }
@@ -42,7 +41,7 @@ export default function StepTwo({ mobile }) {
           otpType="number"
           disabled={false}
         />
-        <ResendOTP onResendClick={() => console.log("Resend clicked")} />
+        {/* <ResendOTP onResendClick={() => } /> */}
       </div>
       <div className="d-flex justify-content-end align-items-center mt-4">
         <Button

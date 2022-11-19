@@ -63,7 +63,6 @@ const FormikCustomComponents = () => {
       reactSelect: values.reactSelect.map((t) => t.value),
     };
     setTimeout(() => {
-      console.log(JSON.stringify(payload, null, 2));
       setSubmitting(false);
     }, 1000);
   };

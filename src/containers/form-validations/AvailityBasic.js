@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   AvForm,
   AvField,
@@ -9,13 +9,11 @@ import {
   AvRadio,
   AvCheckboxGroup,
   AvCheckbox,
-} from 'availity-reactstrap-validation';
-import { Button, Label, Card, CardBody } from 'reactstrap';
+} from "availity-reactstrap-validation";
+import { Button, Label, Card, CardBody } from "reactstrap";
 
 const AvailityBasic = () => {
   const onSubmit = (event, errors, values) => {
-    console.log(errors);
-    console.log(values);
     if (errors.length === 0) {
       // submit
     }

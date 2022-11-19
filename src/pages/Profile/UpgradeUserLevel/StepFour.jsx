@@ -34,7 +34,6 @@ export default function StepFour() {
       const formData = new FormData();
       formData.append("home_phone", values.phone);
       const res = await dispatch(setHomePhone(formData));
-      console.log(res);
       if (res.payload.status === "ok") {
         toast.success("کد تاییدیه به شماره همراه شما ارسال شد");
         setActiveStep(true);

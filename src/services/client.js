@@ -7,7 +7,6 @@ class Client {
       baseURL: process.env.REACT_APP_BASE_URL,
       headers: {},
     });
-    console.log(this.instance);
   }
   // این تابع ادرس و کانفیگ های مورد نظر را ورودی میگیرد
   get(endpoint, config = {}) {

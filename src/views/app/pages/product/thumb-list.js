@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import axios from 'axios';
+import axios from "axios";
 
-import { servicePath } from 'constants/defaultValues';
+import { servicePath } from "constants/defaultValues";
 
-import ListPageHeading from 'containers/pages/ListPageHeading';
-import AddNewModal from 'containers/pages/AddNewModal';
-import ListPageListing from 'containers/pages/ListPageListing';
-import useMousetrap from 'hooks/use-mousetrap';
+import ListPageHeading from "containers/pages/ListPageHeading";
+import AddNewModal from "containers/pages/AddNewModal";
+import ListPageListing from "containers/pages/ListPageListing";
+import useMousetrap from "hooks/use-mousetrap";
 
 const getIndex = (value, arr, prop) => {
   for (let i = 0; i < arr.length; i += 1) {
@@ -21,32 +21,32 @@ const getIndex = (value, arr, prop) => {
 const apiUrl = `${servicePath}/cakes/paging`;
 
 const orderOptions = [
-  { column: 'title', label: 'Product Name' },
-  { column: 'category', label: 'Category' },
-  { column: 'status', label: 'Status' },
+  { column: "title", label: "Product Name" },
+  { column: "category", label: "Category" },
+  { column: "status", label: "Status" },
 ];
 const pageSizes = [4, 8, 12, 20];
 
 const categories = [
-  { label: 'Cakes', value: 'Cakes', key: 0 },
-  { label: 'Cupcakes', value: 'Cupcakes', key: 1 },
-  { label: 'Desserts', value: 'Desserts', key: 2 },
+  { label: "Cakes", value: "Cakes", key: 0 },
+  { label: "Cupcakes", value: "Cupcakes", key: 1 },
+  { label: "Desserts", value: "Desserts", key: 2 },
 ];
 
 const ThumbListPages = ({ match }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [displayMode, setDisplayMode] = useState('thumblist');
+  const [displayMode, setDisplayMode] = useState("thumblist");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedPageSize, setSelectedPageSize] = useState(8);
   const [selectedOrderOption, setSelectedOrderOption] = useState({
-    column: 'title',
-    label: 'Product Name',
+    column: "title",
+    label: "Product Name",
   });
 
   const [modalOpen, setModalOpen] = useState(false);
   const [totalItemCount, setTotalItemCount] = useState(0);
   const [totalPage, setTotalPage] = useState(1);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
   const [items, setItems] = useState([]);
   const [lastChecked, setLastChecked] = useState(null);
@@ -68,7 +68,7 @@ const ThumbListPages = ({ match }) => {
           setTotalPage(data.totalPage);
           setItems(
             data.data.map((x) => {
-              return { ...x, img: x.img.replace('img/', 'img/products/') };
+              return { ...x, img: x.img.replace("img/", "img/products/") };
             })
           );
           setSelectedItems([]);
@@ -81,8 +81,8 @@ const ThumbListPages = ({ match }) => {
 
   const onCheckItem = (event, id) => {
     if (
-      event.target.tagName === 'A' ||
-      (event.target.parentElement && event.target.parentElement.tagName === 'A')
+      event.target.tagName === "A" ||
+      (event.target.parentElement && event.target.parentElement.tagName === "A")
     ) {
       return true;
     }
@@ -100,8 +100,8 @@ const ThumbListPages = ({ match }) => {
 
     if (event.shiftKey) {
       let newItems = [...items];
-      const start = getIndex(id, newItems, 'id');
-      const end = getIndex(lastChecked, newItems, 'id');
+      const start = getIndex(id, newItems, "id");
+      const end = getIndex(lastChecked, newItems, "id");
       newItems = newItems.slice(Math.min(start, end), Math.max(start, end) + 1);
       selectedItems.push(
         ...newItems.map((item) => {
@@ -129,8 +129,6 @@ const ThumbListPages = ({ match }) => {
 
   const onContextMenuClick = (e, data) => {
     // params : (e,data,target)
-    console.log('onContextMenuClick - selected items', selectedItems);
-    console.log('onContextMenuClick - action : ', data.action);
   };
 
   const onContextMenu = (e, data) => {
@@ -142,11 +140,11 @@ const ThumbListPages = ({ match }) => {
     return true;
   };
 
-  useMousetrap(['ctrl+a', 'command+a'], () => {
+  useMousetrap(["ctrl+a", "command+a"], () => {
     handleChangeSelectAll(false);
   });
 
-  useMousetrap(['ctrl+d', 'command+d'], () => {
+  useMousetrap(["ctrl+d", "command+d"], () => {
     setSelectedItems([]);
     return false;
   });
@@ -179,7 +177,7 @@ const ThumbListPages = ({ match }) => {
           selectedItemsLength={selectedItems ? selectedItems.length : 0}
           itemsLength={items ? items.length : 0}
           onSearchKey={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               setSearch(e.target.value.toLowerCase());
             }
           }}

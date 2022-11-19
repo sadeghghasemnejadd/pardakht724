@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   AvForm,
@@ -10,27 +10,25 @@ import {
   AvRadio,
   AvCheckboxGroup,
   AvCheckbox,
-} from 'availity-reactstrap-validation';
-import { Button, Label, FormGroup, Card, CardBody } from 'reactstrap';
+} from "availity-reactstrap-validation";
+import { Button, Label, FormGroup, Card, CardBody } from "reactstrap";
 
 const defaultValues = {
-  locationType: 'work',
-  locationQualities: ['beautiful', 'awesome', 'wonderful'],
-  firstname: 'Sarah',
-  lastname: 'Kortney',
+  locationType: "work",
+  locationQualities: ["beautiful", "awesome", "wonderful"],
+  firstname: "Sarah",
+  lastname: "Kortney",
   location: {
-    street: '10752 Deerwood Park Blvd',
-    suite: '110',
-    city: 'Jacksonville',
-    state: 'Florida',
-    zip: '32256',
+    street: "10752 Deerwood Park Blvd",
+    suite: "110",
+    city: "Jacksonville",
+    state: "Florida",
+    zip: "32256",
   },
 };
 
 const AvailityDefaultValues = () => {
   const onSubmit = (event, errors, values) => {
-    console.log(errors);
-    console.log(values);
     if (errors.length === 0) {
       // submit
     }

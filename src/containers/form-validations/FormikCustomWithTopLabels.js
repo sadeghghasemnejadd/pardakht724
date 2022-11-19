@@ -50,7 +50,6 @@ const FormikCustomWithTopLabels = () => {
       state: values.state.value,
     };
     setTimeout(() => {
-      console.log(JSON.stringify(payload, null, 2));
       setSubmitting(false);
     }, 1000);
   };

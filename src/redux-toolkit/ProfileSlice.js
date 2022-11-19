@@ -96,7 +96,6 @@ export const setConfirmHomePhone = createAsyncThunk(
 export const setAddress = createAsyncThunk("setAddress", async (values) => {
   try {
     const token = localStorage.getItem("token");
-    console.log(values);
     const { data } = await axiosInstance.post("/auth/profile/address", values, {
       headers: {
         Authorization: `Bearer ${token}`,

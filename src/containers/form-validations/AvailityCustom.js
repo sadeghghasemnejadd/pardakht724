@@ -1,12 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { AvForm, AvField, AvGroup } from 'availity-reactstrap-validation';
-import { Button, Label, Card, CardBody } from 'reactstrap';
+import { AvForm, AvField, AvGroup } from "availity-reactstrap-validation";
+import { Button, Label, Card, CardBody } from "reactstrap";
 
 const AvailityCustom = () => {
   const onSubmit = (event, errors, values) => {
-    console.log(errors);
-    console.log(values);
     if (errors.length === 0) {
       // submit
     }
@@ -28,19 +26,19 @@ const AvailityCustom = () => {
               validate={{
                 required: {
                   value: true,
-                  errorMessage: 'Please enter your name',
+                  errorMessage: "Please enter your name",
                 },
                 pattern: {
-                  value: '^[A-Za-z]+$',
-                  errorMessage: 'Your name must be composed only with letters',
+                  value: "^[A-Za-z]+$",
+                  errorMessage: "Your name must be composed only with letters",
                 },
                 minLength: {
                   value: 2,
-                  errorMessage: 'Your name must be between 2 and 16 characters',
+                  errorMessage: "Your name must be between 2 and 16 characters",
                 },
                 maxLength: {
                   value: 16,
-                  errorMessage: 'Your name must be between 2 and 16 characters',
+                  errorMessage: "Your name must be between 2 and 16 characters",
                 },
               }}
             />
@@ -54,11 +52,11 @@ const AvailityCustom = () => {
               validate={{
                 required: {
                   value: true,
-                  errorMessage: 'Please enter your email address',
+                  errorMessage: "Please enter your email address",
                 },
                 email: {
                   value: true,
-                  errorMessage: 'Please enter a valid email address',
+                  errorMessage: "Please enter a valid email address",
                 },
               }}
             />
@@ -71,12 +69,12 @@ const AvailityCustom = () => {
               type="email"
               validate={{
                 match: {
-                  value: 'emailCustomMessage',
-                  errorMessage: 'Your inputs does not match',
+                  value: "emailCustomMessage",
+                  errorMessage: "Your inputs does not match",
                 },
                 required: {
                   value: true,
-                  errorMessage: 'Please enter your email address',
+                  errorMessage: "Please enter your email address",
                 },
               }}
             />
@@ -90,11 +88,11 @@ const AvailityCustom = () => {
               validate={{
                 number: {
                   value: true,
-                  errorMessage: 'Value must be a number',
+                  errorMessage: "Value must be a number",
                 },
                 required: {
                   value: true,
-                  errorMessage: 'Please enter a number',
+                  errorMessage: "Please enter a number",
                 },
               }}
             />
@@ -106,10 +104,10 @@ const AvailityCustom = () => {
               name="maxPropNumberProp"
               type="text"
               validate={{
-                max: { value: 5, errorMessage: 'Maximum 5' },
+                max: { value: 5, errorMessage: "Maximum 5" },
                 required: {
                   value: true,
-                  errorMessage: 'Please enter a number',
+                  errorMessage: "Please enter a number",
                 },
               }}
             />
@@ -121,10 +119,10 @@ const AvailityCustom = () => {
               name="minPropNumberProp"
               type="text"
               validate={{
-                min: { value: 5, errorMessage: 'Minimum 5' },
+                min: { value: 5, errorMessage: "Minimum 5" },
                 required: {
                   value: true,
-                  errorMessage: 'Please enter a number',
+                  errorMessage: "Please enter a number",
                 },
               }}
             />
@@ -138,11 +136,11 @@ const AvailityCustom = () => {
               validate={{
                 pattern: {
                   value: /^[A-Z]*$/,
-                  errorMessage: 'Only uppercase characters',
+                  errorMessage: "Only uppercase characters",
                 },
                 required: {
                   value: true,
-                  errorMessage: 'Please enter uppercase characters',
+                  errorMessage: "Please enter uppercase characters",
                 },
               }}
             />

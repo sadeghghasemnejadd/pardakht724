@@ -127,10 +127,7 @@ const DataListPages = ({ match }) => {
     return false;
   };
 
-  const onContextMenuClick = (e, data) => {
-    console.log("onContextMenuClick - selected items", selectedItems);
-    console.log("onContextMenuClick - action : ", data.action);
-  };
+  const onContextMenuClick = (e, data) => {};
 
   const onContextMenu = (e, data) => {
     const clickedProductId = data.data;

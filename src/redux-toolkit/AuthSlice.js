@@ -67,7 +67,6 @@ export const updateAdminPassword = createAsyncThunk(
       );
       return data.data;
     } catch (err) {
-      console.log("hi");
       throw err;
     }
   }
