@@ -30,18 +30,33 @@ export const searchUser = createAsyncThunk("searchUser", async (values) => {
     throw err;
   }
 });
-
+const getUsers = (res) => {
+  const currentUsers = res.payload.users.map((user) => ({
+    ...user,
+    approvals: [
+      user.email_verified,
+      user.national_id_verifying_status,
+      user.selfie_agreement_verifying_status,
+      user.home_phone_verified,
+    ],
+    full_name: `${user.first_name} ${user.last_name}`,
+    actions: [user.id, user.is_employee],
+  }));
+  return currentUsers;
+};
 export const UserSlice = createSlice({
   name: "auth",
   initialState: {
     loading: false,
+    users: [],
   },
   extraReducers: {
     [searchUser.pending]: (state) => {
       state.loading = true;
     },
-    [searchUser.fulfilled]: (state) => {
+    [searchUser.fulfilled]: (state, action) => {
       state.loading = false;
+      state.users = getUsers(action);
     },
     [searchUser.rejected]: (state) => {
       state.loading = false;
@@ -49,8 +64,9 @@ export const UserSlice = createSlice({
     [allUsers.pending]: (state) => {
       state.loading = true;
     },
-    [allUsers.fulfilled]: (state) => {
+    [allUsers.fulfilled]: (state, action) => {
       state.loading = false;
+      state.users = getUsers(action);
     },
     [allUsers.rejected]: (state) => {
       state.loading = false;

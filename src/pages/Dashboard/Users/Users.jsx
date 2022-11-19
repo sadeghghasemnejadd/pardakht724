@@ -1,6 +1,5 @@
 import { ReactTableWithPaginationCard as Table } from "containers/ui/ReactTableCards";
 import { useEffect, useMemo, useState } from "react";
-import { client } from "services/client";
 import Layout from "layout/AppLayout";
 import { Label, FormGroup, Input } from "reactstrap";
 import { makeQueryString } from "services/makeQueryString";
@@ -8,15 +7,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { allUsers, searchUser } from "redux-toolkit/UserSlice";
 import orderStyles from "pages/Dashboard/Users/order.module.css";
 export default function Users() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [filterData, setFilterData] = useState(null);
   const [filterType, setFilterType] = useState([]);
   const [order, setOrder] = useState({ type: "id", field: 0 });
 
   const dispatch = useDispatch();
-
+  const { loading, users } = useSelector((store) => store.users);
   // مقادیر عنوان ستون ها
   const cols = useMemo(
     () => [
@@ -88,7 +85,7 @@ export default function Users() {
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
   const searchParams = filterData
     ? `?search_in=${makeQueryString("", filterData)}`
     : "";
@@ -120,23 +117,9 @@ export default function Users() {
     setFilterData((prev) => ({ ...prev, [name]: value }));
   };
   const fetchUsers = async () => {
-    setLoading(true);
     try {
       const res = await dispatch(allUsers());
       if (res.payload.status === "ok") {
-        const currentUsers = res.payload.users.map((user) => ({
-          ...user,
-          approvals: [
-            user.email_verified,
-            user.national_id_verifying_status,
-            user.selfie_agreement_verifying_status,
-            user.home_phone_verified,
-          ],
-          full_name: `${user.first_name} ${user.last_name}`,
-          actions: [user.id, user.is_employee],
-        }));
-        setUsers(currentUsers);
-        setLoading(false);
         setFilterData(null);
         setFilterType([]);
       }
@@ -145,24 +128,10 @@ export default function Users() {
     }
   };
   const applyFilterByName = async (e) => {
-    setLoading(true);
     e.preventDefault();
     try {
       const res = await dispatch(searchUser(searchParams));
       if (res.payload.status === "ok") {
-        const currentUsers = res.payload.users.map((user) => ({
-          ...user,
-          approvals: [
-            user.email_verified,
-            user.national_id_verifying_status,
-            user.selfie_agreement_verifying_status,
-            user.home_phone_verified,
-          ],
-          full_name: `${user.first_name} ${user.last_name}`,
-          actions: [user.id, user.is_employee],
-        }));
-        setUsers(currentUsers);
-        setLoading(false);
         setFilterData(null);
         setFilterType([]);
         setOrder({ type: "id", field: 0 });
@@ -172,24 +141,10 @@ export default function Users() {
     }
   };
   const applyFilterByType = async (e) => {
-    setLoading(true);
     e.preventDefault();
     try {
       const res = await dispatch(searchUser(typeParams));
       if (res.payload.status === "ok") {
-        const currentUsers = res.payload.users.map((user) => ({
-          ...user,
-          approvals: [
-            user.email_verified,
-            user.national_id_verifying_status,
-            user.selfie_agreement_verifying_status,
-            user.home_phone_verified,
-          ],
-          full_name: `${user.first_name} ${user.last_name}`,
-          actions: [user.id, user.is_employee],
-        }));
-        setUsers(currentUsers);
-        setLoading(false);
         setFilterData(null);
         setFilterType([]);
         setOrder({ type: "id", field: 0 });
@@ -204,19 +159,6 @@ export default function Users() {
     try {
       const res = await dispatch(searchUser(orderParams));
       if (res.payload.status === "ok") {
-        const currentUsers = res.payload.users.map((user) => ({
-          ...user,
-          approvals: [
-            user.email_verified,
-            user.national_id_verifying_status,
-            user.selfie_agreement_verifying_status,
-            user.home_phone_verified,
-          ],
-          full_name: `${user.first_name} ${user.last_name}`,
-          actions: [user.id, user.is_employee],
-        }));
-        setUsers(currentUsers);
-        setLoading(false);
         setFilterData(null);
         setFilterType([]);
         setOrder({ type: "id", field: 0 });
