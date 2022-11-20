@@ -43,7 +43,6 @@ export default function User() {
     const getUser = async () => {
       try {
         const res = await dispatch(getUserData(id));
-        console.log(res);
       } catch (err) {
         throw err;
       }
@@ -55,7 +54,6 @@ export default function User() {
   const renderPayAccounts = user?.pay_accounts?.map((account, index) => (
     <ImageCardList {...account} key={account.id} />
   ));
-
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -194,7 +192,7 @@ export default function User() {
             <div className="col-6">
               <div>
                 <h4 className="mb-4">جزییات حساب</h4>
-                <>{renderPayAccounts}</>
+                <>{renderPayAccounts ? renderPayAccounts : "حسابی یافت نشد"}</>
               </div>
             </div>
             <div className="col-6">
