@@ -1,7 +1,7 @@
 import { ReactTableWithPaginationCard as Table } from "containers/ui/ReactTableCards";
 import { useEffect, useMemo, useState } from "react";
 import Layout from "layout/AppLayout";
-import { Label, FormGroup, Input } from "reactstrap";
+import { Label, FormGroup } from "reactstrap";
 import { makeQueryString } from "services/makeQueryString";
 import { useSelector, useDispatch } from "react-redux";
 import { allUsers, searchUser } from "redux-toolkit/UserSlice";

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserData } from "redux-toolkit/UserSlice";
 import { client } from "services/client";
 import Layout from "layout/AppLayout";
 import {
@@ -17,9 +19,8 @@ import ImageCardList from "containers/ui/ImageCardList";
 
 export default function User() {
   const { id } = useParams();
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
-
+  const dispatch = useDispatch();
+  const { loading, user } = useSelector((store) => store.users);
   const handleSetEmployee = () => {
     client
       .post(
@@ -39,20 +40,15 @@ export default function User() {
 
   // با هر تغییر ایدی در خواست به سمت سرور ارسال میشود
   useEffect(() => {
-    client
-      .get(`/users/${id}`, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        if (res.status_code === 200) {
-          setUser(res.data.user);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    const getUser = async () => {
+      try {
+        const res = await dispatch(getUserData(id));
+        console.log(res);
+      } catch (err) {
+        throw err;
+      }
+    };
+    getUser();
   }, [id]);
 
   // این متغییر حساب های کاربر را رندر می کند

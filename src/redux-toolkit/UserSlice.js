@@ -30,6 +30,20 @@ export const searchUser = createAsyncThunk("searchUser", async (values) => {
     throw err;
   }
 });
+export const getUserData = createAsyncThunk("getUserData", async (value) => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.get(`/users/${value}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
 const getUsers = (res) => {
   const currentUsers = res.payload.users.map((user) => ({
     ...user,
@@ -44,11 +58,13 @@ const getUsers = (res) => {
   }));
   return currentUsers;
 };
+const getUser = (res) => res.payload.user;
 export const UserSlice = createSlice({
   name: "auth",
   initialState: {
     loading: false,
     users: [],
+    user: [],
   },
   extraReducers: {
     [searchUser.pending]: (state) => {
@@ -69,6 +85,16 @@ export const UserSlice = createSlice({
       state.users = getUsers(action);
     },
     [allUsers.rejected]: (state) => {
+      state.loading = false;
+    },
+    [getUserData.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUserData.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.user = getUser(action);
+    },
+    [getUserData.rejected]: (state) => {
       state.loading = false;
     },
   },
