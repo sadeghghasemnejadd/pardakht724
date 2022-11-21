@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData } from "redux-toolkit/UserSlice";
@@ -49,7 +49,6 @@ export default function User() {
     };
     getUser();
   }, [id]);
-
   // این متغییر حساب های کاربر را رندر می کند
   const renderPayAccounts = user?.pay_accounts?.map((account, index) => (
     <ImageCardList {...account} key={account.id} />
@@ -92,9 +91,9 @@ export default function User() {
                       </NavLink>
                     )} */}
 
-                  {user?.agreement_verifying_status === "pending" && (
+                  {user?.selfie_agreement_verifying_status === "pending" && (
                     <div className="d-flex justify-content-center align-items-center">
-                      <span>کارت ملی</span>
+                      <span>توافق نامه</span>
                       <NavLink to={`/users/${id}/agreement`}>
                         <Button
                           outline
@@ -109,7 +108,10 @@ export default function User() {
                   )}
                   {user?.national_id_verifying_status === "pending" && (
                     <div className="d-flex justify-content-center align-items-center">
-                      <img src={user?.profile?.national_id_front_pic} alt="" />
+                      <img
+                        src={user?.profile?.national_id_front_pic.thumbnail}
+                        alt=""
+                      />
                       <span>کارت ملی</span>
                       <NavLink to={`/users/${id}/national-id`}>
                         <Button
@@ -148,13 +150,13 @@ export default function User() {
             <div className="col-4">
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">شناسه</InputGroupAddon>
-                <Input value={user.id} />
+                <Input value={user.id} disabled />
               </InputGroup>
             </div>
             <div className="col-4">
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">نام</InputGroupAddon>
-                <Input value={user.first_name} />
+                <Input value={user.first_name} disabled />
               </InputGroup>
             </div>
             <div className="col-4">
@@ -162,13 +164,16 @@ export default function User() {
                 <InputGroupAddon addonType="prepend">
                   نام خانوادگی
                 </InputGroupAddon>
-                <Input value={user.last_name} />
+                <Input value={user.last_name} disabled />
               </InputGroup>
             </div>
             <div className="col-4">
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">ایمیل</InputGroupAddon>
-                <Input value={user.email ? user.email : "ایمیلی وجود ندارد"} />
+                <Input
+                  value={user.email ? user.email : "ایمیلی وجود ندارد"}
+                  disabled
+                />
               </InputGroup>
             </div>
             <div className="col-4">
@@ -176,7 +181,7 @@ export default function User() {
                 <InputGroupAddon addonType="prepend">
                   شماره موبایل
                 </InputGroupAddon>
-                <Input value={user.mobile} />
+                <Input value={user.mobile} disabled />
               </InputGroup>
             </div>
             <div className="col-4">
@@ -184,10 +189,11 @@ export default function User() {
                 <InputGroupAddon addonType="prepend">
                   تاریخ تولد
                 </InputGroupAddon>
-                <Input value={user.birth_day} />
+                <Input value={user.birth_day} disabled />
               </InputGroup>
             </div>
           </div>
+
           <div className="row mt-5">
             <div className="col-6">
               <div>

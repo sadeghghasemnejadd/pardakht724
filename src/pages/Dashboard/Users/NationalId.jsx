@@ -4,92 +4,67 @@ import Layout from "layout/AppLayout";
 import { client } from "services/client";
 import { InputGroup, InputGroupAddon, Input } from "reactstrap";
 import { toast } from "react-toastify";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  checkNationalId,
+  getNationalId,
+  getUserData,
+} from "redux-toolkit/UserSlice";
 export default function NationalId() {
   const { id } = useParams();
-  const [loading, setLoading] = useState(true);
-  const [nationalIdData, setNationalIdData] = useState(null);
+
   const [reject, setReject] = useState(false);
   const [rejectDescription, setRejectDescription] = useState("");
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+  const { loading, nationalIdData, user } = useSelector((store) => store.users);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    // زمانی که ایدی کاربر را از طریق پارامز دریافت کنیم در ادرس قرار میدیم و بهسمت سرور ارسال میکنیم
-    client
-      .get(`/users/${id}/profile/national-id`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => res.data)
-      .then((data) => {
-        if (data.status === "ok") {
-          setNationalIdData(data.national_id);
-          setLoading(false);
-        }
-      });
+    const fetchData = async () => {
+      try {
+        await dispatch(getNationalId(id));
+        await dispatch(getUserData(id));
+      } catch (err) {
+        throw err;
+      }
+    };
+    fetchData();
+  }, []);
 
-    client
-      .get(`/users/${id}`, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        if (res.status_code === 200) {
-          setUser(res.data.user);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]);
-
-// درخواست تایید مدارک کاربر
-  const acceptNationalId = () => {
-    client
-      .post(
-        `/users/${user.id}/profile/national-id
-    `,
-        { is_confirmed: true, reject_description: null },
-        {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => res.data)
-      .then((data) => {
-        if (data.status === "ok") {
-          toast.success("کارت ملی کاربر با موفقیت تایید شد");
-        }
-      });
-  };
-
-  // درخواست رد کردن مدارک کاربر
-  const rejectNationalId = () => {
-    if (!reject) {
-      setReject(true);
-    } else if (rejectDescription.length > 0) {
-      client
-        .post(
-          `/users/${user.id}/profile/national-id
-    `,
-          { is_confirmed: false, reject_description: rejectDescription },
-          {
-            headers: {
-              authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => res.data)
-        .then((data) => {
-          if (data.status === "ok") {
-            toast.error("کارت ملی کاربر با موفقیت رد شد");
-          }
-        });
+  // درخواست تایید مدارک کاربر
+  const acceptNationalId = async () => {
+    try {
+      const res = await dispatch(
+        checkNationalId({ id: user.id, confirmed: true, message: null })
+      );
+      if (res.payload.status === "ok") {
+        toast.success("کارت ملی کاربر با موفقیت تایید شد");
+      }
+    } catch (err) {
+      throw err;
     }
   };
 
+  // درخواست رد کردن مدارک کاربر
+  const rejectNationalId = async () => {
+    try {
+      if (!reject) {
+        setReject(true);
+      } else if (rejectDescription.length > 0) {
+        const res = await dispatch(
+          checkNationalId({
+            id: user.id,
+            confirmed: false,
+            message: rejectDescription,
+          })
+        );
+        if (res.payload.status === "ok") {
+          toast.success("کارت ملی کاربر با موفقیت رد شد");
+        }
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
   return (
     <Layout>
       {loading ? (
@@ -101,7 +76,7 @@ export default function NationalId() {
             <div className="col-4">
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">نام</InputGroupAddon>
-                <Input value={user?.first_name} />
+                <Input value={user?.first_name} disabled />
               </InputGroup>
             </div>
             <div className="col-4">
@@ -109,7 +84,7 @@ export default function NationalId() {
                 <InputGroupAddon addonType="prepend">
                   نام خانوادگی
                 </InputGroupAddon>
-                <Input value={user?.last_name} />
+                <Input value={user?.last_name} disabled />
               </InputGroup>
             </div>
             <div className="col-4">
@@ -117,13 +92,13 @@ export default function NationalId() {
                 <InputGroupAddon addonType="prepend">
                   تاریخ تولد
                 </InputGroupAddon>
-                <Input value={user?.birth_day} />
+                <Input value={user?.birth_day} disabled />
               </InputGroup>
             </div>
             <div className="col-4">
               <InputGroup className="mb-3">
                 <InputGroupAddon addonType="prepend">کد ملی</InputGroupAddon>
-                <Input value={nationalIdData?.national_id} />
+                <Input value={nationalIdData?.national_id} disabled />
               </InputGroup>
             </div>
             <div className="col-4">
@@ -133,7 +108,7 @@ export default function NationalId() {
                 </InputGroupAddon>
                 <Input value="">
                   <img
-                    src={nationalIdData?.national_id_front_pic.full_size}
+                    src={nationalIdData?.national_id_front_pic?.full_size}
                     alt=""
                   />
                 </Input>
@@ -146,7 +121,7 @@ export default function NationalId() {
                 </InputGroupAddon>
                 <Input value="">
                   <img
-                    src={nationalIdData?.national_id_rear_pic.full_size}
+                    src={nationalIdData?.national_id_rear_pic?.full_size}
                     alt=""
                   />
                 </Input>

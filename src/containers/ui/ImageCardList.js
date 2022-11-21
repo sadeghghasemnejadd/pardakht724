@@ -20,7 +20,6 @@ const statusText = {
 
 const ImageCardList = (props) => {
   const { card_number, account_number, shaba, bank, status } = props;
-
   return (
     <Row>
       <Colxx xxs="12">
@@ -33,7 +32,7 @@ const ImageCardList = (props) => {
               <NavLink to="#" location={{}} className="d-flex">
                 <img
                   alt="Thumbnail"
-                  src="/assets/img/products/chocolate-cake-thumb.jpg"
+                  src={bank.icon}
                   className="list-thumbnail responsive border-0 card-img-left"
                 />
               </NavLink>
