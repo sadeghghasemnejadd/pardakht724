@@ -4,94 +4,71 @@ import Layout from "layout/AppLayout";
 import { client } from "services/client";
 import { InputGroup, InputGroupAddon, Input } from "reactstrap";
 import { toast } from "react-toastify";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  checkSelfieAgreement,
+  getSelfieAgreemnet,
+  getUserData,
+} from "redux-toolkit/UserSlice";
+import { store } from "redux-toolkit/store";
 export default function NationalId() {
   const { id } = useParams();
   const history = useHistory();
-  const [loading, setLoading] = useState(true);
   const [reject, setReject] = useState(false);
   const [rejectDescription, setRejectDescription] = useState("");
-  const [user, setUser] = useState(null);
-  const [selfie, setSelfie] = useState(null);
-
+  const dispatch = useDispatch();
+  const { loading, selfie, user } = useSelector((store) => store.users);
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    // زمانی که ایدی کاربر را از طریق پارامز دریافت کنیم در ادرس قرار میدیم و بهسمت سرور ارسال میکنیم
-    client
-      .get(`/users/${id}/profile/selfie-agreement`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => res.data)
-      .then((data) => {
-        if (data.status === "ok") {
-          setSelfie(data.selfie_agreement);
-          setLoading(false);
-        }
-      });
-
-    client
-      .get(`/users/${id}`, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        if (res.status_code === 200) {
-          setUser(res.data.user);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]);
+    const fetchData = async () => {
+      try {
+        await dispatch(getSelfieAgreemnet(id));
+        await dispatch(getUserData(id));
+      } catch (err) {
+        throw err;
+      }
+    };
+    fetchData();
+  }, []);
 
   // درخواست تایید مدارک کاربر
-  const acceptSelfie = () => {
-    client
-      .post(
-        `/users/${user.id}/profile/selfie-agreement`,
-        { is_confirmed: true, reject_description: null },
-        {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => res.data)
-      .then((data) => {
-        if (data.status === "ok") {
-          toast.success("سلفی و توافقنامه با موفقیت ثبت شد");
+  const acceptSelfie = async () => {
+    try {
+      const res = await dispatch(
+        checkSelfieAgreement({ id: user.id, confirmed: true, message: null })
+      );
+      if (res.payload.status === "ok") {
+        toast.success("سلفی و توافقنامه با موفقیت ثبت شد");
+        setTimeout(() => {
+          history.push(`/users/${id}`);
+        }, 2000);
+      }
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  // درخواست رد کردن مدارک کاربر
+  const rejectSelfie = async () => {
+    try {
+      if (!reject) {
+        setReject(true);
+      } else if (rejectDescription.length > 0) {
+        const res = await dispatch(
+          checkSelfieAgreement({
+            id: user.id,
+            confirmed: false,
+            message: rejectDescription,
+          })
+        );
+        if (res.payload.status === "ok") {
+          toast.error("سلفی و توافقنامه با موفقیت رد شد");
           setTimeout(() => {
             history.push(`/users/${id}`);
           }, 2000);
         }
-      });
-  };
-
-  // درخواست رد کردن مدارک کاربر
-  const rejectSelfie = () => {
-    if (!reject) {
-      setReject(true);
-    } else if (rejectDescription.length > 0) {
-      client
-        .post(
-          `/users/${user.id}/profile/selfie-agreement`,
-          { is_confirmed: false, reject_description: rejectDescription },
-          {
-            headers: {
-              authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => res.data)
-        .then((data) => {
-          if (data.status === "ok") {
-            toast.error("سلفی و توافقنامه با موفقیت رد شد");
-            setTimeout(() => {
-              history.push(`/users/${id}`);
-            }, 2000);
-          }
-        });
+      }
+    } catch (err) {
+      throw err;
     }
   };
 
@@ -137,7 +114,7 @@ export default function NationalId() {
                   تصویر سلفی یا توافق نامه
                 </InputGroupAddon>
                 <Input value="">
-                  <img src={selfie?.selfie_agreement_pic.full_size} alt="" />
+                  <img src={selfie?.selfie_agreement_pic?.full_size} alt="" />
                 </Input>
               </InputGroup>
             </div>

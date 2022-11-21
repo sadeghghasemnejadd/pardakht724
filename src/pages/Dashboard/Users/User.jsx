@@ -91,7 +91,7 @@ export default function User() {
                       </NavLink>
                     )} */}
 
-                  {user?.selfie_agreement_verifying_status === "pending" && (
+                  {user?.agreement_verifying_status === "pending" && (
                     <div className="d-flex justify-content-center align-items-center">
                       <span>توافق نامه</span>
                       <NavLink to={`/users/${id}/agreement`}>

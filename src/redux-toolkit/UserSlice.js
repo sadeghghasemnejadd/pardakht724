@@ -63,6 +63,25 @@ export const getNationalId = createAsyncThunk(
     }
   }
 );
+export const getSelfieAgreemnet = createAsyncThunk(
+  "getSelfieAgreemnet",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(
+        `/users/${value}/profile/selfie-agreement`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const checkNationalId = createAsyncThunk(
   "acceptNationalId",
   async (value) => {
@@ -70,6 +89,26 @@ export const checkNationalId = createAsyncThunk(
       const token = localStorage.getItem("token");
       const { data } = await axiosInstance.post(
         `/users/${value.id}/profile/national-id`,
+        { is_confirmed: value.confirmed, reject_description: value.message },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+export const checkSelfieAgreement = createAsyncThunk(
+  "checkSelfieAgreement",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.post(
+        `/users/${value.id}/profile/selfie-agreement`,
         { is_confirmed: value.confirmed, reject_description: value.message },
         {
           headers: {
@@ -99,6 +138,7 @@ const getUsers = (res) => {
 };
 const getUser = (res) => res.payload.user;
 const nationalId = (res) => res.payload.national_id;
+const selfieAgreemnt = (res) => res.payload.selfie_agreement;
 export const UserSlice = createSlice({
   name: "auth",
   initialState: {
@@ -106,8 +146,10 @@ export const UserSlice = createSlice({
     users: [],
     user: [],
     nationalIdData: [],
+    selfie: [],
   },
   extraReducers: {
+    ///////////////////////////////////////
     [searchUser.pending]: (state) => {
       state.loading = true;
     },
@@ -118,6 +160,7 @@ export const UserSlice = createSlice({
     [searchUser.rejected]: (state) => {
       state.loading = false;
     },
+    ///////////////////////////////////////
     [allUsers.pending]: (state) => {
       state.loading = true;
     },
@@ -128,6 +171,7 @@ export const UserSlice = createSlice({
     [allUsers.rejected]: (state) => {
       state.loading = false;
     },
+    ///////////////////////////////////////
     [getUserData.pending]: (state) => {
       state.loading = true;
     },
@@ -138,6 +182,7 @@ export const UserSlice = createSlice({
     [getUserData.rejected]: (state) => {
       state.loading = false;
     },
+    ///////////////////////////////////////
     [getNationalId.pending]: (state) => {
       state.loading = true;
     },
@@ -148,13 +193,35 @@ export const UserSlice = createSlice({
     [getNationalId.rejected]: (state) => {
       state.loading = false;
     },
+    ///////////////////////////////////////
     [checkNationalId.pending]: (state) => {
       state.loading = true;
     },
-    [checkNationalId.fulfilled]: (state, action) => {
+    [checkNationalId.fulfilled]: (state) => {
       state.loading = false;
     },
     [checkNationalId.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////
+    [getSelfieAgreemnet.pending]: (state) => {
+      state.loading = true;
+    },
+    [getSelfieAgreemnet.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.selfie = getSelfieAgreemnet(action);
+    },
+    [getSelfieAgreemnet.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////
+    [checkSelfieAgreement.pending]: (state) => {
+      state.loading = true;
+    },
+    [checkSelfieAgreement.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [checkSelfieAgreement.rejected]: (state) => {
       state.loading = false;
     },
   },
