@@ -82,6 +82,20 @@ export const getSelfieAgreemnet = createAsyncThunk(
     }
   }
 );
+export const getUserRoles = createAsyncThunk("getUserRoles", async (value) => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.get(`/users/${value}/roles`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
 export const checkNationalId = createAsyncThunk(
   "acceptNationalId",
   async (value) => {
@@ -122,6 +136,7 @@ export const checkSelfieAgreement = createAsyncThunk(
     }
   }
 );
+
 const getUsers = (res) => {
   const currentUsers = res.payload.users.map((user) => ({
     ...user,
@@ -139,6 +154,7 @@ const getUsers = (res) => {
 const getUser = (res) => res.payload.user;
 const nationalId = (res) => res.payload.national_id;
 const selfieAgreemnt = (res) => res.payload.selfie_agreement;
+const userRoles = (res) => res.payload.roles;
 export const UserSlice = createSlice({
   name: "auth",
   initialState: {
@@ -147,6 +163,7 @@ export const UserSlice = createSlice({
     user: [],
     nationalIdData: [],
     selfie: [],
+    userRoles: [],
   },
   extraReducers: {
     ///////////////////////////////////////
@@ -209,7 +226,7 @@ export const UserSlice = createSlice({
     },
     [getSelfieAgreemnet.fulfilled]: (state, action) => {
       state.loading = false;
-      state.selfie = getSelfieAgreemnet(action);
+      state.selfie = selfieAgreemnt(action);
     },
     [getSelfieAgreemnet.rejected]: (state) => {
       state.loading = false;
@@ -222,6 +239,17 @@ export const UserSlice = createSlice({
       state.loading = false;
     },
     [checkSelfieAgreement.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////
+    [getUserRoles.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUserRoles.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.userRoles = userRoles(action);
+    },
+    [getUserRoles.rejected]: (state) => {
       state.loading = false;
     },
   },
