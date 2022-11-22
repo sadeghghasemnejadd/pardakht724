@@ -1,0 +1,52 @@
+.contact {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 3rem;
+}
+.profile {
+  grid-column: 2/3;
+}
+.roles {
+  grid-column: 1/2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.roles__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.roles__list--item {
+  width: 80%;
+  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.8rem;
+  background-color: #fff;
+}
+.roles__list--item--icons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.roles__list--item--icons span {
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.roles__list--item--icons span:hover {
+  transform: translateY(-5px);
+}
+.roles__list--item--icons span[class="icon-Remove"]:hover {
+  color: red;
+}
+.roles__list--item--icons span[class="icon-Edit"]:hover {
+  color: rgb(189, 189, 72);
+}
+.roles__form {
+  width: 80%;
+}
