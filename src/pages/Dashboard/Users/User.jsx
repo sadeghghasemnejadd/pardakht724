@@ -1,7 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData, getUserRoles } from "redux-toolkit/UserSlice";
+import { toast } from "react-toastify";
+import {
+  addUserRoles,
+  getUserData,
+  getUserRoles,
+  removeUserRoles,
+} from "redux-toolkit/UserSlice";
 import { client } from "services/client";
 import Layout from "layout/AppLayout";
 import styles from "./contact.module.css";
@@ -24,6 +30,7 @@ export default function User() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { loading, user, userRoles } = useSelector((store) => store.users);
+  const rolesRef = useRef();
   const handleSetEmployee = () => {
     client
       .post(
@@ -40,23 +47,74 @@ export default function User() {
         }
       });
   };
-
-  // با هر تغییر ایدی در خواست به سمت سرور ارسال میشود
+  const fetchUserRoles = async () => {
+    try {
+      await dispatch(getUserRoles(id));
+    } catch (err) {
+      throw err;
+    }
+  };
   useEffect(() => {
     const getData = async () => {
       try {
         await dispatch(getUserData(id));
-        await dispatch(getUserRoles(id));
+        await fetchUserRoles();
       } catch (err) {
         throw err;
       }
     };
     getData();
-  }, [id]);
+  }, []);
+  const addRoleHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const selectedRole = document.querySelector("#role").value;
+      let roleId;
+      switch (selectedRole) {
+        case "admin":
+          roleId = 1;
+          break;
+        case "seller":
+          roleId = 2;
+          break;
+        case "accountants":
+          roleId = 3;
+          break;
+        case "supporter":
+          roleId = 4;
+          break;
+      }
+      const res = await dispatch(addUserRoles({ id, roleId }));
+      if (res.payload.status === "ok") {
+        await fetchUserRoles();
+        toast.success("نقش با موفقیت اضافه شد");
+      }
+    } catch (err) {
+      toast.error("اضافه کردن نقش با خطا مواجه شد");
+      throw err;
+    }
+  };
+  const removeRoleHandler = async (e) => {
+    try {
+      const roleId = +e.target.dataset.id;
+      const res = await dispatch(removeUserRoles({ userId: user.id, roleId }));
+      if (res.payload.status === "ok") {
+        await fetchUserRoles();
+        toast.success("نقش با موفقیت حذف شد");
+      }
+    } catch (err) {
+      toast.error("حذف نقش با خطا مواجه شد");
+      throw err;
+    }
+  };
+
   // این متغییر حساب های کاربر را رندر می کند
   const renderPayAccounts = user?.pay_accounts?.map((account, index) => (
     <ImageCardList {...account} key={account.id} />
   ));
+  const roleOptions = user.is_employee
+    ? ["admin", "seller", "accountants", "supporter"]
+    : null;
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -72,7 +130,11 @@ export default function User() {
                       <li key={role.id} className={styles["roles__list--item"]}>
                         {role.name}
                         <div className={styles["roles__list--item--icons"]}>
-                          <span className="icon-Remove"></span>
+                          <span
+                            className="icon-Remove"
+                            data-id={role.id}
+                            onClick={removeRoleHandler}
+                          ></span>
                           <span className="icon-Edit"></span>
                         </div>
                       </li>
@@ -82,24 +144,38 @@ export default function User() {
                   <p>نقشی وجود ندارد!</p>
                 )}
               </ul>
-              <form className={styles["roles__form"]}>
-                <InputGroup className="mb-3">
-                  <InputGroupAddon addonType="prepend" htmlFor="role">
-                    اضافه کردن نقش
-                  </InputGroupAddon>
-                  <Input
-                    list="roles"
-                    name="role"
-                    id="role"
-                    className={styles["rules__form--input"]}
-                  />
-                  <datalist id="roles" className={styles["rules__form--list"]}>
-                    <option value={1} />
-                    <option value={2} />
-                  </datalist>
-                </InputGroup>
-                <button className="btn btn-primary mb-5">+</button>
-              </form>
+              {roleOptions && (
+                <form
+                  className={styles["roles__form"]}
+                  onSubmit={addRoleHandler}
+                >
+                  <InputGroup className="mb-3">
+                    <InputGroupAddon addonType="prepend" htmlFor="role">
+                      اضافه کردن نقش
+                    </InputGroupAddon>
+                    <Input
+                      list="roles"
+                      name="role"
+                      id="role"
+                      className={styles["rules__form--input"]}
+                      ref={rolesRef}
+                    />
+                    <datalist
+                      id="roles"
+                      className={styles["rules__form--list"]}
+                    >
+                      {roleOptions.map((opt, index) => {
+                        return (
+                          <option value={opt} key={index}>
+                            {index + 1}
+                          </option>
+                        );
+                      })}
+                    </datalist>
+                  </InputGroup>
+                  <button className="btn btn-primary mb-5">+</button>
+                </form>
+              )}
             </div>
 
             <div className={`bg-white w-75 radius py-4 ${styles.profile}`}>

@@ -96,6 +96,44 @@ export const getUserRoles = createAsyncThunk("getUserRoles", async (value) => {
     throw err;
   }
 });
+export const addUserRoles = createAsyncThunk("addUserRoles", async (value) => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.post(
+      `/users/${value.id}/roles`,
+      { role_id: value.roleId },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
+export const removeUserRoles = createAsyncThunk(
+  "removeUserRoles",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.delete(
+        `/users/${value.userId}/roles/${value.roleId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const checkNationalId = createAsyncThunk(
   "acceptNationalId",
   async (value) => {
@@ -250,6 +288,26 @@ export const UserSlice = createSlice({
       state.userRoles = userRoles(action);
     },
     [getUserRoles.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////
+    [addUserRoles.pending]: (state) => {
+      state.loading = true;
+    },
+    [addUserRoles.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [addUserRoles.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////
+    [removeUserRoles.pending]: (state) => {
+      state.loading = true;
+    },
+    [removeUserRoles.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [removeUserRoles.rejected]: (state) => {
       state.loading = false;
     },
   },
