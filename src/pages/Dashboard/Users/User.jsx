@@ -8,6 +8,7 @@ import {
   getUserRoles,
   removeUserRoles,
 } from "redux-toolkit/UserSlice";
+import { getAllRoles } from "redux-toolkit/RolesSlice";
 import { client } from "services/client";
 import Layout from "layout/AppLayout";
 import styles from "./contact.module.css";
@@ -24,12 +25,12 @@ import {
 } from "reactstrap";
 
 import ImageCardList from "containers/ui/ImageCardList";
-import { useState } from "react";
 
 export default function User() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { loading, user, userRoles } = useSelector((store) => store.users);
+  const { roles } = useSelector((store) => store.roles);
   const rolesRef = useRef();
   const handleSetEmployee = () => {
     client
@@ -59,6 +60,7 @@ export default function User() {
       try {
         await dispatch(getUserData(id));
         await fetchUserRoles();
+        await dispatch(getAllRoles());
       } catch (err) {
         throw err;
       }
@@ -69,21 +71,7 @@ export default function User() {
     e.preventDefault();
     try {
       const selectedRole = document.querySelector("#role").value;
-      let roleId;
-      switch (selectedRole) {
-        case "admin":
-          roleId = 1;
-          break;
-        case "seller":
-          roleId = 2;
-          break;
-        case "accountants":
-          roleId = 3;
-          break;
-        case "supporter":
-          roleId = 4;
-          break;
-      }
+      const roleId = roles.find((role) => role.name === selectedRole).id;
       const res = await dispatch(addUserRoles({ id, roleId }));
       if (res.payload.status === "ok") {
         await fetchUserRoles();
@@ -112,9 +100,6 @@ export default function User() {
   const renderPayAccounts = user?.pay_accounts?.map((account, index) => (
     <ImageCardList {...account} key={account.id} />
   ));
-  const roleOptions = user.is_employee
-    ? ["admin", "seller", "accountants", "supporter"]
-    : null;
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -144,7 +129,7 @@ export default function User() {
                   <p>نقشی وجود ندارد!</p>
                 )}
               </ul>
-              {roleOptions && (
+              {roles && (
                 <form
                   className={styles["roles__form"]}
                   onSubmit={addRoleHandler}
@@ -164,13 +149,25 @@ export default function User() {
                       id="roles"
                       className={styles["rules__form--list"]}
                     >
-                      {roleOptions.map((opt, index) => {
-                        return (
-                          <option value={opt} key={index}>
-                            {index + 1}
-                          </option>
-                        );
-                      })}
+                      {user.is_employee &&
+                        roles
+                          .filter((opt) => opt.id >= 1 && opt.id <= 4)
+                          .map((opt) => {
+                            return (
+                              <option value={opt.name} key={opt.id}>
+                                {opt.id}
+                              </option>
+                            );
+                          })}
+                      {roles
+                        .filter((opt) => opt.id > 4)
+                        .map((opt) => {
+                          return (
+                            <option value={opt.name} key={opt.id}>
+                              {opt.id}
+                            </option>
+                          );
+                        })}
                     </datalist>
                   </InputGroup>
                   <button className="btn btn-primary mb-5">+</button>

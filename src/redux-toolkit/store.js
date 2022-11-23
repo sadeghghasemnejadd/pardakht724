@@ -14,7 +14,7 @@ import users from "redux/users/reducer";
 import AuthSlice from "./AuthSlice";
 import ProfileSlice from "./ProfileSlice";
 import UserSlice from "./UserSlice";
-
+import RolesSlice from "./RolesSlice";
 // let sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
@@ -22,6 +22,7 @@ export const store = configureStore({
     auth: AuthSlice,
     user_profile: ProfileSlice,
     users: UserSlice,
+    roles: RolesSlice,
     menu,
     settings,
     todoApp,
