@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -31,6 +31,7 @@ export default function User() {
   const dispatch = useDispatch();
   const { loading, user, userRoles } = useSelector((store) => store.users);
   const { roles } = useSelector((store) => store.roles);
+  const [isEdit, setIsEdit] = useState({ enable: false, roleId: 0 });
   const rolesRef = useRef();
   const handleSetEmployee = () => {
     client
@@ -95,7 +96,30 @@ export default function User() {
       throw err;
     }
   };
+  const editRoleHandler = async (e) => {
+    e.preventDefault();
 
+    try {
+      const lastRoleId = +e.target.dataset.id;
+      const selectedRole = document.querySelector("#edit_role").value;
+      const newRoleId = roles.find((role) => role.name === selectedRole).id;
+      const res1 = await dispatch(
+        removeUserRoles({ userId: user.id, roleId: lastRoleId })
+      );
+      const res2 = await dispatch(
+        addUserRoles({ id: user.id, roleId: newRoleId })
+      );
+      if (res1.payload.status === "ok" && res2.payload.status === "ok") {
+        setIsEdit({ enable: false, roleId: 0 });
+        await fetchUserRoles();
+        toast.success("نقش با موفقیت ویرایش شد");
+      }
+    } catch (err) {
+      setIsEdit({ enable: false, roleId: 0 });
+      toast.error("عملیات ویرایش نقش با خطا مواجه شد");
+      throw err;
+    }
+  };
   // این متغییر حساب های کاربر را رندر می کند
   const renderPayAccounts = user?.pay_accounts?.map((account, index) => (
     <ImageCardList {...account} key={account.id} />
@@ -112,17 +136,81 @@ export default function User() {
                 {userRoles ? (
                   userRoles.map((role) => {
                     return (
-                      <li key={role.id} className={styles["roles__list--item"]}>
-                        {role.name}
-                        <div className={styles["roles__list--item--icons"]}>
-                          <span
-                            className="icon-Remove"
+                      <>
+                        <li
+                          key={role.id}
+                          className={styles["roles__list--item"]}
+                        >
+                          {role.name}
+                          <div className={styles["roles__list--item--icons"]}>
+                            <span
+                              className="icon-Remove"
+                              data-id={role.id}
+                              onClick={removeRoleHandler}
+                            ></span>
+                            <span
+                              className="icon-Edit"
+                              data-id={role.id}
+                              onClick={(e) => {
+                                const roleId = +e.target.dataset.id;
+                                isEdit.enable
+                                  ? setIsEdit({ enable: false, roleId: 0 })
+                                  : setIsEdit({ enable: true, roleId });
+                              }}
+                            ></span>
+                          </div>
+                        </li>
+                        {isEdit.enable && isEdit.roleId == role.id && (
+                          <form
+                            className={styles["roles__form"]}
+                            onSubmit={editRoleHandler}
                             data-id={role.id}
-                            onClick={removeRoleHandler}
-                          ></span>
-                          <span className="icon-Edit"></span>
-                        </div>
-                      </li>
+                          >
+                            <InputGroup className="mb-3">
+                              <InputGroupAddon
+                                addonType="prepend"
+                                htmlFor="role"
+                              >
+                                ویرایش نقش
+                              </InputGroupAddon>
+                              <Input
+                                list="edit_roles"
+                                name="edit_role"
+                                id="edit_role"
+                                className={styles["rules__form--input"]}
+                                ref={rolesRef}
+                              />
+                              <datalist
+                                id="edit_roles"
+                                className={styles["rules__form--list"]}
+                              >
+                                {user.is_employee &&
+                                  roles
+                                    .filter((opt) => opt.id >= 1 && opt.id <= 4)
+                                    .map((opt) => {
+                                      return (
+                                        <option value={opt.name} key={opt.id}>
+                                          {opt.id}
+                                        </option>
+                                      );
+                                    })}
+                                {roles
+                                  .filter((opt) => opt.id > 4)
+                                  .map((opt) => {
+                                    return (
+                                      <option value={opt.name} key={opt.id}>
+                                        {opt.id}
+                                      </option>
+                                    );
+                                  })}
+                              </datalist>
+                            </InputGroup>
+                            <button className="btn btn-warning mb-5">
+                              ویرایش
+                            </button>
+                          </form>
+                        )}
+                      </>
                     );
                   })
                 ) : (
