@@ -44,6 +44,11 @@ const data = [
         to: "/users",
       },
       {
+        icon: "roles",
+        label: "مشاهده نقش ها",
+        to: "/roles",
+      },
+      {
         icon: "simple-icon-check",
         label: "تاریخچه درخواست های پشتیبانی",
         to: "",

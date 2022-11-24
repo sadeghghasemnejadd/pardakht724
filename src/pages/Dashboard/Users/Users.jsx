@@ -4,8 +4,16 @@ import Layout from "layout/AppLayout";
 import { Label, FormGroup } from "reactstrap";
 import { makeQueryString } from "services/makeQueryString";
 import { useSelector, useDispatch } from "react-redux";
-import { allUsers, searchUser } from "redux-toolkit/UserSlice";
+import { allUsers, searchUser, setEmployee } from "redux-toolkit/UserSlice";
 import orderStyles from "pages/Dashboard/Users/order.module.css";
+import {
+  AiOutlineMail as EmailIcon,
+  AiOutlineCreditCard as NationalIdIcon,
+  AiOutlineCamera as SelfieIcon,
+  AiOutlinePhone as PhoneIcon,
+} from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 export default function Users() {
   const [isOpen, setIsOpen] = useState(false);
   const [filterData, setFilterData] = useState(null);
@@ -14,75 +22,155 @@ export default function Users() {
 
   const dispatch = useDispatch();
   const { loading, users } = useSelector((store) => store.users);
-  // مقادیر عنوان ستون ها
+  const handleSetEmployee = async (e) => {
+    const userId = +e.target.dataset.id;
+    try {
+      const res = await dispatch(setEmployee(userId));
+      if (res.payload.status === "ok") {
+        fetchUsers();
+        toast.success("کاربر با موفقیت تبدیل به کارمند شد");
+      }
+    } catch (err) {
+      toast.error("تبدیل کاربر به کارمند با خطا مواجه شد");
+      throw err;
+    }
+  };
   const cols = useMemo(
     () => [
       {
         Header: "نام",
-        accessor: "full_name",
-        cellClass: "text-muted w-10",
-        Cell: (props) => <>{props.value}</>,
+        accessor: "first_name",
+        Cell: (props) =>
+          props.value ? (
+            <>{props.value}</>
+          ) : (
+            `${props.column.Header} تعریف نشده`
+          ),
+        isSort: false,
+      },
+      {
+        Header: "نام خانوادگی",
+        accessor: "last_name",
+        Cell: (props) =>
+          props.value ? (
+            <>{props.value}</>
+          ) : (
+            `${props.column.Header} تعریف نشده`
+          ),
         isSort: false,
       },
 
       {
         Header: "شماره همراه",
         accessor: "mobile",
-        cellClass: "text-muted w-10",
-        Cell: (props) => <>{props.value}</>,
+        Cell: (props) =>
+          props.value ? (
+            <>{props.value}</>
+          ) : (
+            `${props.column.Header} تعریف نشده`
+          ),
+        isSort: true,
+      },
+      {
+        Header: "نوع کاربر",
+        accessor: "",
+        Cell: (props) =>
+          props.value ? (
+            <>{props.value}</>
+          ) : (
+            `${props.column.Header} تعریف نشده`
+          ),
         isSort: true,
       },
       {
         Header: "نقش کاربر",
-        accessor: "inventer",
-        cellClass: "text-muted w-10",
-        Cell: (props) => <>{props.value}</>,
+        accessor: "roles",
+        Cell: (props) => {
+          console.log(props);
+          if (props.value) {
+            return props.value.map((val) => (
+              <span key={val.id}>{val.name}</span>
+            ));
+          } else {
+            return <>کاربر نقشی ندارد</>;
+          }
+        },
+
         isSort: false,
       },
       {
         Header: "تعداد اکانت های فعال",
         accessor: "payment_verified_accounts",
-        cellClass: "text-muted w-10",
-        Cell: (props) => <>{props.value}</>,
+        Cell: (props) =>
+          props.value ? (
+            <>{props.value}</>
+          ) : (
+            `${props.column.Header} تعریف نشده`
+          ),
         isSort: false,
       },
-      // {
-      //   Header: "کدملی",
-      //   accessor: "national_id_verifying_status_label",
-      //   cellClass: "text-muted w-10",
-      //   Cell: (props) => <>{props.value}</>,
-      // },
-      // {
-      //   Header: "توافق نامه",
-      //   accessor: "selfie_agreement_verifying_status_label",
-      //   cellClass: "text-muted w-10",
-      //   Cell: (props) => <>{props.value}</>,
-      // },
-      // {
-      //   Header: "تلفن ثابت",
-      //   accessor: "home_phone_verified_label",
-      //   cellClass: "text-muted w-10",
-      //   Cell: (props) => <>{props.value}</>,
-      // },
       {
-        Header: "وضعیت",
+        Header: "وضعیت تایید",
         accessor: "approvals",
-        cellClass: "text-muted w-10",
-        // cell: (props) => <></>,
-        isSort: false,
+        Cell: (props) => {
+          const [email, nationalId, selfie, phone] = props.value;
+          return (
+            <>
+              <EmailIcon
+                className={` font-20 ${email ? "text-success" : "text-danger"}`}
+              />
+              <NationalIdIcon
+                className={`font-20 ${
+                  (nationalId === "verified" && "text-success") ||
+                  (nationalId === "not_verified" && "text-danger") ||
+                  (nationalId === "pending" && "text-warning")
+                }`}
+              />
+              <SelfieIcon
+                className={` font-20 ${
+                  (selfie === "verified" && "text-success") ||
+                  (selfie === "not_verified" && "text-danger") ||
+                  (selfie === "pending" && "text-warning")
+                }`}
+              />
+              <PhoneIcon
+                className={` font-20 ${phone ? "text-success" : "text-danger"}`}
+              />
+            </>
+          );
+        },
       },
+
       {
         Header: "فعالیت ها",
         accessor: "actions",
-        cellClass: "text-muted w-10",
-        // cell: (props) => <></>,
+        Cell: (props) => {
+          const [id, is_employee] = props.value;
+          return (
+            <>
+              <div className="d-flex justify-content-center align-items-center">
+                <Link className="btn btn-secondary btn-sm" to={`/users/${id}`}>
+                  مشاهده جزییات
+                </Link>
+                {!is_employee && (
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={handleSetEmployee}
+                    data-id={id}
+                  >
+                    تبدیل به کارمند
+                  </button>
+                )}
+              </div>
+            </>
+          );
+        },
         isSort: false,
       },
     ],
     []
   );
   ////////////////////////
-
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);

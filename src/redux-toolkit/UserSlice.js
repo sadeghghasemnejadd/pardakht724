@@ -174,7 +174,24 @@ export const checkSelfieAgreement = createAsyncThunk(
     }
   }
 );
+export const setEmployee = createAsyncThunk("setEmployee", async (value) => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.post(
+      "/users/set-employee",
+      { user_id: value, set_employee: true },
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
 
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
 const getUsers = (res) => {
   const currentUsers = res.payload.users.map((user) => ({
     ...user,
@@ -308,6 +325,16 @@ export const UserSlice = createSlice({
       state.loading = false;
     },
     [removeUserRoles.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////
+    [setEmployee.pending]: (state) => {
+      state.loading = true;
+    },
+    [setEmployee.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [setEmployee.rejected]: (state) => {
       state.loading = false;
     },
   },

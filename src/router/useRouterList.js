@@ -10,57 +10,56 @@ import UpgradeUserLevel from "pages/Profile/UpgradeUserLevel";
 import NationalId from "pages/Dashboard/Users/NationalId";
 import Selfie from "pages/Dashboard/Users/Selfie";
 import Agreement from "pages/Dashboard/Users/Agreement";
-
+import Roles from "pages/Dashboard/roles/Roles";
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
     component: <Login />,
-    path: "/auth/login"
-  }
+    path: "/auth/login",
+  },
 ];
 
 // لیست صفحاتی که نیاز به دسترسی دارند
 const defaultPrivateRoutes = [
   {
     component: <Home />,
-    path: "/"
+    path: "/",
   },
   {
     component: <CurrencyList />,
-    path: "/currency-list"
+    path: "/currency-list",
   },
   {
     component: <Users />,
-    path: "/users"
+    path: "/users",
   },
   {
     component: <User />,
-    path: "/users/:id"
+    path: "/users/:id",
   },
   {
     component: <UpdatePassword />,
-    path: "/profile/update-password"
+    path: "/profile/update-password",
   },
   {
     component: <UpgradeUserLevel />,
-    path: "/profile/upgrade-user-level"
+    path: "/profile/upgrade-user-level",
   },
   {
     component: <NationalId />,
-    path: "/users/:id/national-id"
+    path: "/users/:id/national-id",
   },
   {
     component: <Selfie />,
-    path: "/users/:id/selfie-agreement"
+    path: "/users/:id/selfie-agreement",
   },
   {
     component: <Agreement />,
-    path: "/users/:id/agreement"
+    path: "/users/:id/agreement",
   },
   {
-    // component: ReceiveCredit,
-    // path: "/receive-credit",
-
+    component: <Roles />,
+    path: "/roles",
   },
 ];
 

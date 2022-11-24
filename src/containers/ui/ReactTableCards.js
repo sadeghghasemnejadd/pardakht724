@@ -7,12 +7,6 @@ import products from "data/products";
 import { useHistory, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateSortData } from "redux/users/actions";
-import {
-  AiOutlineMail as EmailIcon,
-  AiOutlineCreditCard as NationalIdIcon,
-  AiOutlineCamera as SelfieIcon,
-  AiOutlinePhone as PhoneIcon,
-} from "react-icons/ai";
 import { client } from "services/client";
 import { toast } from "react-toastify";
 
@@ -27,6 +21,7 @@ function Table({
     getTableProps,
     getTableBodyProps,
     prepareRow,
+    headers,
     headerGroups,
     page,
     canPreviousPage,
@@ -45,11 +40,6 @@ function Table({
     usePagination
   );
   const history = useHistory();
-  // const handleClick = (row) => {
-  //   if (rowIsLink && row.original.id) {
-  //     history.push(`/users/${row.original.id}`);
-  //   }
-  // };
 
   const handleShowDetail = (id) => {
     history.push(`/users/${id}`);
@@ -77,81 +67,15 @@ function Table({
   };
   return (
     <>
-      <table
-        {...getTableProps()}
-        className={`r-table table ${classnames({ "table-divided": divided })}`}
-      >
+      <table {...getTableProps()} className={`table`}>
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column, columnIndex) => {
-                return (
-                  <>
-                    {/* <th
-                      key={`th_${columnIndex}`}
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      onClick={handleSort}
-                      className={` text-right
-                  ${
-                    column.isSorted
-                      ? column.isSortedDesc
-                        ? "sorted-desc"
-                        : "sorted-asc"
-                      : ""
-                  }
-                  `}
-                    >
-                      {column.render("Header")}
-                      <span />
-                      <span
-                        className={`pl-3 simple-icon-arrow-up custom-transition ${
-                          sort ? "custom-rotate-180" : ""
-                        }`}
-                      />
-                    </th> */}
-                    {/* <TH
-                      key={`th_${columnIndex}`}
-                      column={column}
-                      headerProps={column.getHeaderProps(
-                        column.getSortByToggleProps()
-                      )}
-                      classes={` text-right
-                  ${
-                    column.isSorted
-                      ? column.isSortedDesc
-                        ? "sorted-desc"
-                        : "sorted-asc"
-                      : ""
-                  }
-                  `}
-                    >
-                      {column.render("Header")}
-                      <span />
-                    </TH> */}
-                    {/* <TH
-                      key={`th_${columnIndex}`}
-                      column={column}
-                      headerProps={column.getHeaderProps(
-                        column.getSortByToggleProps()
-                      )}
-                      classes={` text-right
-                  ${
-                    column.isSorted
-                      ? column.isSortedDesc
-                        ? "sorted-desc"
-                        : "sorted-asc"
-                      : ""
-                  }
-                  `}
-                    >
-                      {column.render("Header")}
-                      <span />
-                    </TH> */}
-                  </>
-                );
-              })}
-            </tr>
-          ))}
+          <tr>
+            {headers.map((col) => (
+              <th scope="col" key={col.id}>
+                {col.Header}
+              </th>
+            ))}
+          </tr>
         </thead>
 
         <tbody {...getTableBodyProps()}>
@@ -159,82 +83,9 @@ function Table({
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
-                {row.cells.map((cell, cellIndex) => {
-                  if (Array.isArray(cell.value) && cell.value.length === 4) {
-                    const [email, nationalId, selfie, phone] = cell.value;
-                    return (
-                      <td
-                        key={`td_${cellIndex}`}
-                        {...cell.getCellProps({
-                          className: cell.column.cellClass,
-                        })}
-                      >
-                        <EmailIcon
-                          className={` font-20 ${
-                            email ? "text-success" : "text-danger"
-                          }`}
-                        />
-                        <NationalIdIcon
-                          className={`font-20 ${
-                            (nationalId === "verified" && "text-success") ||
-                            (nationalId === "not_verified" && "text-danger") ||
-                            (nationalId === "pending" && "text-warning")
-                          }`}
-                        />
-                        <SelfieIcon
-                          className={` font-20 ${
-                            (selfie === "verified" && "text-success") ||
-                            (selfie === "not_verified" && "text-danger") ||
-                            (selfie === "pending" && "text-warning")
-                          }`}
-                        />
-                        <PhoneIcon
-                          className={` font-20 ${
-                            phone ? "text-success" : "text-danger"
-                          }`}
-                        />
-                      </td>
-                    );
-                  } else if (
-                    Array.isArray(cell.value) &&
-                    cell.value.length === 2
-                  ) {
-                    const [id, is_employee] = cell.value;
-                    return (
-                      <td
-                        key={`td_${cellIndex}`}
-                        {...cell.getCellProps({
-                          className: cell.column.cellClass,
-                        })}
-                      >
-                        <div className="d-flex justify-content-center align-items-center">
-                          <Link
-                            className="btn btn-secondary btn-sm"
-                            to={`/users/${id}`}
-                          >
-                            مشاهده جزییات
-                          </Link>
-                          {!is_employee && (
-                            <button
-                              className="btn btn-secondary btn-sm"
-                              onClick={(e) => handleSetEmployee(e, id)}
-                            >
-                              تبدیل به کارمند
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    );
-                  }
+                {row.cells.map((cell) => {
                   return (
-                    <td
-                      key={`td_${cellIndex}`}
-                      {...cell.getCellProps({
-                        className: cell.column.cellClass,
-                      })}
-                    >
-                      {cell.render("Cell")}
-                    </td>
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                   );
                 })}
               </tr>
@@ -268,54 +119,12 @@ export const ReactTableWithPaginationCard = ({
   children,
   message,
 }) => {
-  // const cols = React.useMemo(
-  //   () => [
-  //     {
-  //       Header: "Name",
-  //       accessor: "title",
-  //       cellClass: "list-item-heading w-15",
-  //       Cell: (props) => <>{props.value}</>,
-  //     },
-  //     {
-  //       Header: "Sales",
-  //       accessor: "sales",
-  //       cellClass: "text-muted w-10",
-  //       Cell: (props) => <>{props.value}</>,
-  //     },
-  //     {
-  //       Header: "Stock",
-  //       accessor: "stock",
-  //       cellClass: "text-muted w-10",
-  //       Cell: (props) => <>{props.value}</>,
-  //     },
-  //     {
-  //       Header: "Category",
-  //       accessor: "category",
-  //       cellClass: "text-muted w-10",
-  //       Cell: (props) => <>{props.value}</>,
-  //     },
-  //     {
-  //       Header: "Test",
-  //       accessor: "test",
-  //       cellClass: "text-muted w-20",
-  //       Cell: (props) => <>{props.value}</>,
-  //     },
-  //     {
-  //       Header: "Description",
-  //       accessor: "description",
-  //       cellClass: "text-muted w-30",
-  //       Cell: (props) => <>{props.value}</>,
-  //     },
-  //   ],
-  //   []
-  // );
   return (
     <Card className="mb-4">
       <CardBody>
         <CardTitle>
           <span>{title}</span>
         </CardTitle>
-        {/* <Table columns={cols} data={products} /> */}
         {children}
         {data.length > 0 ? (
           <Table columns={cols} data={data} rowIsLink />
