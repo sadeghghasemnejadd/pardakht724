@@ -1,4 +1,4 @@
-import { ReactTableWithPaginationCard as Table } from "containers/ui/ReactTableCards";
+import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
 import { useEffect, useMemo, useState } from "react";
 import Layout from "layout/AppLayout";
 import { Label, FormGroup } from "reactstrap";

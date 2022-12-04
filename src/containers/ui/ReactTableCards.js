@@ -1,27 +1,14 @@
-import useState from "react";
+import React, { useCallback, useState } from "react";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import { useTable, usePagination, useSortBy } from "react-table";
 import classnames from "classnames";
 import DatatablePagination from "components/DatatablePagination";
-import products from "data/products";
-import { useHistory, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { updateSortData } from "redux/users/actions";
-import { client } from "services/client";
-import { toast } from "react-toastify";
 
-function Table({
-  columns,
-  data,
-  divided = false,
-  defaultPageSize = 10,
-  rowIsLink,
-}) {
+function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
   const {
     getTableProps,
     getTableBodyProps,
     prepareRow,
-    headers,
     headerGroups,
     page,
     canPreviousPage,
@@ -39,43 +26,34 @@ function Table({
     useSortBy,
     usePagination
   );
-  const history = useHistory();
 
-  const handleShowDetail = (id) => {
-    history.push(`/users/${id}`);
-  };
-
-  const handleSetEmployee = (e, id) => {
-    client
-      .post(
-        "/users/set-employee",
-        { user_id: id, set_employee: true },
-        {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        if (res.status_code === 200) {
-          toast.success("success");
-        }
-      })
-      .catch((error) => {
-        toast.error("error");
-      });
-  };
   return (
     <>
-      <table {...getTableProps()} className={`table`}>
+      <table
+        {...getTableProps()}
+        className={`r-table table ${classnames({ "table-divided": divided })}`}
+      >
         <thead>
-          <tr>
-            {headers.map((col) => (
-              <th scope="col" key={col.id}>
-                {col.Header}
-              </th>
-            ))}
-          </tr>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column, columnIndex) => (
+                <th
+                  key={`th_${columnIndex}`}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  className={`${
+                    column.isSorted
+                      ? column.isSortedDesc
+                        ? "sorted-desc"
+                        : "sorted-asc"
+                      : ""
+                  } text-center`}
+                >
+                  {column.render("Header")}
+                  <span />
+                </th>
+              ))}
+            </tr>
+          ))}
         </thead>
 
         <tbody {...getTableBodyProps()}>
@@ -83,11 +61,16 @@ function Table({
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  );
-                })}
+                {row.cells.map((cell, cellIndex) => (
+                  <td
+                    key={`td_${cellIndex}`}
+                    {...cell.getCellProps({
+                      className: cell.column.cellClass,
+                    })}
+                  >
+                    {cell.render("Cell")}
+                  </td>
+                ))}
               </tr>
             );
           })}
@@ -115,7 +98,6 @@ export const ReactTableWithPaginationCard = ({
   title,
   cols,
   data,
-  rowIsLink,
   children,
   message,
 }) => {
@@ -136,88 +118,11 @@ export const ReactTableWithPaginationCard = ({
   );
 };
 
-export const ReactTableDivided = () => {
-  const cols = React.useMemo(
-    () => [
-      {
-        Header: "Name",
-        accessor: "title",
-        cellClass: "list-item-heading w-40",
-        Cell: (props) => <>{props.value}</>,
-      },
-      {
-        Header: "Sales",
-        accessor: "sales",
-        cellClass: "text-muted  w-10",
-        Cell: (props) => <>{props.value}</>,
-      },
-      {
-        Header: "Stock",
-        accessor: "stock",
-        cellClass: "text-muted  w-10",
-        Cell: (props) => <>{props.value}</>,
-      },
-      {
-        Header: "Category",
-        accessor: "category",
-        cellClass: "text-muted  w-40",
-        Cell: (props) => <>{props.value}</>,
-      },
-    ],
-    []
-  );
+export const ReactTableDivided = ({ cols, data, title }) => {
   return (
     <div className="mb-4">
-      <CardTitle>Divided Table</CardTitle>
-      <Table columns={cols} data={products} divided />
+      <CardTitle>{title}</CardTitle>
+      <Table columns={cols} data={data} divided />
     </div>
   );
 };
-
-// function TH({ headerProps, classes, column, children }) {
-//   const dispatch = useDispatch();
-//   const [sort, setSort] = useState(false);
-//   const { id, isSort } = column;
-
-//   const handleSort = () => {
-//     if (!isSort) return;
-//     setSort(!sort);
-//     dispatch(updateSortData({ [id]: !sort ? 1 : 0 }));
-//   };
-
-//   return (
-//     <th {...headerProps} onClick={handleSort} className={classes}>
-//       {children}
-//       {isSort && (
-//         <span
-//           className={`pl-3 ${
-//             sort ? "simple-icon-arrow-up" : "simple-icon-arrow-down"
-//           }`}
-//         />
-//       )}
-//     </th>
-//   );
-// }
-
-function TH({ headerProps, classes, column, children }) {
-  const dispatch = useDispatch();
-  const [sort, setSort] = useState(false);
-  const { id, isSort } = column;
-  const handleSort = () => {
-    if (!isSort) return;
-    setSort(!sort);
-    dispatch(updateSortData({ [id]: !sort ? 1 : 0 }));
-  };
-  return (
-    <th {...headerProps} onClick={handleSort} className={classes}>
-      {children}
-      {isSort && (
-        <span
-          className={`pl-3 ${
-            sort ? "simple-icon-arrow-up" : "simple-icon-arrow-down"
-          }`}
-        />
-      )}
-    </th>
-  );
-}

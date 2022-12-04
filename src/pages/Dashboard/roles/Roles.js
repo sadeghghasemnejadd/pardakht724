@@ -1,7 +1,9 @@
-import { ReactTableWithPaginationCard as Table } from "containers/ui/ReactTableCards";
-import { useEffect, useMemo, useState } from "react";
+import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
+import React, { useEffect, useMemo, useState } from "react";
 import Layout from "layout/AppLayout";
-import { Label, FormGroup } from "reactstrap";
+import { Colxx } from "components/common/CustomBootstrap";
+import Switch from "rc-switch";
+import "rc-switch/assets/index.css";
 import { makeQueryString } from "services/makeQueryString";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllRoles } from "redux-toolkit/RolesSlice";
@@ -9,37 +11,59 @@ import orderStyles from "pages/Dashboard/Users/order.module.css";
 const Roles = () => {
   const dispatch = useDispatch();
   const { loading, roles } = useSelector((store) => store.roles);
-
+  const switchHandler = (e) => {
+    console.log(e);
+    dispatch(switchShowRole(1));
+  };
+  console.log(roles);
   const cols = useMemo(
     () => [
       {
-        Header: "نام انگلیسی",
-        accessor: "name",
-        cellClass: "text-muted w-10",
+        Header: "نام نقش",
+        accessor: "p_name",
+        cellClass: "text-muted w-20 text-center",
         Cell: (props) => <>{props.value}</>,
-        isSort: false,
       },
 
       {
-        Header: "نام فارسی",
-        accessor: "p_name",
-        cellClass: "text-muted w-10",
+        Header: "برچسب",
+        accessor: "name",
+        cellClass: "text-muted w-20 text-center",
         Cell: (props) => <>{props.value}</>,
-        isSort: true,
       },
       {
-        Header: "نوع",
+        Header: "نوع نقش",
         accessor: "type",
-        cellClass: "text-muted w-10",
-        Cell: (props) => <>{props.value}</>,
-        isSort: false,
+        cellClass: "text-muted w-20 text-center",
+        Cell: (props) => <>{props.value == 1 ? "کارمند" : "مشتری"}</>,
       },
       {
-        Header: "توضیحات",
-        accessor: "description",
-        cellClass: "text-muted w-10",
-        Cell: (props) => <>{props.value}</>,
-        isSort: false,
+        Header: "وضعیت",
+        accessor: "show",
+        cellClass: "text-muted w-20 px-5",
+        Cell: (props) => {
+          return (
+            <Colxx xxs="6">
+              <Switch
+                className="custom-switch custom-switch-secondary"
+                checked={props.value.isShow}
+                onClick={(e) => {}}
+              />
+            </Colxx>
+          );
+        },
+      },
+      {
+        Header: "عملیات",
+        accessor: "",
+        cellClass: "text-muted w-20 text-center",
+        Cell: (props) => {
+          return (
+            <div className="glyph" style={{ cursor: "pointer" }}>
+              <div className={`glyph-icon simple-icon-eye h2`} />
+            </div>
+          );
+        },
       },
     ],
     []
@@ -59,19 +83,7 @@ const Roles = () => {
   return (
     <Layout>
       {loading && <div className="loading"></div>}
-      {!loading && (
-        <Table
-          rowIsLink
-          cols={cols}
-          title="لیست نقش ها"
-          data={roles}
-          message="نقشی با این مشخصات وجود ندارد"
-        >
-          <div>
-            <hr />
-          </div>
-        </Table>
-      )}
+      {!loading && <Table cols={cols} title="لیست نقش ها" data={roles} />}
     </Layout>
   );
 };

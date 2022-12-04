@@ -15,7 +15,11 @@ export const getAllRoles = createAsyncThunk("getAllRoles", async () => {
   }
 });
 
-const allRoles = (res) => res.payload.roles;
+const allRoles = (res) =>
+  res.payload.roles.map((role) => ({
+    ...role,
+    show: { isShow: true, id: role.id },
+  }));
 export const RolesSlice = createSlice({
   name: "auth",
   initialState: {
