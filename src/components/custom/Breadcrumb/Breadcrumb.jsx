@@ -20,9 +20,7 @@ export default function DashboardHeader({ title, list }) {
             className="breadcrumb-container d-none d-sm-block d-lg-inline-block"
             aria-label="breadcrumb"
           >
-            <ol className="breadcrumb pt-0">
-              {renderList}
-            </ol>
+            <ol className="breadcrumb pt-0">{renderList}</ol>
           </nav>
           <div className="separator mb-5"></div>
         </div>

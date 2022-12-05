@@ -4,18 +4,17 @@ import Layout from "layout/AppLayout";
 import { Colxx } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
 import "rc-switch/assets/index.css";
-import { makeQueryString } from "services/makeQueryString";
+import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllRoles } from "redux-toolkit/RolesSlice";
 import orderStyles from "pages/Dashboard/Users/order.module.css";
 const Roles = () => {
   const dispatch = useDispatch();
   const { loading, roles } = useSelector((store) => store.roles);
-  const switchHandler = (e) => {
-    console.log(e);
-    dispatch(switchShowRole(1));
+  const [isShow, setIsShow] = useState({ show: true });
+  const switchHandler = (e, id) => {
+    setIsShow({ show: e, id });
   };
-  console.log(roles);
   const cols = useMemo(
     () => [
       {
@@ -41,13 +40,15 @@ const Roles = () => {
         Header: "وضعیت",
         accessor: "show",
         cellClass: "text-muted w-20 px-5",
-        Cell: (props) => {
+        Cell: ({ value }) => {
           return (
             <Colxx xxs="6">
               <Switch
                 className="custom-switch custom-switch-secondary"
-                checked={props.value.isShow}
-                onClick={(e) => {}}
+                checked={
+                  isShow.id ? isShow.show && isShow.id == value.id : isShow.show
+                }
+                onClick={(e) => switchHandler(e, value.id)}
               />
             </Colxx>
           );
@@ -57,16 +58,19 @@ const Roles = () => {
         Header: "عملیات",
         accessor: "",
         cellClass: "text-muted w-20 text-center",
-        Cell: (props) => {
+        Cell: () => {
           return (
-            <div className="glyph" style={{ cursor: "pointer" }}>
-              <div className={`glyph-icon simple-icon-eye h2`} />
+            <div className="glyph">
+              <div
+                className={`glyph-icon simple-icon-eye h2`}
+                style={{ cursor: "pointer" }}
+              />
             </div>
           );
         },
       },
     ],
-    []
+    [isShow]
   );
   useEffect(() => {
     fetchRoles();
@@ -83,7 +87,25 @@ const Roles = () => {
   return (
     <Layout>
       {loading && <div className="loading"></div>}
-      {!loading && <Table cols={cols} title="لیست نقش ها" data={roles} />}
+      {!loading && (
+        <>
+          <Table
+            cols={cols}
+            title="مدیریت نقش ها"
+            data={roles}
+            addName="افزودن نقش"
+            searchPlaceHolder="سرج در نام نقش"
+            searchButtonName="سرج پیشرفته"
+          />
+          <SurveyApplicationMenu
+            firstTitle="نوع نقش"
+            secondTitle="وضعیت"
+            firstOptions={["مشتری", "کارمند", "همکار"]}
+            secondOptions={["فعال", "غیر فعال"]}
+            buttonText="اعمال فیلتر"
+          />
+        </>
+      )}
     </Layout>
   );
 };

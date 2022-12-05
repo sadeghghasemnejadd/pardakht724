@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
-import { Card, CardBody, CardTitle } from "reactstrap";
+import { Card, CardBody, CardTitle, Button } from "reactstrap";
+import { Separator } from "components/common/CustomBootstrap";
 import { useTable, usePagination, useSortBy } from "react-table";
 import classnames from "classnames";
 import DatatablePagination from "components/DatatablePagination";
@@ -59,6 +60,7 @@ function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
             prepareRow(row);
+            console.log(row.getRowProps());
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell, cellIndex) => (
@@ -118,11 +120,41 @@ export const ReactTableWithPaginationCard = ({
   );
 };
 
-export const ReactTableDivided = ({ cols, data, title }) => {
+export const ReactTableDivided = ({
+  cols,
+  data,
+  title,
+  addName,
+  searchPlaceHolder,
+  searchButtonName,
+}) => {
   return (
-    <div className="mb-4">
-      <CardTitle>{title}</CardTitle>
-      <Table columns={cols} data={data} divided />
-    </div>
+    <>
+      <div className="mb-4 bg-white p-5 w-85">
+        <div>
+          <div className="d-flex justify-content-between mb-5">
+            <CardTitle className="h1">{title}</CardTitle>
+            <Button color="primary" size="lg" className="top-right-button mr-1">
+              {addName}
+            </Button>
+          </div>
+          <div className="d-flex align-items-center mb-5">
+            <div className="search-sm d-inline-block float-md-left mr-3 align-top">
+              <input
+                type="text"
+                name="keyword"
+                id="search"
+                placeholder={searchPlaceHolder}
+              />
+            </div>
+            <Button color="primary" size="sm" className="top-right-button mr-1">
+              {searchButtonName}
+            </Button>
+          </div>
+        </div>
+        <Separator className="mb-5" />
+        <Table columns={cols} data={data} divided />
+      </div>
+    </>
   );
 };

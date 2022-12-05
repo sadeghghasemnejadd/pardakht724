@@ -1,22 +1,18 @@
 import React from "react";
-import { connect } from "react-redux";
-import { NavItem, Badge } from "reactstrap";
-import { NavLink } from "react-router-dom";
+import { Colxx } from "components/common/CustomBootstrap";
+import Switch from "rc-switch";
+import { Separator } from "components/common/CustomBootstrap";
+import { NavItem, Button } from "reactstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import classnames from "classnames";
 
 import ApplicationMenu from "components/common/ApplicationMenu";
 
-import { getSurveyListWithFilter } from "redux/actions";
-
 const SurveyApplicationMenu = ({
-  surveyItems,
-  filter,
-  allSurveyItems,
-  loading,
-  labels,
-  categories,
-  getSurveyListWithFilterAction,
+  firstTitle,
+  secondTitle,
+  firstOptions,
+  secondOptions,
+  buttonText,
 }) => {
   const addFilter = (column, value) => {
     getSurveyListWithFilterAction(column, value);
@@ -28,129 +24,52 @@ const SurveyApplicationMenu = ({
         options={{ suppressScrollX: true, wheelPropagation: false }}
       >
         <div className="p-4">
-          <p className="text-muted text-small">Status Status</p>
-          <ul className="list-unstyled mb-5">
-            <NavItem className={classnames({ active: !filter })}>
-              <NavLink to="#" onClick={() => addFilter("", "")} location={{}}>
-                <i className="simple-icon-reload" />
-                All Surveys
-                <span className="float-right">
-                  {loading && allSurveyItems.length}
-                </span>
-              </NavLink>
-            </NavItem>
-            <NavItem
-              className={classnames({
-                active:
-                  filter &&
-                  filter.column === "status" &&
-                  filter.value === "ACTIVE",
-              })}
-            >
-              <NavLink
-                to="#"
-                location={{}}
-                onClick={() => addFilter("status", "ACTIVE")}
-              >
-                <i className="simple-icon-refresh" />
-                Active Surveys
-                <span className="float-right">
-                  {loading &&
-                    surveyItems.filter((x) => x.status === "ACTIVE").length}
-                </span>
-              </NavLink>
-            </NavItem>
-            <NavItem
-              className={classnames({
-                active:
-                  filter &&
-                  filter.column === "status" &&
-                  filter.value === "COMPLETED",
-              })}
-            >
-              <NavLink
-                to="#"
-                location={{}}
-                onClick={() => addFilter("status", "COMPLETED")}
-              >
-                <i className="simple-icon-check" />
-                Completed Surveys
-                <span className="float-right">
-                  {loading &&
-                    surveyItems.filter((x) => x.status === "COMPLETED").length}
-                </span>
-              </NavLink>
-            </NavItem>
-          </ul>
-          <p className="text-muted text-small">Categories</p>
-          <ul className="list-unstyled mb-5">
-            {categories.map((c, index) => {
-              return (
-                <NavItem key={index}>
-                  <div onClick={() => addFilter("category", c)}>
-                    <div className="custom-control custom-radio">
-                      <input
-                        type="radio"
-                        className="custom-control-input"
-                        defaultChecked={
-                          filter &&
-                          filter.column === "category" &&
-                          filter.value === c
-                        }
-                      />
-                      <label className="custom-control-label">{c}</label>
-                    </div>
-                  </div>
-                </NavItem>
-              );
-            })}
-          </ul>
-          <p className="text-muted text-small">Labels</p>
-          <div>
-            {labels.map((l, index) => {
-              return (
-                <p className="d-sm-inline-block mb-1" key={index}>
-                  <NavLink
-                    to="#"
-                    location={{}}
-                    onClick={() => addFilter("label", l.label)}
-                  >
-                    <Badge
-                      className="mb-1"
-                      color={`${
-                        filter &&
-                        filter.column === "label" &&
-                        filter.value === l.label
-                          ? l.color
-                          : `outline-${l.color}`
-                      }`}
-                      pill
-                    >
-                      {l.label}
-                    </Badge>
-                  </NavLink>
-                </p>
-              );
-            })}
+          <div className="d-flex justify-content-between mb-5">
+            <h4>فیلتر ها</h4>
+            <p className="text-muted text-small" style={{ cursor: "pointer" }}>
+              حذف فیلتر ها
+            </p>
           </div>
+          <h3 className="mb-4">{firstTitle}</h3>
+          <ul className="list-unstyled mb-5">
+            {firstOptions?.map((opt, index) => (
+              <NavItem className="d-flex justify-content-between " key={index}>
+                <p className="text-muted pt-1">{opt}</p>
+                <Colxx xxs="4">
+                  <Switch
+                    className="custom-switch custom-switch-secondary"
+                    checked={true}
+                  />
+                </Colxx>
+              </NavItem>
+            ))}
+          </ul>
+          <Separator className="mb-5" />
+          <h3 className="mb-4">{secondTitle}</h3>
+          <ul className="list-unstyled mb-5">
+            {secondOptions?.map((opt, index) => (
+              <NavItem className="d-flex justify-content-between " key={index}>
+                <p className="text-muted pt-1">{opt}</p>
+                <Colxx xxs="4">
+                  <Switch
+                    className="custom-switch custom-switch-secondary"
+                    checked={true}
+                  />
+                </Colxx>
+              </NavItem>
+            ))}
+          </ul>
+          <Button
+            color="primary"
+            size="sm"
+            className="top-right-button mr-1 w-100 text-center"
+          >
+            {buttonText}
+          </Button>
         </div>
       </PerfectScrollbar>
     </ApplicationMenu>
   );
 };
-const mapStateToProps = ({ surveyListApp }) => {
-  const { surveyItems, filter, allSurveyItems, loading, labels, categories } =
-    surveyListApp;
 
-  return {
-    surveyItems,
-    filter,
-    allSurveyItems,
-    loading,
-    labels,
-    categories,
-  };
-};
-export default connect(mapStateToProps, {
-  getSurveyListWithFilterAction: getSurveyListWithFilter,
-})(SurveyApplicationMenu);
+export default SurveyApplicationMenu;
