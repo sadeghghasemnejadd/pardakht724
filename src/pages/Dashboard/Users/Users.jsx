@@ -19,22 +19,9 @@ export default function Users() {
   const [filterData, setFilterData] = useState(null);
   const [filterType, setFilterType] = useState([]);
   const [order, setOrder] = useState({ type: "id", field: 0 });
-
   const dispatch = useDispatch();
   const { loading, users } = useSelector((store) => store.users);
-  const handleSetEmployee = async (e) => {
-    const userId = +e.target.dataset.id;
-    try {
-      const res = await dispatch(setEmployee(userId));
-      if (res.payload.status === "ok") {
-        fetchUsers();
-        toast.success("کاربر با موفقیت تبدیل به کارمند شد");
-      }
-    } catch (err) {
-      toast.error("تبدیل کاربر به کارمند با خطا مواجه شد");
-      throw err;
-    }
-  };
+
   const cols = useMemo(
     () => [
       {
@@ -255,7 +242,19 @@ export default function Users() {
       throw err;
     }
   };
-
+  const handleSetEmployee = async (e) => {
+    const userId = +e.target.dataset.id;
+    try {
+      const res = await dispatch(setEmployee(userId));
+      if (res.payload.status === "ok") {
+        fetchUsers();
+        toast.success("کاربر با موفقیت تبدیل به کارمند شد");
+      }
+    } catch (err) {
+      toast.error("تبدیل کاربر به کارمند با خطا مواجه شد");
+      throw err;
+    }
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}

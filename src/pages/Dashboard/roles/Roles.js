@@ -1,20 +1,18 @@
 import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import Layout from "layout/AppLayout";
 import { Colxx } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
 import "rc-switch/assets/index.css";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllRoles } from "redux-toolkit/RolesSlice";
-import orderStyles from "pages/Dashboard/Users/order.module.css";
+import { getAllRoles, searchRoles } from "redux-toolkit/RolesSlice";
 const Roles = () => {
   const dispatch = useDispatch();
   const { loading, roles } = useSelector((store) => store.roles);
   const [isShow, setIsShow] = useState({ show: true });
-  const switchHandler = (e, id) => {
-    setIsShow({ show: e, id });
-  };
+  const searchPersianNameInputRef = useRef();
+  const searchEnglishNameInputRef = useRef();
   const cols = useMemo(
     () => [
       {
@@ -83,7 +81,22 @@ const Roles = () => {
       throw err;
     }
   };
-
+  const searchHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const englishSearch = searchEnglishNameInputRef.current?.value;
+      const persianSearch = searchPersianNameInputRef.current?.value;
+      const searchQuery = `?search_in=name:${
+        englishSearch ? englishSearch : ""
+      },p_name:${persianSearch ? persianSearch : ""}`;
+      await dispatch(searchRoles(searchQuery));
+    } catch (err) {
+      throw err;
+    }
+  };
+  const switchHandler = (e, id) => {
+    setIsShow({ show: e, id });
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -94,8 +107,19 @@ const Roles = () => {
             title="مدیریت نقش ها"
             data={roles}
             addName="افزودن نقش"
-            searchPlaceHolder="سرج در نام نقش"
-            searchButtonName="سرج پیشرفته"
+            search={{
+              placeholder: "سرج در نام نقش",
+              ref: searchPersianNameInputRef,
+              name: "persianSearch",
+            }}
+            advanceSearchOptions={[
+              {
+                placeholder: "سرج در برچسب نقش",
+                ref: searchEnglishNameInputRef,
+                name: "englishSearch",
+              },
+            ]}
+            onSearch={searchHandler}
           />
           <SurveyApplicationMenu
             firstTitle="نوع نقش"

@@ -14,10 +14,6 @@ const SurveyApplicationMenu = ({
   secondOptions,
   buttonText,
 }) => {
-  const addFilter = (column, value) => {
-    getSurveyListWithFilterAction(column, value);
-  };
-
   return (
     <ApplicationMenu>
       <PerfectScrollbar

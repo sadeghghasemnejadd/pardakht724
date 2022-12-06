@@ -60,7 +60,6 @@ function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
             prepareRow(row);
-            console.log(row.getRowProps());
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell, cellIndex) => (
@@ -125,9 +124,11 @@ export const ReactTableDivided = ({
   data,
   title,
   addName,
-  searchPlaceHolder,
-  searchButtonName,
+  search,
+  advanceSearchOptions,
+  onSearch,
 }) => {
+  const [showAdvanceSearch, setShowAdvanceSearch] = useState(false);
   return (
     <>
       <div className="mb-4 bg-white p-5 w-85">
@@ -139,16 +140,39 @@ export const ReactTableDivided = ({
             </Button>
           </div>
           <div className="d-flex align-items-center mb-5">
-            <div className="search-sm d-inline-block float-md-left mr-3 align-top">
-              <input
-                type="text"
-                name="keyword"
-                id="search"
-                placeholder={searchPlaceHolder}
-              />
-            </div>
-            <Button color="primary" size="sm" className="top-right-button mr-1">
-              {searchButtonName}
+            <form onSubmit={onSearch}>
+              <div className="search-sm d-inline-block float-md-left mr-3 align-top">
+                <input
+                  type="text"
+                  name={search.name}
+                  id={search.name}
+                  placeholder={search.placeholder}
+                  ref={search.ref}
+                />
+              </div>
+            </form>
+            {showAdvanceSearch &&
+              advanceSearchOptions.map((opt, index) => (
+                <form onSubmit={onSearch} key={index}>
+                  <div className="search-sm d-inline-block float-md-left mr-3 align-top">
+                    <input
+                      type="text"
+                      name={opt.name}
+                      id={opt.name}
+                      placeholder={opt.placeholder}
+                      ref={opt.ref}
+                    />
+                  </div>
+                </form>
+              ))}
+
+            <Button
+              color="primary"
+              size="sm"
+              className="top-right-button mr-1"
+              onClick={() => setShowAdvanceSearch((prev) => !prev)}
+            >
+              سرج پیشرفته
             </Button>
           </div>
         </div>
