@@ -28,11 +28,7 @@ export const searchRoles = createAsyncThunk("searchRoles", async (values) => {
     throw err;
   }
 });
-const allRoles = (res) =>
-  res.payload.roles.map((role) => ({
-    ...role,
-    show: { isShow: true, id: role.id },
-  }));
+const allRoles = (res) => res.payload.roles;
 export const RolesSlice = createSlice({
   name: "auth",
   initialState: {

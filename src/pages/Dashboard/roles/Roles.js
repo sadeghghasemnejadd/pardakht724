@@ -10,9 +10,9 @@ import { getAllRoles, searchRoles } from "redux-toolkit/RolesSlice";
 const Roles = () => {
   const dispatch = useDispatch();
   const { loading, roles } = useSelector((store) => store.roles);
-  const [isShow, setIsShow] = useState({ show: true });
   const searchPersianNameInputRef = useRef();
   const searchEnglishNameInputRef = useRef();
+  const [filterTypeList, setFilterTypeList] = useState([]);
   const cols = useMemo(
     () => [
       {
@@ -41,13 +41,7 @@ const Roles = () => {
         Cell: ({ value }) => {
           return (
             <Colxx xxs="6">
-              <Switch
-                className="custom-switch custom-switch-secondary"
-                checked={
-                  isShow.id ? isShow.show && isShow.id == value.id : isShow.show
-                }
-                onClick={(e) => switchHandler(e, value.id)}
-              />
+              <Switch className="custom-switch custom-switch-secondary" />
             </Colxx>
           );
         },
@@ -68,7 +62,7 @@ const Roles = () => {
         },
       },
     ],
-    [isShow]
+    []
   );
   useEffect(() => {
     fetchRoles();
@@ -94,8 +88,26 @@ const Roles = () => {
       throw err;
     }
   };
-  const switchHandler = (e, id) => {
-    setIsShow({ show: e, id });
+  const switchFilterHandler = (e, id) => {
+    if (e) {
+      setFilterTypeList((prev) => [...prev, id]);
+    } else {
+      setFilterTypeList((prev) => {
+        const item = prev;
+        item.splice(prev.indexOf(id), 1);
+        return item;
+      });
+    }
+  };
+  const filterHandler = async () => {
+    try {
+      const filterQuery =
+        filterTypeList.length !== 0 ? `?type=${filterTypeList.join(",")}` : "";
+      await dispatch(searchRoles(filterQuery));
+      setFilterTypeList([]);
+    } catch (err) {
+      throw err;
+    }
   };
   return (
     <Layout>
@@ -122,11 +134,25 @@ const Roles = () => {
             onSearch={searchHandler}
           />
           <SurveyApplicationMenu
-            firstTitle="نوع نقش"
-            secondTitle="وضعیت"
-            firstOptions={["مشتری", "کارمند", "همکار"]}
-            secondOptions={["فعال", "غیر فعال"]}
-            buttonText="اعمال فیلتر"
+            filters={[
+              {
+                title: "نوع نقش",
+                switches: [
+                  { id: 0, name: "مشتری" },
+                  { id: 1, name: "کارمند" },
+                  { id: 2, name: "همکار" },
+                ],
+              },
+              {
+                title: "وضعیت",
+                switches: [
+                  { id: 3, name: "فعال" },
+                  { id: 4, name: "غیر فعال" },
+                ],
+              },
+            ]}
+            onSwitch={switchFilterHandler}
+            onFilter={filterHandler}
           />
         </>
       )}

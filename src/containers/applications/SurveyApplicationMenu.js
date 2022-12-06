@@ -7,13 +7,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 
 import ApplicationMenu from "components/common/ApplicationMenu";
 
-const SurveyApplicationMenu = ({
-  firstTitle,
-  secondTitle,
-  firstOptions,
-  secondOptions,
-  buttonText,
-}) => {
+const SurveyApplicationMenu = ({ filters, onSwitch, onFilter }) => {
   return (
     <ApplicationMenu>
       <PerfectScrollbar
@@ -26,41 +20,37 @@ const SurveyApplicationMenu = ({
               حذف فیلتر ها
             </p>
           </div>
-          <h3 className="mb-4">{firstTitle}</h3>
-          <ul className="list-unstyled mb-5">
-            {firstOptions?.map((opt, index) => (
-              <NavItem className="d-flex justify-content-between " key={index}>
-                <p className="text-muted pt-1">{opt}</p>
-                <Colxx xxs="4">
-                  <Switch
-                    className="custom-switch custom-switch-secondary"
-                    checked={true}
-                  />
-                </Colxx>
-              </NavItem>
-            ))}
-          </ul>
-          <Separator className="mb-5" />
-          <h3 className="mb-4">{secondTitle}</h3>
-          <ul className="list-unstyled mb-5">
-            {secondOptions?.map((opt, index) => (
-              <NavItem className="d-flex justify-content-between " key={index}>
-                <p className="text-muted pt-1">{opt}</p>
-                <Colxx xxs="4">
-                  <Switch
-                    className="custom-switch custom-switch-secondary"
-                    checked={true}
-                  />
-                </Colxx>
-              </NavItem>
-            ))}
-          </ul>
+          {filters.map((opt, index) => (
+            <div key={index}>
+              <h3 className="mb-4">{opt.title}</h3>
+              <ul className="list-unstyled mb-5">
+                {opt.switches.map((swt) => (
+                  <NavItem
+                    className="d-flex justify-content-between "
+                    key={swt.id}
+                  >
+                    <p className="text-muted pt-1">{swt.name}</p>
+                    <Colxx xxs="4">
+                      <Switch
+                        className="custom-switch custom-switch-secondary"
+                        onChange={(e) => onSwitch(e, swt.id)}
+                      />
+                    </Colxx>
+                  </NavItem>
+                ))}
+              </ul>
+
+              {filters.length - 1 !== index && <Separator className="mb-5" />}
+            </div>
+          ))}
+
           <Button
             color="primary"
             size="sm"
             className="top-right-button mr-1 w-100 text-center"
+            onClick={onFilter}
           >
-            {buttonText}
+            اعمال فیلتر
           </Button>
         </div>
       </PerfectScrollbar>
