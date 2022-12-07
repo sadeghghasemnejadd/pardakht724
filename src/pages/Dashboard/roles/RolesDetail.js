@@ -1,15 +1,4 @@
-import {
-  Card,
-  CardBody,
-  InputGroup,
-  InputGroupAddon,
-  Input,
-  Dropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu,
-  FormGroup,
-} from "reactstrap";
+import { Card, CardBody, InputGroup, InputGroupAddon, Input } from "reactstrap";
 import React, { useState } from "react";
 
 const RolesDetail = ({ data }) => {
@@ -31,6 +20,7 @@ const RolesDetail = ({ data }) => {
             </InputGroupAddon>
             <Input
               value={inputsValue.p_name || ""}
+              disabled
               onChange={(e) =>
                 setInputsValue((prev) => ({ ...prev, p_name: e.target.value }))
               }
@@ -59,6 +49,7 @@ const RolesDetail = ({ data }) => {
             </InputGroupAddon>
             <Input
               value={inputsValue.name || ""}
+              disabled
               onChange={(e) =>
                 setInputsValue((prev) => ({ ...prev, name: e.target.value }))
               }
@@ -85,6 +76,7 @@ const RolesDetail = ({ data }) => {
             <Input
               type="textarea"
               name="text"
+              disabled
               value={inputsValue.description || ""}
               onChange={(e) =>
                 setInputsValue((prev) => ({
