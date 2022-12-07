@@ -14,6 +14,20 @@ export const getAllRoles = createAsyncThunk("getAllRoles", async () => {
     throw err;
   }
 });
+export const getRole = createAsyncThunk("getRole", async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.get(`/roles/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
 export const searchRoles = createAsyncThunk("searchRoles", async (values) => {
   try {
     const token = localStorage.getItem("token");
@@ -29,11 +43,13 @@ export const searchRoles = createAsyncThunk("searchRoles", async (values) => {
   }
 });
 const allRoles = (res) => res.payload.roles;
+const oneRole = (res) => res.payload.role;
 export const RolesSlice = createSlice({
   name: "auth",
   initialState: {
     loading: false,
     roles: [],
+    role: [],
   },
   extraReducers: {
     [getAllRoles.pending]: (state) => {
@@ -55,6 +71,17 @@ export const RolesSlice = createSlice({
       state.roles = allRoles(action);
     },
     [searchRoles.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////
+    [getRole.pending]: (state) => {
+      state.loading = true;
+    },
+    [getRole.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.role = oneRole(action);
+    },
+    [getRole.rejected]: (state) => {
       state.loading = false;
     },
   },

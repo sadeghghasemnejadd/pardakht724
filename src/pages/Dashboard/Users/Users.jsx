@@ -260,11 +260,20 @@ export default function Users() {
       {loading && <div className="loading"></div>}
       {!loading && (
         <Table
-          rowIsLink
           cols={cols}
           title="لیست کاربران"
           data={users}
-          message="کاربری با این مشخصات وجود ندارد"
+          addName=""
+          search={{
+            placeholder: "سرج در نام کاربران",
+            name: "Search",
+          }}
+          advanceSearchOptions={[
+            {
+              placeholder: "سرج در برچسب نقش",
+              name: "advanceSearch",
+            },
+          ]}
         >
           <form className={orderStyles.order__form} onSubmit={applyOrder}>
             <FormGroup className={orderStyles.order__select}>

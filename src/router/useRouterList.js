@@ -11,6 +11,7 @@ import NationalId from "pages/Dashboard/Users/NationalId";
 import Selfie from "pages/Dashboard/Users/Selfie";
 import Agreement from "pages/Dashboard/Users/Agreement";
 import Roles from "pages/Dashboard/roles/Roles";
+import Details from "pages/Dashboard/roles/Details";
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
@@ -57,9 +58,14 @@ const defaultPrivateRoutes = [
     component: <Agreement />,
     path: "/users/:id/agreement",
   },
+  ////////////////////////
   {
     component: <Roles />,
     path: "/roles",
+  },
+  {
+    component: <Details />,
+    path: "/roles/:id",
   },
 ];
 

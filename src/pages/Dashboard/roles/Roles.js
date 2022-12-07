@@ -7,6 +7,7 @@ import "rc-switch/assets/index.css";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllRoles, searchRoles } from "redux-toolkit/RolesSlice";
+import { Link } from "react-router-dom";
 const Roles = () => {
   const dispatch = useDispatch();
   const { loading, roles } = useSelector((store) => store.roles);
@@ -48,14 +49,15 @@ const Roles = () => {
       },
       {
         Header: "عملیات",
-        accessor: "",
+        accessor: "id",
         cellClass: "text-muted w-20 text-center",
-        Cell: () => {
+        Cell: ({ value }) => {
           return (
             <div className="glyph">
-              <div
+              <Link
                 className={`glyph-icon simple-icon-eye h2`}
                 style={{ cursor: "pointer" }}
+                to={`/roles/${value}`}
               />
             </div>
           );
