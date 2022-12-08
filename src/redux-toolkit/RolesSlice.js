@@ -42,6 +42,27 @@ export const searchRoles = createAsyncThunk("searchRoles", async (values) => {
     throw err;
   }
 });
+export const updateRole = createAsyncThunk("getRole", async (values) => {
+  try {
+    console.log({ ...values.updateData });
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.patch(
+      `/roles/${values.id}`,
+      {
+        ...values.updateData,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
 const allRoles = (res) => res.payload.roles;
 const oneRole = (res) => res.payload.role;
 export const RolesSlice = createSlice({
@@ -82,6 +103,17 @@ export const RolesSlice = createSlice({
       state.role = oneRole(action);
     },
     [getRole.rejected]: (state) => {
+      state.loading = false;
+    },
+    //////////////////////////////////////
+    [updateRole.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateRole.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.role = oneRole(action);
+    },
+    [updateRole.rejected]: (state) => {
       state.loading = false;
     },
   },

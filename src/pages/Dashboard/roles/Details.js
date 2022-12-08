@@ -6,11 +6,14 @@ import classnames from "classnames";
 import React, { useEffect, useState } from "react";
 import RolesDetail from "./RolesDetail";
 import { useSelector, useDispatch } from "react-redux";
-import { getRole } from "redux-toolkit/RolesSlice";
+import { getRole, updateRole } from "redux-toolkit/RolesSlice";
+import { toast } from "react-toastify";
 const Details = () => {
   const { id } = useParams();
   const { loading, role } = useSelector((store) => store.roles);
   const [activeTab, setActiveTab] = useState("rolesDetail");
+  const [isEdit, setIsEdit] = useState(false);
+  const [dataForSave, setDataForSave] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
     fetchRole();
@@ -20,6 +23,19 @@ const Details = () => {
     try {
       await dispatch(getRole(id));
     } catch (err) {
+      throw err;
+    }
+  };
+  const saveHandler = async () => {
+    try {
+      const res = await dispatch(updateRole({ id, updateData: dataForSave }));
+      if (res.payload.status === "ok") {
+        toast.success("نقش با موفقیت آپدیت شد");
+        setIsEdit(false);
+        setDataForSave({});
+      }
+    } catch (err) {
+      toast.error("آپدیت نقش با خطا مواجه شد");
       throw err;
     }
   };
@@ -83,14 +99,23 @@ const Details = () => {
               محدودیت سفارش
             </NavLink>
           </NavItem>
-          <Button color="primary" size="lg" className="top-right-button mr-5">
-            ویرایش
+          <Button
+            color="primary"
+            size="lg"
+            className="top-right-button mr-5"
+            onClick={() => (!isEdit ? setIsEdit(true) : saveHandler())}
+          >
+            {isEdit ? "ذخیره" : "ویرایش"}
           </Button>
         </Nav>
         {!loading && (
           <TabContent activeTab={activeTab}>
             <TabPane tabId="rolesDetail">
-              <RolesDetail data={role} />
+              <RolesDetail
+                data={role}
+                isEdit={isEdit}
+                onDataChanged={setDataForSave}
+              />
             </TabPane>
             {/* <TabPane tabId="results">
             <Row></Row>

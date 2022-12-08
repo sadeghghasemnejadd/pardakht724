@@ -1,7 +1,7 @@
 import { Card, CardBody, InputGroup, InputGroupAddon, Input } from "reactstrap";
 import React, { useState } from "react";
 
-const RolesDetail = ({ data }) => {
+const RolesDetail = ({ data, isEdit, onDataChanged }) => {
   const [inputsValue, setInputsValue] = useState({
     p_name: data.p_name,
     name: data.name,
@@ -20,10 +20,14 @@ const RolesDetail = ({ data }) => {
             </InputGroupAddon>
             <Input
               value={inputsValue.p_name || ""}
-              disabled
-              onChange={(e) =>
-                setInputsValue((prev) => ({ ...prev, p_name: e.target.value }))
-              }
+              disabled={!isEdit}
+              onChange={(e) => {
+                setInputsValue((prev) => ({ ...prev, p_name: e.target.value }));
+                onDataChanged((prev) => ({
+                  ...prev,
+                  p_name: e.target.value,
+                }));
+              }}
             />
           </InputGroup>
           <div className="ml-5 d-flex justify-content-between w-50 align-items-center">
@@ -31,10 +35,19 @@ const RolesDetail = ({ data }) => {
             <select
               className="form-select rounded p-2 border-primary"
               value={inputsValue.type}
-              disabled
-              onChange={(e) =>
-                setInputsValue((prev) => ({ ...prev, type: e.target.value }))
-              }
+              disabled={!isEdit}
+              onChange={(e) => {
+                setInputsValue((prev) => ({ ...prev, type: e.target.value }));
+                onDataChanged((prev) => ({
+                  ...prev,
+                  type:
+                    e.target.value === "مشتری"
+                      ? 0
+                      : e.target.value === "کارمند"
+                      ? 1
+                      : 2,
+                }));
+              }}
             >
               <option value="همکار">همکار</option>
               <option value="مشتری">مشتری</option>
@@ -49,10 +62,14 @@ const RolesDetail = ({ data }) => {
             </InputGroupAddon>
             <Input
               value={inputsValue.name || ""}
-              disabled
-              onChange={(e) =>
-                setInputsValue((prev) => ({ ...prev, name: e.target.value }))
-              }
+              disabled={!isEdit}
+              onChange={(e) => {
+                setInputsValue((prev) => ({ ...prev, name: e.target.value }));
+                onDataChanged((prev) => ({
+                  ...prev,
+                  name: e.target.value,
+                }));
+              }}
             />
           </InputGroup>
           <div className="ml-5 d-flex justify-content-between w-50 align-items-center">
@@ -60,7 +77,7 @@ const RolesDetail = ({ data }) => {
             <select
               className="form-select rounded p-2 border-primary"
               value={inputsValue.status}
-              disabled
+              disabled={!isEdit}
               onChange={(e) =>
                 setInputsValue((prev) => ({ ...prev, status: e.target.value }))
               }
@@ -76,14 +93,18 @@ const RolesDetail = ({ data }) => {
             <Input
               type="textarea"
               name="text"
-              disabled
+              disabled={!isEdit}
               value={inputsValue.description || ""}
-              onChange={(e) =>
+              onChange={(e) => {
                 setInputsValue((prev) => ({
                   ...prev,
                   description: e.target.value,
-                }))
-              }
+                }));
+                onDataChanged((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }));
+              }}
             />
           </InputGroup>
         </div>
