@@ -42,12 +42,11 @@ export const searchRoles = createAsyncThunk("searchRoles", async (values) => {
     throw err;
   }
 });
-export const updateRole = createAsyncThunk("getRole", async (values) => {
+export const updateRole = createAsyncThunk("updateRole", async (values) => {
   try {
-    console.log({ ...values.updateData });
     const token = localStorage.getItem("token");
     const { data } = await axiosInstance.patch(
-      `/roles/${values.id}`,
+      values.updatePath,
       {
         ...values.updateData,
       },
@@ -63,14 +62,72 @@ export const updateRole = createAsyncThunk("getRole", async (values) => {
     throw err;
   }
 });
+export const updatePermission = createAsyncThunk(
+  "updatePermission",
+  async (values) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.post(
+        values.updatePath,
+        {
+          ...values.updateData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(data.data);
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+export const getRolePermissions = createAsyncThunk(
+  "getRolePermission",
+  async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(`/roles/${id}/permissions`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+export const getRoleTasks = createAsyncThunk("getRoleTasks", async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.get(`/roles/${id}/tasks`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
 const allRoles = (res) => res.payload.roles;
 const oneRole = (res) => res.payload.role;
+const permissions = (res) => res.payload.role;
+const tasks = (res) => res.payload.role;
 export const RolesSlice = createSlice({
   name: "auth",
   initialState: {
     loading: false,
     roles: [],
     role: [],
+    permissions: [],
+    tasks: [],
   },
   extraReducers: {
     [getAllRoles.pending]: (state) => {
@@ -114,6 +171,39 @@ export const RolesSlice = createSlice({
       state.role = oneRole(action);
     },
     [updateRole.rejected]: (state) => {
+      state.loading = false;
+    },
+    //////////////////////////////////////
+    [updatePermission.pending]: (state) => {
+      state.loading = true;
+    },
+    [updatePermission.fulfilled]: (state, action) => {
+      state.loading = false;
+      // state.permissions = permissions(action);
+    },
+    [updatePermission.rejected]: (state) => {
+      state.loading = false;
+    },
+    //////////////////////////////////////
+    [getRolePermissions.pending]: (state) => {
+      state.loading = true;
+    },
+    [getRolePermissions.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.permissions = permissions(action);
+    },
+    [getRolePermissions.rejected]: (state) => {
+      state.loading = false;
+    },
+    //////////////////////////////////////
+    [getRoleTasks.pending]: (state) => {
+      state.loading = true;
+    },
+    [getRoleTasks.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.tasks = tasks(action);
+    },
+    [getRoleTasks.rejected]: (state) => {
       state.loading = false;
     },
   },

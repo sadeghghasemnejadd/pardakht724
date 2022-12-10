@@ -3,33 +3,61 @@ import { Nav, NavItem, Button, TabContent, TabPane } from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
 import { NavLink, useParams } from "react-router-dom";
 import classnames from "classnames";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RolesDetail from "./RolesDetail";
+import RolesAccesses from "./RolesAccesses";
+import RolesTasks from "./RolesTasks";
 import { useSelector, useDispatch } from "react-redux";
-import { getRole, updateRole } from "redux-toolkit/RolesSlice";
+import {
+  getRole,
+  getRolePermissions,
+  updateRole,
+  updatePermission,
+  getRoleTasks,
+} from "redux-toolkit/RolesSlice";
 import { toast } from "react-toastify";
 const Details = () => {
   const { id } = useParams();
-  const { loading, role } = useSelector((store) => store.roles);
+  const { loading, role, permissions, tasks } = useSelector(
+    (store) => store.roles
+  );
   const [activeTab, setActiveTab] = useState("rolesDetail");
   const [isEdit, setIsEdit] = useState(false);
   const [dataForSave, setDataForSave] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
     fetchRole();
-  }, [fetchRole]);
+  }, []);
 
   const fetchRole = async () => {
     try {
       await dispatch(getRole(id));
+      await dispatch(getRolePermissions(id));
+      // await dispatch(getRoleTasks(id));
     } catch (err) {
       throw err;
     }
   };
+
   const saveHandler = async () => {
     try {
-      const res = await dispatch(updateRole({ id, updateData: dataForSave }));
+      console.log(dataForSave);
+      const res =
+        activeTab === "rolesDetail"
+          ? await dispatch(
+              updateRole({
+                updatePath: `/roles/${id}`,
+                updateData: dataForSave,
+              })
+            )
+          : await dispatch(
+              updatePermission({
+                updatePath: `/roles/${id}/permissions`,
+                updateData: dataForSave,
+              })
+            );
       if (res.payload.status === "ok") {
+        await dispatch(getRolePermissions(id));
         toast.success("نقش با موفقیت آپدیت شد");
         setIsEdit(false);
         setDataForSave({});
@@ -65,10 +93,10 @@ const Details = () => {
               location={{}}
               to="#"
               className={classnames({
-                active: activeTab === "results",
+                active: activeTab === "rolesAccesses",
                 "nav-link": true,
               })}
-              onClick={() => setActiveTab("results")}
+              onClick={() => setActiveTab("rolesAccesses")}
             >
               دسترسی نقش
             </NavLink>
@@ -78,10 +106,10 @@ const Details = () => {
               location={{}}
               to="#"
               className={classnames({
-                active: activeTab === "results",
+                active: activeTab === "rolesTasks",
                 "nav-link": true,
               })}
-              onClick={() => setActiveTab("results")}
+              onClick={() => setActiveTab("rolesTasks")}
             >
               مدیریت وظایف
             </NavLink>
@@ -113,6 +141,20 @@ const Details = () => {
             <TabPane tabId="rolesDetail">
               <RolesDetail
                 data={role}
+                isEdit={isEdit}
+                onDataChanged={setDataForSave}
+              />
+            </TabPane>
+            <TabPane tabId="rolesAccesses">
+              <RolesAccesses
+                data={permissions}
+                isEdit={isEdit}
+                onDataChanged={setDataForSave}
+              />
+            </TabPane>
+            <TabPane tabId="rolesTasks">
+              <RolesTasks
+                data={tasks}
                 isEdit={isEdit}
                 onDataChanged={setDataForSave}
               />

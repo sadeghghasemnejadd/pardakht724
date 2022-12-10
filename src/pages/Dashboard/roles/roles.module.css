@@ -1,0 +1,9 @@
+.auto-scroll {
+  overflow-y: auto;
+  max-height: 20rem;
+}
+.permission-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.4rem;
+}
