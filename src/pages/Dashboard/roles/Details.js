@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import RolesDetail from "./RolesDetail";
 import RolesAccesses from "./RolesAccesses";
 import RolesTasks from "./RolesTasks";
+import RolesLimits from "./RolesLimits";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getRole,
@@ -18,7 +19,7 @@ import {
 import { toast } from "react-toastify";
 const Details = () => {
   const { id } = useParams();
-  const { loading, role, permissions, tasks } = useSelector(
+  const { loading, role, permissions, tasks, limits } = useSelector(
     (store) => store.roles
   );
   const [activeTab, setActiveTab] = useState("rolesDetail");
@@ -119,22 +120,28 @@ const Details = () => {
               location={{}}
               to="#"
               className={classnames({
-                active: activeTab === "results",
+                active: activeTab === "rolesLimit",
                 "nav-link": true,
               })}
-              onClick={() => setActiveTab("results")}
+              onClick={() => setActiveTab("rolesLimit")}
             >
               محدودیت سفارش
             </NavLink>
           </NavItem>
-          <Button
-            color="primary"
-            size="lg"
-            className="top-right-button mr-5"
-            onClick={() => (!isEdit ? setIsEdit(true) : saveHandler())}
-          >
-            {isEdit ? "ذخیره" : "ویرایش"}
-          </Button>
+          {activeTab !== "rolesLimit" ? (
+            <Button
+              color="primary"
+              size="lg"
+              className="top-right-button mr-5"
+              onClick={() => (!isEdit ? setIsEdit(true) : saveHandler())}
+            >
+              {isEdit ? "ذخیره" : "ویرایش"}
+            </Button>
+          ) : (
+            <Button color="primary" size="lg" className="top-right-button mr-5">
+              ایجاد محدودیت جدید
+            </Button>
+          )}
         </Nav>
         {!loading && (
           <TabContent activeTab={activeTab}>
@@ -159,9 +166,9 @@ const Details = () => {
                 onDataChanged={setDataForSave}
               />
             </TabPane>
-            {/* <TabPane tabId="results">
-            <Row></Row>
-          </TabPane> */}
+            <TabPane tabId="rolesLimit">
+              <RolesLimits />
+            </TabPane>
           </TabContent>
         )}
       </Colxx>
