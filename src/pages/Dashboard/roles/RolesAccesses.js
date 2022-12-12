@@ -7,10 +7,11 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
   const [searchInput, setSearchInput] = useState("");
   const [allPermissions, setAllPermissions] = useState([]);
   const [permissions, setPermissions] = useState([]);
+  console.log(data.permissions);
   useEffect(() => {
-    setAllPermissions(data.all_permissions);
+    setAllPermissions(data.allPermissions);
     setPermissions(data.permissions);
-  }, [data]);
+  }, [data.permissions]);
   useEffect(() => {
     onDataChanged({ permissions: permissions.map((permit) => permit.name) });
   }, [permissions]);
@@ -18,7 +19,7 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
   const searchHandler = (e) => {
     setSearchInput(e.target.value);
     setAllPermissions(
-      data.all_permissions.filter((permit) =>
+      data.allPermissions.filter((permit) =>
         permit.name.includes(e.target.value)
       )
     );

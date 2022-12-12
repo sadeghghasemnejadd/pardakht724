@@ -118,7 +118,8 @@ export const getRoleTasks = createAsyncThunk("getRoleTasks", async (id) => {
 });
 const allRoles = (res) => res.payload.roles;
 const oneRole = (res) => res.payload.role;
-const permissions = (res) => res.payload.role;
+const permissions = (res) => res.payload.role.permissions;
+const allPermissions = (res) => res.payload.role.all_permissions;
 const tasks = (res) => res.payload.role;
 export const RolesSlice = createSlice({
   name: "auth",
@@ -126,6 +127,7 @@ export const RolesSlice = createSlice({
     loading: false,
     roles: [],
     role: [],
+    allPermissions: [],
     permissions: [],
     tasks: [],
   },
@@ -179,7 +181,7 @@ export const RolesSlice = createSlice({
     },
     [updatePermission.fulfilled]: (state, action) => {
       state.loading = false;
-      // state.permissions = permissions(action);
+      state.permissions = permissions(action);
     },
     [updatePermission.rejected]: (state) => {
       state.loading = false;
@@ -191,6 +193,7 @@ export const RolesSlice = createSlice({
     [getRolePermissions.fulfilled]: (state, action) => {
       state.loading = false;
       state.permissions = permissions(action);
+      state.allPermissions = allPermissions(action);
     },
     [getRolePermissions.rejected]: (state) => {
       state.loading = false;

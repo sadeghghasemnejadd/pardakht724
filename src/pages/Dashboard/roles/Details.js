@@ -19,9 +19,8 @@ import {
 import { toast } from "react-toastify";
 const Details = () => {
   const { id } = useParams();
-  const { loading, role, permissions, tasks, limits } = useSelector(
-    (store) => store.roles
-  );
+  const { loading, role, permissions, tasks, limits, allPermissions } =
+    useSelector((store) => store.roles);
   const [activeTab, setActiveTab] = useState("rolesDetail");
   const [isEdit, setIsEdit] = useState(false);
   const [dataForSave, setDataForSave] = useState({});
@@ -29,12 +28,22 @@ const Details = () => {
   useEffect(() => {
     fetchRole();
   }, []);
+  useEffect(() => {
+    if (activeTab === "rolesAccesses") {
+      fetchPermissions();
+    }
+  }, [activeTab]);
 
   const fetchRole = async () => {
     try {
       await dispatch(getRole(id));
+    } catch (err) {
+      throw err;
+    }
+  };
+  const fetchPermissions = async () => {
+    try {
       await dispatch(getRolePermissions(id));
-      // await dispatch(getRoleTasks(id));
     } catch (err) {
       throw err;
     }
@@ -58,7 +67,6 @@ const Details = () => {
               })
             );
       if (res.payload.status === "ok") {
-        await dispatch(getRolePermissions(id));
         toast.success("نقش با موفقیت آپدیت شد");
         setIsEdit(false);
         setDataForSave({});
@@ -154,7 +162,7 @@ const Details = () => {
             </TabPane>
             <TabPane tabId="rolesAccesses">
               <RolesAccesses
-                data={permissions}
+                data={{ permissions, allPermissions }}
                 isEdit={isEdit}
                 onDataChanged={setDataForSave}
               />
