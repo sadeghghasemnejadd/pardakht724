@@ -51,7 +51,6 @@ const Details = () => {
 
   const saveHandler = async () => {
     try {
-      console.log(dataForSave);
       const res =
         activeTab === "rolesDetail"
           ? await dispatch(

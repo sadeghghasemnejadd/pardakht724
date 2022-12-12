@@ -7,13 +7,14 @@ import "rc-switch/assets/index.css";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllRoles, searchRoles } from "redux-toolkit/RolesSlice";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 const Roles = () => {
   const dispatch = useDispatch();
   const { loading, roles } = useSelector((store) => store.roles);
   const searchPersianNameInputRef = useRef();
   const searchEnglishNameInputRef = useRef();
   const [filterTypeList, setFilterTypeList] = useState([]);
+  const history = useHistory();
   const cols = useMemo(
     () => [
       {
@@ -121,6 +122,9 @@ const Roles = () => {
             title="مدیریت نقش ها"
             data={roles}
             addName="افزودن نقش"
+            onAdd={() => {
+              history.push("roles/add/role");
+            }}
             search={{
               placeholder: "سرج در نام نقش",
               ref: searchPersianNameInputRef,

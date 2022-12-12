@@ -12,6 +12,7 @@ import Selfie from "pages/Dashboard/Users/Selfie";
 import Agreement from "pages/Dashboard/Users/Agreement";
 import Roles from "pages/Dashboard/roles/Roles";
 import Details from "pages/Dashboard/roles/Details";
+import AddRoles from "pages/Dashboard/roles/AddRoles";
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
@@ -66,6 +67,10 @@ const defaultPrivateRoutes = [
   {
     component: <Details />,
     path: "/roles/:id",
+  },
+  {
+    component: <AddRoles />,
+    path: "/roles/add/role",
   },
 ];
 

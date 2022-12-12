@@ -127,6 +127,7 @@ export const ReactTableDivided = ({
   search,
   advanceSearchOptions,
   onSearch,
+  onAdd,
 }) => {
   const [showAdvanceSearch, setShowAdvanceSearch] = useState(false);
   return (
@@ -135,7 +136,12 @@ export const ReactTableDivided = ({
         <div>
           <div className="d-flex justify-content-between mb-5">
             <CardTitle className="h1">{title}</CardTitle>
-            <Button color="primary" size="lg" className="top-right-button mr-1">
+            <Button
+              color="primary"
+              size="lg"
+              className="top-right-button mr-1"
+              onClick={onAdd.bind(null)}
+            >
               {addName}
             </Button>
           </div>
