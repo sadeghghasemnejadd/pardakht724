@@ -1,32 +1,27 @@
 import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Layout from "layout/AppLayout";
-import { Label, FormGroup } from "reactstrap";
-import { makeQueryString } from "services/makeQueryString";
+import styles from "./style.module.css";
+import Switch from "rc-switch";
+import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import { useSelector, useDispatch } from "react-redux";
-import { allUsers, searchUser, setEmployee } from "redux-toolkit/UserSlice";
-import orderStyles from "pages/Dashboard/Users/order.module.css";
-import {
-  AiOutlineMail as EmailIcon,
-  AiOutlineCreditCard as NationalIdIcon,
-  AiOutlineCamera as SelfieIcon,
-  AiOutlinePhone as PhoneIcon,
-} from "react-icons/ai";
+import { allUsers, searchUser } from "redux-toolkit/UserSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 export default function Users() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [filterData, setFilterData] = useState(null);
-  const [filterType, setFilterType] = useState([]);
-  const [order, setOrder] = useState({ type: "id", field: 0 });
+  const [filterTypeList, setFilterTypeList] = useState([]);
+  const searchNameInputRef = useRef();
+  const searchMobileInputRef = useRef();
+  const searchEmailInputRef = useRef();
+  const searchLastNameInputRef = useRef();
   const dispatch = useDispatch();
   const { loading, users } = useSelector((store) => store.users);
-
   const cols = useMemo(
     () => [
       {
         Header: "نام",
-        accessor: "first_name",
+        accessor: "full_name",
+        cellClass: "text-muted text-center",
         Cell: (props) =>
           props.value ? (
             <>{props.value}</>
@@ -36,123 +31,106 @@ export default function Users() {
         isSort: false,
       },
       {
-        Header: "نام خانوادگی",
-        accessor: "last_name",
-        Cell: (props) =>
-          props.value ? (
-            <>{props.value}</>
-          ) : (
-            `${props.column.Header} تعریف نشده`
-          ),
-        isSort: false,
-      },
-
-      {
-        Header: "شماره همراه",
+        Header: "تلفن همراه",
         accessor: "mobile",
+        cellClass: "text-muted text-center",
         Cell: (props) =>
           props.value ? (
             <>{props.value}</>
           ) : (
             `${props.column.Header} تعریف نشده`
           ),
+        isSort: false,
+      },
+      {
+        Header: "کد ملی",
+        accessor: "",
+        cellClass: "text-muted text-center",
+        Cell: (props) => <>تعریف نشده</>,
+        isSort: true,
+      },
+      {
+        Header: "وضعیت تایید",
+        accessor: "approvals",
+        cellClass: "text-muted",
+        Cell: (props) => {
+          const [email, nationalId, selfie, phone] = props.value;
+          return (
+            <div className="d-flex align-items-center h3 justify-content-between">
+              <div
+                className={`glyph-icon iconsminds-envelope ${
+                  email && styles.text_green
+                }`}
+              />
+              <div
+                className={`glyph-icon iconsminds-id-card ml-2${
+                  nationalId === "verified" && styles.text_green
+                }`}
+              />
+              <div
+                className={`glyph-icon iconsminds-credit-card ml-2${styles.text_yellow}`}
+              />
+              <div
+                className={`glyph-icon simple-icon-camera ml-2${
+                  selfie && styles.text_green
+                }`}
+              />
+              <div
+                className={`glyph-icon simple-icon-call-in ml-2 ${
+                  phone && styles.text_green
+                }`}
+              />
+            </div>
+          );
+        },
         isSort: true,
       },
       {
         Header: "نوع کاربر",
         accessor: "",
-        Cell: (props) =>
-          props.value ? (
-            <>{props.value}</>
-          ) : (
-            `${props.column.Header} تعریف نشده`
-          ),
+        cellClass: "text-muted text-center",
+        Cell: (props) => <>مشتری</>,
         isSort: true,
       },
       {
         Header: "نقش کاربر",
-        accessor: "roles",
-        Cell: (props) => {
-          console.log(props);
-          if (props.value) {
-            return props.value.map((val) => (
-              <span key={val.id}>{val.name}</span>
-            ));
-          } else {
-            return <>کاربر نقشی ندارد</>;
-          }
-        },
-
-        isSort: false,
+        accessor: "",
+        cellClass: "text-muted text-center",
+        Cell: (props) => <>کارمند</>,
+        isSort: true,
       },
       {
-        Header: "تعداد اکانت های فعال",
-        accessor: "payment_verified_accounts",
-        Cell: (props) =>
-          props.value ? (
-            <>{props.value}</>
-          ) : (
-            `${props.column.Header} تعریف نشده`
-          ),
-        isSort: false,
+        Header: "تاریخ ایجاد",
+        accessor: "",
+        cellClass: "text-muted text-center",
+        Cell: (props) => <>۱۴۰۰/۱/۱</>,
+        isSort: true,
       },
       {
-        Header: "وضعیت تایید",
-        accessor: "approvals",
-        Cell: (props) => {
-          const [email, nationalId, selfie, phone] = props.value;
+        Header: "وضعیت",
+        accessor: "",
+        cellClass: "text-muted",
+        Cell: () => {
           return (
-            <>
-              <EmailIcon
-                className={` font-20 ${email ? "text-success" : "text-danger"}`}
-              />
-              <NationalIdIcon
-                className={`font-20 ${
-                  (nationalId === "verified" && "text-success") ||
-                  (nationalId === "not_verified" && "text-danger") ||
-                  (nationalId === "pending" && "text-warning")
-                }`}
-              />
-              <SelfieIcon
-                className={` font-20 ${
-                  (selfie === "verified" && "text-success") ||
-                  (selfie === "not_verified" && "text-danger") ||
-                  (selfie === "pending" && "text-warning")
-                }`}
-              />
-              <PhoneIcon
-                className={` font-20 ${phone ? "text-success" : "text-danger"}`}
-              />
-            </>
+            <Switch className="custom-switch custom-switch-secondary" checked />
           );
         },
       },
-
       {
-        Header: "فعالیت ها",
-        accessor: "actions",
-        Cell: (props) => {
-          const [id, is_employee] = props.value;
+        Header: "عملیات",
+        accessor: "id",
+        cellClass: "text-muted text-center",
+        Cell: ({ value }) => {
           return (
-            <>
-              <div className="d-flex justify-content-center align-items-center">
-                <Link className="btn btn-secondary btn-sm" to={`/users/${id}`}>
-                  مشاهده جزییات
-                </Link>
-                {!is_employee && (
-                  <button
-                    className="btn btn-secondary btn-sm"
-                    onClick={handleSetEmployee}
-                    data-id={id}
-                  >
-                    تبدیل به کارمند
-                  </button>
-                )}
-              </div>
-            </>
+            <div className="glyph">
+              <Link
+                className={`glyph-icon simple-icon-eye h2`}
+                style={{ cursor: "pointer" }}
+                to={`/users/${value}`}
+              />
+            </div>
           );
         },
-        isSort: false,
       },
     ],
     []
@@ -161,35 +139,46 @@ export default function Users() {
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
-  const searchParams = filterData
-    ? `?search_in=${makeQueryString("", filterData)}`
-    : "";
-  const typeParams =
-    filterType.length !== 0 ? `?user_type=${filterType.join(",")}` : "";
-  const orderParams = `?order_by=${order.type}:${order.field}`;
-  const checkboxHandler = (e) => {
-    if (e.target.checked) {
-      setFilterType((prevData) =>
-        Array.from(new Set([...prevData, e.target.value]))
-      );
-    }
-  };
-  const selectHandler = (e) => {
-    setOrder((prevData) => {
-      return { type: e.target.value, field: prevData.field };
-    });
-  };
-  const radioHandler = (e) => {
-    if (e.target.checked) {
-      setOrder((prevData) => {
-        return { type: prevData.type, field: e.target.value };
-      });
-    }
-  };
 
-  const updateField = (e) => {
-    const { name, value } = e.target;
-    setFilterData((prev) => ({ ...prev, [name]: value }));
+  const searchUserHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const firstNameSearch = searchNameInputRef.current?.value;
+      const lastNameSearch = searchLastNameInputRef.current?.value;
+      const mobileSearch = searchMobileInputRef.current?.value;
+      const emailSearch = searchEmailInputRef.current?.value;
+      const searchQuery = `?search_in=first_name:${
+        firstNameSearch ? firstNameSearch : ""
+      },last_name:${lastNameSearch ? lastNameSearch : ""},email:${
+        emailSearch ? emailSearch : ""
+      },mobile:${mobileSearch ? mobileSearch : ""}`;
+      await dispatch(searchUser(searchQuery));
+    } catch (err) {
+      throw err;
+    }
+  };
+  const switchFilterHandler = (e, id, parentId) => {
+    switch (parentId) {
+      case "type":
+        if (e) {
+          setFilterTypeList((prev) => [...prev, id]);
+        } else {
+          setFilterTypeList((prev) => prev.filter((p) => p !== id));
+        }
+        break;
+    }
+  };
+  const filterHandler = async () => {
+    try {
+      const filterQuery =
+        filterTypeList.length !== 0
+          ? `?user_type=${filterTypeList.join(",")}`
+          : "";
+      await dispatch(searchUser(filterQuery));
+      setFilterTypeList([]);
+    } catch (err) {
+      throw err;
+    }
   };
   const fetchUsers = async () => {
     try {
@@ -202,248 +191,77 @@ export default function Users() {
       throw err;
     }
   };
-  const applyFilterByName = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await dispatch(searchUser(searchParams));
-      if (res.payload.status === "ok") {
-        setFilterData(null);
-        setFilterType([]);
-        setOrder({ type: "id", field: 0 });
-      }
-    } catch (err) {
-      throw err;
-    }
-  };
-  const applyFilterByType = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await dispatch(searchUser(typeParams));
-      if (res.payload.status === "ok") {
-        setFilterData(null);
-        setFilterType([]);
-        setOrder({ type: "id", field: 0 });
-      }
-    } catch (err) {
-      throw err;
-    }
-  };
-  const applyOrder = async (e) => {
-    setLoading(true);
-    e.preventDefault();
-    try {
-      const res = await dispatch(searchUser(orderParams));
-      if (res.payload.status === "ok") {
-        setFilterData(null);
-        setFilterType([]);
-        setOrder({ type: "id", field: 0 });
-      }
-    } catch (err) {
-      throw err;
-    }
-  };
-  const handleSetEmployee = async (e) => {
-    const userId = +e.target.dataset.id;
-    try {
-      const res = await dispatch(setEmployee(userId));
-      if (res.payload.status === "ok") {
-        fetchUsers();
-        toast.success("کاربر با موفقیت تبدیل به کارمند شد");
-      }
-    } catch (err) {
-      toast.error("تبدیل کاربر به کارمند با خطا مواجه شد");
-      throw err;
-    }
-  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
       {!loading && (
-        <Table
-          cols={cols}
-          title="لیست کاربران"
-          data={users}
-          addName=""
-          search={{
-            placeholder: "سرج در نام کاربران",
-            name: "Search",
-          }}
-          advanceSearchOptions={[
-            {
-              placeholder: "سرج در برچسب نقش",
-              name: "advanceSearch",
-            },
-          ]}
-        >
-          <form className={orderStyles.order__form} onSubmit={applyOrder}>
-            <FormGroup className={orderStyles.order__select}>
-              <label htmlFor="orderlist">مرتب سازی بر اساس : </label>
-              <select
-                aria-label="orderlist"
-                id="orderlist"
-                onChange={selectHandler}
-              >
-                <option value="id">ای دی کاربر</option>
-                <option value="email">ایمیل</option>
-                <option value="mobile">شماره همراه</option>
-                <option value="last_name">نام خانوادگی</option>
-              </select>
-            </FormGroup>
-            <FormGroup className={orderStyles.order__radio}>
-              <input
-                type="radio"
-                name="ascendant-or-anticlimactic"
-                id="ascendant"
-                value="1"
-                onChange={radioHandler}
-              />
-              <label className="form-check-label" htmlFor="ascendant">
-                صعودی
-              </label>
-            </FormGroup>
-            <FormGroup className={orderStyles.order__radio}>
-              <input
-                type="radio"
-                name="ascendant-or-anticlimactic"
-                id="ascendant"
-                value="0"
-                onChange={radioHandler}
-              />
-              <label className="form-check-label" htmlFor="ascendant">
-                نزولی
-              </label>
-            </FormGroup>
-            <button className="ml-5 btn btn-primary btn-lg" type="submit">
-              مرتب کردن
-            </button>
-          </form>
-          <button
-            className="btn btn-warning mb-5"
-            onClick={() => {
-              setIsOpen((prev) => !prev);
+        <>
+          <Table
+            cols={cols}
+            title="لیست کاربران"
+            data={users}
+            addName="افزودن کاربر جدید"
+            onAdd={() => {}}
+            search={{
+              placeholder: "سرج در نام",
+              ref: searchNameInputRef,
+              name: "persianSearch",
             }}
-          >
-            فیلتر پیشرفته
-          </button>
-
-          <div>
-            {isOpen && <h6>فیلتر بر اساس اطلاعات شخصی</h6>}
-            <form
-              className="d-flex w-100 align-items-center mt-4"
-              onSubmit={applyFilterByName}
-            >
-              <FormGroup className="form-group has-float-label w-20">
-                <Label>
-                  <span>نام خانوادگی</span>
-                </Label>
-                <input
-                  className="form-control"
-                  name="last_name"
-                  type="text"
-                  onBlur={updateField}
-                />
-              </FormGroup>
-              {isOpen && (
-                <>
-                  <FormGroup className="form-group has-float-label w-20 mx-3">
-                    <Label>
-                      <span>نام</span>
-                    </Label>
-                    <input
-                      className="form-control"
-                      name="first_name"
-                      type="text"
-                      onBlur={updateField}
-                    />
-                  </FormGroup>
-                  <FormGroup className="form-group has-float-label w-20 mx-3">
-                    <Label>
-                      <span>ایمیل</span>
-                    </Label>
-                    <input
-                      className="form-control"
-                      name="email"
-                      type="email"
-                      onBlur={updateField}
-                    />
-                  </FormGroup>
-                  <FormGroup className="form-group has-float-label w-20 mx-3">
-                    <Label>
-                      <span>موبایل</span>
-                    </Label>
-                    <input
-                      className="form-control"
-                      name="mobile"
-                      type="text"
-                      onBlur={updateField}
-                    />
-                  </FormGroup>
-                </>
-              )}
-              <button
-                className="ml-5 btn btn-primary btn-lg"
-                type="submit"
-                onClick={applyFilterByName}
-              >
-                فیلتر
-              </button>
-            </form>
-            {isOpen && (
-              <div className="mt-4 mb-4">
-                <h6>فیلتر بر اساس نوع همکاری</h6>
-                <form
-                  className="d-flex w-100 align-items-center mt-4 "
-                  onSubmit={applyFilterByType}
-                >
-                  <FormGroup check inline className="form-check">
-                    <input
-                      type="checkbox"
-                      value="0"
-                      onChange={checkboxHandler}
-                      className="form-check-input"
-                      id="m-0"
-                    />
-                    <Label check className="form-check-label" for="m-0">
-                      مشتری
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check inline className="form-check">
-                    <input
-                      type="checkbox"
-                      value="1"
-                      onChange={checkboxHandler}
-                      className="form-check-input"
-                      id="m-1"
-                    />
-                    <Label check className="form-check-label" for="m-1">
-                      کارمند
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check inline className="form-check">
-                    <input
-                      type="checkbox"
-                      value="2"
-                      onChange={checkboxHandler}
-                      className="form-check-input"
-                      id="m-2"
-                    />
-                    <Label check className="form-check-label" for="m-2">
-                      همکار
-                    </Label>
-                  </FormGroup>
-                  <button
-                    className="ml-5 btn btn-primary btn-lg"
-                    type="submit"
-                    onClick={applyFilterByType}
-                  >
-                    فیلتر
-                  </button>
-                </form>
-              </div>
-            )}
-            <hr />
-          </div>
-        </Table>
+            advanceSearchOptions={[
+              {
+                placeholder: "سرج در نام خانوادگی ",
+                name: "advanceSearch",
+                ref: searchLastNameInputRef,
+              },
+              {
+                placeholder: "سرج در ایمیل ",
+                name: "advanceSearch",
+                ref: searchEmailInputRef,
+              },
+              {
+                placeholder: "سرج در شماره همراه ",
+                name: "advanceSearch",
+                ref: searchMobileInputRef,
+              },
+            ]}
+            onSearch={searchUserHandler}
+            pageSize={10}
+          />
+          <SurveyApplicationMenu
+            filters={[
+              {
+                id: "type",
+                title: "نوع نقش",
+                switches: [
+                  { id: 0, name: "مشتری" },
+                  { id: 1, name: "کارمند" },
+                  { id: 2, name: "همکار" },
+                ],
+              },
+              {
+                id: "status",
+                title: "وضعیت",
+                switches: [
+                  { id: 0, name: "فعال" },
+                  { id: 1, name: "غیر فعال" },
+                ],
+              },
+              {
+                id: "accept_status",
+                title: "وضعیت تایید",
+                switches: [
+                  { id: 0, name: "مشتری" },
+                  { id: 1, name: "کارت ملی" },
+                  { id: 2, name: "کارت بانکی" },
+                  { id: 3, name: "سلفی" },
+                  { id: 4, name: "تلفن ثابت" },
+                ],
+              },
+            ]}
+            onSwitch={switchFilterHandler}
+            onFilter={filterHandler}
+          />
+        </>
       )}
     </Layout>
   );

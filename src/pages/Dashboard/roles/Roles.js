@@ -95,11 +95,7 @@ const Roles = () => {
     if (e) {
       setFilterTypeList((prev) => [...prev, id]);
     } else {
-      setFilterTypeList((prev) => {
-        const item = prev;
-        item.splice(prev.indexOf(id), 1);
-        return item;
-      });
+      setFilterTypeList((prev) => prev.filter((p) => p !== id));
     }
   };
   const filterHandler = async () => {
@@ -142,6 +138,7 @@ const Roles = () => {
           <SurveyApplicationMenu
             filters={[
               {
+                id: "type",
                 title: "نوع نقش",
                 switches: [
                   { id: 0, name: "مشتری" },
@@ -150,6 +147,7 @@ const Roles = () => {
                 ],
               },
               {
+                id: "status",
                 title: "وضعیت",
                 switches: [
                   { id: 3, name: "فعال" },

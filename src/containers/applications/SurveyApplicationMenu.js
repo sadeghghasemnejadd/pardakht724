@@ -21,7 +21,7 @@ const SurveyApplicationMenu = ({ filters, onSwitch, onFilter }) => {
             </p>
           </div>
           {filters.map((opt, index) => (
-            <div key={index}>
+            <div key={opt.id}>
               <h3 className="mb-4">{opt.title}</h3>
               <ul className="list-unstyled mb-5">
                 {opt.switches.map((swt) => (
@@ -33,7 +33,7 @@ const SurveyApplicationMenu = ({ filters, onSwitch, onFilter }) => {
                     <Colxx xxs="4">
                       <Switch
                         className="custom-switch custom-switch-secondary"
-                        onChange={(e) => onSwitch(e, swt.id)}
+                        onChange={(e) => onSwitch(e, swt.id, opt.id)}
                       />
                     </Colxx>
                   </NavItem>

@@ -4,6 +4,7 @@ import { Separator } from "components/common/CustomBootstrap";
 import { useTable, usePagination, useSortBy } from "react-table";
 import classnames from "classnames";
 import DatatablePagination from "components/DatatablePagination";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
   const {
@@ -18,6 +19,7 @@ function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
     gotoPage,
     setPageSize,
     state: { pageIndex, pageSize },
+    rows,
   } = useTable(
     {
       columns,
@@ -27,8 +29,9 @@ function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
     useSortBy,
     usePagination
   );
-
+  console.log(rows.length);
   return (
+    // <InfiniteScroll dataLength={rows.length}>
     <>
       <table
         {...getTableProps()}
@@ -128,8 +131,10 @@ export const ReactTableDivided = ({
   advanceSearchOptions,
   onSearch,
   onAdd,
+  pageSize = 4,
 }) => {
   const [showAdvanceSearch, setShowAdvanceSearch] = useState(false);
+
   return (
     <>
       <div className="mb-4 bg-white p-5 w-85">
@@ -183,7 +188,7 @@ export const ReactTableDivided = ({
           </div>
         </div>
         <Separator className="mb-5" />
-        <Table columns={cols} data={data} divided />
+        <Table columns={cols} data={data} divided defaultPageSize={pageSize} />
       </div>
     </>
   );
