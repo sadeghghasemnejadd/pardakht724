@@ -93,6 +93,7 @@ const RolesDetail = ({ data, isEdit, onDataChanged }) => {
             <Input
               type="textarea"
               name="text"
+              rows="5"
               disabled={!isEdit}
               value={inputsValue.description || ""}
               onChange={(e) => {

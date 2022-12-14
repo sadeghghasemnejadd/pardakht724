@@ -41,25 +41,40 @@ const RolesLimits = () => {
           <thead>
             <tr>
               <th className="w-40">نام خدمت/ محصول</th>
-              <th className="text-center">تعداد سفارشات مجاز روزانه</th>
-              <th className="text-center">سقف تومان روزانه سفارش</th>
-              <th className="">وضعیت محدودیت</th>
-              <th>عملیات</th>
+              <th className="text-center w-20">تعداد سفارشات مجاز روزانه</th>
+              <th className="text-center w-20">سقف تومان روزانه سفارش</th>
+              <th className="w-10 text-center">وضعیت محدودیت</th>
+              <th className="w-10 text-center">عملیات</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>خرید با پی پال</td>
-              <td className="text-center">
-                {isEdit && <input type="text" value="3" />} {isEdit || "3"}
+              <td className="text-center ">
+                {isEdit && (
+                  <InputGroup className="w-60 mx-auto">
+                    <Input className="min-h-30 w-60" value="3" />{" "}
+                    <InputGroupAddon addonType="prepend ">
+                      <span className="input-group-text">تعداد</span>
+                    </InputGroupAddon>
+                  </InputGroup>
+                )}{" "}
+                {isEdit || "3"}
               </td>
               <td className="text-center">
-                {isEdit && <input type="text" value="500000" />}{" "}
-                {isEdit || "500,000"} تومان
+                {isEdit && (
+                  <InputGroup className="w-70 mx-auto">
+                    <Input className="min-h-30 w-60" value="500000" />{" "}
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">تومان</span>
+                    </InputGroupAddon>
+                  </InputGroup>
+                )}{" "}
+                {isEdit || "500,000 تومان"}
               </td>
               <td className="">
                 <Switch
-                  className="custom-switch custom-switch-secondary ml-5"
+                  className="custom-switch custom-switch-secondary mx-auto"
                   checked={true}
                   disabled={false}
                 />
@@ -88,23 +103,40 @@ const RolesLimits = () => {
                     onClick={() => setIsEdit(true)}
                     style={{ cursor: "pointer" }}
                   >
-                    <div className={`glyph-icon simple-icon-pencil`} />
+                    <div
+                      className={`glyph-icon simple-icon-pencil text-center`}
+                    />
                   </div>
                 )}
               </td>
             </tr>
             <tr>
               <td>خرید با پی پال</td>
-              <td className="text-center">
-                {isEdit && <input type="text" value="3" />} {isEdit || "3"}
+              <td className="text-center ">
+                {isEdit && (
+                  <InputGroup className="w-60 mx-auto">
+                    <Input className="min-h-30 w-60" value="3" />{" "}
+                    <InputGroupAddon addonType="prepend ">
+                      <span className="input-group-text">تعداد</span>
+                    </InputGroupAddon>
+                  </InputGroup>
+                )}{" "}
+                {isEdit || "3"}
               </td>
               <td className="text-center">
-                {isEdit && <input type="text" value="500000" />}{" "}
-                {isEdit || "500,000"} تومان
+                {isEdit && (
+                  <InputGroup className="w-70 mx-auto">
+                    <Input className="min-h-30 w-60" value="500000" />{" "}
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">تومان</span>
+                    </InputGroupAddon>
+                  </InputGroup>
+                )}{" "}
+                {isEdit || "500,000 تومان"}
               </td>
               <td className="">
                 <Switch
-                  className="custom-switch custom-switch-secondary ml-5"
+                  className="custom-switch custom-switch-secondary mx-auto"
                   checked={true}
                   disabled={false}
                 />
@@ -133,23 +165,40 @@ const RolesLimits = () => {
                     onClick={() => setIsEdit(true)}
                     style={{ cursor: "pointer" }}
                   >
-                    <div className={`glyph-icon simple-icon-pencil`} />
+                    <div
+                      className={`glyph-icon simple-icon-pencil text-center`}
+                    />
                   </div>
                 )}
               </td>
             </tr>
             <tr>
               <td>خرید با پی پال</td>
-              <td className="text-center">
-                {isEdit && <input type="text" value="3" />} {isEdit || "3"}
+              <td className="text-center ">
+                {isEdit && (
+                  <InputGroup className="w-60 mx-auto">
+                    <Input className="min-h-30 w-60" value="3" />{" "}
+                    <InputGroupAddon addonType="prepend ">
+                      <span className="input-group-text">تعداد</span>
+                    </InputGroupAddon>
+                  </InputGroup>
+                )}{" "}
+                {isEdit || "3"}
               </td>
               <td className="text-center">
-                {isEdit && <input type="text" value="500000" />}{" "}
-                {isEdit || "500,000"} تومان
+                {isEdit && (
+                  <InputGroup className="w-70 mx-auto">
+                    <Input className="min-h-30 w-60" value="500000" />{" "}
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">تومان</span>
+                    </InputGroupAddon>
+                  </InputGroup>
+                )}{" "}
+                {isEdit || "500,000 تومان"}
               </td>
               <td className="">
                 <Switch
-                  className="custom-switch custom-switch-secondary ml-5"
+                  className="custom-switch custom-switch-secondary mx-auto"
                   checked={true}
                   disabled={false}
                 />
@@ -178,23 +227,40 @@ const RolesLimits = () => {
                     onClick={() => setIsEdit(true)}
                     style={{ cursor: "pointer" }}
                   >
-                    <div className={`glyph-icon simple-icon-pencil`} />
+                    <div
+                      className={`glyph-icon simple-icon-pencil text-center`}
+                    />
                   </div>
                 )}
               </td>
             </tr>
             <tr>
               <td>خرید با پی پال</td>
-              <td className="text-center">
-                {isEdit && <input type="text" value="3" />} {isEdit || "3"}
+              <td className="text-center ">
+                {isEdit && (
+                  <InputGroup className="w-60 mx-auto">
+                    <Input className="min-h-30 w-60" value="3" />{" "}
+                    <InputGroupAddon addonType="prepend ">
+                      <span className="input-group-text">تعداد</span>
+                    </InputGroupAddon>
+                  </InputGroup>
+                )}{" "}
+                {isEdit || "3"}
               </td>
               <td className="text-center">
-                {isEdit && <input type="text" value="500000" />}{" "}
-                {isEdit || "500,000"} تومان
+                {isEdit && (
+                  <InputGroup className="w-70 mx-auto">
+                    <Input className="min-h-30 w-60" value="500000" />{" "}
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">تومان</span>
+                    </InputGroupAddon>
+                  </InputGroup>
+                )}{" "}
+                {isEdit || "500,000 تومان"}
               </td>
               <td className="">
                 <Switch
-                  className="custom-switch custom-switch-secondary ml-5"
+                  className="custom-switch custom-switch-secondary mx-auto"
                   checked={true}
                   disabled={false}
                 />
@@ -223,7 +289,9 @@ const RolesLimits = () => {
                     onClick={() => setIsEdit(true)}
                     style={{ cursor: "pointer" }}
                   >
-                    <div className={`glyph-icon simple-icon-pencil`} />
+                    <div
+                      className={`glyph-icon simple-icon-pencil text-center`}
+                    />
                   </div>
                 )}
               </td>

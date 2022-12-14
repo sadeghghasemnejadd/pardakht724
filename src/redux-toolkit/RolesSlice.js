@@ -222,6 +222,7 @@ export const RolesSlice = createSlice({
     },
     [getRolePermissions.fulfilled]: (state, action) => {
       state.loading = false;
+      console.log(action);
       state.permissions = permissions(action);
       state.allPermissions = allPermissions(action);
     },

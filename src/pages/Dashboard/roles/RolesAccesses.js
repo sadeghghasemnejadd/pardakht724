@@ -7,7 +7,6 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
   const [searchInput, setSearchInput] = useState("");
   const [allPermissions, setAllPermissions] = useState([]);
   const [permissions, setPermissions] = useState([]);
-  console.log(data.permissions);
   useEffect(() => {
     setAllPermissions(data.allPermissions);
     setPermissions(data.permissions);
@@ -54,7 +53,10 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
           {allPermissions?.map((permit) => {
             const isChecked = permissions.some((p) => permit.id === p.id);
             return (
-              <div key={permit.id} className="d-flex align-items-center w-50">
+              <div
+                key={permit.id}
+                className="d-flex align-items-center w-50 justify-content-between"
+              >
                 <span>{permit.name}</span>
                 <Switch
                   className="custom-switch custom-switch-secondary ml-5"

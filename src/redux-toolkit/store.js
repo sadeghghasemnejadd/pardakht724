@@ -15,6 +15,7 @@ import AuthSlice from "./AuthSlice";
 import ProfileSlice from "./ProfileSlice";
 import UserSlice from "./UserSlice";
 import RolesSlice from "./RolesSlice";
+import PermissionsSlice from "./permissionsSlice";
 // let sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
@@ -23,6 +24,7 @@ export const store = configureStore({
     user_profile: ProfileSlice,
     users: UserSlice,
     roles: RolesSlice,
+    permissions: PermissionsSlice,
     menu,
     settings,
     todoApp,

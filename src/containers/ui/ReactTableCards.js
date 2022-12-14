@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Card, CardBody, CardTitle, Button } from "reactstrap";
-import { Separator } from "components/common/CustomBootstrap";
+import { Colxx, Separator } from "components/common/CustomBootstrap";
 import { useTable, usePagination, useSortBy } from "react-table";
 import classnames from "classnames";
 import DatatablePagination from "components/DatatablePagination";
@@ -19,7 +19,6 @@ function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
     gotoPage,
     setPageSize,
     state: { pageIndex, pageSize },
-    rows,
   } = useTable(
     {
       columns,
@@ -29,13 +28,14 @@ function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
     useSortBy,
     usePagination
   );
-  console.log(rows.length);
+  console.log({ ...getTableProps() });
   return (
-    // <InfiniteScroll dataLength={rows.length}>
     <>
       <table
         {...getTableProps()}
-        className={`r-table table ${classnames({ "table-divided": divided })}`}
+        className={`r-table table ${classnames({
+          "table-divided": divided,
+        })}`}
       >
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -137,7 +137,7 @@ export const ReactTableDivided = ({
 
   return (
     <>
-      <div className="mb-4 bg-white p-5 w-85">
+      <div className="mb-4 bg-white p-5 ">
         <div>
           <div className="d-flex justify-content-between mb-5">
             <CardTitle className="h1">{title}</CardTitle>
@@ -183,11 +183,12 @@ export const ReactTableDivided = ({
               className="top-right-button mr-1"
               onClick={() => setShowAdvanceSearch((prev) => !prev)}
             >
-              سرج پیشرفته
+              سرچ پیشرفته
             </Button>
           </div>
         </div>
         <Separator className="mb-5" />
+
         <Table columns={cols} data={data} divided defaultPageSize={pageSize} />
       </div>
     </>

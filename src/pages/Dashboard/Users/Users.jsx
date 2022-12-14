@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { allUsers, searchUser } from "redux-toolkit/UserSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Colxx } from "components/common/CustomBootstrap";
 export default function Users() {
   const [filterTypeList, setFilterTypeList] = useState([]);
   const searchNameInputRef = useRef();
@@ -56,7 +57,7 @@ export default function Users() {
         Cell: (props) => {
           const [email, nationalId, selfie, phone] = props.value;
           return (
-            <div className="d-flex align-items-center h3 justify-content-between">
+            <div className="d-flex align-items-center h4 justify-content-between">
               <div
                 className={`glyph-icon iconsminds-envelope ${
                   email && styles.text_green
@@ -195,73 +196,77 @@ export default function Users() {
     <Layout>
       {loading && <div className="loading"></div>}
       {!loading && (
-        <>
-          <Table
-            cols={cols}
-            title="لیست کاربران"
-            data={users}
-            addName="افزودن کاربر جدید"
-            onAdd={() => {}}
-            search={{
-              placeholder: "سرج در نام",
-              ref: searchNameInputRef,
-              name: "persianSearch",
-            }}
-            advanceSearchOptions={[
-              {
-                placeholder: "سرج در نام خانوادگی ",
-                name: "advanceSearch",
-                ref: searchLastNameInputRef,
-              },
-              {
-                placeholder: "سرج در ایمیل ",
-                name: "advanceSearch",
-                ref: searchEmailInputRef,
-              },
-              {
-                placeholder: "سرج در شماره همراه ",
-                name: "advanceSearch",
-                ref: searchMobileInputRef,
-              },
-            ]}
-            onSearch={searchUserHandler}
-            pageSize={10}
-          />
-          <SurveyApplicationMenu
-            filters={[
-              {
-                id: "type",
-                title: "نوع نقش",
-                switches: [
-                  { id: 0, name: "مشتری" },
-                  { id: 1, name: "کارمند" },
-                  { id: 2, name: "همکار" },
-                ],
-              },
-              {
-                id: "status",
-                title: "وضعیت",
-                switches: [
-                  { id: 0, name: "فعال" },
-                  { id: 1, name: "غیر فعال" },
-                ],
-              },
-              {
-                id: "accept_status",
-                title: "وضعیت تایید",
-                switches: [
-                  { id: 0, name: "مشتری" },
-                  { id: 1, name: "کارت ملی" },
-                  { id: 2, name: "کارت بانکی" },
-                  { id: 3, name: "سلفی" },
-                  { id: 4, name: "تلفن ثابت" },
-                ],
-              },
-            ]}
-            onSwitch={switchFilterHandler}
-            onFilter={filterHandler}
-          />
-        </>
+        <div className="d-flex">
+          <Colxx lg="12" xl="9">
+            <Table
+              cols={cols}
+              title="لیست کاربران"
+              data={users}
+              addName="افزودن کاربر جدید"
+              onAdd={() => {}}
+              search={{
+                placeholder: "سرج در نام",
+                ref: searchNameInputRef,
+                name: "persianSearch",
+              }}
+              advanceSearchOptions={[
+                {
+                  placeholder: "سرج در نام خانوادگی ",
+                  name: "advanceSearch",
+                  ref: searchLastNameInputRef,
+                },
+                {
+                  placeholder: "سرج در ایمیل ",
+                  name: "advanceSearch",
+                  ref: searchEmailInputRef,
+                },
+                {
+                  placeholder: "سرج در شماره همراه ",
+                  name: "advanceSearch",
+                  ref: searchMobileInputRef,
+                },
+              ]}
+              onSearch={searchUserHandler}
+              pageSize={10}
+            />
+          </Colxx>
+          <Colxx xxs="2">
+            <SurveyApplicationMenu
+              filters={[
+                {
+                  id: "type",
+                  title: "نوع نقش",
+                  switches: [
+                    { id: 0, name: "مشتری" },
+                    { id: 1, name: "کارمند" },
+                    { id: 2, name: "همکار" },
+                  ],
+                },
+                {
+                  id: "status",
+                  title: "وضعیت",
+                  switches: [
+                    { id: 0, name: "فعال" },
+                    { id: 1, name: "غیر فعال" },
+                  ],
+                },
+                {
+                  id: "accept_status",
+                  title: "وضعیت تایید",
+                  switches: [
+                    { id: 0, name: "مشتری" },
+                    { id: 1, name: "کارت ملی" },
+                    { id: 2, name: "کارت بانکی" },
+                    { id: 3, name: "سلفی" },
+                    { id: 4, name: "تلفن ثابت" },
+                  ],
+                },
+              ]}
+              onSwitch={switchFilterHandler}
+              onFilter={filterHandler}
+            />
+          </Colxx>
+        </div>
       )}
     </Layout>
   );

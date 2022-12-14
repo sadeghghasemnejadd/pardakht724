@@ -39,11 +39,11 @@ const Roles = () => {
       {
         Header: "وضعیت",
         accessor: "show",
-        cellClass: "text-muted w-20 px-5",
+        cellClass: "text-muted w-20 text-center",
         Cell: ({ value }) => {
           return (
             <Colxx xxs="6">
-              <Switch className="custom-switch custom-switch-secondary" />
+              <Switch className="custom-switch custom-switch-secondary mx-auto" />
             </Colxx>
           );
         },
@@ -54,7 +54,7 @@ const Roles = () => {
         cellClass: "text-muted w-20 text-center",
         Cell: ({ value }) => {
           return (
-            <div className="glyph">
+            <div className="glyph text-center">
               <Link
                 className={`glyph-icon simple-icon-eye h2`}
                 style={{ cursor: "pointer" }}
@@ -112,53 +112,57 @@ const Roles = () => {
     <Layout>
       {loading && <div className="loading"></div>}
       {!loading && (
-        <>
-          <Table
-            cols={cols}
-            title="مدیریت نقش ها"
-            data={roles}
-            addName="افزودن نقش"
-            onAdd={() => {
-              history.push("roles/add/role");
-            }}
-            search={{
-              placeholder: "سرج در نام نقش",
-              ref: searchPersianNameInputRef,
-              name: "persianSearch",
-            }}
-            advanceSearchOptions={[
-              {
-                placeholder: "سرج در برچسب نقش",
-                ref: searchEnglishNameInputRef,
-                name: "englishSearch",
-              },
-            ]}
-            onSearch={searchHandler}
-          />
-          <SurveyApplicationMenu
-            filters={[
-              {
-                id: "type",
-                title: "نوع نقش",
-                switches: [
-                  { id: 0, name: "مشتری" },
-                  { id: 1, name: "کارمند" },
-                  { id: 2, name: "همکار" },
-                ],
-              },
-              {
-                id: "status",
-                title: "وضعیت",
-                switches: [
-                  { id: 3, name: "فعال" },
-                  { id: 4, name: "غیر فعال" },
-                ],
-              },
-            ]}
-            onSwitch={switchFilterHandler}
-            onFilter={filterHandler}
-          />
-        </>
+        <div>
+          <Colxx lg="12" xl="9">
+            <Table
+              cols={cols}
+              title="مدیریت نقش ها"
+              data={roles}
+              addName="افزودن نقش"
+              onAdd={() => {
+                history.push("roles/add/role");
+              }}
+              search={{
+                placeholder: "سرج در نام نقش",
+                ref: searchPersianNameInputRef,
+                name: "persianSearch",
+              }}
+              advanceSearchOptions={[
+                {
+                  placeholder: "سرج در برچسب نقش",
+                  ref: searchEnglishNameInputRef,
+                  name: "englishSearch",
+                },
+              ]}
+              onSearch={searchHandler}
+            />
+          </Colxx>
+          <Colxx xxs="2">
+            <SurveyApplicationMenu
+              filters={[
+                {
+                  id: "type",
+                  title: "نوع نقش",
+                  switches: [
+                    { id: 0, name: "مشتری" },
+                    { id: 1, name: "کارمند" },
+                    { id: 2, name: "همکار" },
+                  ],
+                },
+                {
+                  id: "status",
+                  title: "وضعیت",
+                  switches: [
+                    { id: 3, name: "فعال" },
+                    { id: 4, name: "غیر فعال" },
+                  ],
+                },
+              ]}
+              onSwitch={switchFilterHandler}
+              onFilter={filterHandler}
+            />
+          </Colxx>
+        </div>
       )}
     </Layout>
   );

@@ -47,7 +47,7 @@ const AddRoles = () => {
             className="top-right-button mr-5"
             onClick={addRoleHandler}
           >
-            دخیره
+            ذخیره
           </Button>
         </div>
         {!loading && (

@@ -82,7 +82,7 @@ const Details = () => {
         <h1>
           <span className="align-middle d-inline-block pt-1">جزییات نقش</span>
         </h1>
-        <Nav tabs className="separator-tabs ml-0 mb-5">
+        <Nav tabs className="separator-tabs ml-0 mb-5 col-sm">
           <NavItem>
             <NavLink
               className={classnames({
@@ -139,13 +139,17 @@ const Details = () => {
             <Button
               color="primary"
               size="lg"
-              className="top-right-button mr-5"
+              className="top-right-button mr-5 mb-3"
               onClick={() => (!isEdit ? setIsEdit(true) : saveHandler())}
             >
               {isEdit ? "ذخیره" : "ویرایش"}
             </Button>
           ) : (
-            <Button color="primary" size="lg" className="top-right-button mr-5">
+            <Button
+              color="primary"
+              size="lg"
+              className="top-right-button mr-5 mb-3"
+            >
               ایجاد محدودیت جدید
             </Button>
           )}
