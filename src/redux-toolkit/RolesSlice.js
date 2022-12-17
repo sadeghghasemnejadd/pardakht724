@@ -136,6 +136,7 @@ export const getRoleTasks = createAsyncThunk("getRoleTasks", async (id) => {
     throw err;
   }
 });
+
 const allRoles = (res) => res.payload.roles;
 const oneRole = (res) => res.payload.role;
 const permissions = (res) => res.payload.role.permissions;

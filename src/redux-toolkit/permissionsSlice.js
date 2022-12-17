@@ -16,8 +16,31 @@ export const getAllPermissions = createAsyncThunk(
     }
   }
 );
+export const updateRolePermissions = createAsyncThunk(
+  "updatePermission",
+  async (values) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.post(
+        values.updatePath,
+        {
+          ...values.updateData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(data.data);
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 
-const allPermissions = (res) => res.payload.roles;
+const allPermissions = (res) => res.payload.permissions;
 
 export const PermissionsSlice = createSlice({
   name: "auth",
@@ -30,10 +53,20 @@ export const PermissionsSlice = createSlice({
       state.loading = true;
     },
     [getAllPermissions.fulfilled]: (state, action) => {
-      console.log(action);
       state.loading = false;
+      state.allPermissions = allPermissions(action);
     },
     [getAllPermissions.rejected]: (state) => {
+      state.loading = false;
+    },
+    /////////////////////////////////////
+    [updateRolePermissions.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateRolePermissions.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [updateRolePermissions.rejected]: (state) => {
       state.loading = false;
     },
   },
