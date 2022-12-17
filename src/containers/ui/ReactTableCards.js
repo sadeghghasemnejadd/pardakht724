@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Card, CardBody, CardTitle, Button } from "reactstrap";
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  Button,
+  Table as StrapTable,
+} from "reactstrap";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import { useTable, usePagination, useSortBy } from "react-table";
 import classnames from "classnames";
@@ -31,11 +37,12 @@ function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
   console.log({ ...getTableProps() });
   return (
     <>
-      <table
+      <StrapTable
         {...getTableProps()}
         className={`r-table table ${classnames({
           "table-divided": divided,
         })}`}
+        responsive
       >
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -79,7 +86,7 @@ function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
             );
           })}
         </tbody>
-      </table>
+      </StrapTable>
 
       <DatatablePagination
         page={pageIndex}

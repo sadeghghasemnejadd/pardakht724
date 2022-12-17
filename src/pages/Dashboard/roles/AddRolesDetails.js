@@ -14,7 +14,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addRole } from "redux-toolkit/RolesSlice";
 import { toast } from "react-toastify";
-const AddRoles = () => {
+const AddRolesDetails = () => {
   const [data, setData] = useState({ type: 0 });
   const { loading } = useSelector((store) => store.roles);
   const dispatch = useDispatch();
@@ -23,8 +23,9 @@ const AddRoles = () => {
     try {
       const res = await dispatch(addRole(data));
       if (res.payload.status === "ok") {
+        console.log(res.payload);
         toast.success("نقش با موفقیت دخیره شد");
-        history.push("/roles");
+        history.push(`/roles/addrole/${res.payload.role.id}/permissions`);
       }
     } catch (err) {
       toast.error("اضافه کردن نقش با خطا مواجه شد");
@@ -136,4 +137,4 @@ const AddRoles = () => {
     </Layout>
   );
 };
-export default AddRoles;
+export default AddRolesDetails;

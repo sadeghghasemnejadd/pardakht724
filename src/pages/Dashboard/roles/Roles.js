@@ -120,7 +120,7 @@ const Roles = () => {
               data={roles}
               addName="افزودن نقش"
               onAdd={() => {
-                history.push("roles/add/role");
+                history.push("roles/addrole/details");
               }}
               search={{
                 placeholder: "سرج در نام نقش",
