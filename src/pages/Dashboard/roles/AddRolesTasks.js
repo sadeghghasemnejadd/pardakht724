@@ -20,7 +20,6 @@ const AddRolesTasks = () => {
   const fetchTasks = async () => {
     try {
       const res = await dispatch(getAllTasks());
-      console.log(res);
     } catch (err) {
       throw err;
     }
@@ -57,7 +56,7 @@ const AddRolesTasks = () => {
       );
       if (res.payload.status === "ok") {
         toast.success("نقش با موفقیت دخیره شد");
-        history.push(`/roles/`);
+        history.push(`/roles`);
       }
     } catch (err) {
       toast.error("اضافه کردن نقش با خطا مواجه شد");

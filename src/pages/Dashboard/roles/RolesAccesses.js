@@ -3,21 +3,24 @@ import { Separator } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./roles.module.css";
+import { Link, useParams } from "react-router-dom";
 const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
   const [searchInput, setSearchInput] = useState("");
-  const [allPermissions, setAllPermissions] = useState([]);
+  const [allPermissionsState, setAllPermissionsState] = useState([]);
   const [permissions, setPermissions] = useState([]);
+  const { id } = useParams();
   useEffect(() => {
-    setAllPermissions(data.allPermissions);
+    setAllPermissionsState(data.allPermissions);
     setPermissions(data.permissions);
-  }, [data.permissions]);
+  }, [data.allPermissions]);
+
   useEffect(() => {
     onDataChanged({ permissions: permissions.map((permit) => permit.name) });
   }, [permissions]);
 
   const searchHandler = (e) => {
     setSearchInput(e.target.value);
-    setAllPermissions(
+    setAllPermissionsState(
       data.allPermissions.filter((permit) =>
         permit.name.includes(e.target.value)
       )
@@ -29,7 +32,7 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
     } else {
       setPermissions((prev) => [
         ...prev,
-        allPermissions.find((p) => p.id === permissionId),
+        allPermissionsState.find((p) => p.id === permissionId),
       ]);
     }
   };
@@ -50,7 +53,7 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
           <Separator className="mb-5" />
         </div>
         <div className={styles["permission-container"]}>
-          {allPermissions?.map((permit) => {
+          {allPermissionsState?.map((permit) => {
             const isChecked = permissions.some((p) => permit.id === p.id);
             return (
               <div
@@ -67,6 +70,23 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
               </div>
             );
           })}
+          {allPermissionsState.length === 0 && (
+            <div>
+              <p>
+                به این نقش هنوز دسترسی داده نشده برای ایجاد دسترسی جدید روی لینک
+                زیر کلیک کنید:{" "}
+              </p>
+              <Link
+                to={{
+                  pathname: `/roles/addrole/${id}/permissions`,
+                  state: { fromDashboard: true },
+                }}
+                ss="ss"
+              >
+                لینک
+              </Link>
+            </div>
+          )}
         </div>
       </CardBody>
     </Card>

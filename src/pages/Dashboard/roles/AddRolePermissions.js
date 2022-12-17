@@ -62,7 +62,11 @@ const AddRolePermissions = () => {
       );
       if (res.payload.status === "ok") {
         toast.success("نقش با موفقیت دخیره شد");
-        history.push(`/roles/addrole/${id}/tasks`);
+        if (history.location.state?.fromDashboard) {
+          history.push(`/roles`);
+        } else {
+          history.push(`/roles/addrole/${id}/tasks`);
+        }
       }
     } catch (err) {
       toast.error("اضافه کردن نقش با خطا مواجه شد");

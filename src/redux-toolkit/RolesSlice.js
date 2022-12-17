@@ -98,7 +98,6 @@ export const updatePermission = createAsyncThunk(
           },
         }
       );
-      console.log(data.data);
       return data.data;
     } catch (err) {
       throw err;
@@ -115,7 +114,6 @@ export const getRolePermissions = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-
       return data.data;
     } catch (err) {
       throw err;
@@ -130,7 +128,6 @@ export const getRoleTasks = createAsyncThunk("getRoleTasks", async (id) => {
         Authorization: `Bearer ${token}`,
       },
     });
-
     return data.data;
   } catch (err) {
     throw err;
@@ -223,12 +220,13 @@ export const RolesSlice = createSlice({
     },
     [getRolePermissions.fulfilled]: (state, action) => {
       state.loading = false;
-      console.log(action);
       state.permissions = permissions(action);
       state.allPermissions = allPermissions(action);
     },
     [getRolePermissions.rejected]: (state) => {
       state.loading = false;
+      state.permissions = [];
+      state.allPermissions = [];
     },
     //////////////////////////////////////
     [getRoleTasks.pending]: (state) => {
@@ -240,6 +238,7 @@ export const RolesSlice = createSlice({
     },
     [getRoleTasks.rejected]: (state) => {
       state.loading = false;
+      state.tasks = [];
     },
   },
 });

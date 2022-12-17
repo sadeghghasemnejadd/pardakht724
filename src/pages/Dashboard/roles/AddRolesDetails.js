@@ -22,7 +22,6 @@ const AddRolesDetails = () => {
     try {
       const res = await dispatch(addRole(data));
       if (res.payload.status === "ok") {
-        console.log(res.payload);
         toast.success("نقش با موفقیت دخیره شد");
         history.push(`/roles/addrole/${res.payload.role.id}/permissions`);
       }

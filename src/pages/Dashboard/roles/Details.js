@@ -31,6 +31,8 @@ const Details = () => {
   useEffect(() => {
     if (activeTab === "rolesAccesses") {
       fetchPermissions();
+    } else if (activeTab === "rolesTasks") {
+      fetchTasks();
     }
   }, [activeTab]);
 
@@ -44,6 +46,13 @@ const Details = () => {
   const fetchPermissions = async () => {
     try {
       await dispatch(getRolePermissions(id));
+    } catch (err) {
+      throw err;
+    }
+  };
+  const fetchTasks = async () => {
+    try {
+      await dispatch(getRoleTasks(id));
     } catch (err) {
       throw err;
     }

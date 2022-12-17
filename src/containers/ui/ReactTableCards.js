@@ -34,7 +34,6 @@ function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
     useSortBy,
     usePagination
   );
-  console.log({ ...getTableProps() });
   return (
     <>
       <StrapTable

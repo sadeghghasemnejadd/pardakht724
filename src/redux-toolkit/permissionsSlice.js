@@ -32,7 +32,6 @@ export const updateRolePermissions = createAsyncThunk(
           },
         }
       );
-      console.log(data.data);
       return data.data;
     } catch (err) {
       throw err;
