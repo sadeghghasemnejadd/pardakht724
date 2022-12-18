@@ -11,10 +11,7 @@ import { toast } from "react-toastify";
 import { Colxx } from "components/common/CustomBootstrap";
 export default function Users() {
   const [filterTypeList, setFilterTypeList] = useState([]);
-  const searchNameInputRef = useRef();
-  const searchMobileInputRef = useRef();
-  const searchEmailInputRef = useRef();
-  const searchLastNameInputRef = useRef();
+  const searchInputRef = useRef();
   const dispatch = useDispatch();
   const { loading, users } = useSelector((store) => store.users);
   const cols = useMemo(
@@ -141,18 +138,19 @@ export default function Users() {
     fetchUsers();
   }, [fetchUsers]);
 
-  const searchUserHandler = async (e) => {
+  const searchUserHandler = async (e, searchId) => {
     e.preventDefault();
     try {
-      const firstNameSearch = searchNameInputRef.current?.value;
-      const lastNameSearch = searchLastNameInputRef.current?.value;
-      const mobileSearch = searchMobileInputRef.current?.value;
-      const emailSearch = searchEmailInputRef.current?.value;
-      const searchQuery = `?search_in=first_name:${
-        firstNameSearch ? firstNameSearch : ""
-      },last_name:${lastNameSearch ? lastNameSearch : ""},email:${
-        emailSearch ? emailSearch : ""
-      },mobile:${mobileSearch ? mobileSearch : ""}`;
+      const searchIdQuery =
+        searchId === 0
+          ? "first_name"
+          : searchId === 1
+          ? "last_name"
+          : searchId === 2
+          ? "email"
+          : "mobile";
+      const searchInput = searchInputRef.current?.value;
+      const searchQuery = `?search_in=${searchIdQuery}:${searchInput}`;
       await dispatch(searchUser(searchQuery));
     } catch (err) {
       throw err;
@@ -185,8 +183,7 @@ export default function Users() {
     try {
       const res = await dispatch(allUsers());
       if (res.payload.status === "ok") {
-        setFilterData(null);
-        setFilterType([]);
+        setFilterTypeList([]);
       }
     } catch (err) {
       throw err;
@@ -204,28 +201,25 @@ export default function Users() {
               data={users}
               addName="افزودن کاربر جدید"
               onAdd={() => {}}
-              search={{
-                placeholder: "سرج در نام",
-                ref: searchNameInputRef,
-                name: "persianSearch",
-              }}
-              advanceSearchOptions={[
+              search={[
                 {
-                  placeholder: "سرج در نام خانوادگی ",
-                  name: "advanceSearch",
-                  ref: searchLastNameInputRef,
+                  id: 0,
+                  name: "در نام",
                 },
                 {
-                  placeholder: "سرج در ایمیل ",
-                  name: "advanceSearch",
-                  ref: searchEmailInputRef,
+                  id: 1,
+                  name: "نام خانوادگی",
                 },
                 {
-                  placeholder: "سرج در شماره همراه ",
-                  name: "advanceSearch",
-                  ref: searchMobileInputRef,
+                  id: 2,
+                  name: "ایمیل",
+                },
+                {
+                  id: 3,
+                  name: "شماره همراه",
                 },
               ]}
+              searchRef={searchInputRef}
               onSearch={searchUserHandler}
               pageSize={10}
             />
