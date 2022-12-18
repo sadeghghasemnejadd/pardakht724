@@ -49,6 +49,11 @@ const data = [
         to: "/roles",
       },
       {
+        icon: "permissions",
+        label: "مدیریت دسترسی ها",
+        to: "/permissions",
+      },
+      {
         icon: "simple-icon-check",
         label: "تاریخچه درخواست های پشتیبانی",
         to: "",

@@ -6,6 +6,9 @@ import {
   Button,
   ButtonGroup,
   Table as StrapTable,
+  InputGroup,
+  InputGroupAddon,
+  Input,
 } from "reactstrap";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import { useTable, usePagination, useSortBy } from "react-table";
@@ -13,7 +16,16 @@ import classnames from "classnames";
 import DatatablePagination from "components/DatatablePagination";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
+function Table({
+  columns,
+  data,
+  divided = false,
+  defaultPageSize = 4,
+  collapse = false,
+  collapseAddOnText,
+  isEdit,
+  collapseText,
+}) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -71,18 +83,41 @@ function Table({ columns, data, divided = false, defaultPageSize = 4 }) {
           {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell, cellIndex) => (
-                  <td
-                    key={`td_${cellIndex}`}
-                    {...cell.getCellProps({
-                      className: cell.column.cellClass,
-                    })}
-                  >
-                    {cell.render("Cell")}
-                  </td>
-                ))}
-              </tr>
+              <>
+                <tr
+                  {...row.getRowProps()}
+                  style={{ height: "auto", position: "relative" }}
+                >
+                  {row.cells.map((cell, cellIndex) => (
+                    <td
+                      key={`td_${cellIndex}`}
+                      {...cell.getCellProps({
+                        className: cell.column.cellClass,
+                      })}
+                    >
+                      {cell.render("Cell")}
+                    </td>
+                  ))}
+                </tr>
+                {collapse.state && collapse.id == row.id && (
+                  <tr>
+                    <td colSpan={4}>
+                      <InputGroup className="w-100">
+                        <InputGroupAddon addonType="prepend">
+                          {collapseAddOnText}
+                        </InputGroupAddon>
+                        <Input
+                          type="textarea"
+                          name="text"
+                          rows="5"
+                          value={collapseText}
+                          disabled={!isEdit}
+                        />
+                      </InputGroup>
+                    </td>
+                  </tr>
+                )}
+              </>
             );
           })}
         </tbody>
@@ -139,6 +174,10 @@ export const ReactTableDivided = ({
   onSearch,
   onAdd,
   pageSize = 4,
+  isCollapse,
+  collapseAddOnText,
+  isEdit,
+  collapseText,
 }) => {
   const [selectedRadio, setSelectedRadio] = useState(0);
   return (
@@ -187,7 +226,16 @@ export const ReactTableDivided = ({
         </div>
         <Separator className="mb-5" />
 
-        <Table columns={cols} data={data} divided defaultPageSize={pageSize} />
+        <Table
+          columns={cols}
+          data={data}
+          divided
+          defaultPageSize={pageSize}
+          collapse={isCollapse}
+          collapseAddOnText={collapseAddOnText}
+          isEdit={isEdit}
+          collapseText={collapseText}
+        />
       </div>
     </>
   );
