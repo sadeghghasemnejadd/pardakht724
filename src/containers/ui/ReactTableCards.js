@@ -4,6 +4,7 @@ import {
   CardBody,
   CardTitle,
   Button,
+  ButtonGroup,
   Table as StrapTable,
 } from "reactstrap";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
@@ -134,13 +135,12 @@ export const ReactTableDivided = ({
   title,
   addName,
   search,
-  advanceSearchOptions,
+  searchRef,
   onSearch,
   onAdd,
   pageSize = 4,
 }) => {
-  const [showAdvanceSearch, setShowAdvanceSearch] = useState(false);
-
+  const [selectedRadio, setSelectedRadio] = useState(0);
   return (
     <>
       <div className="mb-4 bg-white p-5 ">
@@ -157,40 +157,32 @@ export const ReactTableDivided = ({
             </Button>
           </div>
           <div className="d-flex align-items-center mb-5">
-            <form onSubmit={onSearch}>
+            <form
+              onSubmit={(e) => onSearch(e, selectedRadio)}
+              className="d-flex align-items-center"
+            >
               <div className="search-sm d-inline-block float-md-left mr-3 align-top">
                 <input
                   type="text"
-                  name={search.name}
-                  id={search.name}
-                  placeholder={search.placeholder}
-                  ref={search.ref}
+                  name="search"
+                  id="search"
+                  placeholder="سرچ"
+                  ref={searchRef}
                 />
               </div>
+              <ButtonGroup>
+                {search.map((s) => (
+                  <Button
+                    key={s.id}
+                    color="primary"
+                    onClick={() => setSelectedRadio(s.id)}
+                    active={selectedRadio === s.id}
+                  >
+                    {s.name}
+                  </Button>
+                ))}
+              </ButtonGroup>
             </form>
-            {showAdvanceSearch &&
-              advanceSearchOptions.map((opt, index) => (
-                <form onSubmit={onSearch} key={index}>
-                  <div className="search-sm d-inline-block float-md-left mr-3 align-top">
-                    <input
-                      type="text"
-                      name={opt.name}
-                      id={opt.name}
-                      placeholder={opt.placeholder}
-                      ref={opt.ref}
-                    />
-                  </div>
-                </form>
-              ))}
-
-            <Button
-              color="primary"
-              size="sm"
-              className="top-right-button mr-1"
-              onClick={() => setShowAdvanceSearch((prev) => !prev)}
-            >
-              سرچ پیشرفته
-            </Button>
           </div>
         </div>
         <Separator className="mb-5" />

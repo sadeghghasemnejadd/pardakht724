@@ -11,8 +11,7 @@ import { Link, useHistory } from "react-router-dom";
 const Roles = () => {
   const dispatch = useDispatch();
   const { loading, roles } = useSelector((store) => store.roles);
-  const searchPersianNameInputRef = useRef();
-  const searchEnglishNameInputRef = useRef();
+  const searchInputRef = useRef();
   const [filterTypeList, setFilterTypeList] = useState([]);
   const history = useHistory();
   const cols = useMemo(
@@ -78,14 +77,14 @@ const Roles = () => {
       throw err;
     }
   };
-  const searchHandler = async (e) => {
+  const searchHandler = async (e, searchId) => {
     e.preventDefault();
+
     try {
-      const englishSearch = searchEnglishNameInputRef.current?.value;
-      const persianSearch = searchPersianNameInputRef.current?.value;
-      const searchQuery = `?search_in=name:${
-        englishSearch ? englishSearch : ""
-      },p_name:${persianSearch ? persianSearch : ""}`;
+      const searchInput = searchInputRef.current?.value;
+      const searchQuery = `?search_in=${
+        searchId === 0 ? "p_name" : "name"
+      }:${searchInput}`;
       await dispatch(searchRoles(searchQuery));
     } catch (err) {
       throw err;
@@ -122,19 +121,18 @@ const Roles = () => {
               onAdd={() => {
                 history.push("roles/addrole/details");
               }}
-              search={{
-                placeholder: "سرج در نام نقش",
-                ref: searchPersianNameInputRef,
-                name: "persianSearch",
-              }}
-              advanceSearchOptions={[
+              search={[
                 {
-                  placeholder: "سرج در برچسب نقش",
-                  ref: searchEnglishNameInputRef,
-                  name: "englishSearch",
+                  id: 0,
+                  name: "نام نقش",
+                },
+                {
+                  id: 1,
+                  name: "برچسب نقش",
                 },
               ]}
               onSearch={searchHandler}
+              searchRef={searchInputRef}
             />
           </Colxx>
           <Colxx xxs="2">
