@@ -100,7 +100,7 @@ function Table({
                     </td>
                   ))}
                 </tr>
-                {collapse.state && collapse.id == row.id && (
+                {collapse?.state && collapse?.id == row.id && (
                   <tr>
                     <td colSpan={4}>
                       <InputGroup className="w-100">
@@ -112,7 +112,7 @@ function Table({
                           name="text"
                           rows="5"
                           value={collapseText}
-                          disabled={!isEdit.state}
+                          disabled={!isEdit?.state}
                           onChange={(e) =>
                             onChangeData((prev) => ({
                               ...prev,
