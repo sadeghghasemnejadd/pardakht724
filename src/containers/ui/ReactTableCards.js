@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import {
   Card,
   CardBody,
@@ -84,7 +84,7 @@ function Table({
           {page.map((row) => {
             prepareRow(row);
             return (
-              <>
+              <Fragment key={row.id}>
                 <tr
                   {...row.getRowProps()}
                   style={{ height: "auto", position: "relative" }}
@@ -124,7 +124,7 @@ function Table({
                     </td>
                   </tr>
                 )}
-              </>
+              </Fragment>
             );
           })}
         </tbody>
