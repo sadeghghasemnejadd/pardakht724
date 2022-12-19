@@ -1,21 +1,28 @@
 import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import Layout from "layout/AppLayout";
+import { Input, InputGroup, InputGroupAddon } from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
 import "rc-switch/assets/index.css";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllPermissions } from "redux-toolkit/permissionsSlice";
+import {
+  getAllPermissions,
+  updatePermissions,
+  searchPermissions,
+} from "redux-toolkit/permissionsSlice";
 import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import styles from "./permissions.module.css";
 const Permissions = () => {
   const dispatch = useDispatch();
   const { loading, allPermissions } = useSelector((store) => store.permissions);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState();
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState();
   const [collapseText, setCollapseText] = useState("");
+  const [dataChanged, setDataChanged] = useState({});
   const history = useHistory();
   const cols = useMemo(
     () => [
@@ -23,21 +30,66 @@ const Permissions = () => {
         Header: "نام",
         accessor: "p_name",
         cellClass: "text-muted w-20 text-center",
-        Cell: (props) => <>{props.value}</>,
+        Cell: (props) => {
+          return (
+            <>
+              {isEdit?.state && isEdit.id == props.row.id && (
+                <InputGroup className="w-70 mx-auto">
+                  <Input
+                    className="min-h-30 w-40"
+                    value={props.value}
+                    onChange={(e) =>
+                      setDataChanged((prev) => ({
+                        ...prev,
+                        p_name: e.target.value,
+                      }))
+                    }
+                  />{" "}
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">نام</span>
+                  </InputGroupAddon>
+                </InputGroup>
+              )}{" "}
+              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
+            </>
+          );
+        },
       },
 
       {
         Header: "برچسب",
         accessor: "name",
         cellClass: "text-muted w-20 text-center",
-        Cell: (props) => <>{props.value}</>,
+        Cell: (props) => {
+          return (
+            <>
+              {isEdit?.state && isEdit.id == props.row.id && (
+                <InputGroup className="w-70 mx-auto">
+                  <Input
+                    className="min-h-30 w-40"
+                    value={props.value}
+                    onChange={(e) =>
+                      setDataChanged((prev) => ({
+                        ...prev,
+                        name: e.target.value,
+                      }))
+                    }
+                  />{" "}
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">برچسب</span>
+                  </InputGroupAddon>
+                </InputGroup>
+              )}{" "}
+              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
+            </>
+          );
+        },
       },
       {
         Header: "توضیحات",
         accessor: "description",
         cellClass: "text-muted text-center",
         Cell: (props) => {
-          if (!props.value) return <>توضیحاتی وجود ندارد</>;
           return (
             <>
               <div
@@ -66,32 +118,35 @@ const Permissions = () => {
       },
       {
         Header: "عملیات",
-        accessor: "",
+        accessor: "id",
         cellClass: "text-muted w-10 text-center",
-        Cell: ({ value }) => {
+        Cell: (props) => {
           return (
-            <>
-              {isEdit && (
+            <div className="h5">
+              {isEdit?.state && isEdit?.id === props.row.id && (
                 <div className="d-flex justify-content-around">
                   <div
                     className="glyph"
                     style={{ color: "green", cursor: "pointer" }}
+                    onClick={() => onSaveChangeHandler(props.value)}
                   >
                     <div className={`glyph-icon simple-icon-check`} />
                   </div>
                   <div
                     className="glyph"
                     style={{ color: "red", cursor: "pointer" }}
-                    onClick={() => setIsEdit(false)}
+                    onClick={() =>
+                      setIsEdit({ state: false, id: props.row.id })
+                    }
                   >
                     <div className={`glyph-icon simple-icon-close`} />
                   </div>
                 </div>
               )}
-              {isEdit || (
+              {(isEdit?.state && isEdit.id === props.row.id) || (
                 <div
                   className="glyph"
-                  onClick={() => setIsEdit(true)}
+                  onClick={() => setIsEdit({ state: true, id: props.row.id })}
                   style={{ cursor: "pointer" }}
                 >
                   <div
@@ -99,7 +154,7 @@ const Permissions = () => {
                   />
                 </div>
               )}
-            </>
+            </div>
           );
         },
       },
@@ -125,8 +180,20 @@ const Permissions = () => {
       const searchQuery = `?search_in=${
         searchId === 0 ? "p_name" : "name"
       }:${searchInput}`;
-      await dispatch(searchRoles(searchQuery));
+      await dispatch(searchPermissions(searchQuery));
     } catch (err) {
+      throw err;
+    }
+  };
+  const onSaveChangeHandler = async (id) => {
+    try {
+      const res = await dispatch(updatePermissions({ id, data: dataChanged }));
+      if (res.payload.status === "ok") {
+        toast.success("تفییرات با موفقیت ذخیره شد.");
+        await fetchPermissions();
+      }
+    } catch (err) {
+      toast.error("ویرایش دسترسی با خطا روبرو شد");
       throw err;
     }
   };
@@ -177,6 +244,7 @@ const Permissions = () => {
               collapseAddOnText="توضیحات"
               isEdit={isEdit}
               collapseText={collapseText}
+              onChangeData={setDataChanged}
             />
           </Colxx>
           {/* <Colxx xxs="2">

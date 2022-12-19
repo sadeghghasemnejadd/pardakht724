@@ -16,6 +16,45 @@ export const getAllPermissions = createAsyncThunk(
     }
   }
 );
+export const updatePermissions = createAsyncThunk(
+  "updatePermissions",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(
+        `/permissions/${value.id}`,
+        {
+          ...value.data,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+export const searchPermissions = createAsyncThunk(
+  "searchPermissions",
+  async (values) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(`/permissions${values}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const updateRolePermissions = createAsyncThunk(
   "updatePermission",
   async (values) => {
@@ -56,6 +95,27 @@ export const PermissionsSlice = createSlice({
       state.allPermissions = allPermissions(action);
     },
     [getAllPermissions.rejected]: (state) => {
+      state.loading = false;
+    },
+    /////////////////////////////////////
+    [updatePermissions.pending]: (state) => {
+      state.loading = true;
+    },
+    [updatePermissions.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [updatePermissions.rejected]: (state) => {
+      state.loading = false;
+    },
+    /////////////////////////////////////
+    [searchPermissions.pending]: (state) => {
+      state.loading = true;
+    },
+    [searchPermissions.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.allPermissions = allPermissions(action);
+    },
+    [searchPermissions.rejected]: (state) => {
       state.loading = false;
     },
     /////////////////////////////////////

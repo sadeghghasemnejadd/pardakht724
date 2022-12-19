@@ -25,6 +25,7 @@ function Table({
   collapseAddOnText,
   isEdit,
   collapseText,
+  onChangeData,
 }) {
   const {
     getTableProps,
@@ -111,7 +112,13 @@ function Table({
                           name="text"
                           rows="5"
                           value={collapseText}
-                          disabled={!isEdit}
+                          disabled={!isEdit.state}
+                          onChange={(e) =>
+                            onChangeData((prev) => ({
+                              ...prev,
+                              description: e.target.value,
+                            }))
+                          }
                         />
                       </InputGroup>
                     </td>
@@ -178,6 +185,7 @@ export const ReactTableDivided = ({
   collapseAddOnText,
   isEdit,
   collapseText,
+  onChangeData,
 }) => {
   const [selectedRadio, setSelectedRadio] = useState(0);
   return (
@@ -235,6 +243,7 @@ export const ReactTableDivided = ({
           collapseAddOnText={collapseAddOnText}
           isEdit={isEdit}
           collapseText={collapseText}
+          onChangeData={onChangeData}
         />
       </div>
     </>
