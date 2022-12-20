@@ -16,6 +16,7 @@ import AddRoles from "pages/Dashboard/roles/AddRolesDetails";
 import AddRolePermissions from "pages/Dashboard/roles/AddRolePermissions";
 import AddRolesTasks from "pages/Dashboard/roles/AddRolesTasks";
 import Permissions from "pages/Dashboard/permissions/permissions";
+import Tasks from "pages/Dashboard/tasks/Tasks";
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
@@ -87,6 +88,11 @@ const defaultPrivateRoutes = [
   {
     component: <Permissions />,
     path: "/permissions",
+  },
+  ////////////////////////////
+  {
+    component: <Tasks />,
+    path: "/tasks",
   },
 ];
 

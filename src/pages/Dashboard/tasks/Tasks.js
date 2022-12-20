@@ -7,22 +7,19 @@ import Switch from "rc-switch";
 import "rc-switch/assets/index.css";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  getAllPermissions,
-  updatePermissions,
-  searchPermissions,
-} from "redux-toolkit/permissionsSlice";
+import { getAllTasks, updateTasks } from "redux-toolkit/TasksSlice";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import styles from "./permissions.module.css";
-const Permissions = () => {
+const Tasks = () => {
   const dispatch = useDispatch();
-  const { loading, allPermissions } = useSelector((store) => store.permissions);
+  const { loading, allTasks } = useSelector((store) => store.tasks);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState();
   const [isEdit, setIsEdit] = useState();
+  const [nameValue, setNameValue] = useState("");
   const [collapseData, setCollapseData] = useState([
     { type: "textarea", value: "" },
+    { type: "badge", value: [] },
   ]);
   const [dataChanged, setDataChanged] = useState({});
   const history = useHistory();
@@ -30,22 +27,16 @@ const Permissions = () => {
     () => [
       {
         Header: "نام",
-        accessor: "p_name",
-        cellClass: "text-muted w-20 text-center",
+        accessor: "name",
+        cellClass: "text-muted  text-center",
         Cell: (props) => {
           return (
             <>
               {isEdit?.state && isEdit.id == props.row.id && (
-                <InputGroup className="w-70 mx-auto">
+                <InputGroup className="w-100 mx-auto">
                   <Input
-                    className="min-h-30 w-40"
-                    value={props.value}
-                    onChange={(e) =>
-                      setDataChanged((prev) => ({
-                        ...prev,
-                        p_name: e.target.value,
-                      }))
-                    }
+                    className="min-h-30 w-80"
+                    onChange={nameChangeHandler}
                   />{" "}
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">نام</span>
@@ -59,8 +50,8 @@ const Permissions = () => {
       },
 
       {
-        Header: "برچسب",
-        accessor: "name",
+        Header: "نوع",
+        accessor: "type",
         cellClass: "text-muted w-20 text-center",
         Cell: (props) => {
           return (
@@ -73,12 +64,12 @@ const Permissions = () => {
                     onChange={(e) =>
                       setDataChanged((prev) => ({
                         ...prev,
-                        name: e.target.value,
+                        type: e.target.value,
                       }))
                     }
                   />{" "}
                   <InputGroupAddon addonType="prepend">
-                    <span className="input-group-text">برچسب</span>
+                    <span className="input-group-text">نوع</span>
                   </InputGroupAddon>
                 </InputGroup>
               )}{" "}
@@ -88,9 +79,96 @@ const Permissions = () => {
         },
       },
       {
-        Header: "توضیحات",
-        accessor: "description",
+        Header: "ارجاع",
+        accessor: "refer_to",
+        cellClass: "text-muted text-center ",
+        Cell: (props) => {
+          return (
+            <>
+              {isEdit?.state && isEdit.id == props.row.id && (
+                <InputGroup className="w-70 mx-auto">
+                  <Input
+                    className="min-h-30 w-40"
+                    value={props.value}
+                    onChange={(e) =>
+                      setDataChanged((prev) => ({
+                        ...prev,
+                        refer_to: e.target.value,
+                      }))
+                    }
+                  />{" "}
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">ارجاع</span>
+                  </InputGroupAddon>
+                </InputGroup>
+              )}{" "}
+              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
+            </>
+          );
+        },
+      },
+      {
+        Header: "حداکثر زمان انجام",
+        accessor: "max_due_date",
         cellClass: "text-muted text-center",
+        Cell: (props) => {
+          return (
+            <>
+              {isEdit?.state && isEdit.id == props.row.id && (
+                <InputGroup className="w-70 mx-auto">
+                  <Input
+                    className="min-h-30 w-40"
+                    value={props.value}
+                    onChange={(e) =>
+                      setDataChanged((prev) => ({
+                        ...prev,
+                        max_due_date: e.target.value,
+                      }))
+                    }
+                  />{" "}
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">حداکثر زمان انجام</span>
+                  </InputGroupAddon>
+                </InputGroup>
+              )}{" "}
+              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
+            </>
+          );
+        },
+      },
+      {
+        Header: "اولویت",
+        accessor: "priority",
+        cellClass: "text-muted text-center ",
+        Cell: (props) => {
+          return (
+            <>
+              {isEdit?.state && isEdit.id == props.row.id && (
+                <InputGroup className="w-70 mx-auto">
+                  <Input
+                    className="min-h-30 w-40"
+                    value={props.value}
+                    onChange={(e) =>
+                      setDataChanged((prev) => ({
+                        ...prev,
+                        priority: e.target.value,
+                      }))
+                    }
+                  />{" "}
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">اولویت</span>
+                  </InputGroupAddon>
+                </InputGroup>
+              )}{" "}
+              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
+            </>
+          );
+        },
+      },
+      {
+        Header: "جزییات",
+        accessor: "description_subject",
+        cellClass: "text-muted text-center ",
         Cell: (props) => {
           return (
             <>
@@ -105,13 +183,12 @@ const Permissions = () => {
                   setCollapseData((prev) =>
                     prev.map((p) =>
                       p.type === "textarea"
-                        ? { type: "textarea", value: props.value }
-                        : p
+                        ? { type: "textarea", value: props.value[0] }
+                        : { type: "badge", value: props.value[1] }
                     )
                   );
                 }}
               >
-                <p>{props.value?.slice(0, 50)}...</p>
                 <div
                   className={`glyph-icon iconsminds-arrow-${
                     collapse?.state && collapse?.id == props.row.id
@@ -127,7 +204,7 @@ const Permissions = () => {
       {
         Header: "عملیات",
         accessor: "id",
-        cellClass: "text-muted w-10 text-center",
+        cellClass: "text-muted  text-center",
         Cell: (props) => {
           return (
             <div className="h5">
@@ -170,12 +247,14 @@ const Permissions = () => {
     [collapse, isEdit]
   );
   useEffect(() => {
-    fetchPermissions();
-  }, [fetchPermissions]);
-
-  const fetchPermissions = async () => {
+    fetchTasks();
+  }, [fetchTasks]);
+  useEffect(() => {
+    setDataChanged((prev) => ({ ...prev, name: nameValue }));
+  }, [nameValue]);
+  const fetchTasks = async () => {
     try {
-      await dispatch(getAllPermissions());
+      await dispatch(getAllTasks());
     } catch (err) {
       throw err;
     }
@@ -193,35 +272,20 @@ const Permissions = () => {
       throw err;
     }
   };
+  const nameChangeHandler = (e) => setNameValue(e.target.value);
   const onSaveChangeHandler = async (id) => {
     try {
-      const res = await dispatch(updatePermissions({ id, data: dataChanged }));
+      console.log(dataChanged);
+      const res = await dispatch(updateTasks({ id, data: dataChanged }));
       if (res.payload.status === "ok") {
         toast.success("تفییرات با موفقیت ذخیره شد.");
-        await fetchPermissions();
+        await fetchTasks();
       }
     } catch (err) {
       toast.error("ویرایش دسترسی با خطا روبرو شد");
       throw err;
     }
   };
-  // const switchFilterHandler = (e, id) => {
-  //   if (e) {
-  //     setFilterTypeList((prev) => [...prev, id]);
-  //   } else {
-  //     setFilterTypeList((prev) => prev.filter((p) => p !== id));
-  //   }
-  // };
-  // const filterHandler = async () => {
-  //   try {
-  //     const filterQuery =
-  //       filterTypeList.length !== 0 ? `?type=${filterTypeList.join(",")}` : "";
-  //     await dispatch(searchRoles(filterQuery));
-  //     setFilterTypeList([]);
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -230,9 +294,9 @@ const Permissions = () => {
           <Colxx lg="12" xl="12">
             <Table
               cols={cols}
-              title="مدیریت دسترسی ها"
-              data={allPermissions}
-              addName="افزودن دسترسی"
+              title="مدیریت وظایف"
+              data={allTasks}
+              addName="افزودن وظیفه"
               onAdd={() => {
                 history.push("roles/addrole/details");
               }}
@@ -285,4 +349,4 @@ const Permissions = () => {
     </Layout>
   );
 };
-export default Permissions;
+export default Tasks;

@@ -9,6 +9,7 @@ import {
   InputGroup,
   InputGroupAddon,
   Input,
+  Badge,
 } from "reactstrap";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import { useTable, usePagination, useSortBy } from "react-table";
@@ -24,7 +25,7 @@ function Table({
   collapse = false,
   collapseAddOnText,
   isEdit,
-  collapseText,
+  collapseData,
   onChangeData,
 }) {
   const {
@@ -102,26 +103,47 @@ function Table({
                 </tr>
                 {collapse?.state && collapse?.id == row.id && (
                   <tr>
-                    <td colSpan={4}>
-                      <InputGroup className="w-100">
-                        <InputGroupAddon addonType="prepend">
-                          {collapseAddOnText}
-                        </InputGroupAddon>
-                        <Input
-                          type="textarea"
-                          name="text"
-                          rows="5"
-                          value={collapseText}
-                          disabled={!isEdit?.state}
-                          onChange={(e) =>
-                            onChangeData((prev) => ({
-                              ...prev,
-                              description: e.target.value,
-                            }))
-                          }
-                        />
-                      </InputGroup>
-                    </td>
+                    {collapseData.map((col, index) => (
+                      <td colSpan={col.type === "textarea" ? 4 : 2} key={index}>
+                        {col.type === "textarea" && (
+                          <InputGroup className="w-100">
+                            <InputGroupAddon addonType="prepend">
+                              توضیحات
+                            </InputGroupAddon>
+                            <Input
+                              type="textarea"
+                              name="text"
+                              rows="5"
+                              value={col.value}
+                              disabled={!isEdit?.state}
+                              onChange={(e) =>
+                                onChangeData((prev) => ({
+                                  ...prev,
+                                  description: e.target.value,
+                                }))
+                              }
+                            />
+                          </InputGroup>
+                        )}
+                        {col.type === "badge" && (
+                          <div className="">
+                            <h6 className="mb-5">مدل های مورد نیاز</h6>
+                            <div className="d-flex">
+                              {col.value.map((bad) => (
+                                <Badge
+                                  key={bad.id}
+                                  color="primary"
+                                  pill
+                                  className="mb-1 ml-2"
+                                >
+                                  {bad.name}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </td>
+                    ))}
                   </tr>
                 )}
               </Fragment>
@@ -184,7 +206,7 @@ export const ReactTableDivided = ({
   isCollapse,
   collapseAddOnText,
   isEdit,
-  collapseText,
+  collapseData,
   onChangeData,
 }) => {
   const [selectedRadio, setSelectedRadio] = useState(0);
@@ -242,7 +264,7 @@ export const ReactTableDivided = ({
           collapse={isCollapse}
           collapseAddOnText={collapseAddOnText}
           isEdit={isEdit}
-          collapseText={collapseText}
+          collapseData={collapseData}
           onChangeData={onChangeData}
         />
       </div>

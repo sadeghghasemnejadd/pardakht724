@@ -13,6 +13,26 @@ export const getAllTasks = createAsyncThunk("getAllTasks", async () => {
     throw err;
   }
 });
+export const updateTasks = createAsyncThunk("updateTasks", async (value) => {
+  try {
+    console.log(value.data);
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.patch(
+      `/tasks/${value.id}`,
+      {
+        ...value.data,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
 export const updateRoleTasks = createAsyncThunk(
   "updateRoleTasks",
   async (values) => {
@@ -36,7 +56,11 @@ export const updateRoleTasks = createAsyncThunk(
   }
 );
 
-const allTasks = (res) => res.payload.tasks;
+const allTasks = (res) =>
+  res.payload.tasks.map((task) => ({
+    ...task,
+    description_subject: [task.description, task.subject_types],
+  }));
 
 export const TaskSlice = createSlice({
   name: "auth",
@@ -53,6 +77,16 @@ export const TaskSlice = createSlice({
       state.allTasks = allTasks(action);
     },
     [getAllTasks.rejected]: (state) => {
+      state.loading = false;
+    },
+    /////////////////////////////////////
+    [updateTasks.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateTasks.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [updateTasks.rejected]: (state) => {
       state.loading = false;
     },
     /////////////////////////////////////

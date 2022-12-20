@@ -54,6 +54,11 @@ const data = [
         to: "/permissions",
       },
       {
+        icon: "tasks",
+        label: "مدیریت وظایف",
+        to: "/tasks",
+      },
+      {
         icon: "simple-icon-check",
         label: "تاریخچه درخواست های پشتیبانی",
         to: "",
