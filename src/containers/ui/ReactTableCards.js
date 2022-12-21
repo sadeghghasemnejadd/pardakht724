@@ -212,7 +212,7 @@ export const ReactTableDivided = ({
   const [selectedRadio, setSelectedRadio] = useState(0);
   return (
     <>
-      <div className="mb-4 bg-white p-5 ">
+      <Card className="mb-4 p-5 ">
         <div>
           <div className="d-flex justify-content-between mb-5">
             <CardTitle className="h1">{title}</CardTitle>
@@ -267,7 +267,7 @@ export const ReactTableDivided = ({
           collapseData={collapseData}
           onChangeData={onChangeData}
         />
-      </div>
+      </Card>
     </>
   );
 };

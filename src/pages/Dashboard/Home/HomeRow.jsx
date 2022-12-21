@@ -5,7 +5,7 @@ export default function HomeRow({ title, list }) {
   // این متغییر بر اساس لیستی که به عنوان ورودی دریافت میشه ایتم های با سه ستون را رندر میکند
   const renderItems = nums.map((num) => (
     <div className="col-3" key={num}>
-      <div className=" d-flex flex-column justify-content-around align-items-center bg-white min-h-150 radius p-3">
+      <div className=" d-flex flex-column justify-content-around align-items-center  min-h-150 radius p-3">
         <i className="iconsminds-clock font-30"></i>
         <span>پرداخت با ویزا مستر</span>
       </div>

@@ -3,7 +3,6 @@ import Alert from "components/custom/alert";
 const nums = [1, 2];
 
 export default function HomeNotifications() {
-  
   const renderNotifItems = nums.map((num) => (
     <Alert
       key={num}
@@ -16,9 +15,7 @@ export default function HomeNotifications() {
       <div className="row">
         <div className="col-12">
           <h3>اعلانات</h3>
-          <div className="radius bg-white min-h-100 p-4">
-            {renderNotifItems}
-          </div>
+          <div className="radius min-h-100 p-4">{renderNotifItems}</div>
         </div>
       </div>
     </div>
