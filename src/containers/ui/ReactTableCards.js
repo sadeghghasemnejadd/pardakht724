@@ -11,6 +11,7 @@ import {
   Input,
   Badge,
 } from "reactstrap";
+import Switch from "rc-switch";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import { useTable, usePagination, useSortBy } from "react-table";
 import classnames from "classnames";
@@ -74,7 +75,6 @@ function Table({
                   } text-center`}
                 >
                   {column.render("Header")}
-                  <span />
                 </th>
               ))}
             </tr>
@@ -86,10 +86,7 @@ function Table({
             prepareRow(row);
             return (
               <Fragment key={row.id}>
-                <tr
-                  {...row.getRowProps()}
-                  style={{ height: "auto", position: "relative" }}
-                >
+                <tr {...row.getRowProps()}>
                   {row.cells.map((cell, cellIndex) => (
                     <td
                       key={`td_${cellIndex}`}
@@ -104,7 +101,16 @@ function Table({
                 {collapse?.state && collapse?.id == row.id && (
                   <tr>
                     {collapseData.map((col, index) => (
-                      <td colSpan={col.type === "textarea" ? 4 : 2} key={index}>
+                      <td
+                        colSpan={
+                          col.type === "textarea"
+                            ? 4
+                            : col.type === "badge"
+                            ? 2
+                            : 1
+                        }
+                        key={index}
+                      >
                         {col.type === "textarea" && (
                           <InputGroup className="w-100">
                             <InputGroupAddon addonType="prepend">
@@ -140,6 +146,53 @@ function Table({
                                 </Badge>
                               ))}
                             </div>
+                          </div>
+                        )}
+                        {col.type === "type" && (
+                          <div className="text-center">
+                            <p className="mb-5">نوع ارز</p>
+                            <div className="text-center">
+                              ارز{" "}
+                              {col.value === 0
+                                ? "فیات"
+                                : col.value === 1
+                                ? "الکترونیک"
+                                : "دیجیتال"}
+                            </div>
+                          </div>
+                        )}
+                        {col.type === "absoluteVolume" && (
+                          <div className="text-center">
+                            <p className="mb-5">موجودی حساب</p>
+                            <div className="text-center">{col.value}</div>
+                          </div>
+                        )}
+                        {col.type === "realVolume" && (
+                          <div className="text-center">
+                            <p className="mb-5">موجودی واقعی</p>
+                            <div className="text-center">{col.value}</div>
+                          </div>
+                        )}
+                        {col.type === "availableVolume" && (
+                          <div className="text-center">
+                            <p className="mb-5">موجودی در دسترس</p>
+                            <div className="text-center">{col.value}</div>
+                          </div>
+                        )}
+                        {col.type === "baseCurrency" && (
+                          <div className="text-center">
+                            <p className="mb-5">ارز پایه</p>
+                            <div className="text-center">{col.value}</div>
+                          </div>
+                        )}
+                        {col.type === "autoUpdate" && (
+                          <div className="text-center">
+                            <p className="mb-5">بروزرسانی خودکار</p>
+                            <Switch
+                              className="custom-switch custom-switch-secondary custom-switch-small "
+                              disabled
+                              checked={col.value}
+                            />
                           </div>
                         )}
                       </td>

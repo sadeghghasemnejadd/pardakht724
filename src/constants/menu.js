@@ -59,6 +59,11 @@ const data = [
         to: "/tasks",
       },
       {
+        icon: "currencies",
+        label: "مدیریت ارز ها",
+        to: "/currencies",
+      },
+      {
         icon: "simple-icon-check",
         label: "تاریخچه درخواست های پشتیبانی",
         to: "",

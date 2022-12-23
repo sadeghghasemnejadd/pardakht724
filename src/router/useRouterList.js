@@ -17,6 +17,7 @@ import AddRolePermissions from "pages/Dashboard/roles/AddRolePermissions";
 import AddRolesTasks from "pages/Dashboard/roles/AddRolesTasks";
 import Permissions from "pages/Dashboard/permissions/permissions";
 import Tasks from "pages/Dashboard/tasks/Tasks";
+import Currencies from "pages/Dashboard/currencies/currencies";
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
@@ -93,6 +94,11 @@ const defaultPrivateRoutes = [
   {
     component: <Tasks />,
     path: "/tasks",
+  },
+  ////////////////////////////
+  {
+    component: <Currencies />,
+    path: "/currencies",
   },
 ];
 

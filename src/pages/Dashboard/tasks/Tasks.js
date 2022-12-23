@@ -303,19 +303,23 @@ const Tasks = () => {
               search={[
                 {
                   id: 0,
-                  name: "سرچ در نام",
+                  name: "نام",
                 },
                 {
                   id: 1,
-                  name: "سرچ در برچسب",
+                  name: "نوع",
+                },
+                {
+                  id: 2,
+                  name: "ارجاع",
                 },
               ]}
               onSearch={searchHandler}
               searchRef={searchInputRef}
               isCollapse={collapse}
+              collapseData={collapseData}
               collapseAddOnText="توضیحات"
               isEdit={isEdit}
-              collapseData={collapseData}
               onChangeData={setDataChanged}
             />
           </Colxx>

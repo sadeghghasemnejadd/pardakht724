@@ -133,6 +133,7 @@ export default function Users() {
     ],
     []
   );
+  console.log(users);
   ////////////////////////
   useEffect(() => {
     fetchUsers();
