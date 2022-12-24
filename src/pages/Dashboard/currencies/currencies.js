@@ -169,7 +169,6 @@ export default function Currencies() {
     ],
     []
   );
-  console.log(currencies);
   ////////////////////////
   useEffect(() => {
     fetchCurrencies();
@@ -206,16 +205,19 @@ export default function Currencies() {
   };
   const filterHandler = async () => {
     try {
-      let filterQuery =
-        filterTypeList.length !== 0 ? `?type=${filterTypeList.join(",")}` : "";
+      let filterQuery = "?";
       filterQuery +=
-        filterStatusList.length !== 0
-          ? `,is_active=${filterStatusList
-              .map((f) => (f === 0 ? true : false))
-              .join(",")}`
-          : ``;
+        filterTypeList.length !== 0 ? `type=${filterTypeList.join(",")}` : "";
+      filterQuery +=
+        filterStatusList.length !== 0 && filterTypeList.length !== 0
+          ? `&is_active=${filterStatusList.join(",")}`
+          : filterStatusList.length !== 0
+          ? `is_active=${filterStatusList.join(",")}`
+          : "";
+      console.log(filterQuery);
       await dispatch(searchCurrency(filterQuery));
       setFilterTypeList([]);
+      setFilterStatusList([]);
     } catch (err) {
       throw err;
     }
@@ -274,8 +276,8 @@ export default function Currencies() {
                   id: "status",
                   title: "وضعیت",
                   switches: [
-                    { id: 0, name: "فعال" },
-                    { id: 1, name: "غیر فعال" },
+                    { id: 1, name: "فعال" },
+                    { id: 0, name: "غیر فعال" },
                   ],
                 },
               ]}
