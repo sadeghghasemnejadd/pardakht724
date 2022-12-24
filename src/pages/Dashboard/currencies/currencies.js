@@ -11,6 +11,19 @@ import {
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Colxx } from "components/common/CustomBootstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  ButtonGroup,
+  Button,
+  CustomInput,
+} from "reactstrap";
+
 export default function Currencies() {
   const [filterTypeList, setFilterTypeList] = useState([]);
   const [filterStatusList, setFilterStatusList] = useState([]);
@@ -24,6 +37,12 @@ export default function Currencies() {
     { type: "baseCurrency", value: "" },
     { type: "autoUpdate", value: 0 },
   ]);
+  const [selectedButton, setSelectedButton] = useState(0);
+  const [isModal, setIsModal] = useState(false);
+  const [isActiveAdd, setIsActiveAdd] = useState(1);
+  const [isUpdateAdd, setIsUpdateAdd] = useState(1);
+  const iconRef = useRef();
+  const [iconData, setIconData] = useState();
   const [isEdit, setIsEdit] = useState();
   const dispatch = useDispatch();
   const { loading, currencies } = useSelector((store) => store.currencies);
@@ -214,7 +233,6 @@ export default function Currencies() {
           : filterStatusList.length !== 0
           ? `is_active=${filterStatusList.join(",")}`
           : "";
-      console.log(filterQuery);
       await dispatch(searchCurrency(filterQuery));
       setFilterTypeList([]);
       setFilterStatusList([]);
@@ -232,6 +250,12 @@ export default function Currencies() {
       throw err;
     }
   };
+  const uploadIcon = (e) => {
+    if (iconRef.current) {
+      const file = e.target.files;
+      setIconData(file[0]);
+    }
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -245,7 +269,9 @@ export default function Currencies() {
               isCollapse={collapse}
               collapseData={collapseData}
               addName="افزودن ارز جدید"
-              onAdd={() => {}}
+              onAdd={() => {
+                setIsModal(true);
+              }}
               search={[
                 {
                   id: 0,
@@ -260,6 +286,114 @@ export default function Currencies() {
               onSearch={searchCurrencyHandler}
             />
           </Colxx>
+          <Modal isOpen={isModal} size="lg" toggle={() => setIsModal(!isModal)}>
+            <ModalHeader>ایجاد ارز جدید</ModalHeader>
+            <ModalBody>
+              <div className="d-flex mb-3">
+                <InputGroup size="sm" className="mr-3">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">نام ارز</span>
+                  </InputGroupAddon>
+                  <Input />
+                </InputGroup>
+                <InputGroup size="sm" className="">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">نماد</span>
+                  </InputGroupAddon>
+                  <Input />
+                </InputGroup>
+              </div>
+              <div className="mb-3">
+                <InputGroup className="mb-3">
+                  <InputGroupAddon addonType="prepend">
+                    آپلود آیکون
+                  </InputGroupAddon>
+                  <CustomInput
+                    type="file"
+                    id="icon"
+                    innerRef={iconRef}
+                    name="icon"
+                    onChange={uploadIcon}
+                  />
+                </InputGroup>
+              </div>
+              <div className="d-flex mb-3">
+                <InputGroup size="sm" className="mr-3">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">موجودی حساب</span>
+                  </InputGroupAddon>
+                  <Input />
+                </InputGroup>
+                <InputGroup size="sm" className="">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">ارز پایه</span>
+                  </InputGroupAddon>
+                  <Input />
+                </InputGroup>
+              </div>
+              <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex w-50 justify-content-between align-items-center mr-4">
+                  <p className="mb-0">نوع ارز</p>
+                  <ButtonGroup>
+                    <Button
+                      color="primary"
+                      onClick={() => setSelectedButton(0)}
+                      active={selectedButton === 0}
+                    >
+                      فیات
+                    </Button>
+                    <Button
+                      color="primary"
+                      onClick={() => setSelectedButton(1)}
+                      active={selectedButton === 1}
+                    >
+                      الکترونیک
+                    </Button>
+                    <Button
+                      color="primary"
+                      onClick={() => setSelectedButton(2)}
+                      active={selectedButton === 2}
+                    >
+                      دیجیتال
+                    </Button>
+                  </ButtonGroup>
+                </div>
+                <div className="d-flex align-items-center w-25  mr-3">
+                  <p className="mb-0 mr-3">وضعیت</p>
+                  <Switch
+                    className="custom-switch custom-switch-secondary custom-switch-small"
+                    checked={isActiveAdd}
+                    onChange={() =>
+                      setIsActiveAdd((prev) => (prev === 0 ? 1 : 0))
+                    }
+                  />
+                </div>
+                <div className="d-flex align-items-center w-25 justify-content-end">
+                  <p className="mb-0 mr-3">بروزرسانی خودکار</p>
+                  <Switch
+                    className="custom-switch custom-switch-secondary custom-switch-small"
+                    checked={isUpdateAdd}
+                    onChange={() =>
+                      setIsUpdateAdd((prev) => (prev === 0 ? 1 : 0))
+                    }
+                  />
+                </div>
+              </div>
+            </ModalBody>
+            <ModalFooter className="d-flex flex-row-reverse justify-content-start">
+              <Button color="primary" size="lg" className="mb-2">
+                ایجاد
+              </Button>
+              <Button
+                color="secondary"
+                size="lg"
+                className="mb-2"
+                onClick={() => setIsModal(false)}
+              >
+                لغو
+              </Button>
+            </ModalFooter>
+          </Modal>
           <Colxx xxs="2">
             <SurveyApplicationMenu
               filters={[
