@@ -42,7 +42,19 @@ export default function Currencies() {
   const [isActiveAdd, setIsActiveAdd] = useState(1);
   const [isUpdateAdd, setIsUpdateAdd] = useState(1);
   const iconRef = useRef();
-  const [iconData, setIconData] = useState();
+  const [addIcon, setAddIcon] = useState();
+  const [addData, setAddData] = useState({
+    name: "",
+    Symbol: "",
+    type: 0,
+    icon: "",
+    base_currency: "",
+    buy_price: 0,
+    sell_price: 0,
+    absolute_volume: 0,
+    auto_update: 1,
+    is_active: 1,
+  });
   const [isEdit, setIsEdit] = useState();
   const dispatch = useDispatch();
   const { loading, currencies } = useSelector((store) => store.currencies);
@@ -253,7 +265,31 @@ export default function Currencies() {
   const uploadIcon = (e) => {
     if (iconRef.current) {
       const file = e.target.files;
-      setIconData(file[0]);
+      setAddIcon(file[0]);
+    }
+  };
+  const addCurrenciesHandler = async () => {
+    try {
+      if (addData.name.length > 127) {
+        throw new Error("نام ارز حداکثر باید 127 کارکتر باشد");
+      }
+      if (addData.symbol.length > 127) {
+        throw new Error("نماد ارز حداکثر باید 127 کارکتر باشد");
+      }
+      if (addData.base_currency.length > 127) {
+        throw new Error("ارز پایه حداکثر باید 127 کارکتر باشد");
+      }
+      if (Number.isNaN(Number(addData.absolute_volume))) {
+        throw new Error("موجودی حتما باید عدد باشد");
+      }
+      if (addIcon.size > 128000) {
+        throw new Error("سایز عکس باید کمتر از 128 کیلوبایت باشد");
+      }
+      if (!addIcon.name.includes(".png")) {
+        throw new Error("فرمت عکس حنما باید png باشد");
+      }
+    } catch (err) {
+      throw err;
     }
   };
   return (
@@ -294,13 +330,24 @@ export default function Currencies() {
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">نام ارز</span>
                   </InputGroupAddon>
-                  <Input />
+                  <Input
+                    onChange={(e) =>
+                      setAddData((prev) => ({ ...prev, name: e.target.value }))
+                    }
+                  />
                 </InputGroup>
                 <InputGroup size="sm" className="">
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">نماد</span>
                   </InputGroupAddon>
-                  <Input />
+                  <Input
+                    onChange={(e) =>
+                      setAddData((prev) => ({
+                        ...prev,
+                        symbol: e.target.value,
+                      }))
+                    }
+                  />
                 </InputGroup>
               </div>
               <div className="mb-3">
@@ -322,13 +369,27 @@ export default function Currencies() {
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">موجودی حساب</span>
                   </InputGroupAddon>
-                  <Input />
+                  <Input
+                    onChange={(e) =>
+                      setAddData((prev) => ({
+                        ...prev,
+                        absolute_volume: e.target.value,
+                      }))
+                    }
+                  />
                 </InputGroup>
                 <InputGroup size="sm" className="">
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">ارز پایه</span>
                   </InputGroupAddon>
-                  <Input />
+                  <Input
+                    onChange={(e) =>
+                      setAddData((prev) => ({
+                        ...prev,
+                        base_currency: e.target.value,
+                      }))
+                    }
+                  />
                 </InputGroup>
               </div>
               <div className="d-flex justify-content-between align-items-center">
@@ -381,7 +442,12 @@ export default function Currencies() {
               </div>
             </ModalBody>
             <ModalFooter className="d-flex flex-row-reverse justify-content-start">
-              <Button color="primary" size="lg" className="mb-2">
+              <Button
+                color="primary"
+                size="lg"
+                className="mb-2"
+                onClick={addCurrenciesHandler}
+              >
                 ایجاد
               </Button>
               <Button
