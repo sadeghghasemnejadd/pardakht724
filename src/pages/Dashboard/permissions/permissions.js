@@ -1,11 +1,12 @@
 import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import Layout from "layout/AppLayout";
-import { Input, InputGroup, InputGroupAddon } from "reactstrap";
+import { Card, Input, InputGroup, InputGroupAddon } from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
 import "rc-switch/assets/index.css";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
+import HeaderLayout from "containers/ui/headerLayout";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getAllPermissions,
@@ -205,81 +206,53 @@ const Permissions = () => {
       throw err;
     }
   };
-  // const switchFilterHandler = (e, id) => {
-  //   if (e) {
-  //     setFilterTypeList((prev) => [...prev, id]);
-  //   } else {
-  //     setFilterTypeList((prev) => prev.filter((p) => p !== id));
-  //   }
-  // };
-  // const filterHandler = async () => {
-  //   try {
-  //     const filterQuery =
-  //       filterTypeList.length !== 0 ? `?type=${filterTypeList.join(",")}` : "";
-  //     await dispatch(searchRoles(filterQuery));
-  //     setFilterTypeList([]);
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // };
+  const match = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: history.location.pathname,
+      text: "مدیریت دسترسی ها",
+    },
+  ];
   return (
     <Layout>
       {loading && <div className="loading"></div>}
       {!loading && (
         <div>
           <Colxx lg="12" xl="12">
-            <Table
-              cols={cols}
-              title="مدیریت دسترسی ها"
-              data={allPermissions}
-              addName="افزودن دسترسی"
-              onAdd={() => {
-                history.push("roles/addrole/details");
-              }}
-              search={[
-                {
-                  id: 0,
-                  name: "سرچ در نام",
-                },
-                {
-                  id: 1,
-                  name: "سرچ در برچسب",
-                },
-              ]}
-              onSearch={searchHandler}
-              searchRef={searchInputRef}
-              isCollapse={collapse}
-              collapseAddOnText="توضیحات"
-              isEdit={isEdit}
-              collapseData={collapseData}
-              onChangeData={setDataChanged}
-            />
+            <Card className="mb-4 p-5">
+              <HeaderLayout
+                title="مدیریت دسترسی ها"
+                addName="افزودن دسترسی جدید"
+                onSearch={searchHandler}
+                hasSearch={true}
+                searchInputRef={searchInputRef}
+                searchOptions={[
+                  {
+                    id: 0,
+                    name: "سرچ در نام",
+                  },
+                  {
+                    id: 1,
+                    name: "سرچ در برچسب",
+                  },
+                ]}
+                onAdd={() => {}}
+                match={match}
+              />
+              <Table
+                cols={cols}
+                data={allPermissions}
+                isCollapse={collapse}
+                collapseAddOnText="توضیحات"
+                isEdit={isEdit}
+                collapseData={collapseData}
+                onChangeData={setDataChanged}
+              />
+            </Card>
           </Colxx>
-          {/* <Colxx xxs="2">
-            <SurveyApplicationMenu
-              filters={[
-                {
-                  id: "type",
-                  title: "نوع نقش",
-                  switches: [
-                    { id: 0, name: "مشتری" },
-                    { id: 1, name: "کارمند" },
-                    { id: 2, name: "همکار" },
-                  ],
-                },
-                {
-                  id: "status",
-                  title: "وضعیت",
-                  switches: [
-                    { id: 3, name: "فعال" },
-                    { id: 4, name: "غیر فعال" },
-                  ],
-                },
-              ]}
-              onSwitch={switchFilterHandler}
-              onFilter={filterHandler}
-            />
-          </Colxx> */}
         </div>
       )}
     </Layout>

@@ -262,65 +262,17 @@ export const ReactTableDivided = ({
   collapseData,
   onChangeData,
 }) => {
-  const [selectedRadio, setSelectedRadio] = useState(0);
   return (
-    <>
-      <Card className="mb-4 p-5 ">
-        <div>
-          <div className="d-flex justify-content-between mb-5">
-            <CardTitle className="h1">{title}</CardTitle>
-            <Button
-              color="primary"
-              size="lg"
-              className="top-right-button mr-1"
-              onClick={onAdd.bind(null)}
-            >
-              {addName}
-            </Button>
-          </div>
-          <div className="d-flex align-items-center mb-5">
-            <form
-              onSubmit={(e) => onSearch(e, selectedRadio)}
-              className="d-flex align-items-center"
-            >
-              <div className="search-sm d-inline-block float-md-left mr-3 align-top">
-                <input
-                  type="text"
-                  name="search"
-                  id="search"
-                  placeholder="سرچ"
-                  ref={searchRef}
-                />
-              </div>
-              <ButtonGroup>
-                {search.map((s) => (
-                  <Button
-                    key={s.id}
-                    color="primary"
-                    onClick={() => setSelectedRadio(s.id)}
-                    active={selectedRadio === s.id}
-                  >
-                    {s.name}
-                  </Button>
-                ))}
-              </ButtonGroup>
-            </form>
-          </div>
-        </div>
-        <Separator className="mb-5" />
-
-        <Table
-          columns={cols}
-          data={data}
-          divided
-          defaultPageSize={pageSize}
-          collapse={isCollapse}
-          collapseAddOnText={collapseAddOnText}
-          isEdit={isEdit}
-          collapseData={collapseData}
-          onChangeData={onChangeData}
-        />
-      </Card>
-    </>
+    <Table
+      columns={cols}
+      data={data}
+      divided
+      defaultPageSize={pageSize}
+      collapse={isCollapse}
+      collapseAddOnText={collapseAddOnText}
+      isEdit={isEdit}
+      collapseData={collapseData}
+      onChangeData={onChangeData}
+    />
   );
 };

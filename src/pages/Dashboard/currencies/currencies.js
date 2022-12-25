@@ -7,8 +7,9 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getAllCurrencies,
   searchCurrency,
+  addCurrency,
 } from "redux-toolkit/currenciesSlice";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Colxx } from "components/common/CustomBootstrap";
 import {
@@ -22,8 +23,9 @@ import {
   ButtonGroup,
   Button,
   CustomInput,
+  Card,
 } from "reactstrap";
-
+import HeaderLayout from "containers/ui/headerLayout";
 export default function Currencies() {
   const [filterTypeList, setFilterTypeList] = useState([]);
   const [filterStatusList, setFilterStatusList] = useState([]);
@@ -58,6 +60,7 @@ export default function Currencies() {
   const [isEdit, setIsEdit] = useState();
   const dispatch = useDispatch();
   const { loading, currencies } = useSelector((store) => store.currencies);
+
   const cols = useMemo(
     () => [
       {
@@ -165,7 +168,7 @@ export default function Currencies() {
 
       {
         Header: "عملیات",
-        accessor: "",
+        accessor: "id",
         cellClass: "text-muted text-center",
         Cell: ({ value }) => {
           return (
@@ -178,11 +181,11 @@ export default function Currencies() {
                 />
               </div>
               <div className="glyph">
-                <div
+                <Link
                   className={`glyph-icon iconsminds-synchronize-2
 
                 h5`}
-                  style={{ cursor: "pointer" }}
+                  to={`/currencies/${value}/exchange-rates`}
                 />
               </div>
               <div className="glyph">
@@ -288,39 +291,63 @@ export default function Currencies() {
       if (!addIcon.name.includes(".png")) {
         throw new Error("فرمت عکس حنما باید png باشد");
       }
+      const res = await dispatch(addCurrency({ ...addData, addIcon }));
+      if (res.payload.status === "ok") {
+        toast.success("ارز با موفقیت اضافه شد");
+        await fetchCurrencies();
+        isModal(false);
+      }
     } catch (err) {
+      toast.error(err);
       throw err;
     }
   };
+  const history = useHistory();
+  const match = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: history.location.pathname,
+      text: "مدیریت ارز ها",
+    },
+  ];
   return (
     <Layout>
       {loading && <div className="loading"></div>}
       {!loading && (
         <div className="d-flex">
           <Colxx lg="12" xl="9">
-            <Table
-              cols={cols}
-              title="مدیریت ارز ها"
-              data={currencies}
-              isCollapse={collapse}
-              collapseData={collapseData}
-              addName="افزودن ارز جدید"
-              onAdd={() => {
-                setIsModal(true);
-              }}
-              search={[
-                {
-                  id: 0,
-                  name: "نام ارز",
-                },
-                {
-                  id: 1,
-                  name: "نماد",
-                },
-              ]}
-              searchRef={searchInputRef}
-              onSearch={searchCurrencyHandler}
-            />
+            <Card className="mb-4 p-5">
+              <HeaderLayout
+                title="مدیریت ارز ها"
+                addName="افزودن ارز جدید"
+                onSearch={searchCurrencyHandler}
+                hasSearch={true}
+                searchInputRef={searchInputRef}
+                searchOptions={[
+                  {
+                    id: 0,
+                    name: "نام ارز",
+                  },
+                  {
+                    id: 1,
+                    name: "نماد",
+                  },
+                ]}
+                onAdd={() => {
+                  setIsModal(true);
+                }}
+                match={match}
+              />
+              <Table
+                cols={cols}
+                data={currencies}
+                isCollapse={collapse}
+                collapseData={collapseData}
+              />
+            </Card>
           </Colxx>
           <Modal isOpen={isModal} size="lg" toggle={() => setIsModal(!isModal)}>
             <ModalHeader>ایجاد ارز جدید</ModalHeader>

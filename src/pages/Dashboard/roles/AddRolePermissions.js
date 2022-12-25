@@ -11,6 +11,7 @@ import {
 } from "redux-toolkit/permissionsSlice";
 import styles from "./roles.module.css";
 import { toast } from "react-toastify";
+import Breadcrumb from "components/custom/Breadcrumb";
 const AddRolePermissions = () => {
   const { id } = useParams();
   const { loading, allPermissions } = useSelector((store) => store.permissions);
@@ -73,16 +74,26 @@ const AddRolePermissions = () => {
       throw err;
     }
   };
+  const match = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: "/roles",
+      text: "مدیریت نقش ها",
+    },
+    {
+      path: history.location.pathname,
+      text: "اضافه کردن دسترسی",
+    },
+  ];
   return (
     <Layout>
       {loading && <div className="loading"></div>}
       <Colxx xxs="12">
         <div className="d-flex justify-content-between align-items-center">
-          <h1>
-            <span className="align-middle d-inline-block pt-1">
-              اضافه کردن دسترسی
-            </span>
-          </h1>
+          <Breadcrumb title="اضافه کردن دسترسی" list={match} />
           <Button
             color="primary"
             size="lg"

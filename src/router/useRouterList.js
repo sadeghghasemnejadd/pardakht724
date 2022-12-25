@@ -18,6 +18,8 @@ import AddRolesTasks from "pages/Dashboard/roles/AddRolesTasks";
 import Permissions from "pages/Dashboard/permissions/permissions";
 import Tasks from "pages/Dashboard/tasks/Tasks";
 import Currencies from "pages/Dashboard/currencies/currencies";
+import ExchangeRate from "pages/Dashboard/currencies/exchangeRate";
+
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
@@ -99,6 +101,10 @@ const defaultPrivateRoutes = [
   {
     component: <Currencies />,
     path: "/currencies",
+  },
+  {
+    component: <ExchangeRate />,
+    path: "/currencies/:id/exchange-rates",
   },
 ];
 

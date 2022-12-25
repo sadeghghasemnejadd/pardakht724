@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Autosuggest from 'react-autosuggest';
+import React, { useState } from "react";
+import Autosuggest from "react-autosuggest";
 
 const getSuggestionValue = (suggestion) => suggestion.name;
 
@@ -38,7 +38,7 @@ const ReactAutoSuggest = ({ data, value, placeholder, onChange }) => {
   };
 
   const inputProps = {
-    placeholder: placeholder || '',
+    placeholder: placeholder || "",
     value: valueState,
     onChange: changeInput,
   };
@@ -52,17 +52,17 @@ const ReactAutoSuggest = ({ data, value, placeholder, onChange }) => {
       renderSuggestion={renderSuggestion}
       inputProps={inputProps}
       theme={{
-        container: 'autosuggest',
-        input: 'form-control',
-        inputOpen: 'react-autosuggest__input--open',
-        suggestionsContainer: 'react-autosuggest__suggestions-container',
+        container: "search-sm",
+        input: "form-control",
+        inputOpen: "react-autosuggest__input--open",
+        suggestionsContainer: "react-autosuggest__suggestions-container",
         suggestionsContainerOpen:
-          'react-autosuggest__suggestions-container--open',
+          "react-autosuggest__suggestions-container--open",
         suggestionsList: `react-autosuggest__suggestions-list ${
-          suggestions.length ? 'show' : ''
+          suggestions.length ? "show" : ""
         }`,
-        suggestionFocused: 'active',
-        suggestion: 'react-autosuggest__suggestion',
+        suggestionFocused: "active",
+        suggestion: "react-autosuggest__suggestion",
       }}
     />
   );

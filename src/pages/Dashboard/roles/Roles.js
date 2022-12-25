@@ -8,6 +8,8 @@ import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu
 import { useSelector, useDispatch } from "react-redux";
 import { getAllRoles, searchRoles } from "redux-toolkit/RolesSlice";
 import { Link, useHistory } from "react-router-dom";
+import HeaderLayout from "containers/ui/headerLayout";
+import { Card } from "reactstrap";
 const Roles = () => {
   const dispatch = useDispatch();
   const { loading, roles } = useSelector((store) => store.roles);
@@ -70,6 +72,16 @@ const Roles = () => {
     fetchRoles();
   }, [fetchRoles]);
 
+  const match = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: history.location.pathname,
+      text: "مدیریت نقش ها",
+    },
+  ];
   const fetchRoles = async () => {
     try {
       await dispatch(getAllRoles());
@@ -113,27 +125,30 @@ const Roles = () => {
       {!loading && (
         <div>
           <Colxx lg="12" xl="9">
-            <Table
-              cols={cols}
-              title="مدیریت نقش ها"
-              data={roles}
-              addName="افزودن نقش"
-              onAdd={() => {
-                history.push("roles/addrole/details");
-              }}
-              search={[
-                {
-                  id: 0,
-                  name: "نام نقش",
-                },
-                {
-                  id: 1,
-                  name: "برچسب نقش",
-                },
-              ]}
-              onSearch={searchHandler}
-              searchRef={searchInputRef}
-            />
+            <Card className="mb-4 p-5">
+              <HeaderLayout
+                title="مدیریت نقش ها"
+                addName="افزودن نقش جدید"
+                onSearch={searchHandler}
+                hasSearch={true}
+                searchInputRef={searchInputRef}
+                searchOptions={[
+                  {
+                    id: 0,
+                    name: "نام نقش",
+                  },
+                  {
+                    id: 1,
+                    name: "برچسب نقش",
+                  },
+                ]}
+                onAdd={() => {
+                  history.push("roles/addrole/details");
+                }}
+                match={match}
+              />
+              <Table cols={cols} data={roles} />
+            </Card>
           </Colxx>
           <Colxx xxs="2">
             <SurveyApplicationMenu

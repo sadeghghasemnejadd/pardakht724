@@ -1,7 +1,7 @@
 import Layout from "layout/AppLayout";
 import { Nav, NavItem, Button, TabContent, TabPane } from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import classnames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import RolesDetail from "./RolesDetail";
@@ -17,6 +17,7 @@ import {
   getRoleTasks,
 } from "redux-toolkit/RolesSlice";
 import { toast } from "react-toastify";
+import Breadcrumb from "components/custom/Breadcrumb";
 const Details = () => {
   const { id } = useParams();
   const { loading, role, permissions, tasks, limits, allPermissions } =
@@ -84,13 +85,26 @@ const Details = () => {
       throw err;
     }
   };
+  const history = useHistory();
+  const match = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: "/roles",
+      text: "مدیریت نقش ها",
+    },
+    {
+      path: history.location.pathname,
+      text: "جزییات نقش",
+    },
+  ];
   return (
     <Layout>
       {loading && <div className="loading"></div>}
-      <Colxx xxs="12">
-        <h1>
-          <span className="align-middle d-inline-block pt-1">جزییات نقش</span>
-        </h1>
+      <Colxx xxs="12" className="pt-1">
+        <Breadcrumb title="جزییات نقش" list={match} />
         <Nav tabs className="separator-tabs ml-0 mb-5 col-sm">
           <NavItem>
             <NavLink

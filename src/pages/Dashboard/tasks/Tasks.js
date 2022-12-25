@@ -1,15 +1,14 @@
 import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import Layout from "layout/AppLayout";
-import { Input, InputGroup, InputGroupAddon } from "reactstrap";
+import { Card, Input, InputGroup, InputGroupAddon } from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
-import Switch from "rc-switch";
 import "rc-switch/assets/index.css";
-import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllTasks, updateTasks } from "redux-toolkit/TasksSlice";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import HeaderLayout from "containers/ui/headerLayout";
 const Tasks = () => {
   const dispatch = useDispatch();
   const { loading, allTasks } = useSelector((store) => store.tasks);
@@ -23,6 +22,16 @@ const Tasks = () => {
   ]);
   const [dataChanged, setDataChanged] = useState({});
   const history = useHistory();
+  const match = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: history.location.pathname,
+      text: "مدیریت وظایف",
+    },
+  ];
   const cols = useMemo(
     () => [
       {
@@ -290,17 +299,18 @@ const Tasks = () => {
     <Layout>
       {loading && <div className="loading"></div>}
       {!loading && (
-        <div>
-          <Colxx lg="12" xl="12">
-            <Table
-              cols={cols}
+        <Colxx lg="12" xl="12">
+          <Card className="mb-4 p-5">
+            <HeaderLayout
               title="مدیریت وظایف"
-              data={allTasks}
-              addName="افزودن وظیفه"
+              addName="افزودن وظیفه جدید"
+              onSearch={searchHandler}
+              hasSearch={true}
+              searchInputRef={searchInputRef}
               onAdd={() => {
                 history.push("roles/addrole/details");
               }}
-              search={[
+              searchOptions={[
                 {
                   id: 0,
                   name: "نام",
@@ -314,41 +324,19 @@ const Tasks = () => {
                   name: "ارجاع",
                 },
               ]}
-              onSearch={searchHandler}
-              searchRef={searchInputRef}
+              match={match}
+            />
+            <Table
+              cols={cols}
+              data={allTasks}
               isCollapse={collapse}
               collapseData={collapseData}
               collapseAddOnText="توضیحات"
               isEdit={isEdit}
               onChangeData={setDataChanged}
             />
-          </Colxx>
-          {/* <Colxx xxs="2">
-            <SurveyApplicationMenu
-              filters={[
-                {
-                  id: "type",
-                  title: "نوع نقش",
-                  switches: [
-                    { id: 0, name: "مشتری" },
-                    { id: 1, name: "کارمند" },
-                    { id: 2, name: "همکار" },
-                  ],
-                },
-                {
-                  id: "status",
-                  title: "وضعیت",
-                  switches: [
-                    { id: 3, name: "فعال" },
-                    { id: 4, name: "غیر فعال" },
-                  ],
-                },
-              ]}
-              onSwitch={switchFilterHandler}
-              onFilter={filterHandler}
-            />
-          </Colxx> */}
-        </div>
+          </Card>
+        </Colxx>
       )}
     </Layout>
   );

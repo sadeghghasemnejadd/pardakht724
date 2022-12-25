@@ -3,13 +3,16 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Layout from "layout/AppLayout";
 import styles from "./style.module.css";
 import Switch from "rc-switch";
+import { withRouter, useHistory } from "react-router-dom";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import { useSelector, useDispatch } from "react-redux";
 import { allUsers, searchUser } from "redux-toolkit/UserSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Colxx } from "components/common/CustomBootstrap";
-export default function Users() {
+import { Colxx, Separator } from "components/common/CustomBootstrap";
+import { Card } from "reactstrap";
+import HeaderLayout from "containers/ui/headerLayout";
+const Users = ({ match }) => {
   const [filterTypeList, setFilterTypeList] = useState([]);
   const searchInputRef = useRef();
   const dispatch = useDispatch();
@@ -133,7 +136,18 @@ export default function Users() {
     ],
     []
   );
-  console.log(users);
+  const history = useHistory();
+  console.log(history);
+  const breadcrumb = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: history.location.pathname,
+      text: "مدیریت کاربران",
+    },
+  ];
   ////////////////////////
   useEffect(() => {
     fetchUsers();
@@ -196,34 +210,36 @@ export default function Users() {
       {!loading && (
         <div className="d-flex">
           <Colxx lg="12" xl="9">
-            <Table
-              cols={cols}
-              title="لیست کاربران"
-              data={users}
-              addName="افزودن کاربر جدید"
-              onAdd={() => {}}
-              search={[
-                {
-                  id: 0,
-                  name: "در نام",
-                },
-                {
-                  id: 1,
-                  name: "نام خانوادگی",
-                },
-                {
-                  id: 2,
-                  name: "ایمیل",
-                },
-                {
-                  id: 3,
-                  name: "شماره همراه",
-                },
-              ]}
-              searchRef={searchInputRef}
-              onSearch={searchUserHandler}
-              pageSize={10}
-            />
+            <Card className="mb-4 p-5">
+              <HeaderLayout
+                title="لیست کاربران"
+                addName="افزودن کاربر جدید"
+                onSearch={searchUserHandler}
+                hasSearch={true}
+                searchInputRef={searchInputRef}
+                onAdd={() => {}}
+                searchOptions={[
+                  {
+                    id: 0,
+                    name: "نام",
+                  },
+                  {
+                    id: 1,
+                    name: "نام خانوادگی",
+                  },
+                  {
+                    id: 2,
+                    name: "ایمیل",
+                  },
+                  {
+                    id: 3,
+                    name: "شماره همراه",
+                  },
+                ]}
+                match={breadcrumb}
+              />
+              <Table cols={cols} data={users} pageSize={10} />
+            </Card>
           </Colxx>
           <Colxx xxs="2">
             <SurveyApplicationMenu
@@ -265,4 +281,6 @@ export default function Users() {
       )}
     </Layout>
   );
-}
+};
+
+export default Users;

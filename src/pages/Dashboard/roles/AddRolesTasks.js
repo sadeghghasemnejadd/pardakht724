@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { getAllTasks, updateRoleTasks } from "redux-toolkit/TasksSlice";
 import styles from "./roles.module.css";
 import { toast } from "react-toastify";
+import Breadcrumb from "components/custom/Breadcrumb";
 const AddRolesTasks = () => {
   const { id } = useParams();
   const { loading, allTasks } = useSelector((store) => store.tasks);
@@ -63,16 +64,27 @@ const AddRolesTasks = () => {
       throw err;
     }
   };
+  const match = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: "/roles",
+      text: "مدیریت نقش ها",
+    },
+    {
+      path: history.location.pathname,
+      text: "اضافه کردن وظیفه",
+    },
+  ];
   return (
     <Layout>
       {loading && <div className="loading"></div>}
       <Colxx xxs="12">
         <div className="d-flex justify-content-between align-items-center">
-          <h1>
-            <span className="align-middle d-inline-block pt-1">
-              اضافه کردن وظیفه
-            </span>
-          </h1>
+          <Breadcrumb title="اضافه کردن وظیفه" list={match} />
+
           <Button
             color="primary"
             size="lg"

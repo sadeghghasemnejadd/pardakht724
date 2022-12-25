@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -23,7 +23,7 @@ import {
   CardText,
   Button,
 } from "reactstrap";
-
+import Breadcrumb from "components/custom/Breadcrumb";
 import ImageCardList from "containers/ui/ImageCardList";
 
 export default function User() {
@@ -33,6 +33,21 @@ export default function User() {
   const { roles } = useSelector((store) => store.roles);
   const [isEdit, setIsEdit] = useState({ enable: false, roleId: 0 });
   const rolesRef = useRef();
+  const history = useHistory();
+  const match = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: "/users",
+      text: "مدیریت کاربران",
+    },
+    {
+      path: history.location.pathname,
+      text: "نقش های کاربر",
+    },
+  ];
   const handleSetEmployee = () => {
     client
       .post(
@@ -131,7 +146,7 @@ export default function User() {
         <div className="container">
           <div className={styles.contact}>
             <div className={styles.roles}>
-              <h3 className={styles["roles__title"]}>نقش های کاربر</h3>
+              <Breadcrumb title="نقش های کاربر" list={match} />
               <ul className={styles["roles__list"]}>
                 {userRoles ? (
                   userRoles.map((role) => {

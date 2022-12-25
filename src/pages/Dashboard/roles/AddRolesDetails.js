@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addRole } from "redux-toolkit/RolesSlice";
 import { toast } from "react-toastify";
+import Breadcrumb from "components/custom/Breadcrumb";
 const AddRolesDetails = () => {
   const [data, setData] = useState({ type: 0 });
   const { loading } = useSelector((store) => store.roles);
@@ -30,16 +31,27 @@ const AddRolesDetails = () => {
       throw err;
     }
   };
+  const match = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: "/roles",
+      text: "مدیریت نقش ها",
+    },
+    {
+      path: history.location.pathname,
+      text: "اضافه کردن نقش",
+    },
+  ];
   return (
     <Layout>
       {loading && <div className="loading"></div>}
       <Colxx xxs="12">
         <div className="d-flex justify-content-between align-items-center">
-          <h1>
-            <span className="align-middle d-inline-block pt-1">
-              اضافه کردن نقش
-            </span>
-          </h1>
+          <Breadcrumb title="اضافه کردن نقش" list={match} />
+
           <Button
             color="primary"
             size="lg"
