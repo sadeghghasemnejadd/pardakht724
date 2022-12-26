@@ -70,6 +70,19 @@ export const getExchnageRate = createAsyncThunk(
     }
   }
 );
+export const getHistories = createAsyncThunk("getHistories", async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.get(`/currencies/${id}/histories`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
 export const addExchangeRate = createAsyncThunk(
   "addExchangeRate",
   async (value) => {
@@ -125,13 +138,14 @@ const allCurrencies = (res) =>
     ],
   }));
 const exchangeRates = (res) => res.payload.exchange_rates.data;
-
+const histories = (res) => res.payload.currency_histories;
 export const CurrenciesSlice = createSlice({
   name: "auth",
   initialState: {
     loading: false,
     currencies: [],
     exchangeRates: [],
+    histories: [],
   },
   extraReducers: {
     [getAllCurrencies.pending]: (state) => {
@@ -195,6 +209,17 @@ export const CurrenciesSlice = createSlice({
       state.loading = false;
     },
     [addExchangeRate.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [getHistories.pending]: (state) => {
+      state.loading = true;
+    },
+    [getHistories.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.histories = histories(action);
+    },
+    [getHistories.rejected]: (state) => {
       state.loading = false;
     },
   },

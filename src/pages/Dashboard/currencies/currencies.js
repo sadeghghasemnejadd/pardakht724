@@ -189,11 +189,12 @@ export default function Currencies() {
                 />
               </div>
               <div className="glyph">
-                <div
+                <Link
                   className={`glyph-icon iconsminds-line-chart-1
 
                 h5`}
                   style={{ cursor: "pointer" }}
+                  to={`/currencies/${value}/histories`}
                 />
               </div>
             </div>
