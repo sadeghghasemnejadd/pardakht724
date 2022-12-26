@@ -1,7 +1,17 @@
 import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import Layout from "layout/AppLayout";
-import { Card, Input, InputGroup, InputGroupAddon } from "reactstrap";
+import {
+  Card,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  Button,
+} from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
 import "rc-switch/assets/index.css";
@@ -21,11 +31,13 @@ const Permissions = () => {
   const { loading, allPermissions } = useSelector((store) => store.permissions);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState();
-  const [isEdit, setIsEdit] = useState();
+  const [id, setId] = useState();
+  const [editData, setEditData] = useState({});
+  const [editDataValue, setEditDataValue] = useState({});
+  const [isModal, setIsModal] = useState(false);
   const [collapseData, setCollapseData] = useState([
     { type: "textarea", value: "" },
   ]);
-  const [dataChanged, setDataChanged] = useState({});
   const history = useHistory();
   const cols = useMemo(
     () => [
@@ -34,28 +46,7 @@ const Permissions = () => {
         accessor: "p_name",
         cellClass: "text-muted w-20 text-center",
         Cell: (props) => {
-          return (
-            <>
-              {isEdit?.state && isEdit.id == props.row.id && (
-                <InputGroup className="w-70 mx-auto">
-                  <Input
-                    className="min-h-30 w-40"
-                    value={props.value}
-                    onChange={(e) =>
-                      setDataChanged((prev) => ({
-                        ...prev,
-                        p_name: e.target.value,
-                      }))
-                    }
-                  />{" "}
-                  <InputGroupAddon addonType="prepend">
-                    <span className="input-group-text">نام</span>
-                  </InputGroupAddon>
-                </InputGroup>
-              )}{" "}
-              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
-            </>
-          );
+          return <>{props.value}</>;
         },
       },
 
@@ -64,28 +55,7 @@ const Permissions = () => {
         accessor: "name",
         cellClass: "text-muted w-20 text-center",
         Cell: (props) => {
-          return (
-            <>
-              {isEdit?.state && isEdit.id == props.row.id && (
-                <InputGroup className="w-70 mx-auto">
-                  <Input
-                    className="min-h-30 w-40"
-                    value={props.value}
-                    onChange={(e) =>
-                      setDataChanged((prev) => ({
-                        ...prev,
-                        name: e.target.value,
-                      }))
-                    }
-                  />{" "}
-                  <InputGroupAddon addonType="prepend">
-                    <span className="input-group-text">برچسب</span>
-                  </InputGroupAddon>
-                </InputGroup>
-              )}{" "}
-              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
-            </>
-          );
+          return <>{props.value}</>;
         },
       },
       {
@@ -131,49 +101,34 @@ const Permissions = () => {
         cellClass: "text-muted w-10 text-center",
         Cell: (props) => {
           return (
-            <div className="h5">
-              {isEdit?.state && isEdit?.id === props.row.id && (
-                <div className="d-flex justify-content-around">
-                  <div
-                    className="glyph"
-                    style={{ color: "green", cursor: "pointer" }}
-                    onClick={() => onSaveChangeHandler(props.value)}
-                  >
-                    <div className={`glyph-icon simple-icon-check`} />
-                  </div>
-                  <div
-                    className="glyph"
-                    style={{ color: "red", cursor: "pointer" }}
-                    onClick={() =>
-                      setIsEdit({ state: false, id: props.row.id })
-                    }
-                  >
-                    <div className={`glyph-icon simple-icon-close`} />
-                  </div>
-                </div>
-              )}
-              {(isEdit?.state && isEdit.id === props.row.id) || (
-                <div
-                  className="glyph"
-                  onClick={() => setIsEdit({ state: true, id: props.row.id })}
-                  style={{ cursor: "pointer" }}
-                >
-                  <div
-                    className={`glyph-icon simple-icon-pencil text-center`}
-                  />
-                </div>
-              )}
+            <div
+              className="glyph h5"
+              onClick={() => {
+                setIsModal(true);
+                setId(props.value);
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              <div className={`glyph-icon simple-icon-pencil text-center`} />
             </div>
           );
         },
       },
     ],
-    [collapse, isEdit]
+    [collapse, id]
   );
   useEffect(() => {
     fetchPermissions();
   }, [fetchPermissions]);
-
+  useEffect(() => {
+    const data = allPermissions.find((p) => p.id == id);
+    if (!data) return;
+    setEditData({
+      p_name: data?.p_name === null ? "" : data.p_name,
+      name: data?.name === null ? "" : data.name,
+      description: data?.description === null ? "" : data.description,
+    });
+  }, [id]);
   const fetchPermissions = async () => {
     try {
       await dispatch(getAllPermissions());
@@ -194,11 +149,15 @@ const Permissions = () => {
       throw err;
     }
   };
-  const onSaveChangeHandler = async (id) => {
+  const saveChangeHandler = async () => {
     try {
-      const res = await dispatch(updatePermissions({ id, data: dataChanged }));
+      const res = await dispatch(
+        updatePermissions({ id, data: editDataValue })
+      );
       if (res.payload.status === "ok") {
         toast.success("تفییرات با موفقیت ذخیره شد.");
+        setIsModal(false);
+        setEditDataValue({});
         await fetchPermissions();
       }
     } catch (err) {
@@ -222,6 +181,97 @@ const Permissions = () => {
       {!loading && (
         <div>
           <Colxx lg="12" xl="12">
+            <Modal
+              isOpen={isModal}
+              size="lg"
+              toggle={() => {
+                setIsModal(!isModal);
+              }}
+            >
+              <ModalHeader>ویرایش</ModalHeader>
+              <ModalBody>
+                <div className="d-flex mb-3">
+                  <InputGroup size="sm" className="mr-3">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">نام</span>
+                    </InputGroupAddon>
+                    <Input
+                      value={editData.p_name}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          p_name: e.target.value,
+                        }));
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          p_name: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                  <InputGroup size="sm" className="">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">برچسب</span>
+                    </InputGroupAddon>
+                    <Input
+                      value={editData.name}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }));
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                </div>
+                <div className="d-flex mb-3">
+                  <InputGroup size="sm">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">توضیحات</span>
+                    </InputGroupAddon>
+                    <Input
+                      type="textarea"
+                      rows="5"
+                      value={editData.description}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          description: e.target.value,
+                        }));
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          description: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                </div>
+              </ModalBody>
+              <ModalFooter className="d-flex flex-row-reverse justify-content-start">
+                <Button
+                  color="primary"
+                  size="lg"
+                  className="mb-2"
+                  onClick={saveChangeHandler}
+                >
+                  ویرایش
+                </Button>
+                <Button
+                  color="secondary"
+                  size="lg"
+                  className="mb-2"
+                  onClick={() => {
+                    setIsModal(false);
+                  }}
+                >
+                  لغو
+                </Button>{" "}
+              </ModalFooter>
+            </Modal>
             <Card className="mb-4 p-5">
               <HeaderLayout
                 title="مدیریت دسترسی ها"
@@ -246,10 +296,7 @@ const Permissions = () => {
                 cols={cols}
                 data={allPermissions}
                 isCollapse={collapse}
-                collapseAddOnText="توضیحات"
-                isEdit={isEdit}
                 collapseData={collapseData}
-                onChangeData={setDataChanged}
               />
             </Card>
           </Colxx>

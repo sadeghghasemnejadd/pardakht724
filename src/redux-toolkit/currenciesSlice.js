@@ -124,6 +124,50 @@ export const searchExchangeRate = createAsyncThunk(
     }
   }
 );
+export const updateCurrency = createAsyncThunk(
+  "updateCurrency",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.patch(
+        `/currencies/${value.id}`,
+        {
+          ...value.data,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+export const updateExchangeRate = createAsyncThunk(
+  "updateExchangeRate",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.patch(
+        `/currencies/${value.id1}/exchange-rates/${value.id2}`,
+        {
+          ...value.data,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 const allCurrencies = (res) =>
   res.payload.currencies.data.map((c) => ({
     ...c,
@@ -220,6 +264,26 @@ export const CurrenciesSlice = createSlice({
       state.histories = histories(action);
     },
     [getHistories.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [updateCurrency.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateCurrency.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [updateCurrency.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [updateExchangeRate.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateExchangeRate.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [updateExchangeRate.rejected]: (state) => {
       state.loading = false;
     },
   },

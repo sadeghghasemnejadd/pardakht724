@@ -7,6 +7,7 @@ import {
   getExchnageRate,
   getAllCurrencies,
   searchExchangeRate,
+  updateExchangeRate,
 } from "redux-toolkit/currenciesSlice";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -28,21 +29,19 @@ import {
 import HeaderLayout from "containers/ui/headerLayout";
 export default function ExchangeRate() {
   const searchInputRef = useRef();
-  const [selectedButton, setSelectedButton] = useState(0);
   const [isModal, setIsModal] = useState(false);
-  const [isActiveAdd, setIsActiveAdd] = useState(1);
-  const [isUpdateAdd, setIsUpdateAdd] = useState(1);
-  const iconRef = useRef();
-  const [addIcon, setAddIcon] = useState();
   const [addData, setAddData] = useState({
     manual_exchange_rate: 0,
-    percamtage_exchange_rate: 0,
+    percantage_exchange_rate: 0,
     priority: 0,
   });
-  const [isEdit, setIsEdit] = useState();
+  const [id2, setId2] = useState();
+  const [isModal2, setIsModal2] = useState(false);
+  const [editData, setEditData] = useState({});
+  const [editDataValue, setEditDataValue] = useState({});
   const [autoSuggest, setAutoSuggest] = useState("");
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const { loading, exchangeRates, currencies } = useSelector(
     (store) => store.currencies
   );
@@ -107,11 +106,17 @@ export default function ExchangeRate() {
 
       {
         Header: "عملیات",
-        accessor: "",
+        accessor: "id",
         cellClass: "text-muted text-center",
         Cell: ({ value }) => {
           return (
-            <div className="glyph">
+            <div
+              className="glyph"
+              onClick={() => {
+                setId2(value);
+                setIsModal2(true);
+              }}
+            >
               <div
                 className={`glyph-icon simple-icon-pencil
                 h5`}
@@ -122,12 +127,25 @@ export default function ExchangeRate() {
         },
       },
     ],
-    []
+    [id2]
   );
   ////////////////////////
   useEffect(() => {
     fetchExchangeRate();
   }, [fetchExchangeRate]);
+  useEffect(() => {
+    const data = exchangeRates.find((e) => e.id == id2);
+    if (!data) return;
+    setEditData({
+      manual_exchange_rate:
+        data?.manual_exchange_rate === null ? "" : data.manual_exchange_rate,
+      percantage_exchange_rate:
+        data?.percantage_exchange_rate === null
+          ? ""
+          : data.percantage_exchange_rate,
+      priority: data?.priority === null ? "" : data.priority,
+    });
+  }, [id2]);
 
   const searchCurrencyHandler = async (e, searchId) => {
     e.preventDefault();
@@ -155,7 +173,7 @@ export default function ExchangeRate() {
       if (!addData.manual_exchange_rate > 0) {
         throw new Error("نرخ تبدیل دستی باید بزرگتر از صفر باشد");
       }
-      if (!addData.percamtage_exchange_rate > 0) {
+      if (!addData.percantage_exchange_rate > 0) {
         throw new Error("درصد افزایشی باید بزرگتر از صفر باشد");
       }
       if (!addData.priority > 0) {
@@ -181,7 +199,22 @@ export default function ExchangeRate() {
       throw err;
     }
   };
-  const history = useHistory();
+  const saveChangeHandler = async () => {
+    try {
+      const res = await dispatch(
+        updateExchangeRate({ id1: id, id2, data: editDataValue })
+      );
+      if (res.payload.status === "ok") {
+        toast.success("تفییرات با موفقیت ذخیره شد.");
+        setIsModal2(false);
+        setEditDataValue({});
+        await fetchExchangeRate();
+      }
+    } catch (err) {
+      toast.error("ویرایش نرخ تبدیل با خطا روبرو شد");
+      throw err;
+    }
+  };
   const match = [
     {
       path: "/",
@@ -259,7 +292,7 @@ export default function ExchangeRate() {
                   onChange={(e) =>
                     setAddData((prev) => ({
                       ...prev,
-                      percamtage_exchange_rate: e.target.value,
+                      percantage_exchange_rate: e.target.value,
                     }))
                   }
                 />
@@ -295,6 +328,97 @@ export default function ExchangeRate() {
               >
                 لغو
               </Button>
+            </ModalFooter>
+          </Modal>
+          <Modal
+            isOpen={isModal2}
+            size="lg"
+            toggle={() => {
+              setIsModal2(!isModal2);
+            }}
+          >
+            <ModalHeader>ویرایش</ModalHeader>
+            <ModalBody>
+              <div className="d-flex mb-3">
+                <InputGroup size="sm">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">نرخ تبدیل دستی</span>
+                  </InputGroupAddon>
+                  <Input
+                    value={editData.manual_exchange_rate}
+                    onChange={(e) => {
+                      setEditData((prev) => ({
+                        ...prev,
+                        manual_exchange_rate: e.target.value,
+                      }));
+                      setEditDataValue((prev) => ({
+                        ...prev,
+                        manual_exchange_rate: e.target.value,
+                      }));
+                    }}
+                  />
+                </InputGroup>
+              </div>
+              <div className="d-flex mb-3">
+                <InputGroup size="sm">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">درصد افزایش</span>
+                  </InputGroupAddon>
+                  <Input
+                    value={editData.percantage_exchange_rate}
+                    onChange={(e) => {
+                      setEditData((prev) => ({
+                        ...prev,
+                        percantage_exchange_rate: e.target.value,
+                      }));
+                      setEditDataValue((prev) => ({
+                        ...prev,
+                        percantage_exchange_rate: e.target.value,
+                      }));
+                    }}
+                  />
+                </InputGroup>
+              </div>
+              <div className="d-flex mb-3">
+                <InputGroup size="sm">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">اولویت</span>
+                  </InputGroupAddon>
+                  <Input
+                    value={editData.priority}
+                    onChange={(e) => {
+                      setEditData((prev) => ({
+                        ...prev,
+                        priority: e.target.value,
+                      }));
+                      setEditDataValue((prev) => ({
+                        ...prev,
+                        priority: e.target.value,
+                      }));
+                    }}
+                  />
+                </InputGroup>
+              </div>
+            </ModalBody>
+            <ModalFooter className="d-flex flex-row-reverse justify-content-start">
+              <Button
+                color="primary"
+                size="lg"
+                className="mb-2"
+                onClick={saveChangeHandler}
+              >
+                ویرایش
+              </Button>
+              <Button
+                color="secondary"
+                size="lg"
+                className="mb-2"
+                onClick={() => {
+                  setIsModal2(false);
+                }}
+              >
+                لغو
+              </Button>{" "}
             </ModalFooter>
           </Modal>
         </div>

@@ -1,7 +1,17 @@
 import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import Layout from "layout/AppLayout";
-import { Card, Input, InputGroup, InputGroupAddon } from "reactstrap";
+import {
+  Card,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Button,
+} from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
 import "rc-switch/assets/index.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,13 +24,14 @@ const Tasks = () => {
   const { loading, allTasks } = useSelector((store) => store.tasks);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState();
-  const [isEdit, setIsEdit] = useState();
-  const [nameValue, setNameValue] = useState("");
+  const [id, setId] = useState();
+  const [editData, setEditData] = useState({});
+  const [editDataValue, setEditDataValue] = useState({});
+  const [isModal, setIsModal] = useState(false);
   const [collapseData, setCollapseData] = useState([
     { type: "textarea", value: "" },
     { type: "badge", value: [] },
   ]);
-  const [dataChanged, setDataChanged] = useState({});
   const history = useHistory();
   const match = [
     {
@@ -39,22 +50,7 @@ const Tasks = () => {
         accessor: "name",
         cellClass: "text-muted  text-center",
         Cell: (props) => {
-          return (
-            <>
-              {isEdit?.state && isEdit.id == props.row.id && (
-                <InputGroup className="w-100 mx-auto">
-                  <Input
-                    className="min-h-30 w-80"
-                    onChange={nameChangeHandler}
-                  />{" "}
-                  <InputGroupAddon addonType="prepend">
-                    <span className="input-group-text">نام</span>
-                  </InputGroupAddon>
-                </InputGroup>
-              )}{" "}
-              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
-            </>
-          );
+          return <>{props.value}</>;
         },
       },
 
@@ -63,28 +59,7 @@ const Tasks = () => {
         accessor: "type",
         cellClass: "text-muted w-20 text-center",
         Cell: (props) => {
-          return (
-            <>
-              {isEdit?.state && isEdit.id == props.row.id && (
-                <InputGroup className="w-70 mx-auto">
-                  <Input
-                    className="min-h-30 w-40"
-                    value={props.value}
-                    onChange={(e) =>
-                      setDataChanged((prev) => ({
-                        ...prev,
-                        type: e.target.value,
-                      }))
-                    }
-                  />{" "}
-                  <InputGroupAddon addonType="prepend">
-                    <span className="input-group-text">نوع</span>
-                  </InputGroupAddon>
-                </InputGroup>
-              )}{" "}
-              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
-            </>
-          );
+          return <>{props.value}</>;
         },
       },
       {
@@ -92,28 +67,7 @@ const Tasks = () => {
         accessor: "refer_to",
         cellClass: "text-muted text-center ",
         Cell: (props) => {
-          return (
-            <>
-              {isEdit?.state && isEdit.id == props.row.id && (
-                <InputGroup className="w-70 mx-auto">
-                  <Input
-                    className="min-h-30 w-40"
-                    value={props.value}
-                    onChange={(e) =>
-                      setDataChanged((prev) => ({
-                        ...prev,
-                        refer_to: e.target.value,
-                      }))
-                    }
-                  />{" "}
-                  <InputGroupAddon addonType="prepend">
-                    <span className="input-group-text">ارجاع</span>
-                  </InputGroupAddon>
-                </InputGroup>
-              )}{" "}
-              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
-            </>
-          );
+          return <>{props.value}</>;
         },
       },
       {
@@ -123,24 +77,7 @@ const Tasks = () => {
         Cell: (props) => {
           return (
             <>
-              {isEdit?.state && isEdit.id == props.row.id && (
-                <InputGroup className="w-70 mx-auto">
-                  <Input
-                    className="min-h-30 w-40"
-                    value={props.value}
-                    onChange={(e) =>
-                      setDataChanged((prev) => ({
-                        ...prev,
-                        max_due_date: e.target.value,
-                      }))
-                    }
-                  />{" "}
-                  <InputGroupAddon addonType="prepend">
-                    <span className="input-group-text">حداکثر زمان انجام</span>
-                  </InputGroupAddon>
-                </InputGroup>
-              )}{" "}
-              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
+              <>{props.value}</>
             </>
           );
         },
@@ -150,28 +87,7 @@ const Tasks = () => {
         accessor: "priority",
         cellClass: "text-muted text-center ",
         Cell: (props) => {
-          return (
-            <>
-              {isEdit?.state && isEdit.id == props.row.id && (
-                <InputGroup className="w-70 mx-auto">
-                  <Input
-                    className="min-h-30 w-40"
-                    value={props.value}
-                    onChange={(e) =>
-                      setDataChanged((prev) => ({
-                        ...prev,
-                        priority: e.target.value,
-                      }))
-                    }
-                  />{" "}
-                  <InputGroupAddon addonType="prepend">
-                    <span className="input-group-text">اولویت</span>
-                  </InputGroupAddon>
-                </InputGroup>
-              )}{" "}
-              {(isEdit?.state && isEdit.id == props.row.id) || props.value}
-            </>
-          );
+          return <>{props.value}</>;
         },
       },
       {
@@ -216,51 +132,38 @@ const Tasks = () => {
         cellClass: "text-muted  text-center",
         Cell: (props) => {
           return (
-            <div className="h5">
-              {isEdit?.state && isEdit?.id === props.row.id && (
-                <div className="d-flex justify-content-around">
-                  <div
-                    className="glyph"
-                    style={{ color: "green", cursor: "pointer" }}
-                    onClick={() => onSaveChangeHandler(props.value)}
-                  >
-                    <div className={`glyph-icon simple-icon-check`} />
-                  </div>
-                  <div
-                    className="glyph"
-                    style={{ color: "red", cursor: "pointer" }}
-                    onClick={() =>
-                      setIsEdit({ state: false, id: props.row.id })
-                    }
-                  >
-                    <div className={`glyph-icon simple-icon-close`} />
-                  </div>
-                </div>
-              )}
-              {(isEdit?.state && isEdit.id === props.row.id) || (
-                <div
-                  className="glyph"
-                  onClick={() => setIsEdit({ state: true, id: props.row.id })}
-                  style={{ cursor: "pointer" }}
-                >
-                  <div
-                    className={`glyph-icon simple-icon-pencil text-center`}
-                  />
-                </div>
-              )}
+            <div
+              className="glyph h5"
+              onClick={() => {
+                setId(props.value);
+                setIsModal(true);
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              <div className={`glyph-icon simple-icon-pencil text-center`} />
             </div>
           );
         },
       },
     ],
-    [collapse, isEdit]
+    [collapse, id]
   );
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);
   useEffect(() => {
-    setDataChanged((prev) => ({ ...prev, name: nameValue }));
-  }, [nameValue]);
+    const data = allTasks.find((p) => p.id == id);
+    if (!data) return;
+    setEditData({
+      type: data?.type === null ? "" : data.type,
+      name: data?.name === null ? "" : data.name,
+      description: data?.description === null ? "" : data.description,
+      refer_to: data?.refer_to === null ? "" : data.refer_to,
+      max_due_date: data?.max_due_date === null ? "" : data.max_due_date,
+      priority: data?.priority === null ? "" : data.priority,
+    });
+  }, [id]);
+
   const fetchTasks = async () => {
     try {
       await dispatch(getAllTasks());
@@ -281,13 +184,13 @@ const Tasks = () => {
       throw err;
     }
   };
-  const nameChangeHandler = (e) => setNameValue(e.target.value);
-  const onSaveChangeHandler = async (id) => {
+  const saveChangeHandler = async () => {
     try {
-      console.log(dataChanged);
-      const res = await dispatch(updateTasks({ id, data: dataChanged }));
+      const res = await dispatch(updateTasks({ id, data: editDataValue }));
       if (res.payload.status === "ok") {
         toast.success("تفییرات با موفقیت ذخیره شد.");
+        setIsModal(false);
+        setEditDataValue({});
         await fetchTasks();
       }
     } catch (err) {
@@ -331,10 +234,158 @@ const Tasks = () => {
               data={allTasks}
               isCollapse={collapse}
               collapseData={collapseData}
-              collapseAddOnText="توضیحات"
-              isEdit={isEdit}
-              onChangeData={setDataChanged}
             />
+            <Modal
+              isOpen={isModal}
+              size="lg"
+              toggle={() => {
+                setIsModal(!isModal);
+              }}
+            >
+              <ModalHeader>ویرایش</ModalHeader>
+              <ModalBody>
+                <div className="d-flex mb-3">
+                  <InputGroup size="sm" className="mr-3">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">نام</span>
+                    </InputGroupAddon>
+                    <Input
+                      value={editData.name}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }));
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                  <InputGroup size="sm" className="">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">ارجاع</span>
+                    </InputGroupAddon>
+                    <Input
+                      value={editData.refer_to}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          refer_to: e.target.value,
+                        }));
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          refer_to: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                </div>
+                <div className="d-flex mb-3">
+                  <InputGroup size="sm" className="mr-3">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">اولویت</span>
+                    </InputGroupAddon>
+                    <Input
+                      value={editData.priority}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          priority: e.target.value,
+                        }));
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          priority: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                  <InputGroup size="sm" className="">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">
+                        حداکثر زمان انجام
+                      </span>
+                    </InputGroupAddon>
+                    <Input
+                      value={editData.max_due_date}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          max_due_date: e.target.value,
+                        }));
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          max_due_date: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                </div>
+                <div className="d-flex mb-3">
+                  <InputGroup size="sm">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">نوع</span>
+                    </InputGroupAddon>
+                    <Input
+                      value={editData.type}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          type: e.target.value,
+                        }));
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          type: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                </div>
+                <div className="d-flex mb-3">
+                  <InputGroup size="sm">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">توضیحات</span>
+                    </InputGroupAddon>
+                    <Input
+                      type="textarea"
+                      rows="5"
+                      value={editData.description}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          description: e.target.value,
+                        }));
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          description: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                </div>
+              </ModalBody>
+              <ModalFooter className="d-flex flex-row-reverse justify-content-start">
+                <Button
+                  color="primary"
+                  size="lg"
+                  className="mb-2"
+                  onClick={saveChangeHandler}
+                >
+                  ویرایش
+                </Button>
+                <Button
+                  color="secondary"
+                  size="lg"
+                  className="mb-2"
+                  onClick={() => {
+                    setIsModal(false);
+                  }}
+                >
+                  لغو
+                </Button>{" "}
+              </ModalFooter>
+            </Modal>
           </Card>
         </Colxx>
       )}

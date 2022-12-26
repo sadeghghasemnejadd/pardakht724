@@ -21,7 +21,7 @@ export const updatePermissions = createAsyncThunk(
   async (value) => {
     try {
       const token = localStorage.getItem("token");
-      const { data } = await axiosInstance.get(
+      const { data } = await axiosInstance.put(
         `/permissions/${value.id}`,
         {
           ...value.data,

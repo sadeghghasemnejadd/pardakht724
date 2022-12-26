@@ -24,10 +24,7 @@ function Table({
   divided = false,
   defaultPageSize = 4,
   collapse = false,
-  collapseAddOnText,
-  isEdit,
   collapseData,
-  onChangeData,
 }) {
   const {
     getTableProps,
@@ -112,24 +109,10 @@ function Table({
                         key={index}
                       >
                         {col.type === "textarea" && (
-                          <InputGroup className="w-100">
-                            <InputGroupAddon addonType="prepend">
-                              توضیحات
-                            </InputGroupAddon>
-                            <Input
-                              type="textarea"
-                              name="text"
-                              rows="5"
-                              value={col.value}
-                              disabled={!isEdit?.state}
-                              onChange={(e) =>
-                                onChangeData((prev) => ({
-                                  ...prev,
-                                  description: e.target.value,
-                                }))
-                              }
-                            />
-                          </InputGroup>
+                          <div>
+                            <p className="mb-3">توضیحات:</p>
+                            <p>{col.value}</p>
+                          </div>
                         )}
                         {col.type === "badge" && (
                           <div className="">
@@ -191,7 +174,7 @@ function Table({
                             <Switch
                               className="custom-switch custom-switch-secondary custom-switch-small "
                               disabled
-                              checked={col.value}
+                              checked={col.value === 0 ? true : false}
                             />
                           </div>
                         )}
@@ -249,18 +232,9 @@ export const ReactTableWithPaginationCard = ({
 export const ReactTableDivided = ({
   cols,
   data,
-  title,
-  addName,
-  search,
-  searchRef,
-  onSearch,
-  onAdd,
   pageSize = 4,
   isCollapse,
-  collapseAddOnText,
-  isEdit,
   collapseData,
-  onChangeData,
 }) => {
   return (
     <Table
@@ -269,10 +243,7 @@ export const ReactTableDivided = ({
       divided
       defaultPageSize={pageSize}
       collapse={isCollapse}
-      collapseAddOnText={collapseAddOnText}
-      isEdit={isEdit}
       collapseData={collapseData}
-      onChangeData={onChangeData}
     />
   );
 };

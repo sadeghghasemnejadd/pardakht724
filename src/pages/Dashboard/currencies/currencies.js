@@ -8,6 +8,7 @@ import {
   getAllCurrencies,
   searchCurrency,
   addCurrency,
+  updateCurrency,
 } from "redux-toolkit/currenciesSlice";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -41,10 +42,16 @@ export default function Currencies() {
   ]);
   const [selectedButton, setSelectedButton] = useState(0);
   const [isModal, setIsModal] = useState(false);
+  const [isModal2, setIsModal2] = useState(false);
+  const [id, setId] = useState();
+  const [editData, setEditData] = useState({});
+  const [editDataValue, setEditDataValue] = useState({ auto_update: 1 });
   const [isActiveAdd, setIsActiveAdd] = useState(1);
   const [isUpdateAdd, setIsUpdateAdd] = useState(1);
   const iconRef = useRef();
+  const editIconRef = useRef();
   const [addIcon, setAddIcon] = useState();
+  const [editIcon, setEditIcon] = useState();
   const [addData, setAddData] = useState({
     name: "",
     Symbol: "",
@@ -57,7 +64,6 @@ export default function Currencies() {
     auto_update: 1,
     is_active: 1,
   });
-  const [isEdit, setIsEdit] = useState();
   const dispatch = useDispatch();
   const { loading, currencies } = useSelector((store) => store.currencies);
 
@@ -173,7 +179,13 @@ export default function Currencies() {
         Cell: ({ value }) => {
           return (
             <div className="d-flex">
-              <div className="glyph">
+              <div
+                className="glyph"
+                onClick={() => {
+                  setIsModal2(true);
+                  setId(value);
+                }}
+              >
                 <div
                   className={`glyph-icon simple-icon-pencil
                 h5`}
@@ -202,13 +214,25 @@ export default function Currencies() {
         },
       },
     ],
-    []
+    [id]
   );
   ////////////////////////
   useEffect(() => {
     fetchCurrencies();
   }, [fetchCurrencies]);
-
+  useEffect(() => {
+    const data = currencies.find((p) => p.id == id);
+    if (!data) return;
+    setEditData({
+      name: data?.name === null ? "" : data.name,
+      symbol: data?.symbol === null ? "" : data.symbol,
+      type: data?.type === null ? "" : data.type,
+      base_currency: data?.base_currency === null ? "" : data.base_currency,
+      buy_price: data?.buy_price === null ? "" : data.buy_price,
+      sell_price: data?.sell_price === null ? "" : data.sell_price,
+      auto_update: data?.auto_update === null ? "" : data.auto_update,
+    });
+  }, [id]);
   const searchCurrencyHandler = async (e, searchId) => {
     e.preventDefault();
     try {
@@ -272,6 +296,12 @@ export default function Currencies() {
       setAddIcon(file[0]);
     }
   };
+  const uploadEditIcon = (e) => {
+    if (iconRef.current) {
+      const file = e.target.files;
+      setEditIcon(file[0]);
+    }
+  };
   const addCurrenciesHandler = async () => {
     try {
       if (addData.name.length > 127) {
@@ -300,6 +330,22 @@ export default function Currencies() {
       }
     } catch (err) {
       toast.error(err);
+      throw err;
+    }
+  };
+  const saveChangeHandler = async () => {
+    try {
+      const res = await dispatch(
+        updateCurrency({ id, data: { ...editDataValue, ...editIcon } })
+      );
+      if (res.payload.status === "ok") {
+        toast.success("تفییرات با موفقیت ذخیره شد.");
+        setIsModal2(false);
+        setEditDataValue({});
+        await fetchCurrencies();
+      }
+    } catch (err) {
+      toast.error("ویرایش ارز با خطا روبرو شد");
       throw err;
     }
   };
@@ -488,6 +534,198 @@ export default function Currencies() {
               </Button>
             </ModalFooter>
           </Modal>
+          <Modal
+            isOpen={isModal2}
+            size="lg"
+            toggle={() => setIsModal2(!isModal2)}
+          >
+            <ModalHeader>ویرایش</ModalHeader>
+            <ModalBody>
+              <div className="d-flex mb-3">
+                <InputGroup size="sm" className="mr-3">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">نام ارز</span>
+                  </InputGroupAddon>
+                  <Input
+                    value={editData.name}
+                    onChange={(e) => {
+                      setEditData((prev) => ({
+                        ...prev,
+                        name: e.target.value,
+                      }));
+                      setEditDataValue((prev) => ({
+                        ...prev,
+                        name: e.target.value,
+                      }));
+                    }}
+                  />
+                </InputGroup>
+                <InputGroup size="sm" className="">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">نماد</span>
+                  </InputGroupAddon>
+                  <Input
+                    value={editData.symbol}
+                    onChange={(e) => {
+                      setEditData((prev) => ({
+                        ...prev,
+                        symbol: e.target.value,
+                      }));
+                      setEditDataValue((prev) => ({
+                        ...prev,
+                        symbol: e.target.value,
+                      }));
+                    }}
+                  />
+                </InputGroup>
+              </div>
+              <div className="mb-3">
+                <InputGroup className="mb-3">
+                  <InputGroupAddon addonType="prepend">
+                    آپلود آیکون
+                  </InputGroupAddon>
+                  <CustomInput
+                    type="file"
+                    id="icon"
+                    innerRef={editIconRef}
+                    name="icon"
+                    onChange={uploadEditIcon}
+                  />
+                </InputGroup>
+              </div>
+              <div className="d-flex mb-3">
+                <InputGroup size="sm" className="mr-3">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">قیمت خرید از مشتری</span>
+                  </InputGroupAddon>
+                  <Input
+                    value={editData.buy_price}
+                    onChange={(e) => {
+                      setEditData((prev) => ({
+                        ...prev,
+                        buy_price: e.target.value,
+                      }));
+                      setEditDataValue((prev) => ({
+                        ...prev,
+                        buy_price: e.target.value,
+                      }));
+                    }}
+                  />
+                </InputGroup>
+                <InputGroup size="sm" className="">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">قیمت فروش به مشتری</span>
+                  </InputGroupAddon>
+                  <Input
+                    value={editData.sell_price}
+                    onChange={(e) => {
+                      setEditData((prev) => ({
+                        ...prev,
+                        sell_price: e.target.value,
+                      }));
+                      setEditDataValue((prev) => ({
+                        ...prev,
+                        sell_price: e.target.value,
+                      }));
+                    }}
+                  />
+                </InputGroup>
+              </div>
+              <div className="d-flex mb-3">
+                <InputGroup size="sm">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text">ارز پایه</span>
+                  </InputGroupAddon>
+                  <Input
+                    value={editData.base_currency}
+                    onChange={(e) => {
+                      setEditData((prev) => ({
+                        ...prev,
+                        base_currency: e.target.value,
+                      }));
+                      setEditDataValue((prev) => ({
+                        ...prev,
+                        base_currency: e.target.value,
+                      }));
+                    }}
+                  />
+                </InputGroup>
+              </div>
+              <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex w-50 justify-content-between align-items-center mr-4">
+                  <p className="mb-0">نوع ارز</p>
+                  <ButtonGroup>
+                    <Button
+                      color="primary"
+                      onClick={() => {
+                        setEditData((prev) => ({ ...prev, type: 0 }));
+                        setEditDataValue((prev) => ({ ...prev, type: 0 }));
+                      }}
+                      active={editData.type === 0}
+                    >
+                      فیات
+                    </Button>
+                    <Button
+                      color="primary"
+                      onClick={() => {
+                        setEditData((prev) => ({ ...prev, type: 1 }));
+                        setEditDataValue((prev) => ({ ...prev, type: 1 }));
+                      }}
+                      active={editData.type === 1}
+                    >
+                      الکترونیک
+                    </Button>
+                    <Button
+                      color="primary"
+                      onClick={() => {
+                        setEditData((prev) => ({ ...prev, type: 2 }));
+                        setEditDataValue((prev) => ({ ...prev, type: 2 }));
+                      }}
+                      active={editData.type === 2}
+                    >
+                      دیجیتال
+                    </Button>
+                  </ButtonGroup>
+                </div>
+                <div className="d-flex align-items-center w-25 justify-content-end">
+                  <p className="mb-0 mr-3">بروزرسانی خودکار</p>
+                  <Switch
+                    className="custom-switch custom-switch-secondary custom-switch-small"
+                    checked={editData.auto_update === 0 ? true : false}
+                    onChange={(e) => {
+                      setEditData((prev) => ({
+                        ...prev,
+                        auto_update: e ? 0 : 1,
+                      }));
+                      setEditDataValue((prev) => ({
+                        ...prev,
+                        auto_update: e ? 0 : 1,
+                      }));
+                    }}
+                  />
+                </div>
+              </div>
+            </ModalBody>
+            <ModalFooter className="d-flex flex-row-reverse justify-content-start">
+              <Button
+                color="primary"
+                size="lg"
+                className="mb-2"
+                onClick={saveChangeHandler}
+              >
+                ویرایش
+              </Button>
+              <Button
+                color="secondary"
+                size="lg"
+                className="mb-2"
+                onClick={() => setIsModal2(false)}
+              >
+                لغو
+              </Button>
+            </ModalFooter>
+          </Modal>
+
           <Colxx xxs="2">
             <SurveyApplicationMenu
               filters={[
