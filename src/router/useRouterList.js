@@ -20,6 +20,7 @@ import Tasks from "pages/Dashboard/tasks/Tasks";
 import Currencies from "pages/Dashboard/currencies/currencies";
 import ExchangeRate from "pages/Dashboard/currencies/exchangeRate";
 import Histories from "pages/Dashboard/currencies/histories";
+import PayMethods from "pages/Dashboard/payMethod/payMethode";
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
@@ -109,6 +110,11 @@ const defaultPrivateRoutes = [
   {
     component: <Histories />,
     path: "/currencies/:id/histories",
+  },
+  /////////////////////////////
+  {
+    component: <PayMethods />,
+    path: "/pay-methods",
   },
 ];
 

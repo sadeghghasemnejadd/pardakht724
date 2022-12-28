@@ -64,6 +64,11 @@ const data = [
         to: "/currencies",
       },
       {
+        icon: "pay method",
+        label: "مدیریت روش های پرداخت",
+        to: "/pay-methods",
+      },
+      {
         icon: "simple-icon-check",
         label: "تاریخچه درخواست های پشتیبانی",
         to: "",

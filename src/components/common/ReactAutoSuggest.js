@@ -52,7 +52,7 @@ const ReactAutoSuggest = ({ data, value, placeholder, onChange }) => {
       renderSuggestion={renderSuggestion}
       inputProps={inputProps}
       theme={{
-        container: "search-sm",
+        container: "auto-suggesst-icon",
         input: "form-control",
         inputOpen: "react-autosuggest__input--open",
         suggestionsContainer: "react-autosuggest__suggestions-container",

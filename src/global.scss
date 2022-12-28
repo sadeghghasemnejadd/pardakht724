@@ -58,3 +58,21 @@ html {
 .overflow-hidden {
   overflow: hidden;
 }
+.bank_image {
+  width: 70%;
+  height: 100%;
+}
+.auto-suggesst-icon {
+  position: relative;
+  &::after {
+    font-family: "simple-line-icons";
+    content: "\e090";
+    position: absolute;
+    top: 50%;
+    left: 2%;
+    transform: translateY(-50%);
+  }
+}
+.gap-3 {
+  gap: 3%;
+}

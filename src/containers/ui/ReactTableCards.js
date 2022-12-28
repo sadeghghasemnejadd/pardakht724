@@ -104,6 +104,8 @@ function Table({
                             ? 4
                             : col.type === "badge"
                             ? 2
+                            : col.type === "threeLine"
+                            ? 7
                             : 1
                         }
                         key={index}
@@ -177,6 +179,48 @@ function Table({
                               checked={col.value === 0 ? true : false}
                             />
                           </div>
+                        )}
+                        {col.type === "threeLine" && (
+                          <>
+                            <div className="d-flex justify-content-between mb-5">
+                              <section className="d-flex flex-column justify-content-between">
+                                <div className="mb-5 text-center">
+                                  <p className="mb-3 h6">شناسه حساب</p>
+                                  <p>{col.value.account_identifier}</p>
+                                </div>
+                                <div className="text-center">
+                                  <p className="mb-3 h6">آدرس بازگشت1</p>
+                                  <p>{col.value.call_back_url}</p>
+                                </div>
+                              </section>
+                              <section className="d-flex flex-column justify-content-between ">
+                                <div className="text-center">
+                                  <p className="mb-3 h6">کد مرچنت</p>
+                                  <p>{col.value.merchant_id}</p>
+                                </div>
+                                <div className="text-center">
+                                  <p className="mb-3 h6">آدرس بازگشت2</p>
+                                  <p>{col.value.call_back_url2}</p>
+                                </div>
+                              </section>
+                              <section className="d-flex flex-column justify-content-between">
+                                <div className="text-center">
+                                  <p className="mb-3 h6">نوع دسترسی</p>
+                                  <p>{col.value.access_type}</p>
+                                </div>
+                                <div className="text-center">
+                                  <p className="mb-3 h6">
+                                    حداکثر مبلغ قابل پرداخت بااین روش
+                                  </p>
+                                  <p>{col.value.max_capability}</p>
+                                </div>
+                              </section>
+                            </div>
+                            <div>
+                              <p className="mb-3 h6">توضیحات</p>
+                              <p>{col.value.description}</p>
+                            </div>
+                          </>
                         )}
                       </td>
                     ))}
