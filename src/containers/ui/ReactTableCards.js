@@ -83,20 +83,30 @@ function Table({
             prepareRow(row);
             return (
               <Fragment key={row.id}>
-                <tr {...row.getRowProps()}>
+                <tr
+                  {...row.getRowProps()}
+                  style={{
+                    boxShadow:
+                      collapse?.state && collapse?.id == row.id && "none",
+                  }}
+                >
                   {row.cells.map((cell, cellIndex) => (
                     <td
                       key={`td_${cellIndex}`}
                       {...cell.getCellProps({
                         className: cell.column.cellClass,
                       })}
+                      style={{
+                        borderBottom:
+                          collapse?.state && collapse?.id == row.id && "none",
+                      }}
                     >
                       {cell.render("Cell")}
                     </td>
                   ))}
                 </tr>
                 {collapse?.state && collapse?.id == row.id && (
-                  <tr>
+                  <tr style={{ boxShadow: "none" }}>
                     {collapseData.map((col, index) => (
                       <td
                         colSpan={
@@ -111,14 +121,14 @@ function Table({
                         key={index}
                       >
                         {col.type === "textarea" && (
-                          <div>
-                            <p className="mb-3">توضیحات:</p>
+                          <div className="">
+                            <p className="mb-5 h-25">توضیحات:</p>
                             <p>{col.value}</p>
                           </div>
                         )}
                         {col.type === "badge" && (
                           <div className="">
-                            <h6 className="mb-5">مدل های مورد نیاز</h6>
+                            <h6 className="mb-5 h-25">مدل های مورد نیاز</h6>
                             <div className="d-flex">
                               {col.value.map((bad) => (
                                 <Badge
@@ -134,8 +144,8 @@ function Table({
                           </div>
                         )}
                         {col.type === "type" && (
-                          <div className="text-center">
-                            <p className="mb-5">نوع ارز</p>
+                          <div className="d-flex flex-column align-items-center text-center">
+                            <p className="mb-5 h-25">نوع ارز</p>
                             <div className="text-center">
                               ارز{" "}
                               {col.value === 0
@@ -147,69 +157,71 @@ function Table({
                           </div>
                         )}
                         {col.type === "absoluteVolume" && (
-                          <div className="text-center">
-                            <p className="mb-5">موجودی حساب</p>
+                          <div className="d-flex flex-column align-items-center text-center">
+                            <p className="mb-5 h-25">موجودی حساب</p>
                             <div className="text-center">{col.value}</div>
                           </div>
                         )}
                         {col.type === "realVolume" && (
-                          <div className="text-center">
-                            <p className="mb-5">موجودی واقعی</p>
+                          <div className="d-flex flex-column align-items-center text-center">
+                            <p className="mb-5 h-25">موجودی واقعی</p>
                             <div className="text-center">{col.value}</div>
                           </div>
                         )}
                         {col.type === "availableVolume" && (
-                          <div className="text-center">
-                            <p className="mb-5">موجودی در دسترس</p>
+                          <div className="d-flex flex-column align-items-center text-center">
+                            <p className="mb-5 h-25">موجودی در دسترس</p>
                             <div className="text-center">{col.value}</div>
                           </div>
                         )}
                         {col.type === "baseCurrency" && (
-                          <div className="text-center">
-                            <p className="mb-5">ارز پایه</p>
-                            <div className="text-center">{col.value}</div>
+                          <div className="d-flex flex-column align-items-center text-center">
+                            <p style={{ height: "4.4rem" }}>ارز پایه</p>
+                            <p className="text-center">{col.value}</p>
                           </div>
                         )}
                         {col.type === "autoUpdate" && (
-                          <div className="text-center">
+                          <div className="d-flex flex-column align-items-center text-center">
                             <p className="mb-5">بروزرسانی خودکار</p>
-                            <Switch
-                              className="custom-switch custom-switch-secondary custom-switch-small "
-                              disabled
-                              checked={col.value === 0 ? true : false}
-                            />
+                            <div className="d-flex justify-content-center">
+                              <Switch
+                                className="custom-switch custom-switch-secondary custom-switch-small "
+                                disabled
+                                checked={col.value === 0 ? true : false}
+                              />
+                            </div>
                           </div>
                         )}
                         {col.type === "threeLine" && (
                           <>
                             <div className="d-flex justify-content-between mb-5">
-                              <section className="d-flex flex-column justify-content-between">
-                                <div className="mb-5 text-center">
-                                  <p className="mb-3 h6">شناسه حساب</p>
+                              <section className="d-flex flex-column  text-center">
+                                <div className="mb-5 text-center min-h-60">
+                                  <p className="mb-3">شناسه حساب</p>
                                   <p>{col.value.account_identifier}</p>
                                 </div>
                                 <div className="text-center">
-                                  <p className="mb-3 h6">آدرس بازگشت1</p>
+                                  <p className="mb-3">آدرس بازگشت1</p>
                                   <p>{col.value.call_back_url}</p>
                                 </div>
                               </section>
-                              <section className="d-flex flex-column justify-content-between ">
-                                <div className="text-center">
-                                  <p className="mb-3 h6">کد مرچنت</p>
+                              <section className="d-flex flex-column text-center ">
+                                <div className="text-center mb-5 min-h-60">
+                                  <p className="mb-3">کد مرچنت</p>
                                   <p>{col.value.merchant_id}</p>
                                 </div>
                                 <div className="text-center">
-                                  <p className="mb-3 h6">آدرس بازگشت2</p>
+                                  <p className="mb-3">آدرس بازگشت2</p>
                                   <p>{col.value.call_back_url2}</p>
                                 </div>
                               </section>
-                              <section className="d-flex flex-column justify-content-between">
-                                <div className="text-center">
-                                  <p className="mb-3 h6">نوع دسترسی</p>
+                              <section className="d-flex flex-column text-center">
+                                <div className="text-center mb-5 min-h-60">
+                                  <p className="mb-3">نوع دسترسی</p>
                                   <p>{col.value.access_type}</p>
                                 </div>
                                 <div className="text-center">
-                                  <p className="mb-3 h6">
+                                  <p className="mb-3">
                                     حداکثر مبلغ قابل پرداخت بااین روش
                                   </p>
                                   <p>{col.value.max_capability}</p>
@@ -217,7 +229,7 @@ function Table({
                               </section>
                             </div>
                             <div>
-                              <p className="mb-3 h6">توضیحات</p>
+                              <p className="mb-3">توضیحات:</p>
                               <p>{col.value.description}</p>
                             </div>
                           </>

@@ -9,8 +9,8 @@ export default function DashboardHeader({ title, list }) {
   ));
 
   return (
-    <div className="d-flex">
-      <h1>{title}</h1>
+    <div className="d-flex align-items-center">
+      <h1 className="mr-3">{title}</h1>
       <Breadcrumb className="pt-0 breadcrumb-container d-none d-sm-block d-lg-inline-block">
         {renderList}
       </Breadcrumb>

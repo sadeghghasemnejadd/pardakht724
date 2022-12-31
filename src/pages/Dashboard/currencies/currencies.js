@@ -114,14 +114,16 @@ export default function Currencies() {
       {
         Header: "وضعیت",
         accessor: "is_active",
-        cellClass: "text-muted text-center",
+        cellClass: "text-muted text-center ",
         Cell: (props) => {
           return (
-            <Switch
-              className="custom-switch custom-switch-secondary custom-switch-small"
-              disabled
-              checked={props.value}
-            />
+            <div className="d-flex justify-content-center">
+              <Switch
+                className="custom-switch custom-switch-secondary custom-switch-small"
+                disabled
+                checked={props.value}
+              />
+            </div>
           );
         },
         isSort: true,

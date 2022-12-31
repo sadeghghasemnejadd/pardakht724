@@ -45,6 +45,7 @@ const HeaderLayout = ({
               <ButtonGroup>
                 {searchOptions.map((s) => (
                   <Button
+                    size="sm"
                     key={s.id}
                     color="primary"
                     onClick={() => setSelectedRadio(s.id)}
