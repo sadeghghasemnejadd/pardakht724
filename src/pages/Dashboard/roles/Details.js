@@ -176,6 +176,18 @@ const Details = () => {
               ایجاد محدودیت جدید
             </Button>
           )}
+          {isEdit && (
+            <Button
+              color="primary"
+              size="lg"
+              className="top-right-button mr-5 mb-3"
+              onClick={() => {
+                setIsEdit(false);
+              }}
+            >
+              لغو
+            </Button>
+          )}
         </Nav>
         {!loading && (
           <TabContent activeTab={activeTab}>

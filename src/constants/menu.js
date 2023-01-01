@@ -58,16 +58,7 @@ const data = [
         label: "مدیریت وظایف",
         to: "/tasks",
       },
-      {
-        icon: "currencies",
-        label: "مدیریت ارز ها",
-        to: "/currencies",
-      },
-      {
-        icon: "pay method",
-        label: "مدیریت روش های پرداخت",
-        to: "/pay-methods",
-      },
+
       {
         icon: "simple-icon-check",
         label: "تاریخچه درخواست های پشتیبانی",
@@ -96,27 +87,32 @@ const data = [
   {
     id: "accounts",
     icon: "iconsminds-air-balloon-1",
-    label: "حسابداری",
+    label: "مالی",
     to: "",
     subs: [
       {
-        icon: "simple-icon-check",
-        label: "واریز وجه",
+        icon: "currencies",
+        label: "مدیریت ارز ها",
+        to: "/currencies",
+      },
+      {
+        icon: "currencies",
+        label: "تراکنش های داخلی",
         to: "",
+      },
+      {
+        icon: "currencies",
+        label: "تراکنش های مالی",
+        to: "",
+      },
+      {
+        icon: "simple-icon-check",
+        label: "روش های پرداخت",
+        to: "/pay-methods",
       },
       {
         icon: "simple-icon-calculator",
-        label: "برداشت وجه",
-        to: "",
-      },
-      {
-        icon: "simple-icon-bubbles",
-        label: "تاریخچه صورت حساب ها",
-        to: "",
-      },
-      {
-        icon: "simple-icon-bubbles",
-        label: "تاریخچه تراکنش ها",
+        label: "مدیریت بانک ها",
         to: "",
       },
     ],

@@ -58,7 +58,7 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
             return (
               <div
                 key={permit.id}
-                className="d-flex align-items-center w-50 justify-content-between"
+                className="d-flex align-items-center w-55 justify-content-between"
               >
                 <span>{permit.name}</span>
                 <Switch

@@ -81,3 +81,8 @@ html {
 .gap-3 {
   gap: 3%;
 }
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: inherit;
+  opacity: 1;
+}

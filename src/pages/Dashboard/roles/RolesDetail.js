@@ -32,10 +32,13 @@ const RolesDetail = ({ data, isEdit, onDataChanged }) => {
           </InputGroup>
           <div className="ml-5 d-flex justify-content-between w-50 align-items-center">
             <p>نوع نقش:</p>
-            <select
-              className="form-select rounded p-2 border-primary"
+            <Input
+              bsSize="sm"
+              className="w-20 min-h-15"
+              type="select"
               value={inputsValue.type}
               disabled={!isEdit}
+              style={{ borderRadius: 20 }}
               onChange={(e) => {
                 setInputsValue((prev) => ({ ...prev, type: e.target.value }));
                 onDataChanged((prev) => ({
@@ -52,7 +55,7 @@ const RolesDetail = ({ data, isEdit, onDataChanged }) => {
               <option value="همکار">همکار</option>
               <option value="مشتری">مشتری</option>
               <option value="کارمند">کارمند</option>
-            </select>
+            </Input>
           </div>
         </div>
         <div className="d-flex align-items-center">
@@ -74,17 +77,20 @@ const RolesDetail = ({ data, isEdit, onDataChanged }) => {
           </InputGroup>
           <div className="ml-5 d-flex justify-content-between w-50 align-items-center">
             <p>وضعیت:</p>
-            <select
-              className="form-select rounded p-2 border-primary"
+            <Input
+              bsSize="sm"
+              className="w-20 min-h-15"
+              type="select"
               value={inputsValue.status}
               disabled={!isEdit}
+              style={{ borderRadius: 20 }}
               onChange={(e) =>
                 setInputsValue((prev) => ({ ...prev, status: e.target.value }))
               }
             >
               <option value="فعال">فعال</option>
               <option value="غیر فعال">غیر فعال</option>
-            </select>
+            </Input>
           </div>
         </div>
         <div>
