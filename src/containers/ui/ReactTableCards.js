@@ -114,7 +114,7 @@ function Table({
                             ? 4
                             : col.type === "badge"
                             ? 2
-                            : col.type === "threeLine"
+                            : col.type === "threeLine" || col.type === "twoLine"
                             ? 7
                             : 1
                         }
@@ -231,6 +231,32 @@ function Table({
                             <div>
                               <p className="mb-3">توضیحات:</p>
                               <p>{col.value.description}</p>
+                            </div>
+                          </>
+                        )}
+                        {col.type === "twoLine" && (
+                          <>
+                            <div className="d-flex justify-content-center mb-5">
+                              <section className="d-flex flex-column text-center w-50">
+                                <div className="mb-5 text-center min-h-60">
+                                  <p className="mb-3">اسم کلاس</p>
+                                  <p>{col.value.class_name}</p>
+                                </div>
+                                <div className="text-center">
+                                  <p className="mb-3">مسیر</p>
+                                  <p>{col.value.route_name}</p>
+                                </div>
+                              </section>
+                              <div
+                                className="d-flex flex-column text-center text-muted"
+                                style={{ marginTop: "-2.5rem" }}
+                              >
+                                <div className="text-center mb-5 min-h-60">
+                                  {col.value.currencies.slice(1).map((c) => (
+                                    <p key={c.id}>{c.name}</p>
+                                  ))}
+                                </div>
+                              </div>
                             </div>
                           </>
                         )}

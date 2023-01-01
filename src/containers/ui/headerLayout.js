@@ -38,23 +38,27 @@ const HeaderLayout = ({
                   type="text"
                   name="search"
                   id="search"
-                  placeholder="سرچ"
+                  placeholder={
+                    searchOptions.length === 1 ? searchOptions[0].name : "سرچ"
+                  }
                   ref={searchInputRef}
                 />
               </div>
-              <ButtonGroup>
-                {searchOptions.map((s) => (
-                  <Button
-                    size="sm"
-                    key={s.id}
-                    color="primary"
-                    onClick={() => setSelectedRadio(s.id)}
-                    active={selectedRadio === s.id}
-                  >
-                    {s.name}
-                  </Button>
-                ))}
-              </ButtonGroup>
+              {searchOptions.length > 1 && (
+                <ButtonGroup>
+                  {searchOptions.map((s) => (
+                    <Button
+                      size="sm"
+                      key={s.id}
+                      color="primary"
+                      onClick={() => setSelectedRadio(s.id)}
+                      active={selectedRadio === s.id}
+                    >
+                      {s.name}
+                    </Button>
+                  ))}
+                </ButtonGroup>
+              )}
             </form>
           </div>
         )}

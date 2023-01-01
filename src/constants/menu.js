@@ -118,6 +118,24 @@ const data = [
     ],
   },
   {
+    id: "services",
+    icon: "iconsminds-box-close",
+    label: "خدمات و محصولات",
+    to: "",
+    subs: [
+      {
+        icon: "services",
+        label: "ایجاد/ویرایش محصول پایه",
+        to: "",
+      },
+      {
+        icon: "services",
+        label: "محصولات پایه",
+        to: "/base-services",
+      },
+    ],
+  },
+  {
     id: "user_account",
     icon: "iconsminds-pantone",
     label: "حساب کاربری",

@@ -19,6 +19,7 @@ import PermissionsSlice from "./permissionsSlice";
 import TaskSlice from "./TasksSlice";
 import currenciesSlice from "./currenciesSlice";
 import payMethodSlice from "./payMethodSlice";
+import BaseServiceSlice from "./BaseServiceSlice";
 // let sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
@@ -31,6 +32,7 @@ export const store = configureStore({
     tasks: TaskSlice,
     currencies: currenciesSlice,
     payMethod: payMethodSlice,
+    baseServices: BaseServiceSlice,
     menu,
     settings,
     todoApp,

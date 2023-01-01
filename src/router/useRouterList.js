@@ -21,6 +21,7 @@ import Currencies from "pages/Dashboard/currencies/currencies";
 import ExchangeRate from "pages/Dashboard/currencies/exchangeRate";
 import Histories from "pages/Dashboard/currencies/histories";
 import PayMethods from "pages/Dashboard/payMethod/payMethode";
+import BaseServices from "pages/Dashboard/base_services/BaseServices";
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
@@ -115,6 +116,11 @@ const defaultPrivateRoutes = [
   {
     component: <PayMethods />,
     path: "/pay-methods",
+  },
+  /////////////////////////////
+  {
+    component: <BaseServices />,
+    path: "/base-services",
   },
 ];
 
