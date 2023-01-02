@@ -195,7 +195,7 @@ const BaseServices = () => {
   useEffect(() => {
     const data = allBaseServices.find((p) => p.id == id);
     if (!data) return;
-    setCurrencies(data.currencies);
+    setCurrencies(data.currencies ? data.currencies : []);
     setEditData({
       name: data?.name === null ? "" : data.name,
       class_name: data?.class_name === null ? "" : data.class_name,
@@ -247,7 +247,7 @@ const BaseServices = () => {
       const res = await dispatch(addBaseService({ ...addData, currencies }));
       if (res.payload) {
         toast.success("خدمت با موفقیت اضافه شد");
-        isModal(false);
+        setIsModal(false);
         setCurrencies([]);
         await fetchBaseServices();
       } else {
