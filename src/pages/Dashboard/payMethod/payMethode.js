@@ -79,7 +79,7 @@ const PayMethods = () => {
   const match = [
     {
       path: "/",
-      text: "کاربران",
+      text: "مالی",
     },
     {
       path: history.location.pathname,

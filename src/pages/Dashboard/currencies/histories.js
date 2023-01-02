@@ -33,7 +33,7 @@ const Histories = () => {
   const match = [
     {
       path: "/",
-      text: "کاربران",
+      text: "مالی",
     },
     {
       path: "/currencies",

@@ -4,7 +4,11 @@ import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 export default function DashboardHeader({ title, list }) {
   const renderList = list.map((item, index) => (
     <BreadcrumbItem key={index} active={list.length === index + 1}>
-      <NavLink to={item.path}>{item.text}</NavLink>
+      {list.length !== index + 1 ? (
+        <NavLink to={item.path}>{item.text}</NavLink>
+      ) : (
+        <>{item.text}</>
+      )}
     </BreadcrumbItem>
   ));
 

@@ -370,7 +370,7 @@ export default function Currencies() {
   const match = [
     {
       path: "/",
-      text: "کاربران",
+      text: "مالی",
     },
     {
       path: history.location.pathname,

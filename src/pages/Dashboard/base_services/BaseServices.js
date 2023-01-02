@@ -245,14 +245,24 @@ const BaseServices = () => {
         throw new Error(" مسیر حداکثر باید 255 کارکتر باشد");
       }
       const res = await dispatch(addBaseService({ ...addData, currencies }));
-      if (res.payload.status === "ok") {
+      if (res.payload) {
         toast.success("خدمت با موفقیت اضافه شد");
-        await fetchBaseServices();
         isModal(false);
         setCurrencies([]);
+        await fetchBaseServices();
+      } else {
+        throw new Error("مقادیر یک یا چند ستون نادرست وارد شده است.");
       }
     } catch (err) {
-      toast.error(err);
+      // if (err.validation_errors) {
+      //   const keys = Object.keys(err.validation_errors);
+      //   switch (keys) {
+      //     case "name":
+      //       toast.err(`خطا در قسمت نام: ${err.validation_errors?.name[0]}`);
+      //       break;
+      //   }
+      // }
+      toast.error(err.message);
       throw err;
     }
   };
@@ -500,6 +510,9 @@ const BaseServices = () => {
                   onClick={() => {
                     setCurrencies((prev) => {
                       if (currencies.some((c) => c.name === autoSuggest)) {
+                        return prev;
+                      }
+                      if (!allCurrencies.some((c) => c.name === autoSuggest)) {
                         return prev;
                       }
                       return [

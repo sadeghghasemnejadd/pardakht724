@@ -125,11 +125,6 @@ const data = [
     subs: [
       {
         icon: "services",
-        label: "ایجاد/ویرایش محصول پایه",
-        to: "",
-      },
-      {
-        icon: "services",
         label: "محصولات پایه",
         to: "/base-services",
       },
