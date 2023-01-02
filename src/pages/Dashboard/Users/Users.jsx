@@ -13,7 +13,10 @@ import { Colxx, Separator } from "components/common/CustomBootstrap";
 import { Card } from "reactstrap";
 import HeaderLayout from "containers/ui/headerLayout";
 const Users = ({ match }) => {
-  const [filterTypeList, setFilterTypeList] = useState([]);
+  const [filterTypeList, setFilterTypeList] = useState({
+    name: "type",
+    value: [],
+  });
   const searchInputRef = useRef();
   const dispatch = useDispatch();
   const { loading, users } = useSelector((store) => store.users);
@@ -137,7 +140,6 @@ const Users = ({ match }) => {
     []
   );
   const history = useHistory();
-  console.log(history);
   const breadcrumb = [
     {
       path: "/",
@@ -175,9 +177,15 @@ const Users = ({ match }) => {
     switch (parentId) {
       case "type":
         if (e) {
-          setFilterTypeList((prev) => [...prev, id]);
+          setFilterTypeList((prev) => ({
+            name: "type",
+            value: [...prev.value, id],
+          }));
         } else {
-          setFilterTypeList((prev) => prev.filter((p) => p !== id));
+          setFilterTypeList((prev) => ({
+            name: "type",
+            value: prev.value.filter((p) => p !== id),
+          }));
         }
         break;
     }
@@ -185,11 +193,10 @@ const Users = ({ match }) => {
   const filterHandler = async () => {
     try {
       const filterQuery =
-        filterTypeList.length !== 0
-          ? `?user_type=${filterTypeList.join(",")}`
+        filterTypeList.value.length !== 0
+          ? `?user_type=${filterTypeList.value.join(",")}`
           : "";
       await dispatch(searchUser(filterQuery));
-      setFilterTypeList([]);
     } catch (err) {
       throw err;
     }
@@ -197,9 +204,6 @@ const Users = ({ match }) => {
   const fetchUsers = async () => {
     try {
       const res = await dispatch(allUsers());
-      if (res.payload.status === "ok") {
-        setFilterTypeList([]);
-      }
     } catch (err) {
       throw err;
     }
@@ -275,6 +279,7 @@ const Users = ({ match }) => {
               ]}
               onSwitch={switchFilterHandler}
               onFilter={filterHandler}
+              data={[filterTypeList]}
             />
           </Colxx>
         </div>

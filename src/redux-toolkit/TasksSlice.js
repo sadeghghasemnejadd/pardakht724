@@ -15,7 +15,6 @@ export const getAllTasks = createAsyncThunk("getAllTasks", async () => {
 });
 export const updateTasks = createAsyncThunk("updateTasks", async (value) => {
   try {
-    console.log(value.data);
     const token = localStorage.getItem("token");
     const { data } = await axiosInstance.patch(
       `/tasks/${value.id}`,

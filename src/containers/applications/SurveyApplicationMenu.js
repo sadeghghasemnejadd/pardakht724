@@ -7,7 +7,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 
 import ApplicationMenu from "components/common/ApplicationMenu";
 
-const SurveyApplicationMenu = ({ filters, onSwitch, onFilter }) => {
+const SurveyApplicationMenu = ({ filters, onSwitch, onFilter, data }) => {
   return (
     <ApplicationMenu>
       <PerfectScrollbar
@@ -33,6 +33,9 @@ const SurveyApplicationMenu = ({ filters, onSwitch, onFilter }) => {
                     <Colxx xxs="4">
                       <Switch
                         className="custom-switch custom-switch-secondary"
+                        checked={data
+                          .find((d) => d.name == opt.id)
+                          ?.value.some((v) => v == swt.id)}
                         onChange={(e) => onSwitch(e, swt.id, opt.id)}
                       />
                     </Colxx>

@@ -28,8 +28,14 @@ import {
 } from "reactstrap";
 import HeaderLayout from "containers/ui/headerLayout";
 export default function Currencies() {
-  const [filterTypeList, setFilterTypeList] = useState([]);
-  const [filterStatusList, setFilterStatusList] = useState([]);
+  const [filterTypeList, setFilterTypeList] = useState({
+    name: "type",
+    value: [],
+  });
+  const [filterStatusList, setFilterStatusList] = useState({
+    name: "status",
+    value: [],
+  });
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState();
   const [collapseData, setCollapseData] = useState([
@@ -250,16 +256,28 @@ export default function Currencies() {
     switch (parentId) {
       case "type":
         if (e) {
-          setFilterTypeList((prev) => [...prev, id]);
+          setFilterTypeList((prev) => ({
+            name: "type",
+            value: [...prev.value, id],
+          }));
         } else {
-          setFilterTypeList((prev) => prev.filter((p) => p !== id));
+          setFilterTypeList((prev) => ({
+            name: "type",
+            value: prev.value.filter((p) => p !== id),
+          }));
         }
         break;
       case "status":
         if (e) {
-          setFilterStatusList((prev) => [...prev, id]);
+          setFilterStatusList((prev) => ({
+            name: "status",
+            value: [...prev.value, id],
+          }));
         } else {
-          setFilterStatusList((prev) => prev.filter((p) => p !== id));
+          setFilterStatusList((prev) => ({
+            name: "status",
+            value: prev.value.filter((p) => p !== id),
+          }));
         }
         break;
     }
@@ -268,16 +286,16 @@ export default function Currencies() {
     try {
       let filterQuery = "?";
       filterQuery +=
-        filterTypeList.length !== 0 ? `type=${filterTypeList.join(",")}` : "";
+        filterTypeList.value.length !== 0
+          ? `type=${filterTypeList.value.join(",")}`
+          : "";
       filterQuery +=
-        filterStatusList.length !== 0 && filterTypeList.length !== 0
-          ? `&is_active=${filterStatusList.join(",")}`
-          : filterStatusList.length !== 0
-          ? `is_active=${filterStatusList.join(",")}`
+        filterStatusList.value.length !== 0 && filterTypeList.value.length !== 0
+          ? `&is_active=${filterStatusList.value.join(",")}`
+          : filterStatusList.value.length !== 0
+          ? `is_active=${filterStatusList.value.join(",")}`
           : "";
       await dispatch(searchCurrency(filterQuery));
-      setFilterTypeList([]);
-      setFilterStatusList([]);
     } catch (err) {
       throw err;
     }
@@ -285,9 +303,6 @@ export default function Currencies() {
   const fetchCurrencies = async () => {
     try {
       const res = await dispatch(getAllCurrencies());
-      if (res.payload.status === "ok") {
-        setFilterTypeList([]);
-      }
     } catch (err) {
       throw err;
     }
@@ -751,6 +766,7 @@ export default function Currencies() {
               ]}
               onSwitch={switchFilterHandler}
               onFilter={filterHandler}
+              data={[filterTypeList, filterStatusList]}
             />
           </Colxx>
         </div>

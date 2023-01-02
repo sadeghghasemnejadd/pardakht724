@@ -32,10 +32,22 @@ const PayMethods = () => {
   const { loading, payMethods } = useSelector((store) => store.payMethod);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState();
-  const [filterTypeList, setFilterTypeList] = useState([]);
-  const [filterStatusList, setFilterStatusList] = useState([]);
-  const [filterPayTypeList, setFilterPayTypeList] = useState([]);
-  const [filterPayMethodList, setFilterPayMethodList] = useState([]);
+  const [filterTypeList, setFilterTypeList] = useState({
+    name: "type",
+    value: [],
+  });
+  const [filterStatusList, setFilterStatusList] = useState({
+    name: "status",
+    value: [],
+  });
+  const [filterPayTypeList, setFilterPayTypeList] = useState({
+    name: "payType",
+    value: [],
+  });
+  const [filterPayMethodList, setFilterPayMethodList] = useState({
+    name: "payMethod",
+    value: [],
+  });
   const [autoSuggest, setAutoSuggest] = useState("");
   const [addData, setAddData] = useState({
     name: "",
@@ -217,7 +229,6 @@ const PayMethods = () => {
   }, [fetchPayMethods]);
   useEffect(() => {
     const data = payMethods.find((p) => p.id == id);
-    console.log(id);
     if (!data) return;
     setEditData({
       name: data?.name === null ? "" : data.name,
@@ -263,30 +274,54 @@ const PayMethods = () => {
     switch (parentId) {
       case "type":
         if (e) {
-          setFilterTypeList((prev) => [...prev, id]);
+          setFilterTypeList((prev) => ({
+            name: "type",
+            value: [...prev.value, id],
+          }));
         } else {
-          setFilterTypeList((prev) => prev.filter((p) => p !== id));
+          setFilterTypeList((prev) => ({
+            name: "type",
+            value: prev.value.filter((p) => p !== id),
+          }));
         }
         break;
       case "payType":
         if (e) {
-          setFilterPayTypeList((prev) => [...prev, id]);
+          setFilterPayTypeList((prev) => ({
+            name: "payType",
+            value: [...prev.value, id],
+          }));
         } else {
-          setFilterPayTypeList((prev) => prev.filter((p) => p !== id));
+          setFilterPayTypeList((prev) => ({
+            name: "payType",
+            value: prev.value.filter((p) => p !== id),
+          }));
         }
         break;
       case "payMethod":
         if (e) {
-          setFilterPayMethodList((prev) => [...prev, id]);
+          setFilterPayMethodList((prev) => ({
+            name: "payMethod",
+            value: [...prev.value, id],
+          }));
         } else {
-          setFilterPayMethodList((prev) => prev.filter((p) => p !== id));
+          setFilterPayMethodList((prev) => ({
+            name: "payMethod",
+            value: prev.value.filter((p) => p !== id),
+          }));
         }
         break;
       case "status":
         if (e) {
-          setFilterStatusList((prev) => [...prev, id]);
+          setFilterStatusList((prev) => ({
+            name: "status",
+            value: [...prev.value, id],
+          }));
         } else {
-          setFilterStatusList((prev) => prev.filter((p) => p !== id));
+          setFilterStatusList((prev) => ({
+            name: "status",
+            value: prev.value.filter((p) => p !== id),
+          }));
         }
         break;
     }
@@ -295,33 +330,28 @@ const PayMethods = () => {
     try {
       let filterQuery = "?";
       filterQuery +=
-        filterTypeList.length !== 0
-          ? `is_iranian=${filterTypeList.join(",")}`
+        filterTypeList.value.length !== 0
+          ? `is_iranian=${filterTypeList.value.join(",")}`
           : "";
       filterQuery +=
-        filterPayTypeList.length !== 0 && filterQuery.length > 1
-          ? `&direction_type=${filterPayTypeList.join(",")}`
-          : filterPayTypeList.length !== 0
-          ? `direction_type=${filterPayTypeList.join(",")}`
+        filterPayTypeList.value.length !== 0 && filterQuery.length > 1
+          ? `&direction_type=${filterPayTypeList.value.join(",")}`
+          : filterPayTypeList.value.length !== 0
+          ? `direction_type=${filterPayTypeList.value.join(",")}`
           : "";
       filterQuery +=
-        filterPayMethodList.length !== 0 && filterQuery.length > 1
-          ? `&execution_type=${filterPayMethodList.join(",")}`
-          : filterPayMethodList.length !== 0
-          ? `execution_type=${filterPayMethodList.join(",")}`
+        filterPayMethodList.value.length !== 0 && filterQuery.length > 1
+          ? `&execution_type=${filterPayMethodList.value.join(",")}`
+          : filterPayMethodList.value.length !== 0
+          ? `execution_type=${filterPayMethodList.value.join(",")}`
           : "";
       filterQuery +=
-        filterStatusList.length !== 0 && filterQuery.length > 1
-          ? `&is_active=${filterStatusList.join(",")}`
-          : filterStatusList.length !== 0
-          ? `is_active=${filterStatusList.join(",")}`
+        filterStatusList.value.length !== 0 && filterQuery.length > 1
+          ? `&is_active=${filterStatusList.value.join(",")}`
+          : filterStatusList.value.length !== 0
+          ? `is_active=${filterStatusList.value.join(",")}`
           : "";
-      console.log(filterQuery);
       await dispatch(searchPayMethods(filterQuery));
-      setFilterTypeList([]);
-      setFilterStatusList([]);
-      setFilterPayMethodList([]);
-      setFilterPayTypeList([]);
     } catch (err) {
       throw err;
     }
@@ -1036,6 +1066,12 @@ const PayMethods = () => {
               ]}
               onSwitch={switchFilterHandler}
               onFilter={filterHandler}
+              data={[
+                filterTypeList,
+                filterPayMethodList,
+                filterPayTypeList,
+                filterStatusList,
+              ]}
             />
           </Colxx>
         </>

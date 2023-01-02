@@ -14,7 +14,10 @@ const Roles = () => {
   const dispatch = useDispatch();
   const { loading, roles } = useSelector((store) => store.roles);
   const searchInputRef = useRef();
-  const [filterTypeList, setFilterTypeList] = useState([]);
+  const [filterTypeList, setFilterTypeList] = useState({
+    name: "type",
+    value: [],
+  });
   const history = useHistory();
   const cols = useMemo(
     () => [
@@ -104,17 +107,24 @@ const Roles = () => {
   };
   const switchFilterHandler = (e, id) => {
     if (e) {
-      setFilterTypeList((prev) => [...prev, id]);
+      setFilterTypeList((prev) => ({
+        name: "type",
+        value: [...prev.value, id],
+      }));
     } else {
-      setFilterTypeList((prev) => prev.filter((p) => p !== id));
+      setFilterTypeList((prev) => ({
+        name: "type",
+        value: prev.value.filter((p) => p !== id),
+      }));
     }
   };
   const filterHandler = async () => {
     try {
       const filterQuery =
-        filterTypeList.length !== 0 ? `?type=${filterTypeList.join(",")}` : "";
+        filterTypeList.value.length !== 0
+          ? `?type=${filterTypeList.value.join(",")}`
+          : "";
       await dispatch(searchRoles(filterQuery));
-      setFilterTypeList([]);
     } catch (err) {
       throw err;
     }
@@ -173,6 +183,7 @@ const Roles = () => {
               ]}
               onSwitch={switchFilterHandler}
               onFilter={filterHandler}
+              data={[filterTypeList]}
             />
           </Colxx>
         </div>
