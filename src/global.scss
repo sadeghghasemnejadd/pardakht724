@@ -86,3 +86,11 @@ html {
   background-color: inherit;
   opacity: 1;
 }
+.custom_flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  & > div {
+    flex: 0 0 40%;
+  }
+}

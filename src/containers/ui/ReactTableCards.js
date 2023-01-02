@@ -252,7 +252,7 @@ function Table({
                                 style={{ marginTop: "-2.5rem" }}
                               >
                                 <div className="text-center mb-5 min-h-60">
-                                  {col.value.currencies.slice(1).map((c) => (
+                                  {col.value.currencies?.slice(1).map((c) => (
                                     <p key={c.id}>{c.name}</p>
                                   ))}
                                 </div>

@@ -32,6 +32,66 @@ export const searchBaseServices = createAsyncThunk(
     }
   }
 );
+export const getAllCurrencies = createAsyncThunk(
+  "getAllCurrencies",
+  async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(`/currencies`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+export const addBaseService = createAsyncThunk(
+  "addBaseService",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.post(
+        `/base-services`,
+        {
+          ...value,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+export const updateBaseService = createAsyncThunk(
+  "updateBaseService",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.patch(
+        `/base-services/${value.id}`,
+        {
+          ...value.data,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 
 const allBaseServices = (res) =>
   res.payload.base_services.map((b) => ({
@@ -42,12 +102,14 @@ const allBaseServices = (res) =>
       route_name: b.route_name,
     },
   }));
+const allCurrencies = (res) => res.payload.currencies.data;
 
 export const BaseServices = createSlice({
   name: "auth",
   initialState: {
     loading: false,
     allBaseServices: [],
+    allCurrencies: [],
   },
   extraReducers: {
     [getAllBaseServices.pending]: (state) => {
@@ -69,6 +131,37 @@ export const BaseServices = createSlice({
       state.allBaseServices = allBaseServices(action);
     },
     [searchBaseServices.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [getAllCurrencies.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAllCurrencies.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.allCurrencies = allCurrencies(action);
+    },
+    [getAllCurrencies.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [addBaseService.pending]: (state) => {
+      state.loading = true;
+    },
+    [addBaseService.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [addBaseService.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [updateBaseService.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateBaseService.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [updateBaseService.rejected]: (state) => {
       state.loading = false;
     },
     ///////////////////////////////////////////////////
