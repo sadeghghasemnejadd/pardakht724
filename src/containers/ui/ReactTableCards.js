@@ -87,7 +87,7 @@ function Table({
                   {...row.getRowProps()}
                   style={{
                     boxShadow:
-                      collapse?.state && collapse?.id == row.id && "none",
+                      collapse && collapse.some((c) => c === row.id) && "none",
                   }}
                 >
                   {row.cells.map((cell, cellIndex) => (
@@ -98,14 +98,16 @@ function Table({
                       })}
                       style={{
                         borderBottom:
-                          collapse?.state && collapse?.id == row.id && "none",
+                          collapse &&
+                          collapse.some((c) => c === row.id) &&
+                          "none",
                       }}
                     >
                       {cell.render("Cell")}
                     </td>
                   ))}
                 </tr>
-                {collapse?.state && collapse?.id == row.id && (
+                {collapse && collapse.some((c) => c === row.id) && (
                   <tr style={{ boxShadow: "none" }}>
                     {collapseData.map((col, index) => (
                       <td
@@ -123,23 +125,27 @@ function Table({
                         {col.type === "textarea" && (
                           <div className="">
                             <p className="mb-5 h-25">توضیحات:</p>
-                            <p>{col.value}</p>
+                            <p>
+                              {col.value.find((v) => v.id === row.id).value}
+                            </p>
                           </div>
                         )}
                         {col.type === "badge" && (
                           <div className="">
                             <h6 className="mb-5 h-25">مدل های مورد نیاز</h6>
                             <div className="d-flex">
-                              {col.value.map((bad) => (
-                                <Badge
-                                  key={bad.id}
-                                  color="primary"
-                                  pill
-                                  className="mb-1 ml-2"
-                                >
-                                  {bad.name}
-                                </Badge>
-                              ))}
+                              {col.value
+                                .find((v) => v.id == row.id)
+                                .value.map((bad) => (
+                                  <Badge
+                                    key={bad.id}
+                                    color="primary"
+                                    pill
+                                    className="mb-1 ml-2"
+                                  >
+                                    {bad.name}
+                                  </Badge>
+                                ))}
                             </div>
                           </div>
                         )}
@@ -159,25 +165,33 @@ function Table({
                         {col.type === "absoluteVolume" && (
                           <div className="d-flex flex-column align-items-center text-center">
                             <p className="mb-5 h-25">موجودی حساب</p>
-                            <div className="text-center">{col.value}</div>
+                            <div className="text-center">
+                              {col.value.find((v) => v.id == row.id).value}
+                            </div>
                           </div>
                         )}
                         {col.type === "realVolume" && (
                           <div className="d-flex flex-column align-items-center text-center">
                             <p className="mb-5 h-25">موجودی واقعی</p>
-                            <div className="text-center">{col.value}</div>
+                            <div className="text-center">
+                              {col.value.find((v) => v.id == row.id).value}
+                            </div>
                           </div>
                         )}
                         {col.type === "availableVolume" && (
                           <div className="d-flex flex-column align-items-center text-center">
                             <p className="mb-5 h-25">موجودی در دسترس</p>
-                            <div className="text-center">{col.value}</div>
+                            <div className="text-center">
+                              {col.value.find((v) => v.id == row.id).value}
+                            </div>
                           </div>
                         )}
                         {col.type === "baseCurrency" && (
                           <div className="d-flex flex-column align-items-center text-center">
                             <p style={{ height: "4.4rem" }}>ارز پایه</p>
-                            <p className="text-center">{col.value}</p>
+                            <p className="text-center">
+                              {col.value.find((v) => v.id == row.id).value}
+                            </p>
                           </div>
                         )}
                         {col.type === "autoUpdate" && (
@@ -187,7 +201,11 @@ function Table({
                               <Switch
                                 className="custom-switch custom-switch-secondary custom-switch-small "
                                 disabled
-                                checked={col.value === 0 ? true : false}
+                                checked={
+                                  col.value.find((v) => v.id == row.id) === 0
+                                    ? true
+                                    : false
+                                }
                               />
                             </div>
                           </div>
@@ -198,39 +216,74 @@ function Table({
                               <section className="d-flex flex-column  text-center">
                                 <div className="mb-5 text-center min-h-60">
                                   <p className="mb-3">شناسه حساب</p>
-                                  <p>{col.value.account_identifier}</p>
+                                  <p>
+                                    {
+                                      col.value.find((v) => v.id == row.id)
+                                        .value.account_identifier
+                                    }
+                                  </p>
                                 </div>
                                 <div className="text-center">
                                   <p className="mb-3">آدرس بازگشت1</p>
-                                  <p>{col.value.call_back_url}</p>
+                                  <p>
+                                    {
+                                      col.value.find((v) => v.id == row.id)
+                                        .value.call_back_url
+                                    }
+                                  </p>
                                 </div>
                               </section>
                               <section className="d-flex flex-column text-center ">
                                 <div className="text-center mb-5 min-h-60">
                                   <p className="mb-3">کد مرچنت</p>
-                                  <p>{col.value.merchant_id}</p>
+                                  <p>
+                                    {
+                                      col.value.find((v) => v.id == row.id)
+                                        .value.merchant_id
+                                    }
+                                  </p>
                                 </div>
                                 <div className="text-center">
                                   <p className="mb-3">آدرس بازگشت2</p>
-                                  <p>{col.value.call_back_url2}</p>
+                                  <p>
+                                    {
+                                      col.value.find((v) => v.id == row.id)
+                                        .value.call_back_url2
+                                    }
+                                  </p>
                                 </div>
                               </section>
                               <section className="d-flex flex-column text-center">
                                 <div className="text-center mb-5 min-h-60">
                                   <p className="mb-3">نوع دسترسی</p>
-                                  <p>{col.value.access_type}</p>
+                                  <p>
+                                    {
+                                      col.value.find((v) => v.id == row.id)
+                                        .value.access_type
+                                    }
+                                  </p>
                                 </div>
                                 <div className="text-center">
                                   <p className="mb-3">
                                     حداکثر مبلغ قابل پرداخت بااین روش
                                   </p>
-                                  <p>{col.value.max_capability}</p>
+                                  <p>
+                                    {
+                                      col.value.find((v) => v.id == row.id)
+                                        .value.max_capability
+                                    }
+                                  </p>
                                 </div>
                               </section>
                             </div>
                             <div>
                               <p className="mb-3">توضیحات:</p>
-                              <p>{col.value.description}</p>
+                              <p>
+                                {
+                                  col.value.find((v) => v.id == row.id).value
+                                    .description
+                                }
+                              </p>
                             </div>
                           </>
                         )}
@@ -240,11 +293,21 @@ function Table({
                               <section className="d-flex flex-column text-center w-50">
                                 <div className="mb-5 text-center min-h-60">
                                   <p className="mb-3">اسم کلاس</p>
-                                  <p>{col.value.class_name}</p>
+                                  <p>
+                                    {
+                                      col.value.find((v) => v.id == row.id)
+                                        .value.class_name
+                                    }
+                                  </p>
                                 </div>
                                 <div className="text-center">
                                   <p className="mb-3">مسیر</p>
-                                  <p>{col.value.route_name}</p>
+                                  <p>
+                                    {
+                                      col.value.find((v) => v.id == row.id)
+                                        .value.route_name
+                                    }
+                                  </p>
                                 </div>
                               </section>
                               <div
@@ -252,9 +315,12 @@ function Table({
                                 style={{ marginTop: "-2.5rem" }}
                               >
                                 <div className="text-center mb-5 min-h-60">
-                                  {col.value.currencies?.slice(1).map((c) => (
-                                    <p key={c.id}>{c.name}</p>
-                                  ))}
+                                  {col.value
+                                    .find((v) => v.id == row.id)
+                                    .value.currencies?.slice(1)
+                                    .map((c) => (
+                                      <p key={c.id}>{c.name}</p>
+                                    ))}
                                 </div>
                               </div>
                             </div>

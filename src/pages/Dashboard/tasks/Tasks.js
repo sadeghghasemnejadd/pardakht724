@@ -15,7 +15,11 @@ import {
 import { Colxx } from "components/common/CustomBootstrap";
 import "rc-switch/assets/index.css";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllTasks, updateTasks } from "redux-toolkit/TasksSlice";
+import {
+  getAllTasks,
+  updateTasks,
+  searchTasks,
+} from "redux-toolkit/TasksSlice";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
@@ -23,13 +27,13 @@ const Tasks = () => {
   const dispatch = useDispatch();
   const { loading, allTasks } = useSelector((store) => store.tasks);
   const searchInputRef = useRef();
-  const [collapse, setCollapse] = useState();
+  const [collapse, setCollapse] = useState([]);
   const [id, setId] = useState();
   const [editData, setEditData] = useState({});
   const [editDataValue, setEditDataValue] = useState({});
   const [isModal, setIsModal] = useState(false);
   const [collapseData, setCollapseData] = useState([
-    { type: "textarea", value: "" },
+    { type: "textarea", value: [] },
     { type: "badge", value: [] },
   ]);
   const history = useHistory();
@@ -101,24 +105,39 @@ const Tasks = () => {
                 className="glyph h4 d-flex justify-content-center align-items-center"
                 style={{ color: "#9d9d4c" }}
                 onClick={() => {
-                  setCollapse((prev) => ({
-                    id: props.row.id,
-                    state: !prev?.state,
-                  }));
+                  setCollapse((prev) =>
+                    prev.some((p) => p === props.row.id)
+                      ? prev.filter((p) => p !== props.row.id)
+                      : [...prev, props.row.id]
+                  );
                   setCollapseData((prev) =>
                     prev.map((p) =>
                       p.type === "textarea"
-                        ? { type: "textarea", value: props.value[0] }
-                        : { type: "badge", value: props.value[1] }
+                        ? {
+                            type: "textarea",
+                            value: p.value.some((v) => v.id == props.row.id)
+                              ? p.value
+                              : [
+                                  ...p.value,
+                                  { id: props.row.id, value: props.value[0] },
+                                ],
+                          }
+                        : {
+                            type: "badge",
+                            value: p.value.some((v) => v.id == props.row.id)
+                              ? p.value
+                              : [
+                                  ...p.value,
+                                  { id: props.row.id, value: props.value[1] },
+                                ],
+                          }
                     )
                   );
                 }}
               >
                 <div
                   className={`glyph-icon iconsminds-arrow-${
-                    collapse?.state && collapse?.id == props.row.id
-                      ? "up"
-                      : "down"
+                    collapse.some((c) => c === props.row.id) ? "up" : "down"
                   }-in-circle`}
                 />
               </div>
@@ -176,10 +195,14 @@ const Tasks = () => {
 
     try {
       const searchInput = searchInputRef.current?.value;
+      const searchIdQuery = searchId
+        .map((s) => (s === 0 ? "name" : s === 1 ? "type" : "refer_to"))
+        .map((s) => `${s}:${searchInput}`);
+
       const searchQuery = `?search_in=${
-        searchId === 0 ? "p_name" : "name"
-      }:${searchInput}`;
-      await dispatch(searchPermissions(searchQuery));
+        searchIdQuery.length === 1 ? searchIdQuery[0] : searchIdQuery.join(",")
+      }`;
+      await dispatch(searchTasks(searchQuery));
     } catch (err) {
       throw err;
     }

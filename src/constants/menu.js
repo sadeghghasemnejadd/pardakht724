@@ -128,6 +128,11 @@ const data = [
         label: "محصولات پایه",
         to: "/base-services",
       },
+      {
+        icon: "services",
+        label: "دسته بندی ها",
+        to: "/service-categories",
+      },
     ],
   },
   {

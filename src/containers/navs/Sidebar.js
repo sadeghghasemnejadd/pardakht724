@@ -179,7 +179,6 @@ class Sidebar extends Component {
     if (oldli != null) {
       oldli.classList.remove("active");
     }
-
     const oldliSub = document.querySelector(".third-level-menu  li.active");
     if (oldliSub != null) {
       oldliSub.classList.remove("active");

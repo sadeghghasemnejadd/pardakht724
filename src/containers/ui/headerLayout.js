@@ -12,7 +12,7 @@ const HeaderLayout = ({
   searchOptions,
   onAdd,
 }) => {
-  const [selectedRadio, setSelectedRadio] = useState(0);
+  const [selectedRadio, setSelectedRadio] = useState([0]);
   return (
     <>
       <div>
@@ -51,8 +51,14 @@ const HeaderLayout = ({
                       size="sm"
                       key={s.id}
                       color="primary"
-                      onClick={() => setSelectedRadio(s.id)}
-                      active={selectedRadio === s.id}
+                      onClick={() =>
+                        setSelectedRadio((prev) =>
+                          prev.some((p) => p == s.id)
+                            ? prev.filter((p) => p != s.id)
+                            : [...prev, s.id]
+                        )
+                      }
+                      active={selectedRadio.some((p) => p == s.id)}
                     >
                       {s.name}
                     </Button>

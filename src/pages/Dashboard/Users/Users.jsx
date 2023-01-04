@@ -59,31 +59,55 @@ const Users = ({ match }) => {
         cellClass: "text-muted",
         Cell: (props) => {
           const [email, nationalId, selfie, phone] = props.value;
+          console.log(props.value);
           return (
             <div className="d-flex align-items-center h4 justify-content-between">
-              <div
-                className={`glyph-icon iconsminds-envelope ${
-                  email && styles.text_green
-                }`}
-              />
-              <div
-                className={`glyph-icon iconsminds-id-card ml-2${
-                  nationalId === "verified" && styles.text_green
-                }`}
-              />
-              <div
-                className={`glyph-icon iconsminds-credit-card ml-2${styles.text_yellow}`}
-              />
-              <div
-                className={`glyph-icon simple-icon-camera ml-2${
-                  selfie && styles.text_green
-                }`}
-              />
-              <div
-                className={`glyph-icon simple-icon-call-in ml-2 ${
-                  phone && styles.text_green
-                }`}
-              />
+              <div className="tooltip_ ">
+                <span className="tooltip_text">
+                  {email ? "تایید شده" : "تایید نشده"}
+                </span>
+                <div
+                  className={`glyph-icon iconsminds-envelope ${
+                    email && styles.text_green
+                  }`}
+                />
+              </div>
+              <div className="tooltip_ ml-2">
+                <span className="tooltip_text">
+                  {nationalId === "verified" ? "تایید شده" : "تایید نشده"}
+                </span>
+                <div
+                  className={`glyph-icon iconsminds-id-card  ${
+                    nationalId === "verified" && styles.text_green
+                  }`}
+                />
+              </div>
+              <div className="tooltip_ ml-2">
+                <span className="tooltip_text">در حال بررسی</span>
+                <div
+                  className={`glyph-icon iconsminds-credit-card  ${styles.text_yellow}`}
+                />
+              </div>
+              <div className="tooltip_ ml-2">
+                <span className="tooltip_text">
+                  {selfie ? "تایید شده" : "تایید نشده"}
+                </span>
+                <div
+                  className={`glyph-icon simple-icon-camera ${
+                    selfie && styles.text_green
+                  }`}
+                />
+              </div>
+              <div className="tooltip_ ml-2">
+                <span className="tooltip_text">
+                  {phone ? "تایید شده" : "تایید نشده"}
+                </span>
+                <div
+                  className={`glyph-icon simple-icon-call-in ${
+                    phone && styles.text_green
+                  }`}
+                />
+              </div>
             </div>
           );
         },
@@ -158,16 +182,23 @@ const Users = ({ match }) => {
   const searchUserHandler = async (e, searchId) => {
     e.preventDefault();
     try {
-      const searchIdQuery =
-        searchId === 0
-          ? "first_name"
-          : searchId === 1
-          ? "last_name"
-          : searchId === 2
-          ? "email"
-          : "mobile";
+      if (searchId.length === 0) return;
       const searchInput = searchInputRef.current?.value;
-      const searchQuery = `?search_in=${searchIdQuery}:${searchInput}`;
+      const searchIdQuery = searchId
+        .map((s) =>
+          s === 0
+            ? "first_name"
+            : s === 1
+            ? "last_name"
+            : s === 2
+            ? "email"
+            : "mobile"
+        )
+        .map((s) => `${s}:${searchInput}`);
+
+      const searchQuery = `?search_in=${
+        searchIdQuery.length === 1 ? searchIdQuery[0] : searchIdQuery.join(",")
+      }`;
       await dispatch(searchUser(searchQuery));
     } catch (err) {
       throw err;

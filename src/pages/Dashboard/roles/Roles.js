@@ -97,9 +97,13 @@ const Roles = () => {
 
     try {
       const searchInput = searchInputRef.current?.value;
+      const searchIdQuery = searchId
+        .map((s) => (s === 0 ? "p_name" : "name"))
+        .map((s) => `${s}:${searchInput}`);
+
       const searchQuery = `?search_in=${
-        searchId === 0 ? "p_name" : "name"
-      }:${searchInput}`;
+        searchIdQuery.length === 1 ? searchIdQuery[0] : searchIdQuery.join(",")
+      }`;
       await dispatch(searchRoles(searchQuery));
     } catch (err) {
       throw err;

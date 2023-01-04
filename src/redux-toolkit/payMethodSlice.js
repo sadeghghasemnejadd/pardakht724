@@ -32,6 +32,28 @@ export const searchPayMethods = createAsyncThunk(
     }
   }
 );
+export const updatePayMethod = createAsyncThunk(
+  "updatePayMethod",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.patch(
+        `/pay-methods/${value.id}`,
+        {
+          ...value.data,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 
 const payMethods = (res) =>
   res.payload.pay_methods.map((p) => ({
@@ -73,6 +95,16 @@ export const PayMethodSlice = createSlice({
       state.payMethods = payMethods(action);
     },
     [searchPayMethods.rejected]: (state) => {
+      state.loading = false;
+    },
+    //////////////////////////////////////
+    [updatePayMethod.pending]: (state) => {
+      state.loading = true;
+    },
+    [updatePayMethod.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [updatePayMethod.rejected]: (state) => {
       state.loading = false;
     },
   },

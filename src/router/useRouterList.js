@@ -22,6 +22,8 @@ import ExchangeRate from "pages/Dashboard/currencies/exchangeRate";
 import Histories from "pages/Dashboard/currencies/histories";
 import PayMethods from "pages/Dashboard/payMethod/payMethode";
 import BaseServices from "pages/Dashboard/base_services/BaseServices";
+import ServiceCategories from "pages/Dashboard/service-categories/Service-categories";
+import Services from "pages/Dashboard/service-categories/services";
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
@@ -121,6 +123,15 @@ const defaultPrivateRoutes = [
   {
     component: <BaseServices />,
     path: "/base-services",
+  },
+  /////////////////////////////
+  {
+    component: <ServiceCategories />,
+    path: "/service-categories",
+  },
+  {
+    component: <Services />,
+    path: "/service-categories/:id/services",
   },
 ];
 

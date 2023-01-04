@@ -150,9 +150,14 @@ export default function ExchangeRate() {
   const searchCurrencyHandler = async (e, searchId) => {
     e.preventDefault();
     try {
-      const searchIdQuery = searchId === 0 ? "name" : "symbol";
       const searchInput = searchInputRef.current?.value;
-      const searchQuery = `?search_in=${searchIdQuery}:${searchInput}`;
+      const searchIdQuery = searchId
+        .map((s) => (s === 0 ? "name" : "symbol"))
+        .map((s) => `${s}:${searchInput}`);
+
+      const searchQuery = `?search_in=${
+        searchIdQuery.length === 1 ? searchIdQuery[0] : searchIdQuery.join(",")
+      }`;
       await dispatch(searchExchangeRate({ query: searchQuery, id }));
     } catch (err) {
       throw err;

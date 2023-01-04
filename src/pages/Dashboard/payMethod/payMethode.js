@@ -22,6 +22,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getAllPayMethods,
   searchPayMethods,
+  updatePayMethod,
 } from "redux-toolkit/payMethodSlice";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -31,7 +32,7 @@ const PayMethods = () => {
   const dispatch = useDispatch();
   const { loading, payMethods } = useSelector((store) => store.payMethod);
   const searchInputRef = useRef();
-  const [collapse, setCollapse] = useState();
+  const [collapse, setCollapse] = useState([]);
   const [filterTypeList, setFilterTypeList] = useState({
     name: "type",
     value: [],
@@ -73,7 +74,7 @@ const PayMethods = () => {
   const [isModal2, setIsModal2] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [collapseData, setCollapseData] = useState([
-    [{ type: "threeLine", value: {} }],
+    { type: "threeLine", value: [] },
   ]);
   const history = useHistory();
   const match = [
@@ -187,16 +188,22 @@ const PayMethods = () => {
                 className="glyph h4 d-flex justify-content-center align-items-center"
                 style={{ color: "#9d9d4c" }}
                 onClick={() => {
-                  setCollapse((prev) => ({
-                    id: props.row.id,
-                    state: !prev?.state,
-                  }));
-                  setCollapseData([
-                    {
+                  setCollapse((prev) =>
+                    prev.some((p) => p === props.row.id)
+                      ? prev.filter((p) => p !== props.row.id)
+                      : [...prev, props.row.id]
+                  );
+                  setCollapseData((prev) =>
+                    prev.map((p) => ({
                       type: "threeLine",
-                      value: props.value,
-                    },
-                  ]);
+                      value: p.value.some((v) => v.id == props.row.id)
+                        ? p.value
+                        : [
+                            ...p.value,
+                            { id: props.row.id, value: props.value },
+                          ],
+                    }))
+                  );
                 }}
               >
                 <div
@@ -356,20 +363,20 @@ const PayMethods = () => {
       throw err;
     }
   };
-  // const saveChangeHandler = async () => {
-  //   try {
-  //     const res = await dispatch(updateTasks({ id, data: editDataValue }));
-  //     if (res.payload.status === "ok") {
-  //       toast.success("تفییرات با موفقیت ذخیره شد.");
-  //       setIsModal(false);
-  //       setEditDataValue({});
-  //       await fetchTasks();
-  //     }
-  //   } catch (err) {
-  //     toast.error("ویرایش دسترسی با خطا روبرو شد");
-  //     throw err;
-  //   }
-  // };
+  const saveChangeHandler = async () => {
+    try {
+      const res = await dispatch(updatePayMethod({ id, data: editDataValue }));
+      if (res.payload.status === "ok") {
+        toast.success("تفییرات با موفقیت ذخیره شد.");
+        setIsModal(false);
+        setEditDataValue({});
+        await fetchTasks();
+      }
+    } catch (err) {
+      toast.error("ویرایش روش پرداخت با خطا روبرو شد");
+      throw err;
+    }
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -1010,7 +1017,7 @@ const PayMethods = () => {
                     color="primary"
                     size="lg"
                     className="mb-2"
-                    onClick={() => {}}
+                    onClick={saveChangeHandler}
                   >
                     ویرایش
                   </Button>

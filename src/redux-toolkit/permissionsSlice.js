@@ -85,6 +85,7 @@ export const PermissionsSlice = createSlice({
   initialState: {
     loading: false,
     allPermissions: [],
+    pageSize: 0,
   },
   extraReducers: {
     [getAllPermissions.pending]: (state) => {
@@ -93,6 +94,7 @@ export const PermissionsSlice = createSlice({
     [getAllPermissions.fulfilled]: (state, action) => {
       state.loading = false;
       state.allPermissions = allPermissions(action);
+      state.pageSize = action.payload.per_page;
     },
     [getAllPermissions.rejected]: (state) => {
       state.loading = false;

@@ -37,14 +37,14 @@ export default function Currencies() {
     value: [],
   });
   const searchInputRef = useRef();
-  const [collapse, setCollapse] = useState();
+  const [collapse, setCollapse] = useState([]);
   const [collapseData, setCollapseData] = useState([
-    { type: "type", value: "" },
-    { type: "absoluteVolume", value: "" },
-    { type: "realVolume", value: "" },
-    { type: "availableVolume", value: "" },
-    { type: "baseCurrency", value: "" },
-    { type: "autoUpdate", value: 0 },
+    { type: "type", value: [] },
+    { type: "absoluteVolume", value: [] },
+    { type: "realVolume", value: [] },
+    { type: "availableVolume", value: [] },
+    { type: "baseCurrency", value: [] },
+    { type: "autoUpdate", value: [] },
   ]);
   const [selectedButton, setSelectedButton] = useState(0);
   const [isModal, setIsModal] = useState(false);
@@ -145,23 +145,72 @@ export default function Currencies() {
                 className="glyph h4 d-flex justify-content-center align-items-center"
                 style={{ color: "#9d9d4c" }}
                 onClick={() => {
-                  setCollapse((prev) => ({
-                    id: props.row.id,
-                    state: !prev?.state,
-                  }));
+                  setCollapse((prev) =>
+                    prev.some((p) => p === props.row.id)
+                      ? prev.filter((p) => p !== props.row.id)
+                      : [...prev, props.row.id]
+                  );
                   setCollapseData((prev) =>
                     prev.map((p) =>
                       p.type === "type"
-                        ? { type: "type", value: props.value[0] }
+                        ? {
+                            type: "type",
+                            value: p.value.some((v) => v.id == props.row.id)
+                              ? p.value
+                              : [
+                                  ...p.value,
+                                  { id: props.row.id, value: props.value[0] },
+                                ],
+                          }
                         : p.type === "absoluteVolume"
-                        ? { type: "absoluteVolume", value: props.value[1] }
+                        ? {
+                            type: "absoluteVolume",
+                            value: p.value.some((v) => v.id == props.row.id)
+                              ? p.value
+                              : [
+                                  ...p.value,
+                                  { id: props.row.id, value: props.value[1] },
+                                ],
+                          }
                         : p.type === "realVolume"
-                        ? { type: "realVolume", value: props.value[2] }
+                        ? {
+                            type: "realVolume",
+                            value: p.value.some((v) => v.id == props.row.id)
+                              ? p.value
+                              : [
+                                  ...p.value,
+                                  { id: props.row.id, value: props.value[2] },
+                                ],
+                          }
                         : p.type === "availableVolume"
-                        ? { type: "availableVolume", value: props.value[3] }
+                        ? {
+                            type: "availableVolume",
+                            value: p.value.some((v) => v.id == props.row.id)
+                              ? p.value
+                              : [
+                                  ...p.value,
+                                  { id: props.row.id, value: props.value[3] },
+                                ],
+                          }
                         : p.type === "baseCurrency"
-                        ? { type: "baseCurrency", value: props.value[4] }
-                        : { type: "autoUpdate", value: props.value[5] }
+                        ? {
+                            type: "baseCurrency",
+                            value: p.value.some((v) => v.id == props.row.id)
+                              ? p.value
+                              : [
+                                  ...p.value,
+                                  { id: props.row.id, value: props.value[4] },
+                                ],
+                          }
+                        : {
+                            type: "autoUpdate",
+                            value: p.value.some((v) => v.id == props.row.id)
+                              ? p.value
+                              : [
+                                  ...p.value,
+                                  { id: props.row.id, value: props.value[5] },
+                                ],
+                          }
                     )
                   );
                 }}
@@ -244,9 +293,14 @@ export default function Currencies() {
   const searchCurrencyHandler = async (e, searchId) => {
     e.preventDefault();
     try {
-      const searchIdQuery = searchId === 0 ? "name" : "symbol";
       const searchInput = searchInputRef.current?.value;
-      const searchQuery = `?search_in=${searchIdQuery}:${searchInput}`;
+      const searchIdQuery = searchId
+        .map((s) => (s === 0 ? "name" : "symbol"))
+        .map((s) => `${s}:${searchInput}`);
+
+      const searchQuery = `?search_in=${
+        searchIdQuery.length === 1 ? searchIdQuery[0] : searchIdQuery.join(",")
+      }`;
       await dispatch(searchCurrency(searchQuery));
     } catch (err) {
       throw err;

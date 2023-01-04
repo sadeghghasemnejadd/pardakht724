@@ -26,17 +26,20 @@ import {
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import styles from "./permissions.module.css";
+import { plPL } from "@mui/x-date-pickers";
 const Permissions = () => {
   const dispatch = useDispatch();
-  const { loading, allPermissions } = useSelector((store) => store.permissions);
+  const { loading, allPermissions, pageSize } = useSelector(
+    (store) => store.permissions
+  );
   const searchInputRef = useRef();
-  const [collapse, setCollapse] = useState();
+  const [collapse, setCollapse] = useState([]);
   const [id, setId] = useState();
   const [editData, setEditData] = useState({});
   const [editDataValue, setEditDataValue] = useState({});
   const [isModal, setIsModal] = useState(false);
   const [collapseData, setCollapseData] = useState([
-    { type: "textarea", value: "" },
+    { type: "textarea", value: [] },
   ]);
   const history = useHistory();
   const cols = useMemo(
@@ -69,14 +72,23 @@ const Permissions = () => {
                 className="glyph h4 d-flex justify-content-center align-items-center"
                 style={{ color: "#9d9d4c" }}
                 onClick={() => {
-                  setCollapse((prev) => ({
-                    id: props.row.id,
-                    state: !prev?.state,
-                  }));
+                  setCollapse((prev) =>
+                    prev.some((p) => p === props.row.id)
+                      ? prev.filter((p) => p !== props.row.id)
+                      : [...prev, props.row.id]
+                  );
                   setCollapseData((prev) =>
                     prev.map((p) =>
                       p.type === "textarea"
-                        ? { type: "textarea", value: props.value }
+                        ? {
+                            type: "textarea",
+                            value: p.value.some((v) => v.id == props.row.id)
+                              ? p.value
+                              : [
+                                  ...p.value,
+                                  { id: props.row.id, value: props.value },
+                                ],
+                          }
                         : p
                     )
                   );
@@ -85,9 +97,7 @@ const Permissions = () => {
                 <p>{props.value?.slice(0, 50)}...</p>
                 <div
                   className={`glyph-icon iconsminds-arrow-${
-                    collapse?.state && collapse?.id == props.row.id
-                      ? "up"
-                      : "down"
+                    collapse.some((c) => c === props.row.id) ? "up" : "down"
                   }-in-circle`}
                 />
               </div>
@@ -141,9 +151,13 @@ const Permissions = () => {
 
     try {
       const searchInput = searchInputRef.current?.value;
+      const searchIdQuery = searchId
+        .map((s) => (s === 0 ? "p_name" : "name"))
+        .map((s) => `${s}:${searchInput}`);
+
       const searchQuery = `?search_in=${
-        searchId === 0 ? "p_name" : "name"
-      }:${searchInput}`;
+        searchIdQuery.length === 1 ? searchIdQuery[0] : searchIdQuery.join(",")
+      }`;
       await dispatch(searchPermissions(searchQuery));
     } catch (err) {
       throw err;
@@ -297,6 +311,7 @@ const Permissions = () => {
                 data={allPermissions}
                 isCollapse={collapse}
                 collapseData={collapseData}
+                pageSize={pageSize}
               />
             </Card>
           </Colxx>

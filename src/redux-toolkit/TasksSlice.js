@@ -54,6 +54,20 @@ export const updateRoleTasks = createAsyncThunk(
     }
   }
 );
+export const searchTasks = createAsyncThunk("searchTasks", async (values) => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.get(`/tasks${values}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
 
 const allTasks = (res) =>
   res.payload.tasks.map((task) => ({
@@ -76,6 +90,17 @@ export const TaskSlice = createSlice({
       state.allTasks = allTasks(action);
     },
     [getAllTasks.rejected]: (state) => {
+      state.loading = false;
+    },
+    /////////////////////////////////////
+    [searchTasks.pending]: (state) => {
+      state.loading = true;
+    },
+    [searchTasks.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.allTasks = allTasks(action);
+    },
+    [searchTasks.rejected]: (state) => {
       state.loading = false;
     },
     /////////////////////////////////////

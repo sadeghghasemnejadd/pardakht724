@@ -33,7 +33,7 @@ const BaseServices = () => {
     (store) => store.baseServices
   );
   const searchInputRef = useRef();
-  const [collapse, setCollapse] = useState();
+  const [collapse, setCollapse] = useState([]);
   const [id, setId] = useState();
   const [editData, setEditData] = useState({});
   const [editDataValue, setEditDataValue] = useState({});
@@ -52,7 +52,10 @@ const BaseServices = () => {
     is_active: 1,
   });
   const [collapseData, setCollapseData] = useState([
-    { type: "twoLine", value: {} },
+    {
+      type: "twoLine",
+      value: [],
+    },
   ]);
   const history = useHistory();
   const match = [
@@ -147,18 +150,27 @@ const BaseServices = () => {
                 className="glyph h4 d-flex justify-content-center align-items-center"
                 style={{ color: "#9d9d4c" }}
                 onClick={() => {
-                  setCollapse((prev) => ({
-                    id: props.row.id,
-                    state: !prev?.state,
-                  }));
-                  setCollapseData([{ type: "twoLine", value: props.value }]);
+                  setCollapse((prev) =>
+                    prev.some((p) => p === props.row.id)
+                      ? prev.filter((p) => p !== props.row.id)
+                      : [...prev, props.row.id]
+                  );
+                  setCollapseData((prev) =>
+                    prev.map((p) => ({
+                      type: "twoLine",
+                      value: p.value.some((v) => v.id == props.row.id)
+                        ? p.value
+                        : [
+                            ...p.value,
+                            { id: props.row.id, value: props.value },
+                          ],
+                    }))
+                  );
                 }}
               >
                 <div
                   className={`glyph-icon iconsminds-arrow-${
-                    collapse?.state && collapse?.id == props.row.id
-                      ? "up"
-                      : "down"
+                    collapse.some((c) => c === props.row.id) ? "up" : "down"
                   }-in-circle`}
                 />
               </div>
