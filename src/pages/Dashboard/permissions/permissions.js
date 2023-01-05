@@ -22,22 +22,28 @@ import {
   getAllPermissions,
   updatePermissions,
   searchPermissions,
+  addPermissions,
 } from "redux-toolkit/permissionsSlice";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import styles from "./permissions.module.css";
-import { plPL } from "@mui/x-date-pickers";
 const Permissions = () => {
   const dispatch = useDispatch();
   const { loading, allPermissions, pageSize } = useSelector(
     (store) => store.permissions
   );
+  const [permissions, setPermissions] = useState([]);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState([]);
   const [id, setId] = useState();
   const [editData, setEditData] = useState({});
   const [editDataValue, setEditDataValue] = useState({});
   const [isModal, setIsModal] = useState(false);
+  const [isModal2, setIsModal2] = useState(false);
+  const [addData, setAddData] = useState({
+    name: "",
+    p_name: "",
+    description: "",
+  });
   const [collapseData, setCollapseData] = useState([
     { type: "textarea", value: [] },
   ]);
@@ -131,6 +137,9 @@ const Permissions = () => {
     fetchPermissions();
   }, [fetchPermissions]);
   useEffect(() => {
+    setPermissions(allPermissions);
+  }, [allPermissions]);
+  useEffect(() => {
     const data = allPermissions.find((p) => p.id == id);
     if (!data) return;
     setEditData({
@@ -169,13 +178,38 @@ const Permissions = () => {
         updatePermissions({ id, data: editDataValue })
       );
       if (res.payload.status === "ok") {
+        setPermissions((prev) =>
+          prev.map((p) =>
+            p.id === res.payload.permission.id ? res.payload.permission : p
+          )
+        );
         toast.success("تفییرات با موفقیت ذخیره شد.");
         setIsModal(false);
         setEditDataValue({});
-        await fetchPermissions();
       }
     } catch (err) {
       toast.error("ویرایش دسترسی با خطا روبرو شد");
+      throw err;
+    }
+  };
+  const addPermissionHandler = async () => {
+    try {
+      if (addData.p_name.length > 125) {
+        throw new Error(" تام حداکثر باید 125 کارکتر باشد");
+      }
+      if (addData.description.length > 500) {
+        throw new Error(" توضیحات حداکثر باید 500 کارکتر باشد");
+      }
+      const res = await dispatch(addPermissions(addData));
+      if (res.payload) {
+        toast.success("دسترسی با موفقیت اضافه شد");
+        setIsModal2(false);
+        await fetchPermissions();
+      } else {
+        throw new Error("مقادیر یک یا چند ستون نادرست وارد شده است.");
+      }
+    } catch (err) {
+      toast.error(err.message);
       throw err;
     }
   };
@@ -286,6 +320,82 @@ const Permissions = () => {
                 </Button>{" "}
               </ModalFooter>
             </Modal>
+            <Modal
+              isOpen={isModal2}
+              size="lg"
+              toggle={() => {
+                setIsModal2(!isModal2);
+              }}
+            >
+              <ModalHeader>ایجاد دسترسی جدید</ModalHeader>
+              <ModalBody>
+                <div className="d-flex mb-3">
+                  <InputGroup size="sm" className="mr-3">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">نام</span>
+                    </InputGroupAddon>
+                    <Input
+                      onChange={(e) => {
+                        setAddData((prev) => ({
+                          ...prev,
+                          p_name: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                  <InputGroup size="sm" className="">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">برچسب</span>
+                    </InputGroupAddon>
+                    <Input
+                      onChange={(e) => {
+                        setAddData((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                </div>
+                <div className="d-flex mb-3">
+                  <InputGroup size="sm">
+                    <InputGroupAddon addonType="prepend">
+                      <span className="input-group-text">توضیحات</span>
+                    </InputGroupAddon>
+                    <Input
+                      type="textarea"
+                      rows="5"
+                      onChange={(e) => {
+                        setAddData((prev) => ({
+                          ...prev,
+                          description: e.target.value,
+                        }));
+                      }}
+                    />
+                  </InputGroup>
+                </div>
+              </ModalBody>
+              <ModalFooter className="d-flex flex-row-reverse justify-content-start">
+                <Button
+                  color="primary"
+                  size="lg"
+                  className="mb-2"
+                  onClick={addPermissionHandler}
+                >
+                  ذخیره
+                </Button>
+                <Button
+                  color="secondary"
+                  size="lg"
+                  className="mb-2"
+                  onClick={() => {
+                    setIsModal2(false);
+                  }}
+                >
+                  لغو
+                </Button>{" "}
+              </ModalFooter>
+            </Modal>
             <Card className="mb-4 p-5">
               <HeaderLayout
                 title="مدیریت دسترسی ها"
@@ -303,12 +413,14 @@ const Permissions = () => {
                     name: "سرچ در برچسب",
                   },
                 ]}
-                onAdd={() => {}}
+                onAdd={() => {
+                  setIsModal2(true);
+                }}
                 match={match}
               />
               <Table
                 cols={cols}
-                data={allPermissions}
+                data={permissions}
                 isCollapse={collapse}
                 collapseData={collapseData}
                 pageSize={pageSize}

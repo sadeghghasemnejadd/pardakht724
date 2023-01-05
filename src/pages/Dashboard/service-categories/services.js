@@ -114,6 +114,7 @@ const Services = () => {
   useEffect(() => {
     fetchServices();
   }, [fetchServices]);
+
   const fetchServices = async () => {
     try {
       await dispatch(getServices(id));

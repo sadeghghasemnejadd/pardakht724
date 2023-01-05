@@ -72,7 +72,7 @@ export default function Currencies() {
   });
   const dispatch = useDispatch();
   const { loading, currencies } = useSelector((store) => store.currencies);
-
+  const [allCurrencies, setAllCurrencies] = useState([]);
   const cols = useMemo(
     () => [
       {
@@ -278,6 +278,9 @@ export default function Currencies() {
     fetchCurrencies();
   }, [fetchCurrencies]);
   useEffect(() => {
+    setAllCurrencies(currencies);
+  }, [currencies]);
+  useEffect(() => {
     const data = currencies.find((p) => p.id == id);
     if (!data) return;
     setEditData({
@@ -290,6 +293,7 @@ export default function Currencies() {
       auto_update: data?.auto_update === null ? "" : data.auto_update,
     });
   }, [id]);
+  console.log(currencies);
   const searchCurrencyHandler = async (e, searchId) => {
     e.preventDefault();
     try {
@@ -410,10 +414,30 @@ export default function Currencies() {
         updateCurrency({ id, data: { ...editDataValue, ...editIcon } })
       );
       if (res.payload.status === "ok") {
+        setAllCurrencies((prev) =>
+          prev.map((p) =>
+            p.id === res.payload.currency.id
+              ? {
+                  ...res.payload.currency,
+                  name_with_symbol: [
+                    res.payload.currency.name,
+                    res.payload.currency.symbol,
+                  ],
+                  collapse_data: [
+                    res.payload.currency.type,
+                    res.payload.currency.absolute_volume,
+                    res.payload.currency.real_volume,
+                    res.payload.currency.available_volume,
+                    res.payload.currency.base_currency,
+                    res.payload.currency.auto_update,
+                  ],
+                }
+              : p
+          )
+        );
         toast.success("تفییرات با موفقیت ذخیره شد.");
         setIsModal2(false);
         setEditDataValue({});
-        await fetchCurrencies();
       }
     } catch (err) {
       toast.error("ویرایش ارز با خطا روبرو شد");
@@ -461,7 +485,7 @@ export default function Currencies() {
               />
               <Table
                 cols={cols}
-                data={currencies}
+                data={allCurrencies}
                 isCollapse={collapse}
                 collapseData={collapseData}
               />

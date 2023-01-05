@@ -31,6 +31,7 @@ const ServiceCategories = () => {
   const { loading, allServiceCategories } = useSelector(
     (store) => store.serviceCategories
   );
+  const [serviceCategories, setServiceCategories] = useState([]);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState([]);
   const [id, setId] = useState();
@@ -186,6 +187,9 @@ const ServiceCategories = () => {
     fetchServiceCategories();
   }, [fetchServiceCategories]);
   useEffect(() => {
+    setServiceCategories(allServiceCategories);
+  }, [allServiceCategories]);
+  useEffect(() => {
     const data = allServiceCategories.find((p) => p.id == id);
     if (!data) return;
     setEditData({
@@ -250,7 +254,19 @@ const ServiceCategories = () => {
         : editDataValue;
       const res = await dispatch(updateServiceCategories({ id, data }));
       if (res.payload.status === "ok") {
-        await fetchServiceCategories();
+        setBaseServices((prev) =>
+          prev.map((p) =>
+            p.id === res.payload.service_category.id
+              ? {
+                  ...res.payload.service_category,
+                  id_name: [
+                    res.payload.service_category.id,
+                    res.payload.service_category.name,
+                  ],
+                }
+              : p
+          )
+        );
         toast.success("تغییرات با موفقیت ذخیره شد.");
         setIsModal2(false);
         setEditDataValue({});
@@ -297,7 +313,7 @@ const ServiceCategories = () => {
             />
             <Table
               cols={cols}
-              data={allServiceCategories}
+              data={serviceCategories}
               isCollapse={collapse}
               collapseData={collapseData}
             />

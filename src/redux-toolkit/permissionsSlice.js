@@ -77,6 +77,22 @@ export const updateRolePermissions = createAsyncThunk(
     }
   }
 );
+export const addPermissions = createAsyncThunk(
+  "addPermissions",
+  async (values) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.post("/permissions", values, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 
 const allPermissions = (res) => res.payload.permissions;
 
@@ -128,6 +144,16 @@ export const PermissionsSlice = createSlice({
       state.loading = false;
     },
     [updateRolePermissions.rejected]: (state) => {
+      state.loading = false;
+    },
+    /////////////////////////////////////
+    [addPermissions.pending]: (state) => {
+      state.loading = true;
+    },
+    [addPermissions.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [addPermissions.rejected]: (state) => {
       state.loading = false;
     },
   },

@@ -45,6 +45,7 @@ export default function ExchangeRate() {
   const { loading, exchangeRates, currencies } = useSelector(
     (store) => store.currencies
   );
+  const [allExchange, setAllExchange] = useState([]);
   const { id } = useParams();
   const cols = useMemo(
     () => [
@@ -134,6 +135,10 @@ export default function ExchangeRate() {
     fetchExchangeRate();
   }, [fetchExchangeRate]);
   useEffect(() => {
+    setAllExchange(exchangeRates);
+  }, [exchangeRates]);
+
+  useEffect(() => {
     const data = exchangeRates.find((e) => e.id == id2);
     if (!data) return;
     setEditData({
@@ -210,10 +215,16 @@ export default function ExchangeRate() {
         updateExchangeRate({ id1: id, id2, data: editDataValue })
       );
       if (res.payload.status === "ok") {
+        setAllExchange((prev) =>
+          prev.map((p) =>
+            p.id === res.payload.exchange_rate.id
+              ? res.payload.exchange_rate
+              : p
+          )
+        );
         toast.success("تفییرات با موفقیت ذخیره شد.");
         setIsModal2(false);
         setEditDataValue({});
-        await fetchExchangeRate();
       }
     } catch (err) {
       toast.error("ویرایش نرخ تبدیل با خطا روبرو شد");
@@ -262,7 +273,7 @@ export default function ExchangeRate() {
                 }}
                 match={match}
               />
-              <Table cols={cols} data={exchangeRates} />
+              <Table cols={cols} data={allExchange} />
             </Card>
           </Colxx>
           <Modal isOpen={isModal} toggle={() => setIsModal(!isModal)}>

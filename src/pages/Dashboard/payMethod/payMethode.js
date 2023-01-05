@@ -31,6 +31,7 @@ import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu
 const PayMethods = () => {
   const dispatch = useDispatch();
   const { loading, payMethods } = useSelector((store) => store.payMethod);
+  const [allPayMethods, setAllPayMethods] = useState([]);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState([]);
   const [filterTypeList, setFilterTypeList] = useState({
@@ -235,6 +236,9 @@ const PayMethods = () => {
     fetchPayMethods();
   }, [fetchPayMethods]);
   useEffect(() => {
+    setAllPayMethods(payMethods);
+  }, [payMethods]);
+  useEffect(() => {
     const data = payMethods.find((p) => p.id == id);
     if (!data) return;
     setEditData({
@@ -367,10 +371,29 @@ const PayMethods = () => {
     try {
       const res = await dispatch(updatePayMethod({ id, data: editDataValue }));
       if (res.payload.status === "ok") {
+        setAllPayMethods((prev) =>
+          prev.map((p) =>
+            p.id === res.payload.pay_method.id
+              ? {
+                  ...res.payload.pay_method,
+                  collapseData: {
+                    id: res.payload.pay_method.id,
+                    account_identifier:
+                      res.payload.pay_method.account_identifier,
+                    merchant_id: res.payload.pay_method.merchant_id,
+                    access_type: res.payload.pay_method.access_type,
+                    call_back_url: res.payload.pay_method.call_back_url,
+                    call_back_url2: res.payload.pay_method.call_back_url2,
+                    max_capability: res.payload.pay_method.max_capability,
+                    description: res.payload.pay_method.description,
+                  },
+                }
+              : p
+          )
+        );
         toast.success("تفییرات با موفقیت ذخیره شد.");
         setIsModal(false);
         setEditDataValue({});
-        await fetchTasks();
       }
     } catch (err) {
       toast.error("ویرایش روش پرداخت با خطا روبرو شد");
@@ -409,7 +432,7 @@ const PayMethods = () => {
               />
               <Table
                 cols={cols}
-                data={payMethods}
+                data={allPayMethods}
                 isCollapse={collapse}
                 collapseData={collapseData}
               />

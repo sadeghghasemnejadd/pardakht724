@@ -26,6 +26,7 @@ import HeaderLayout from "containers/ui/headerLayout";
 const Tasks = () => {
   const dispatch = useDispatch();
   const { loading, allTasks } = useSelector((store) => store.tasks);
+  const [tasks, setTasks] = useState([]);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState([]);
   const [id, setId] = useState();
@@ -171,6 +172,9 @@ const Tasks = () => {
     fetchTasks();
   }, [fetchTasks]);
   useEffect(() => {
+    setTasks(allTasks);
+  }, [allTasks]);
+  useEffect(() => {
     const data = allTasks.find((p) => p.id == id);
     if (!data) return;
     setEditData({
@@ -211,10 +215,22 @@ const Tasks = () => {
     try {
       const res = await dispatch(updateTasks({ id, data: editDataValue }));
       if (res.payload.status === "ok") {
+        setTasks((prev) =>
+          prev.map((p) =>
+            p.id === res.payload.task.id
+              ? {
+                  ...res.payload.task,
+                  description_subject: [
+                    res.payload.task.description,
+                    res.payload.task.subject_types,
+                  ],
+                }
+              : p
+          )
+        );
         toast.success("تفییرات با موفقیت ذخیره شد.");
         setIsModal(false);
         setEditDataValue({});
-        await fetchTasks();
       }
     } catch (err) {
       toast.error("ویرایش دسترسی با خطا روبرو شد");
@@ -233,9 +249,7 @@ const Tasks = () => {
               onSearch={searchHandler}
               hasSearch={true}
               searchInputRef={searchInputRef}
-              onAdd={() => {
-                history.push("roles/addrole/details");
-              }}
+              onAdd={() => {}}
               searchOptions={[
                 {
                   id: 0,
@@ -254,7 +268,7 @@ const Tasks = () => {
             />
             <Table
               cols={cols}
-              data={allTasks}
+              data={tasks}
               isCollapse={collapse}
               collapseData={collapseData}
             />

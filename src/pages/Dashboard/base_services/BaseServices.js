@@ -27,11 +27,13 @@ import {
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
+import validation from "containers/ui/validation";
 const BaseServices = () => {
   const dispatch = useDispatch();
   const { loading, allBaseServices, allCurrencies } = useSelector(
     (store) => store.baseServices
   );
+  const [baseServices, setBaseServices] = useState([]);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState([]);
   const [id, setId] = useState();
@@ -49,7 +51,7 @@ const BaseServices = () => {
     execution_type: 0,
     service_type: 1,
     factor_creation_type: 0,
-    is_active: 1,
+    is_active: false,
   });
   const [collapseData, setCollapseData] = useState([
     {
@@ -205,6 +207,9 @@ const BaseServices = () => {
     fetchCurrencies();
   }, [fetchBaseServices]);
   useEffect(() => {
+    setBaseServices(allBaseServices);
+  }, [allBaseServices]);
+  useEffect(() => {
     const data = allBaseServices.find((p) => p.id == id);
     if (!data) return;
     setCurrencies(data.currencies ? data.currencies : []);
@@ -263,17 +268,10 @@ const BaseServices = () => {
         setCurrencies([]);
         await fetchBaseServices();
       } else {
-        throw new Error("مقادیر یک یا چند ستون نادرست وارد شده است.");
+        console.log(res);
       }
     } catch (err) {
-      // if (err.validation_errors) {
-      //   const keys = Object.keys(err.validation_errors);
-      //   switch (keys) {
-      //     case "name":
-      //       toast.err(`خطا در قسمت نام: ${err.validation_errors?.name[0]}`);
-      //       break;
-      //   }
-      // }
+      console.log(err);
       toast.error(err.message);
       throw err;
     }
@@ -284,11 +282,25 @@ const BaseServices = () => {
         updateBaseService({ id, data: editDataValue })
       );
       if (res.payload.status === "ok") {
+        setBaseServices((prev) =>
+          prev.map((p) => {
+            return p.id === res.payload.base_service.id
+              ? {
+                  ...res.payload.base_service,
+                  collapseData: {
+                    currencies: res.payload.base_service.currencies,
+                    class_name: res.payload.base_service.class_name,
+                    route_name: res.payload.base_service.route_name,
+                  },
+                }
+              : p;
+          })
+        );
+
         toast.success("تفییرات با موفقیت ذخیره شد.");
         setIsModal2(false);
         setEditDataValue({});
         setCurrencies([]);
-        await fetchBaseServices();
       }
     } catch (err) {
       toast.error("ویرایش دسترسی با خطا روبرو شد");
@@ -320,7 +332,7 @@ const BaseServices = () => {
             />
             <Table
               cols={cols}
-              data={allBaseServices}
+              data={baseServices}
               isCollapse={collapse}
               collapseData={collapseData}
             />
