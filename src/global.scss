@@ -119,3 +119,19 @@ html {
     visibility: visible;
   }
 }
+.invalid-feedback {
+  // right: 0 !important;
+  // width: 2rem !important;
+  // left: 100% !important;
+  min-width: 30% !important;
+  left: 100% !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  transform: translateY(100%) !important ;
+}
+.pos-rel {
+  position: relative !important;
+}
+.flex-grow-1 {
+  flex: 1 !important;
+}

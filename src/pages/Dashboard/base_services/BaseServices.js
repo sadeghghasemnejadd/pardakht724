@@ -30,6 +30,7 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
 import Validation from "containers/ui/validation";
+import checkPersian from "components/custom/validation/checkPersian";
 const BaseServices = () => {
   const dispatch = useDispatch();
   const { loading, allBaseServices, allCurrencies } = useSelector(
@@ -46,6 +47,18 @@ const BaseServices = () => {
   const [isModal2, setIsModal2] = useState(false);
   const [isModal3, setIsModal3] = useState(false);
   const [autoSuggest, setAutoSuggest] = useState("");
+  const [nameValidation, setNameValidation] = useState({
+    status: false,
+    message: "نام نباید خالی باشد",
+  });
+  const [classNameValidation, setClassNameValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [routeNameValidation, setRouteNameValidation] = useState({
+    status: true,
+    message: "",
+  });
   const [addData, setAddData] = useState({
     name: "",
     class_name: "",
@@ -357,21 +370,39 @@ const BaseServices = () => {
             >
               <ModalHeader>ایجاد سرویس پایه جدید</ModalHeader>
               <ModalBody>
-                <div className="d-flex mb-3">
+                <div className="mb-3 d-flex">
                   <InputGroup size="sm">
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">نام</span>
                     </InputGroupAddon>
-                    <Input
-                      className="form-control"
-                      name="name"
-                      onChange={(e) =>
-                        setAddData((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }))
-                      }
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        className="form-control"
+                        name="name"
+                        onChange={(e) => {
+                          if (!e.target.value) {
+                            setNameValidation({
+                              status: false,
+                              message: "نام نباید خالی باشد",
+                            });
+                            return;
+                          }
+                          setNameValidation({
+                            status: checkPersian(e.target.value),
+                            message: "نام باید فارسی باشد",
+                          });
+                          setAddData((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }));
+                        }}
+                      />
+                      {nameValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {nameValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
                 <div className="d-flex mb-5 justify-content-between ">
@@ -471,6 +502,25 @@ const BaseServices = () => {
                     <Switch
                       className="custom-switch custom-switch-secondary custom-switch-small"
                       onChange={(e) => {
+                        if (!e) {
+                          setClassNameValidation({
+                            status: true,
+                            message: "",
+                          });
+                          setRouteNameValidation({
+                            status: true,
+                            message: "",
+                          });
+                        } else {
+                          setClassNameValidation({
+                            status: true,
+                            message: "نام کلاس نباید خالی باشد",
+                          });
+                          setRouteNameValidation({
+                            status: true,
+                            message: "نام مسیر نباید خالی باشد",
+                          });
+                        }
                         setAddData((prev) => ({ ...prev, is_active: e }));
                       }}
                     />
@@ -481,14 +531,33 @@ const BaseServices = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">اسم کلاس</span>
                     </InputGroupAddon>
-                    <Input
-                      onChange={(e) =>
-                        setAddData((prev) => ({
-                          ...prev,
-                          class_name: e.target.value,
-                        }))
-                      }
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        onChange={(e) => {
+                          if (addData.is_active && !e.target.value) {
+                            setClassNameValidation({
+                              status: false,
+                              message: "نام کلاس نباید خالی باشد",
+                            });
+                            return;
+                          } else {
+                            setClassNameValidation({
+                              status: true,
+                              message: "",
+                            });
+                          }
+                          setAddData((prev) => ({
+                            ...prev,
+                            class_name: e.target.value,
+                          }));
+                        }}
+                      />
+                      {classNameValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {classNameValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
                 <div className="d-flex mb-3">
@@ -496,14 +565,33 @@ const BaseServices = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">اسم مسیر</span>
                     </InputGroupAddon>
-                    <Input
-                      onChange={(e) =>
-                        setAddData((prev) => ({
-                          ...prev,
-                          route_name: e.target.value,
-                        }))
-                      }
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        onChange={(e) => {
+                          if (addData.is_active && !e.target.value) {
+                            setRouteNameValidation({
+                              status: false,
+                              message: "نام مسیر نباید خالی باشد",
+                            });
+                            return;
+                          } else {
+                            setRouteNameValidation({
+                              status: true,
+                              message: "",
+                            });
+                          }
+                          setAddData((prev) => ({
+                            ...prev,
+                            route_name: e.target.value,
+                          }));
+                        }}
+                      />
+                      {routeNameValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {routeNameValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
               </ModalBody>
@@ -512,7 +600,15 @@ const BaseServices = () => {
                   color="primary"
                   size="lg"
                   className="mb-2"
-                  onClick={addBaseServicesandler}
+                  onClick={() => {
+                    if (
+                      !nameValidation.status ||
+                      !classNameValidation.status ||
+                      !routeNameValidation.status
+                    )
+                      return;
+                    addBaseServicesandler();
+                  }}
                 >
                   ایجاد
                 </Button>
