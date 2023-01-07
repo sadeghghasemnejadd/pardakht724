@@ -1,8 +1,8 @@
-import { Switch } from "react-router-dom";
+import { Switch, BrowserRouter as Router } from "react-router-dom";
 
 import useRouterList from "./useRouterList";
-import AdminRoutes from './AdminRoutes'
-import AuthRoutes from './AuthRoutes'
+import AdminRoutes from "./AdminRoutes";
+import AuthRoutes from "./AuthRoutes";
 
 export default function ({ token }) {
   const [publicRoutes, privateRoutes] = useRouterList();
@@ -22,9 +22,11 @@ export default function ({ token }) {
   ));
 
   return (
-    <Switch>
-      {renderPublicRoutes}
-      {renderPrivateRoutes}
-    </Switch>
+    <Router>
+      <Switch>
+        {renderPublicRoutes}
+        {renderPrivateRoutes}
+      </Switch>
+    </Router>
   );
 }

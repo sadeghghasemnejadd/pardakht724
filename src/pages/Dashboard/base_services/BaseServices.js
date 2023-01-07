@@ -11,7 +11,9 @@ import {
   ModalFooter,
   ModalHeader,
   Button,
+  FormGroup,
 } from "reactstrap";
+import { Field } from "formik";
 import ReactAutoSuggest from "components/common/ReactAutoSuggest";
 import { Colxx } from "components/common/CustomBootstrap";
 import "rc-switch/assets/index.css";
@@ -27,7 +29,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
-import validation from "containers/ui/validation";
+import Validation from "containers/ui/validation";
 const BaseServices = () => {
   const dispatch = useDispatch();
   const { loading, allBaseServices, allCurrencies } = useSelector(
@@ -262,17 +264,29 @@ const BaseServices = () => {
         throw new Error(" مسیر حداکثر باید 255 کارکتر باشد");
       }
       const res = await dispatch(addBaseService({ ...addData, currencies }));
-      if (res.payload) {
+      if (res.payload.status === "ok") {
         toast.success("خدمت با موفقیت اضافه شد");
         setIsModal(false);
         setCurrencies([]);
         await fetchBaseServices();
       } else {
-        console.log(res);
+        throw res.payload;
       }
     } catch (err) {
-      console.log(err);
-      toast.error(err.message);
+      toast.error(
+        <Validation
+          obj={err.data.error.validation_errors}
+          fields={[
+            { type: "name", value: "نام" },
+            { type: "class_name", value: "اسم کلاس" },
+            { type: "route_name", value: "اسم مسیر" },
+            { type: "service_type", value: "نوع سرویس" },
+            { type: "execution_type", value: "نوع پردازش" },
+            { type: "factor_creation_type", value: "نوع صدور فاکتور" },
+          ]}
+        />,
+        { rtl: true }
+      );
       throw err;
     }
   };
@@ -349,6 +363,8 @@ const BaseServices = () => {
                       <span className="input-group-text">نام</span>
                     </InputGroupAddon>
                     <Input
+                      className="form-control"
+                      name="name"
                       onChange={(e) =>
                         setAddData((prev) => ({
                           ...prev,

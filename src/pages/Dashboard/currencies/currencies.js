@@ -293,7 +293,6 @@ export default function Currencies() {
       auto_update: data?.auto_update === null ? "" : data.auto_update,
     });
   }, [id]);
-  console.log(currencies);
   const searchCurrencyHandler = async (e, searchId) => {
     e.preventDefault();
     try {

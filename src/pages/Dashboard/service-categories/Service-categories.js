@@ -73,7 +73,7 @@ const ServiceCategories = () => {
         accessor: "icon",
         cellClass: "text-muted text-center",
         Cell: (props) => {
-          return <img src={props.value} alt="icon-image" />;
+          return <img src={props.value} alt="icon-image" width={50} />;
         },
       },
 
@@ -232,6 +232,9 @@ const ServiceCategories = () => {
       if (addIcon.type !== "image/png") {
         throw new Error("فرمت عکس حنما باید png باشد");
       }
+      const formData = new FormData();
+      formData.append("icon", addIcon, addIcon.name);
+      console.log({ ...addData, icon: addIcon });
       const res = await dispatch(
         addServiceCategories({ ...addData, icon: addIcon })
       );

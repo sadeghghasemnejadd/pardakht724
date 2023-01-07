@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import axiosInstance from "utils/axios";
 export const getAllBaseServices = createAsyncThunk(
   "getAllBaseServices",
@@ -66,7 +70,10 @@ export const addBaseService = createAsyncThunk(
       );
       return data.data;
     } catch (err) {
-      throw err;
+      if (!err.response) {
+        throw err;
+      }
+      return err.response;
     }
   }
 );
@@ -166,6 +173,7 @@ export const BaseServices = createSlice({
     },
     ///////////////////////////////////////////////////
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export default BaseServices.reducer;

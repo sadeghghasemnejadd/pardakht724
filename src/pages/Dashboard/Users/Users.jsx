@@ -59,7 +59,6 @@ const Users = ({ match }) => {
         cellClass: "text-muted",
         Cell: (props) => {
           const [email, nationalId, selfie, phone] = props.value;
-          console.log(props.value);
           return (
             <div className="d-flex align-items-center h4 justify-content-between">
               <div className="tooltip_ ">

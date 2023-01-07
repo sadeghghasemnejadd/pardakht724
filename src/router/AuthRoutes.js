@@ -5,16 +5,13 @@ export default function AuthRoutes({ children, ...rest }) {
   const location = useLocation();
   // const token = false;
 
-  const { me } = useSelector(store => store.auth)
-
+  const { me } = useSelector((store) => store.auth);
   return (
     <Route {...rest}>
       {!me ? (
         children
       ) : (
-        <Redirect
-          to={{ pathname: "/", state: { from: location } }}
-        />
+        <Redirect to={{ pathname: "/", state: { from: location } }} />
       )}
     </Route>
   );
