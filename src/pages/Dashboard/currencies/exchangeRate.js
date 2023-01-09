@@ -27,6 +27,7 @@ import {
   Card,
 } from "reactstrap";
 import HeaderLayout from "containers/ui/headerLayout";
+import checkNumber from "components/custom/validation/checkNumber";
 export default function ExchangeRate() {
   const searchInputRef = useRef();
   const [isModal, setIsModal] = useState(false);
@@ -42,6 +43,22 @@ export default function ExchangeRate() {
   const [autoSuggest, setAutoSuggest] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
+  const [manualValidation, setManualValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [percantageValidation, setPercantageValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [priorityValidation, setPriorityValidation] = useState({
+    status: false,
+    message: "اولویت نباید خالی باشد",
+  });
+  const [secondaryValidation, setSecondaryValidation] = useState({
+    status: false,
+    message: "ارز مقصد نباید خالی باشد",
+  });
   const { loading, exchangeRates, currencies } = useSelector(
     (store) => store.currencies
   );
@@ -116,6 +133,7 @@ export default function ExchangeRate() {
               onClick={() => {
                 setId2(value);
                 setIsModal2(true);
+                setPriorityValidation({ status: true, message: "" });
               }}
             >
               <div
@@ -231,6 +249,71 @@ export default function ExchangeRate() {
       throw err;
     }
   };
+  const secondaryValidationHandler = (val) => {
+    if (!currencies.some((c) => c.name === val)) {
+      setSecondaryValidation({
+        status: false,
+        message: "ارز مقصد انتخابی در دیتابیس موجود نمیباشد.",
+      });
+      return false;
+    } else if (!val) {
+      setSecondaryValidation({
+        status: false,
+        message: "ارز مقصد نباید خالی باشد",
+      });
+      return false;
+    } else {
+      setSecondaryValidation({ status: true, message: "" });
+      return true;
+    }
+  };
+  const priorityValidationHandler = (val) => {
+    if (!checkNumber(val)) {
+      setPriorityValidation({
+        status: false,
+        message: "اولویت باید عدد باشد",
+      });
+      return false;
+    } else if (!val) {
+      setPriorityValidation({
+        status: false,
+        message: "اولویت نباید خالی باشد",
+      });
+      return false;
+    } else if (+val > 16777214) {
+      setPriorityValidation({
+        status: false,
+        message: "اولویت نباید بزرگتر از 16777214 باشد",
+      });
+    } else {
+      setPriorityValidation({ status: true, message: "" });
+      return true;
+    }
+  };
+  const percantageValidationHandler = (val) => {
+    if (!checkNumber(val)) {
+      setPercantageValidation({
+        status: false,
+        message: "درصد افزایشی باید عدد باشد",
+      });
+      return false;
+    } else {
+      setPercantageValidation({ status: true, message: "" });
+      return true;
+    }
+  };
+  const manualValidationHandler = (val) => {
+    if (!checkNumber(val)) {
+      setManualValidation({
+        status: false,
+        message: "نرخ تبدیل دستی باید عدد باشد",
+      });
+      return false;
+    } else {
+      setManualValidation({ status: true, message: "" });
+      return true;
+    }
+  };
   const match = [
     {
       path: "/",
@@ -279,52 +362,84 @@ export default function ExchangeRate() {
           <Modal isOpen={isModal} toggle={() => setIsModal(!isModal)}>
             <ModalHeader>ایجاد نرخ تبدیل جدید</ModalHeader>
             <ModalBody>
-              <div className="mb-5">
+              <div className="mb-5 pos-rel">
                 <ReactAutoSuggest
                   placeholder="ارز مقصد"
                   value={autoSuggest}
-                  onChange={(val) => setAutoSuggest(val)}
+                  onChange={(val) => {
+                    if (!secondaryValidationHandler(val)) return;
+                    setAutoSuggest(val);
+                  }}
                   data={currencies.map((c) => ({ name: c.name }))}
                 />
+                {secondaryValidation.status || (
+                  <div className="invalid-feedback d-block">
+                    {secondaryValidation.message}
+                  </div>
+                )}
               </div>
               <InputGroup size="sm" className="mb-3">
                 <InputGroupAddon addonType="prepend">
                   <span className="input-group-text">نرخ تبدیل دستی</span>
                 </InputGroupAddon>
-                <Input
-                  onChange={(e) =>
-                    setAddData((prev) => ({
-                      ...prev,
-                      manual_exchange_rate: e.target.value,
-                    }))
-                  }
-                />
+                <div className="pos-rel flex-grow-1">
+                  <Input
+                    onChange={(e) => {
+                      if (!manualValidationHandler(e.target.value)) return;
+                      setAddData((prev) => ({
+                        ...prev,
+                        manual_exchange_rate: e.target.value,
+                      }));
+                    }}
+                  />
+                  {manualValidation.status || (
+                    <div className="invalid-feedback d-block">
+                      {manualValidation.message}
+                    </div>
+                  )}
+                </div>
               </InputGroup>
               <InputGroup size="sm" className="mb-3">
                 <InputGroupAddon addonType="prepend">
                   <span className="input-group-text">درصد افزایشی</span>
                 </InputGroupAddon>
-                <Input
-                  onChange={(e) =>
-                    setAddData((prev) => ({
-                      ...prev,
-                      percantage_exchange_rate: e.target.value,
-                    }))
-                  }
-                />
+                <div className="flex-grow-1 pos-rel">
+                  <Input
+                    onChange={(e) => {
+                      if (!percantageValidationHandler(e.target.value)) return;
+                      setAddData((prev) => ({
+                        ...prev,
+                        percantage_exchange_rate: e.target.value,
+                      }));
+                    }}
+                  />
+                  {percantageValidation.status || (
+                    <div className="invalid-feedback d-block">
+                      {percantageValidation.message}
+                    </div>
+                  )}
+                </div>
               </InputGroup>
               <InputGroup size="sm" className="mb-3">
                 <InputGroupAddon addonType="prepend">
                   <span className="input-group-text">اولویت</span>
                 </InputGroupAddon>
-                <Input
-                  onChange={(e) =>
-                    setAddData((prev) => ({
-                      ...prev,
-                      priority: e.target.value,
-                    }))
-                  }
-                />
+                <div className="flex-grow-1 pos-rel">
+                  <Input
+                    onChange={(e) => {
+                      if (!priorityValidationHandler(e.target.value)) return;
+                      setAddData((prev) => ({
+                        ...prev,
+                        priority: e.target.value,
+                      }));
+                    }}
+                  />
+                  {priorityValidation.status || (
+                    <div className="invalid-feedback d-block">
+                      {priorityValidation.message}
+                    </div>
+                  )}
+                </div>
               </InputGroup>
             </ModalBody>
             <ModalFooter className="d-flex flex-row-reverse justify-content-start">
@@ -332,7 +447,17 @@ export default function ExchangeRate() {
                 color="primary"
                 size="lg"
                 className="mb-2"
-                onClick={addCurrenciesHandler}
+                onClick={() => {
+                  if (
+                    !secondaryValidation.status ||
+                    !percantageValidation.status ||
+                    !manualValidation.status ||
+                    !priorityValidation.status
+                  ) {
+                    return;
+                  }
+                  addCurrenciesHandler();
+                }}
               >
                 ایجاد
               </Button>
@@ -360,19 +485,27 @@ export default function ExchangeRate() {
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">نرخ تبدیل دستی</span>
                   </InputGroupAddon>
-                  <Input
-                    value={editData.manual_exchange_rate}
-                    onChange={(e) => {
-                      setEditData((prev) => ({
-                        ...prev,
-                        manual_exchange_rate: e.target.value,
-                      }));
-                      setEditDataValue((prev) => ({
-                        ...prev,
-                        manual_exchange_rate: e.target.value,
-                      }));
-                    }}
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      value={editData.manual_exchange_rate}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          manual_exchange_rate: e.target.value,
+                        }));
+                        if (!manualValidationHandler(e.target.value)) return;
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          manual_exchange_rate: e.target.value,
+                        }));
+                      }}
+                    />
+                    {manualValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {manualValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
               </div>
               <div className="d-flex mb-3">
@@ -380,19 +513,28 @@ export default function ExchangeRate() {
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">درصد افزایش</span>
                   </InputGroupAddon>
-                  <Input
-                    value={editData.percantage_exchange_rate}
-                    onChange={(e) => {
-                      setEditData((prev) => ({
-                        ...prev,
-                        percantage_exchange_rate: e.target.value,
-                      }));
-                      setEditDataValue((prev) => ({
-                        ...prev,
-                        percantage_exchange_rate: e.target.value,
-                      }));
-                    }}
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      value={editData.percantage_exchange_rate}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          percantage_exchange_rate: e.target.value,
+                        }));
+                        if (!percantageValidationHandler(e.target.value))
+                          return;
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          percantage_exchange_rate: e.target.value,
+                        }));
+                      }}
+                    />
+                    {percantageValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {percantageValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
               </div>
               <div className="d-flex mb-3">
@@ -400,19 +542,27 @@ export default function ExchangeRate() {
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">اولویت</span>
                   </InputGroupAddon>
-                  <Input
-                    value={editData.priority}
-                    onChange={(e) => {
-                      setEditData((prev) => ({
-                        ...prev,
-                        priority: e.target.value,
-                      }));
-                      setEditDataValue((prev) => ({
-                        ...prev,
-                        priority: e.target.value,
-                      }));
-                    }}
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      value={editData.priority}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          priority: e.target.value,
+                        }));
+                        if (!priorityValidationHandler(e.target.value)) return;
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          priority: e.target.value,
+                        }));
+                      }}
+                    />
+                    {priorityValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {priorityValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
               </div>
             </ModalBody>
@@ -421,7 +571,15 @@ export default function ExchangeRate() {
                 color="primary"
                 size="lg"
                 className="mb-2"
-                onClick={saveChangeHandler}
+                onClick={() => {
+                  if (
+                    !percantageValidation.status ||
+                    !manualValidation.status ||
+                    !priorityValidation.status
+                  )
+                    return;
+                  saveChangeHandler();
+                }}
               >
                 ویرایش
               </Button>

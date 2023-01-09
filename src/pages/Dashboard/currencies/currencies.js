@@ -27,6 +27,11 @@ import {
   Card,
 } from "reactstrap";
 import HeaderLayout from "containers/ui/headerLayout";
+import checkPersian from "components/custom/validation/checkPersian";
+import checkCountCharacters from "components/custom/validation/checkCountCharacters";
+import checkEnglish from "components/custom/validation/checkEnglish";
+import checkUnique from "components/custom/validation/checkUnique";
+import checkNumber from "components/custom/validation/checkNumber";
 export default function Currencies() {
   const [filterTypeList, setFilterTypeList] = useState({
     name: "type",
@@ -58,6 +63,34 @@ export default function Currencies() {
   const editIconRef = useRef();
   const [addIcon, setAddIcon] = useState();
   const [editIcon, setEditIcon] = useState();
+  const [nameValidation, setNameValidation] = useState({
+    status: false,
+    message: "نام ارز نباید خالی باشد",
+  });
+  const [symbolValidation, setSymbolValidation] = useState({
+    status: false,
+    message: "نماد نباید خالی باشد",
+  });
+  const [iconValidation, setIconValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [absoluteValidation, setAbsoluteValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [baseCurrencyValidation, setBaseCurrencyValidation] = useState({
+    status: false,
+    message: "ارز پایه نباید خالی باشد",
+  });
+  const [buyPriceValidation, setBuyPriceValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [sellPriceValidation, setSellPriceValidation] = useState({
+    status: true,
+    message: "",
+  });
   const [addData, setAddData] = useState({
     name: "",
     Symbol: "",
@@ -241,6 +274,8 @@ export default function Currencies() {
                 onClick={() => {
                   setIsModal2(true);
                   setId(value);
+                  setSymbolValidation({ status: true, message: "" });
+                  setBaseCurrencyValidation({ status: true, message: "" });
                 }}
               >
                 <div
@@ -367,12 +402,42 @@ export default function Currencies() {
   const uploadIcon = (e) => {
     if (iconRef.current) {
       const file = e.target.files;
+      if (file[0].size > 128000) {
+        setIconValidation({
+          status: false,
+          message: "سایز آیکون نباید بیشتر از 128 کلیوبایت باشد",
+        });
+        return;
+      } else if (file[0].type !== "image/png") {
+        setIconValidation({
+          status: false,
+          message: "فرمت آیکون باید png باشد",
+        });
+        return;
+      } else {
+        setIconValidation({ status: true, message: "" });
+      }
       setAddIcon(file[0]);
     }
   };
   const uploadEditIcon = (e) => {
     if (iconRef.current) {
       const file = e.target.files;
+      if (file[0].size > 128000) {
+        setIconValidation({
+          status: false,
+          message: "سایز آیکون نباید بیشتر از 128 کلیوبایت باشد",
+        });
+        return;
+      } else if (file[0].type !== "image/png") {
+        setIconValidation({
+          status: false,
+          message: "فرمت آیکون باید png باشد",
+        });
+        return;
+      } else {
+        setIconValidation({ status: true, message: "" });
+      }
       setEditIcon(file[0]);
     }
   };
@@ -405,6 +470,105 @@ export default function Currencies() {
     } catch (err) {
       toast.error(err);
       throw err;
+    }
+  };
+  const nameValidationHanler = (val) => {
+    if (!checkPersian(val)) {
+      setNameValidation({
+        status: false,
+        message: "نام ارز باید فارسی باشد",
+      });
+      return false;
+    } else if (checkCountCharacters(val, 127)) {
+      setNameValidation({
+        status: false,
+        message: "نام ارز نباید بیشتر از 127 کاراکتر باشد",
+      });
+      return false;
+    } else if (!val) {
+      setNameValidation({
+        status: false,
+        message: "نام ارز نباید خالی باشد",
+      });
+      return false;
+    } else {
+      setNameValidation({ status: true, message: "" });
+      return true;
+    }
+  };
+  const symbolValidationHandler = (val) => {
+    if (!checkEnglish(val)) {
+      setSymbolValidation({
+        status: false,
+        message: "نماد باید انگلیسی باشد.",
+      });
+      return false;
+    } else if (checkCountCharacters(val, 127)) {
+      setSymbolValidation({
+        status: false,
+        message: "نماد نباید بیشتر از 127 کاراکتر باشد",
+      });
+      return false;
+    } else if (!checkUnique(currencies, symbol, val)) {
+      setSymbolValidation({
+        status: false,
+        message: "نماد باید یکتا باشد",
+      });
+      return false;
+    } else if (!val) {
+      setSymbolValidation({
+        status: false,
+        message: "نماد ارز نباید خالی باشد",
+      });
+      return false;
+    } else {
+      setSymbolValidation({ status: true, message: "" });
+      return true;
+    }
+  };
+  const buyPriceValidationHandler = (val) => {
+    if (!checkNumber(val)) {
+      setBuyPriceValidation({
+        status: false,
+        message: "قیمت خرید باید عدد باشد",
+      });
+      return false;
+    } else {
+      setBuyPriceValidation({ status: true, message: "" });
+      return true;
+    }
+  };
+  const baseCurrencyValidationHandler = (val) => {
+    if (checkCountCharacters(val, 127)) {
+      setBaseCurrencyValidation({
+        status: false,
+        message: "ارز پایه نباید بیشتر 127 کاراکتر باشد.",
+      });
+      return false;
+    } else if (!val) {
+      setBaseCurrencyValidation({
+        status: false,
+        message: "ارز پایه نباید خالی باشد",
+      });
+      return false;
+    } else {
+      setBaseCurrencyValidation({
+        status: true,
+        message: "",
+      });
+      return true;
+    }
+  };
+  const sellPriceValidationHandler = (val) => {
+    if (!checkNumber(val)) {
+      setSellPriceValidation({
+        status: false,
+        message: "قیمت فروش باید عدد باشد",
+      });
+      return false;
+    } else {
+      setSellPriceValidation({ status: true, message: "" });
+      return true;
     }
   };
   const saveChangeHandler = async () => {
@@ -498,24 +662,43 @@ export default function Currencies() {
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">نام ارز</span>
                   </InputGroupAddon>
-                  <Input
-                    onChange={(e) =>
-                      setAddData((prev) => ({ ...prev, name: e.target.value }))
-                    }
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      onChange={(e) => {
+                        if (!nameValidationHanler(e.target.value)) return;
+                        setAddData((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }));
+                      }}
+                    />
+                    {nameValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {nameValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
-                <InputGroup size="sm" className="">
+                <InputGroup size="sm">
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">نماد</span>
                   </InputGroupAddon>
-                  <Input
-                    onChange={(e) =>
-                      setAddData((prev) => ({
-                        ...prev,
-                        symbol: e.target.value,
-                      }))
-                    }
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      onChange={(e) => {
+                        if (!symbolValidationHandler(e.target.value)) return;
+                        setAddData((prev) => ({
+                          ...prev,
+                          symbol: e.target.value,
+                        }));
+                      }}
+                    />
+                    {symbolValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {symbolValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
               </div>
               <div className="mb-3">
@@ -523,13 +706,20 @@ export default function Currencies() {
                   <InputGroupAddon addonType="prepend">
                     آپلود آیکون
                   </InputGroupAddon>
-                  <CustomInput
-                    type="file"
-                    id="icon"
-                    innerRef={iconRef}
-                    name="icon"
-                    onChange={uploadIcon}
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <CustomInput
+                      type="file"
+                      id="icon"
+                      innerRef={iconRef}
+                      name="icon"
+                      onChange={uploadIcon}
+                    />
+                    {iconValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {iconValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
               </div>
               <div className="d-flex mb-3">
@@ -537,27 +727,58 @@ export default function Currencies() {
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">موجودی حساب</span>
                   </InputGroupAddon>
-                  <Input
-                    onChange={(e) =>
-                      setAddData((prev) => ({
-                        ...prev,
-                        absolute_volume: e.target.value,
-                      }))
-                    }
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      onChange={(e) => {
+                        if (!checkNumber(e.target.value)) {
+                          setAbsoluteValidation({
+                            status: false,
+                            message: "موجودی حساب باید عدد باشد",
+                          });
+                          return;
+                        } else if (+e.target.value > 9999999999.99999999) {
+                          setAbsoluteValidation({
+                            status: false,
+                            message:
+                              "موجودی حساب نباید بیشتر از 9999999999.99999999 باشد",
+                          });
+                          return;
+                        } else {
+                          setAbsoluteValidation({ status: true, message: "" });
+                        }
+                        setAddData((prev) => ({
+                          ...prev,
+                          absolute_volume: e.target.value,
+                        }));
+                      }}
+                    />
+                    {absoluteValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {absoluteValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
                 <InputGroup size="sm" className="">
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">ارز پایه</span>
                   </InputGroupAddon>
-                  <Input
-                    onChange={(e) =>
-                      setAddData((prev) => ({
-                        ...prev,
-                        base_currency: e.target.value,
-                      }))
-                    }
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      onChange={(e) => {
+                        if (!baseCurrencyValidationHandler()) return;
+                        setAddData((prev) => ({
+                          ...prev,
+                          base_currency: e.target.value,
+                        }));
+                      }}
+                    />
+                    {baseCurrencyValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {baseCurrencyValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
               </div>
               <div className="d-flex justify-content-between align-items-center">
@@ -614,7 +835,18 @@ export default function Currencies() {
                 color="primary"
                 size="lg"
                 className="mb-2"
-                onClick={addCurrenciesHandler}
+                onClick={() => {
+                  if (
+                    !nameValidation.status ||
+                    !symbolValidation.status ||
+                    !iconValidation.status ||
+                    !absoluteValidation.status ||
+                    !baseCurrencyValidation.status
+                  ) {
+                    return;
+                  }
+                  addCurrenciesHandler();
+                }}
               >
                 ایجاد
               </Button>
@@ -640,37 +872,53 @@ export default function Currencies() {
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">نام ارز</span>
                   </InputGroupAddon>
-                  <Input
-                    value={editData.name}
-                    onChange={(e) => {
-                      setEditData((prev) => ({
-                        ...prev,
-                        name: e.target.value,
-                      }));
-                      setEditDataValue((prev) => ({
-                        ...prev,
-                        name: e.target.value,
-                      }));
-                    }}
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      value={editData.name}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }));
+                        if (!nameValidationHanler(e.target.value)) return;
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }));
+                      }}
+                    />
+                    {nameValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {nameValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
                 <InputGroup size="sm" className="">
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">نماد</span>
                   </InputGroupAddon>
-                  <Input
-                    value={editData.symbol}
-                    onChange={(e) => {
-                      setEditData((prev) => ({
-                        ...prev,
-                        symbol: e.target.value,
-                      }));
-                      setEditDataValue((prev) => ({
-                        ...prev,
-                        symbol: e.target.value,
-                      }));
-                    }}
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      value={editData.symbol}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          symbol: e.target.value,
+                        }));
+                        if (!symbolValidationHandler(e.target.value)) return;
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          symbol: e.target.value,
+                        }));
+                      }}
+                    />
+                    {symbolValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {symbolValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
               </div>
               <div className="mb-3">
@@ -678,13 +926,20 @@ export default function Currencies() {
                   <InputGroupAddon addonType="prepend">
                     آپلود آیکون
                   </InputGroupAddon>
-                  <CustomInput
-                    type="file"
-                    id="icon"
-                    innerRef={editIconRef}
-                    name="icon"
-                    onChange={uploadEditIcon}
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <CustomInput
+                      type="file"
+                      id="icon"
+                      innerRef={editIconRef}
+                      name="icon"
+                      onChange={uploadEditIcon}
+                    />
+                    {iconValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {iconValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
               </div>
               <div className="d-flex mb-3">
@@ -692,37 +947,53 @@ export default function Currencies() {
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">قیمت خرید از مشتری</span>
                   </InputGroupAddon>
-                  <Input
-                    value={editData.buy_price}
-                    onChange={(e) => {
-                      setEditData((prev) => ({
-                        ...prev,
-                        buy_price: e.target.value,
-                      }));
-                      setEditDataValue((prev) => ({
-                        ...prev,
-                        buy_price: e.target.value,
-                      }));
-                    }}
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      value={editData.buy_price}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          buy_price: e.target.value,
+                        }));
+                        if (!buyPriceValidationHandler(e.target.value)) return;
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          buy_price: e.target.value,
+                        }));
+                      }}
+                    />
+                    {buyPriceValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {buyPriceValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
                 <InputGroup size="sm" className="">
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text">قیمت فروش به مشتری</span>
                   </InputGroupAddon>
-                  <Input
-                    value={editData.sell_price}
-                    onChange={(e) => {
-                      setEditData((prev) => ({
-                        ...prev,
-                        sell_price: e.target.value,
-                      }));
-                      setEditDataValue((prev) => ({
-                        ...prev,
-                        sell_price: e.target.value,
-                      }));
-                    }}
-                  />
+                  <div className="flex-grow-1 pos-rel">
+                    <Input
+                      value={editData.sell_price}
+                      onChange={(e) => {
+                        setEditData((prev) => ({
+                          ...prev,
+                          sell_price: e.target.value,
+                        }));
+                        if (!sellPriceValidationHandler(e.target.value)) return;
+                        setEditDataValue((prev) => ({
+                          ...prev,
+                          sell_price: e.target.value,
+                        }));
+                      }}
+                    />
+                    {sellPriceValidation.status || (
+                      <div className="invalid-feedback d-block">
+                        {sellPriceValidation.message}
+                      </div>
+                    )}
+                  </div>
                 </InputGroup>
               </div>
               <div className="d-flex mb-3">
@@ -737,6 +1008,7 @@ export default function Currencies() {
                         ...prev,
                         base_currency: e.target.value,
                       }));
+                      if (!baseCurrencyValidationHandler()) return;
                       setEditDataValue((prev) => ({
                         ...prev,
                         base_currency: e.target.value,
@@ -805,7 +1077,19 @@ export default function Currencies() {
                 color="primary"
                 size="lg"
                 className="mb-2"
-                onClick={saveChangeHandler}
+                onClick={() => {
+                  if (
+                    !nameValidation.status ||
+                    !symbolValidation.status ||
+                    !iconValidation.status ||
+                    !buyPriceValidation.status ||
+                    !sellPriceValidation.status ||
+                    !baseCurrencyValidation.status
+                  ) {
+                    return;
+                  }
+                  saveChangeHandler();
+                }}
               >
                 ویرایش
               </Button>

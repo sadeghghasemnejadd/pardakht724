@@ -530,7 +530,18 @@ const Tasks = () => {
                   color="primary"
                   size="lg"
                   className="mb-2"
-                  onClick={saveChangeHandler}
+                  onClick={() => {
+                    if (
+                      !nameValidation.status ||
+                      !descriptionValidation.status ||
+                      !referValidation.status ||
+                      !priorityValidation.status ||
+                      !maxDueValidation.status
+                    ) {
+                      return;
+                    }
+                    saveChangeHandler();
+                  }}
                 >
                   ویرایش
                 </Button>
