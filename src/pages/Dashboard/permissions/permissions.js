@@ -26,6 +26,9 @@ import {
 } from "redux-toolkit/permissionsSlice";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import checkPersian from "components/custom/validation/checkPersian";
+import checkCountCharacters from "components/custom/validation/checkCountCharacters";
+import checkUnique from "components/custom/validation/checkUnique";
 const Permissions = () => {
   const dispatch = useDispatch();
   const { loading, allPermissions, pageSize } = useSelector(
@@ -47,6 +50,18 @@ const Permissions = () => {
   const [collapseData, setCollapseData] = useState([
     { type: "textarea", value: [] },
   ]);
+  const [pNameValidation, setPNameValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [nameValidation, setNameValidation] = useState({
+    status: false,
+    message: "برچسب نباید خالی باشد",
+  });
+  const [descriptionValidation, setDescriptionVAlidation] = useState({
+    status: true,
+    message: "",
+  });
   const history = useHistory();
   const cols = useMemo(
     () => [
@@ -243,19 +258,44 @@ const Permissions = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">نام</span>
                     </InputGroupAddon>
-                    <Input
-                      value={editData.p_name}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          p_name: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          p_name: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        value={editData.p_name}
+                        onChange={(e) => {
+                          if (!e.target.value) {
+                            setPNameValidation({
+                              status: true,
+                              message: "",
+                            });
+                          } else {
+                            setPNameValidation({
+                              status: checkPersian(e.target.value),
+                              message: "نام باید فارسی باشد",
+                            });
+                          }
+                          if (checkCountCharacters(e.target.value, 125)) {
+                            setPNameValidation({
+                              status: false,
+                              message: "نام نباید بیتشر از 125 کاراکتر باشد",
+                            });
+                            return;
+                          }
+                          setEditData((prev) => ({
+                            ...prev,
+                            p_name: e.target.value,
+                          }));
+                          setEditDataValue((prev) => ({
+                            ...prev,
+                            p_name: e.target.value,
+                          }));
+                        }}
+                      />
+                      {pNameValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {pNameValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                   <InputGroup size="sm" className="">
                     <InputGroupAddon addonType="prepend">
@@ -281,21 +321,41 @@ const Permissions = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">توضیحات</span>
                     </InputGroupAddon>
-                    <Input
-                      type="textarea"
-                      rows="5"
-                      value={editData.description}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          description: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          description: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        type="textarea"
+                        rows="5"
+                        value={editData.description}
+                        onChange={(e) => {
+                          setEditData((prev) => ({
+                            ...prev,
+                            description: e.target.value,
+                          }));
+                          if (checkCountCharacters(e.target.value, 500)) {
+                            setDescriptionVAlidation({
+                              status: false,
+                              message:
+                                "تعداد کاراکتر توضیحات نباید بیشتر از 500 کاراکتر باشد.",
+                            });
+                            return;
+                          } else {
+                            setDescriptionVAlidation({
+                              status: true,
+                              message: "",
+                            });
+                          }
+                          setEditDataValue((prev) => ({
+                            ...prev,
+                            description: e.target.value,
+                          }));
+                        }}
+                      />
+                      {descriptionValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {descriptionValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
               </ModalBody>
@@ -304,7 +364,15 @@ const Permissions = () => {
                   color="primary"
                   size="lg"
                   className="mb-2"
-                  onClick={saveChangeHandler}
+                  onClick={() => {
+                    if (
+                      !pNameValidation.status ||
+                      !descriptionValidation.status
+                    ) {
+                      return;
+                    }
+                    saveChangeHandler();
+                  }}
                 >
                   ویرایش
                 </Button>
@@ -334,27 +402,79 @@ const Permissions = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">نام</span>
                     </InputGroupAddon>
-                    <Input
-                      onChange={(e) => {
-                        setAddData((prev) => ({
-                          ...prev,
-                          p_name: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        onChange={(e) => {
+                          if (!e.target.value) {
+                            setPNameValidation({
+                              status: true,
+                              message: "",
+                            });
+                          } else {
+                            setPNameValidation({
+                              status: checkPersian(e.target.value),
+                              message: "نام باید فارسی باشد",
+                            });
+                          }
+                          if (checkCountCharacters(e.target.value, 125)) {
+                            setPNameValidation({
+                              status: false,
+                              message: "نام نباید بیتشر از 125 کاراکتر باشد",
+                            });
+                            return;
+                          }
+                          setAddData((prev) => ({
+                            ...prev,
+                            p_name: e.target.value,
+                          }));
+                        }}
+                      />
+                      {pNameValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {pNameValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                   <InputGroup size="sm" className="">
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">برچسب</span>
                     </InputGroupAddon>
-                    <Input
-                      onChange={(e) => {
-                        setAddData((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        onChange={(e) => {
+                          if (!e.target.value) {
+                            setNameValidation({
+                              status: false,
+                              message: "برچسب نباید خالی باشد",
+                            });
+                            return;
+                          } else if (
+                            checkUnique(permissions, "name", e.target.value)
+                          ) {
+                            setNameValidation({
+                              status: false,
+                              message: " برچسب باید یکتا باشد",
+                            });
+                            return;
+                          } else {
+                            setNameValidation({
+                              status: true,
+                              message: "",
+                            });
+                          }
+                          setAddData((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }));
+                        }}
+                      />
+                      {nameValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {nameValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
                 <div className="d-flex mb-3">
@@ -362,16 +482,36 @@ const Permissions = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">توضیحات</span>
                     </InputGroupAddon>
-                    <Input
-                      type="textarea"
-                      rows="5"
-                      onChange={(e) => {
-                        setAddData((prev) => ({
-                          ...prev,
-                          description: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        type="textarea"
+                        rows="5"
+                        onChange={(e) => {
+                          if (checkCountCharacters(e.target.value, 500)) {
+                            setDescriptionVAlidation({
+                              status: false,
+                              message:
+                                "تعداد کاراکتر توضیحات نباید بیشتر از 500 کاراکتر باشد.",
+                            });
+                            return;
+                          } else {
+                            setDescriptionVAlidation({
+                              status: true,
+                              message: "",
+                            });
+                          }
+                          setAddData((prev) => ({
+                            ...prev,
+                            description: e.target.value,
+                          }));
+                        }}
+                      />
+                      {descriptionValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {descriptionValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
               </ModalBody>
@@ -380,7 +520,16 @@ const Permissions = () => {
                   color="primary"
                   size="lg"
                   className="mb-2"
-                  onClick={addPermissionHandler}
+                  onClick={() => {
+                    if (
+                      !pNameValidation.status ||
+                      !descriptionValidation.status ||
+                      !nameValidation.status
+                    ) {
+                      return;
+                    }
+                    addPermissionHandler();
+                  }}
                 >
                   ذخیره
                 </Button>

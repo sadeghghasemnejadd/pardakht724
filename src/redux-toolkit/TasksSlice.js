@@ -68,18 +68,34 @@ export const searchTasks = createAsyncThunk("searchTasks", async (values) => {
     throw err;
   }
 });
-
+export const getAllPermissions = createAsyncThunk(
+  "getAllPermissions",
+  async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(`/permissions`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 const allTasks = (res) =>
   res.payload.tasks.map((task) => ({
     ...task,
     description_subject: [task.description, task.subject_types],
   }));
-
+const allPermissions = (res) => res.payload.permissions;
 export const TaskSlice = createSlice({
   name: "auth",
   initialState: {
     loading: false,
     allTasks: [],
+    permissions: [],
   },
   extraReducers: {
     [getAllTasks.pending]: (state) => {
@@ -121,6 +137,17 @@ export const TaskSlice = createSlice({
       state.loading = false;
     },
     [updateRoleTasks.rejected]: (state) => {
+      state.loading = false;
+    },
+    /////////////////////////////////////
+    [getAllPermissions.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAllPermissions.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.permissions = allPermissions(action);
+    },
+    [getAllPermissions.rejected]: (state) => {
       state.loading = false;
     },
   },

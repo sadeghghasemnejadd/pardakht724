@@ -19,13 +19,20 @@ import {
   getAllTasks,
   updateTasks,
   searchTasks,
+  getAllPermissions,
 } from "redux-toolkit/TasksSlice";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
+import checkPersian from "components/custom/validation/checkPersian";
+import checkInclude from "components/custom/validation/checkInclude";
+import checkNumber from "components/custom/validation/checkNumber";
+import checkCountCharacters from "components/custom/validation/checkCountCharacters";
 const Tasks = () => {
   const dispatch = useDispatch();
-  const { loading, allTasks } = useSelector((store) => store.tasks);
+  const { loading, allTasks, permissions } = useSelector(
+    (store) => store.tasks
+  );
   const [tasks, setTasks] = useState([]);
   const searchInputRef = useRef();
   const [collapse, setCollapse] = useState([]);
@@ -33,6 +40,26 @@ const Tasks = () => {
   const [editData, setEditData] = useState({});
   const [editDataValue, setEditDataValue] = useState({});
   const [isModal, setIsModal] = useState(false);
+  const [nameValidation, setNameValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [referValidation, setReferValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [priorityValidation, setPriorityValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [maxDueValidation, setMaxDueValidation] = useState({
+    status: true,
+    message: "",
+  });
+  const [descriptionValidation, setDescriptionVAlidation] = useState({
+    status: true,
+    message: "",
+  });
   const [collapseData, setCollapseData] = useState([
     { type: "textarea", value: [] },
     { type: "badge", value: [] },
@@ -170,6 +197,7 @@ const Tasks = () => {
   );
   useEffect(() => {
     fetchTasks();
+    fetchPermissions();
   }, [fetchTasks]);
   useEffect(() => {
     setTasks(allTasks);
@@ -190,6 +218,13 @@ const Tasks = () => {
   const fetchTasks = async () => {
     try {
       await dispatch(getAllTasks());
+    } catch (err) {
+      throw err;
+    }
+  };
+  const fetchPermissions = async () => {
+    try {
+      await dispatch(getAllPermissions());
     } catch (err) {
       throw err;
     }
@@ -286,37 +321,70 @@ const Tasks = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">نام</span>
                     </InputGroupAddon>
-                    <Input
-                      value={editData.name}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        value={editData.name}
+                        onChange={(e) => {
+                          setEditData((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }));
+                          if (!checkPersian(e.target.value)) {
+                            setNameValidation({
+                              status: false,
+                              message: "نام باید فارسی باشد",
+                            });
+                            return;
+                          } else {
+                            setNameValidation({ status: true, message: "" });
+                          }
+
+                          setEditDataValue((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }));
+                        }}
+                      />
+                      {nameValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {nameValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                   <InputGroup size="sm" className="">
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">ارجاع</span>
                     </InputGroupAddon>
-                    <Input
-                      value={editData.refer_to}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          refer_to: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          refer_to: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        value={editData.refer_to}
+                        onChange={(e) => {
+                          setEditData((prev) => ({
+                            ...prev,
+                            refer_to: e.target.value,
+                          }));
+                          if (!checkInclude(e.target.value, permissions)) {
+                            setReferValidation({
+                              status: false,
+                              message: "ارجاع باید جزوی از دسترسی ها باشد.",
+                            });
+                            return;
+                          } else {
+                            setReferValidation({ status: true, message: "" });
+                          }
+                          setEditDataValue((prev) => ({
+                            ...prev,
+                            refer_to: e.target.value,
+                          }));
+                        }}
+                      />
+                      {referValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {referValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
                 <div className="d-flex mb-3">
@@ -324,19 +392,38 @@ const Tasks = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">اولویت</span>
                     </InputGroupAddon>
-                    <Input
-                      value={editData.priority}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          priority: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          priority: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        value={editData.priority}
+                        onChange={(e) => {
+                          setEditData((prev) => ({
+                            ...prev,
+                            priority: e.target.value,
+                          }));
+                          if (!checkNumber(e.target.value)) {
+                            setPriorityValidation({
+                              status: false,
+                              message: "اولویت باید عدد باشد",
+                            });
+                            return;
+                          } else {
+                            setPriorityValidation({
+                              status: true,
+                              message: "",
+                            });
+                          }
+                          setEditDataValue((prev) => ({
+                            ...prev,
+                            priority: e.target.value,
+                          }));
+                        }}
+                      />
+                      {priorityValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {priorityValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                   <InputGroup size="sm" className="">
                     <InputGroupAddon addonType="prepend">
@@ -344,19 +431,35 @@ const Tasks = () => {
                         حداکثر زمان انجام
                       </span>
                     </InputGroupAddon>
-                    <Input
-                      value={editData.max_due_date}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          max_due_date: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          max_due_date: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        value={editData.max_due_date}
+                        onChange={(e) => {
+                          setEditData((prev) => ({
+                            ...prev,
+                            max_due_date: e.target.value,
+                          }));
+                          if (!checkNumber(e.target.value)) {
+                            setMaxDueValidation({
+                              status: false,
+                              message: "حداکثر زمان انجام باید عدد باشد.",
+                            });
+                            return;
+                          } else {
+                            setMaxDueValidation({ status: true, message: "" });
+                          }
+                          setEditDataValue((prev) => ({
+                            ...prev,
+                            max_due_date: e.target.value,
+                          }));
+                        }}
+                      />
+                      {maxDueValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {maxDueValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
                 <div className="d-flex mb-3">
@@ -384,21 +487,41 @@ const Tasks = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">توضیحات</span>
                     </InputGroupAddon>
-                    <Input
-                      type="textarea"
-                      rows="5"
-                      value={editData.description}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          description: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          description: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        type="textarea"
+                        rows="5"
+                        value={editData.description}
+                        onChange={(e) => {
+                          setEditData((prev) => ({
+                            ...prev,
+                            description: e.target.value,
+                          }));
+                          if (checkCountCharacters(e.target.value, 500)) {
+                            setDescriptionVAlidation({
+                              status: false,
+                              message:
+                                "تعداد کاراکتر توضیحات نباید بیشتر از 500 کاراکتر باشد.",
+                            });
+                            return;
+                          } else {
+                            setDescriptionVAlidation({
+                              status: true,
+                              message: "",
+                            });
+                          }
+                          setEditDataValue((prev) => ({
+                            ...prev,
+                            description: e.target.value,
+                          }));
+                        }}
+                      />
+                      {descriptionValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {descriptionValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
               </ModalBody>
