@@ -1176,20 +1176,27 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">آدرس بازگشت1</span>
                       </InputGroupAddon>
-                      <Input
-                        value={editData.call_back_url}
-                        onChange={(e) => {
-                          setEditData((prev) => ({
-                            ...prev,
-                            call_back_url: e.target.value,
-                          }));
-                          if (!url1ValidationHandler(e.target.value)) return;
-                          setEditDataValue((prev) => ({
-                            ...prev,
-                            call_back_url: e.target.value,
-                          }));
-                        }}
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          value={editData.call_back_url}
+                          onChange={(e) => {
+                            setEditData((prev) => ({
+                              ...prev,
+                              call_back_url: e.target.value,
+                            }));
+                            if (!url1ValidationHandler(e.target.value)) return;
+                            setEditDataValue((prev) => ({
+                              ...prev,
+                              call_back_url: e.target.value,
+                            }));
+                          }}
+                        />
+                        {url1Validation.status || (
+                          <div className="invalid-feedback d-block">
+                            {url1Validation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                   </div>
                   <div className="d-flex mb-3">
