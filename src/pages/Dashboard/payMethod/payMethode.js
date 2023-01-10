@@ -1322,21 +1322,30 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">توضیحات</span>
                       </InputGroupAddon>
-                      <Input
-                        type="textarea"
-                        rows="5"
-                        value={editData.description}
-                        onChange={(e) => {
-                          setEditData((prev) => ({
-                            ...prev,
-                            description: e.target.value,
-                          }));
-                          setEditDataValue((prev) => ({
-                            ...prev,
-                            description: e.target.value,
-                          }));
-                        }}
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          type="textarea"
+                          rows="5"
+                          value={editData.description}
+                          onChange={(e) => {
+                            setEditData((prev) => ({
+                              ...prev,
+                              description: e.target.value,
+                            }));
+                            if (!descriptionValidationHandler(e.target.value))
+                              return;
+                            setEditDataValue((prev) => ({
+                              ...prev,
+                              description: e.target.value,
+                            }));
+                          }}
+                        />
+                        {descriptionValidation.status || (
+                          <div className="invalid-feedback d-block">
+                            {descriptionValidation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                   </div>
                 </ModalBody>
