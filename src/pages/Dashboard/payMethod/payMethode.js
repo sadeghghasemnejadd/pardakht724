@@ -105,6 +105,10 @@ const PayMethods = () => {
     status: true,
     message: "",
   });
+  const [url2Validation, setUrl2Validation] = useState({
+    status: true,
+    message: "",
+  });
   const history = useHistory();
   const match = [
     {
@@ -526,6 +530,24 @@ const PayMethods = () => {
       return true;
     }
   };
+  const url2ValidationHandler = (val) => {
+    if (!checkUrl(val)) {
+      setUrl1Validation({
+        status: false,
+        message: "آدرس انتخابی اشتباه میباشد(باید از جنس url باشد)",
+      });
+      return false;
+    } else if (checkCountCharacters(val, 511)) {
+      setUrl1Validation({
+        status: false,
+        message: "ادرس انتخابی نباید بیشتر از 511 کاراکتر باشد",
+      });
+      return false;
+    } else {
+      setUrl1Validation({ status: true, message: "" });
+      return true;
+    }
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -769,14 +791,22 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">آدرس بازگشت2</span>
                       </InputGroupAddon>
-                      <Input
-                        onChange={(e) =>
-                          setAddData((prev) => ({
-                            ...prev,
-                            call_back_url2: e.target.value,
-                          }))
-                        }
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          onChange={(e) => {
+                            if (!url2ValidationHandler()) return;
+                            setAddData((prev) => ({
+                              ...prev,
+                              call_back_url2: e.target.value,
+                            }));
+                          }}
+                        />
+                        {url2Validation.status || (
+                          <div className="invalid-feedback d-block">
+                            {url2Validation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                   </div>
                   <div className="d-flex mb-3 justify-content-between w-100">
