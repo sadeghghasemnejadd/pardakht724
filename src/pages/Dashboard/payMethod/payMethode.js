@@ -1119,19 +1119,28 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">کد مرچنت</span>
                       </InputGroupAddon>
-                      <Input
-                        value={editData.merchant_id}
-                        onChange={(e) => {
-                          setEditData((prev) => ({
-                            ...prev,
-                            merchant_id: e.target.value,
-                          }));
-                          setEditDataValue((prev) => ({
-                            ...prev,
-                            merchant_id: e.target.value,
-                          }));
-                        }}
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          value={editData.merchant_id}
+                          onChange={(e) => {
+                            setEditData((prev) => ({
+                              ...prev,
+                              merchant_id: e.target.value,
+                            }));
+                            if (!merchantIdValidationHandler(e.target.value))
+                              return;
+                            setEditDataValue((prev) => ({
+                              ...prev,
+                              merchant_id: e.target.value,
+                            }));
+                          }}
+                        />
+                        {merchantIdValidation.status || (
+                          <div className="invalid-feedback d-block">
+                            {merchantIdValidation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                     <InputGroup size="sm" className="w-50">
                       <InputGroupAddon addonType="prepend">
