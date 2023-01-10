@@ -101,6 +101,10 @@ const PayMethods = () => {
     status: true,
     message: "",
   });
+  const [url1Validation, setUrl1Validation] = useState({
+    status: true,
+    message: "",
+  });
   const history = useHistory();
   const match = [
     {
@@ -504,6 +508,24 @@ const PayMethods = () => {
       return true;
     }
   };
+  const url1ValidationHandler = (val) => {
+    if (!checkUrl(val)) {
+      setUrl1Validation({
+        status: false,
+        message: "آدرس انتخابی اشتباه میباشد(باید از جنس url باشد)",
+      });
+      return false;
+    } else if (checkCountCharacters(val, 511)) {
+      setUrl1Validation({
+        status: false,
+        message: "ادرس انتخابی نباید بیشتر از 511 کاراکتر باشد",
+      });
+      return false;
+    } else {
+      setUrl1Validation({ status: true, message: "" });
+      return true;
+    }
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -724,14 +746,22 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">آدرس بازگشت1</span>
                       </InputGroupAddon>
-                      <Input
-                        onChange={(e) =>
-                          setAddData((prev) => ({
-                            ...prev,
-                            call_back_url: e.target.value,
-                          }))
-                        }
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          onChange={(e) => {
+                            if (!url1ValidationHandler(e.target.value)) return;
+                            setAddData((prev) => ({
+                              ...prev,
+                              call_back_url: e.target.value,
+                            }));
+                          }}
+                        />
+                        {url1Validation.status || (
+                          <div className="invalid-feedback d-block">
+                            {url1Validation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                   </div>
                   <div className="d-flex mb-3">
