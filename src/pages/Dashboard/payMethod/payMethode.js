@@ -28,6 +28,7 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
+import checkCountCharacters from "components/custom/validation/checkCountCharacters";
 const PayMethods = () => {
   const dispatch = useDispatch();
   const { loading, payMethods } = useSelector((store) => store.payMethod);
@@ -77,6 +78,10 @@ const PayMethods = () => {
   const [collapseData, setCollapseData] = useState([
     { type: "threeLine", value: [] },
   ]);
+  const [pNameValidation, setPNameValidation] = useState({
+    status: false,
+    message: "نام نباید خالی باشد",
+  });
   const history = useHistory();
   const match = [
     {
@@ -400,6 +405,21 @@ const PayMethods = () => {
       throw err;
     }
   };
+  const pNameValidationHandler = (val) => {
+    if (!val) {
+      setPNameValidation({ status: false, message: "نام نباید خالی باشد" });
+      return false;
+    } else if (checkCountCharacters(val, 127)) {
+      setPNameValidation({
+        status: false,
+        message: "نام نباید بیشتر از 127 کاراکتر باشد",
+      });
+      return false;
+    } else {
+      setPNameValidation({ status: true, message: "" });
+      return true;
+    }
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -494,14 +514,22 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">نام</span>
                       </InputGroupAddon>
-                      <Input
-                        onChange={(e) =>
-                          setAddData((prev) => ({
-                            ...prev,
-                            p_name: e.target.value,
-                          }))
-                        }
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          onChange={(e) => {
+                            if (!pNameValidationHandler(e.target.value)) return;
+                            setAddData((prev) => ({
+                              ...prev,
+                              p_name: e.target.value,
+                            }));
+                          }}
+                        />
+                        {pNameValidation.status || (
+                          <div className="invalid-feedback d-block">
+                            {pNameValidation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                     <InputGroup size="sm">
                       <InputGroupAddon addonType="prepend">
