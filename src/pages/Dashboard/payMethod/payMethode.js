@@ -30,6 +30,7 @@ import HeaderLayout from "containers/ui/headerLayout";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import checkCountCharacters from "components/custom/validation/checkCountCharacters";
 import checkPersian from "components/custom/validation/checkPersian";
+import checkNumber from "components/custom/validation/checkNumber";
 const PayMethods = () => {
   const dispatch = useDispatch();
   const { loading, payMethods } = useSelector((store) => store.payMethod);
@@ -90,6 +91,10 @@ const PayMethods = () => {
   const [bankIdValidation, setBankIdValidation] = useState({
     status: true,
     message: "",
+  });
+  const [maxCapValidation, setMaxCapValidation] = useState({
+    status: false,
+    message: "حداکثر مبلغ نباید خالی باشد",
   });
   const history = useHistory();
   const match = [
@@ -459,6 +464,30 @@ const PayMethods = () => {
       return true;
     }
   };
+  const maxCapValidationHandler = (val) => {
+    if (!checkNumber(val)) {
+      setMaxCapValidation({
+        status: false,
+        message: "حداکثر مبلغ باید عدد باشد",
+      });
+      return false;
+    } else if (+val > 18446744073709551614) {
+      setMaxCapValidation({
+        status: false,
+        message: "عدد نباید بیشتر از 18446744073709551614 باشد",
+      });
+      return false;
+    } else if (!val) {
+      setMaxCapValidation({
+        status: false,
+        message: "حداکثر مبلغ نباید خالی باشد.",
+      });
+      return false;
+    } else {
+      setMaxCapValidation({ status: true, message: "" });
+      return true;
+    }
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -618,14 +647,23 @@ const PayMethods = () => {
                           حداکثر مبلغ قابل پرداخت
                         </span>
                       </InputGroupAddon>
-                      <Input
-                        onChange={(e) =>
-                          setAddData((prev) => ({
-                            ...prev,
-                            max_capability: e.target.value,
-                          }))
-                        }
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          onChange={(e) => {
+                            if (!maxCapValidationHandler(e.target.value))
+                              return;
+                            setAddData((prev) => ({
+                              ...prev,
+                              max_capability: e.target.value,
+                            }));
+                          }}
+                        />
+                        {maxCapValidation.status || (
+                          <div className="invalid-feedback d-block">
+                            {maxCapValidation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                   </div>
                   <div className="d-flex mb-3">
