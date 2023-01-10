@@ -818,7 +818,7 @@ const PayMethods = () => {
                       <div className="flex-grow-1 pos-rel">
                         <Input
                           onChange={(e) => {
-                            if (!url2ValidationHandler()) return;
+                            if (!url2ValidationHandler(e.target.value)) return;
                             setAddData((prev) => ({
                               ...prev,
                               call_back_url2: e.target.value,
@@ -1204,19 +1204,27 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">آدرس بازگشت2</span>
                       </InputGroupAddon>
-                      <Input
-                        value={editData.call_back_url2}
-                        onChange={(e) => {
-                          setEditData((prev) => ({
-                            ...prev,
-                            call_back_url2: e.target.value,
-                          }));
-                          setEditDataValue((prev) => ({
-                            ...prev,
-                            call_back_url2: e.target.value,
-                          }));
-                        }}
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          value={editData.call_back_url2}
+                          onChange={(e) => {
+                            setEditData((prev) => ({
+                              ...prev,
+                              call_back_url2: e.target.value,
+                            }));
+                            if (!url2ValidationHandler(e.target.value)) return;
+                            setEditDataValue((prev) => ({
+                              ...prev,
+                              call_back_url2: e.target.value,
+                            }));
+                          }}
+                        />
+                        {url2Validation.status || (
+                          <div className="invalid-feedback d-block">
+                            {url2Validation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                   </div>
                   <div className="d-flex mb-3 justify-content-between w-100">
