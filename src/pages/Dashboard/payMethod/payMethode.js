@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 import checkCountCharacters from "components/custom/validation/checkCountCharacters";
+import checkPersian from "components/custom/validation/checkPersian";
 const PayMethods = () => {
   const dispatch = useDispatch();
   const { loading, payMethods } = useSelector((store) => store.payMethod);
@@ -414,6 +415,9 @@ const PayMethods = () => {
         status: false,
         message: "نام نباید بیشتر از 127 کاراکتر باشد",
       });
+      return false;
+    } else if (!checkPersian(val)) {
+      setPNameValidation({ status: false, message: "نام باید فارسی باشد" });
       return false;
     } else {
       setPNameValidation({ status: true, message: "" });
