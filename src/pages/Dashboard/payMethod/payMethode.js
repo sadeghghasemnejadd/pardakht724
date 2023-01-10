@@ -1183,6 +1183,7 @@ const PayMethods = () => {
                             ...prev,
                             call_back_url: e.target.value,
                           }));
+                          if (!url1ValidationHandler(e.target.value)) return;
                           setEditDataValue((prev) => ({
                             ...prev,
                             call_back_url: e.target.value,
