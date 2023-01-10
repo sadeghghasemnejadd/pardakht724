@@ -31,6 +31,7 @@ import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu
 import checkCountCharacters from "components/custom/validation/checkCountCharacters";
 import checkPersian from "components/custom/validation/checkPersian";
 import checkNumber from "components/custom/validation/checkNumber";
+import checkUrl from "components/custom/validation/checkUrl";
 const PayMethods = () => {
   const dispatch = useDispatch();
   const { loading, payMethods } = useSelector((store) => store.payMethod);
@@ -284,7 +285,6 @@ const PayMethods = () => {
       bank_id: data?.bank_id === null ? "" : data.bank_id,
     });
   }, [id]);
-
   const fetchPayMethods = async () => {
     try {
       await dispatch(getAllPayMethods());
