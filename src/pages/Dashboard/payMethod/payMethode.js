@@ -1354,7 +1354,20 @@ const PayMethods = () => {
                     color="primary"
                     size="lg"
                     className="mb-2"
-                    onClick={saveChangeHandler}
+                    onClick={() => {
+                      if (
+                        !descriptionValidation.status ||
+                        !url2Validation.status ||
+                        !url1Validation.status ||
+                        !merchantIdValidation.value ||
+                        !maxCapValidation.value ||
+                        !bankIdValidation.status ||
+                        !nameValidation.status ||
+                        !pNameValidation.status
+                      )
+                        return;
+                      saveChangeHandler();
+                    }}
                   >
                     ویرایش
                   </Button>
