@@ -109,6 +109,10 @@ const PayMethods = () => {
     status: true,
     message: "",
   });
+  const [descriptionValidation, setDescriptionValidation] = useState({
+    status: true,
+    message: "",
+  });
   const history = useHistory();
   const match = [
     {
@@ -532,19 +536,37 @@ const PayMethods = () => {
   };
   const url2ValidationHandler = (val) => {
     if (!checkUrl(val)) {
-      setUrl1Validation({
+      setUrl2Validation({
         status: false,
         message: "آدرس انتخابی اشتباه میباشد(باید از جنس url باشد)",
       });
       return false;
     } else if (checkCountCharacters(val, 511)) {
-      setUrl1Validation({
+      setUrl2Validation({
         status: false,
         message: "ادرس انتخابی نباید بیشتر از 511 کاراکتر باشد",
       });
       return false;
     } else {
-      setUrl1Validation({ status: true, message: "" });
+      setUrl2Validation({ status: true, message: "" });
+      return true;
+    }
+  };
+  const descriptionValidationHandler = (val) => {
+    if (!checkPersian(val)) {
+      setDescriptionValidation({
+        status: false,
+        message: "توضیحات باید فارسی باشد",
+      });
+      return false;
+    } else if (checkCountCharacters(val, 255)) {
+      setDescriptionValidation({
+        status: false,
+        message: "توضیحات نباید بیشتر از 255 کاراکتر باشد",
+      });
+      return false;
+    } else {
+      setDescriptionValidation({ status: true, message: "" });
       return true;
     }
   };
@@ -885,16 +907,25 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">توضیحات</span>
                       </InputGroupAddon>
-                      <Input
-                        type="textarea"
-                        rows="5"
-                        onChange={(e) =>
-                          setAddData((prev) => ({
-                            ...prev,
-                            description: e.target.value,
-                          }))
-                        }
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          type="textarea"
+                          rows="5"
+                          onChange={(e) => {
+                            if (!descriptionValidationHandler(e.target.value))
+                              return;
+                            setAddData((prev) => ({
+                              ...prev,
+                              description: e.target.value,
+                            }));
+                          }}
+                        />
+                        {descriptionValidation.status || (
+                          <div className="invalid-feedback d-block">
+                            {descriptionValidation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                   </div>
                 </ModalBody>
