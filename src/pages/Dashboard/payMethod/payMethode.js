@@ -87,6 +87,10 @@ const PayMethods = () => {
     status: true,
     message: "",
   });
+  const [bankIdValidation, setBankIdValidation] = useState({
+    status: true,
+    message: "",
+  });
   const history = useHistory();
   const match = [
     {
@@ -440,6 +444,21 @@ const PayMethods = () => {
       return true;
     }
   };
+  const bankIdValidationHandler = (val) => {
+    if (!payMethods.some((p) => p.bank.name === val)) {
+      setBankIdValidation({ status: false, message: "نام بانک اشتباه میباشد" });
+      return false;
+    } else if (!val && addData.account_identifier) {
+      setBankIdValidation({
+        status: false,
+        message: "نام بانک نباید خالی باشد",
+      });
+      return false;
+    } else {
+      setBankIdValidation({ status: true, message: "" });
+      return true;
+    }
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -495,6 +514,7 @@ const PayMethods = () => {
                           AutoSuggest
                           value={autoSuggest}
                           onChange={(val) => {
+                            if (!bankIdValidationHandler(val)) return;
                             setAutoSuggest(val);
                           }}
                           data={[
