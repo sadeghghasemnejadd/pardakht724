@@ -257,6 +257,7 @@ const PayMethods = () => {
                   setId(props.value.id);
                   setIsModal2(true);
                   setPNameValidation({ status: true, message: "" });
+                  setMaxCapValidation({ status: true, message: "" });
                 }}
                 style={{ cursor: "pointer" }}
               >
@@ -1099,19 +1100,28 @@ const PayMethods = () => {
                           حداکثر مبلغ قابل پرداخت
                         </span>
                       </InputGroupAddon>
-                      <Input
-                        value={editData.max_capability}
-                        onChange={(e) => {
-                          setEditData((prev) => ({
-                            ...prev,
-                            max_capability: e.target.value,
-                          }));
-                          setEditDataValue((prev) => ({
-                            ...prev,
-                            max_capability: e.target.value,
-                          }));
-                        }}
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          value={editData.max_capability}
+                          onChange={(e) => {
+                            setEditData((prev) => ({
+                              ...prev,
+                              max_capability: e.target.value,
+                            }));
+                            if (!maxCapValidationHandler(e.target.value))
+                              return;
+                            setEditDataValue((prev) => ({
+                              ...prev,
+                              max_capability: e.target.value,
+                            }));
+                          }}
+                        />
+                        {maxCapValidation.status || (
+                          <div className="invalid-feedback d-block">
+                            {maxCapValidation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                   </div>
                   <div className="d-flex mb-3">
