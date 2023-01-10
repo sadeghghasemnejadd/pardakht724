@@ -256,6 +256,7 @@ const PayMethods = () => {
                 onClick={() => {
                   setId(props.value.id);
                   setIsModal2(true);
+                  setPNameValidation({ status: true, message: "" });
                 }}
                 style={{ cursor: "pointer" }}
               >
@@ -1024,19 +1025,27 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">نام</span>
                       </InputGroupAddon>
-                      <Input
-                        value={editData.p_name}
-                        onChange={(e) => {
-                          setEditData((prev) => ({
-                            ...prev,
-                            p_name: e.target.value,
-                          }));
-                          setEditDataValue((prev) => ({
-                            ...prev,
-                            p_name: e.target.value,
-                          }));
-                        }}
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          value={editData.p_name}
+                          onChange={(e) => {
+                            setEditData((prev) => ({
+                              ...prev,
+                              p_name: e.target.value,
+                            }));
+                            if (!pNameValidationHandler(e.target.value)) return;
+                            setEditDataValue((prev) => ({
+                              ...prev,
+                              p_name: e.target.value,
+                            }));
+                          }}
+                        />
+                        {pNameValidation.status || (
+                          <div className="invalid-feedback d-block">
+                            {pNameValidation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                     <InputGroup size="sm">
                       <InputGroupAddon addonType="prepend">
