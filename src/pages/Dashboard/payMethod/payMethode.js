@@ -96,6 +96,10 @@ const PayMethods = () => {
     status: false,
     message: "حداکثر مبلغ نباید خالی باشد",
   });
+  const [merchantIdValidation, setMerchantIdValidation] = useState({
+    status: true,
+    message: "",
+  });
   const history = useHistory();
   const match = [
     {
@@ -488,6 +492,18 @@ const PayMethods = () => {
       return true;
     }
   };
+  const merchantIdValidationHandler = (val) => {
+    if (checkCountCharacters(val, 127)) {
+      setMerchantIdValidation({
+        status: false,
+        message: "کد مرچنت نباید بیشتر از 127 کاراکتر باشد",
+      });
+      return false;
+    } else {
+      setMerchantIdValidation({ status: true, message: "" });
+      return true;
+    }
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -671,14 +687,23 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">کد مرچنت</span>
                       </InputGroupAddon>
-                      <Input
-                        onChange={(e) =>
-                          setAddData((prev) => ({
-                            ...prev,
-                            merchant_id: e.target.value,
-                          }))
-                        }
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          onChange={(e) => {
+                            if (!merchantIdValidationHandler(e.target.value))
+                              return;
+                            setAddData((prev) => ({
+                              ...prev,
+                              merchant_id: e.target.value,
+                            }));
+                          }}
+                        />
+                        {merchantIdValidation.status || (
+                          <div className="invalid-feedback d-block">
+                            {merchantIdValidation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                     <InputGroup size="sm" className="w-50">
                       <InputGroupAddon addonType="prepend">
