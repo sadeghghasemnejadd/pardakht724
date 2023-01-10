@@ -83,6 +83,10 @@ const PayMethods = () => {
     status: false,
     message: "نام نباید خالی باشد",
   });
+  const [nameValidation, setNameValidation] = useState({
+    status: true,
+    message: "",
+  });
   const history = useHistory();
   const match = [
     {
@@ -424,6 +428,18 @@ const PayMethods = () => {
       return true;
     }
   };
+  const nameValidationHandler = (val) => {
+    if (checkCountCharacters(val, 127)) {
+      setNameValidation({
+        status: false,
+        message: "برچسب نباید بیشتر از 127 کاراکتر داشته باشد",
+      });
+      return false;
+    } else {
+      setNameValidation({ status: true, message: "" });
+      return true;
+    }
+  };
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -539,14 +555,22 @@ const PayMethods = () => {
                       <InputGroupAddon addonType="prepend">
                         <span className="input-group-text">برچسب</span>
                       </InputGroupAddon>
-                      <Input
-                        onChange={(e) =>
-                          setAddData((prev) => ({
-                            ...prev,
-                            name: e.target.value,
-                          }))
-                        }
-                      />
+                      <div className="flex-grow-1 pos-rel">
+                        <Input
+                          onChange={(e) => {
+                            if (!nameValidationHandler(e.target.value)) return;
+                            setAddData((prev) => ({
+                              ...prev,
+                              name: e.target.value,
+                            }));
+                          }}
+                        />
+                        {nameValidation.status || (
+                          <div className="invalid-feedback d-block">
+                            {nameValidation.message}
+                          </div>
+                        )}
+                      </div>
                     </InputGroup>
                   </div>
                   <div className="d-flex mb-3">
