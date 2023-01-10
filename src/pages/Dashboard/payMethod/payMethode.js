@@ -509,7 +509,7 @@ const PayMethods = () => {
                           بانک مورد نظر
                         </span>
                       </InputGroupAddon>
-                      <div className="w-70">
+                      <div className="w-70 pos-rel">
                         <ReactAutoSuggest
                           AutoSuggest
                           value={autoSuggest}
@@ -523,6 +523,11 @@ const PayMethods = () => {
                             .filter((n) => n)
                             .map((n) => ({ name: n }))}
                         />
+                        {bankIdValidation.status || (
+                          <div className="invalid-feedback d-block">
+                            {bankIdValidation.message}
+                          </div>
+                        )}
                       </div>
                     </InputGroup>
                     <InputGroup size="sm" className="d-flex">
