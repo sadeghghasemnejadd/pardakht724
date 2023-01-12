@@ -234,7 +234,6 @@ const ServiceCategories = () => {
       }
       const formData = new FormData();
       formData.append("icon", addIcon, addIcon.name);
-      console.log({ ...addData, icon: addIcon });
       const res = await dispatch(
         addServiceCategories({ ...addData, icon: addIcon })
       );

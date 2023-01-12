@@ -11,9 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
   Button,
-  FormGroup,
 } from "reactstrap";
-import { Field } from "formik";
 import ReactAutoSuggest from "components/common/ReactAutoSuggest";
 import { Colxx } from "components/common/CustomBootstrap";
 import "rc-switch/assets/index.css";
@@ -33,20 +31,31 @@ import Validation from "containers/ui/validation";
 import checkPersian from "components/custom/validation/checkPersian";
 const BaseServices = () => {
   const dispatch = useDispatch();
+  // دیتا هایی که از سمت ریداکس تولکیت دریافت میشود
   const { loading, allBaseServices, allCurrencies } = useSelector(
     (store) => store.baseServices
   );
-  const [baseServices, setBaseServices] = useState([]);
+  const history = useHistory();
+  // ref برای اینپوت سرچ
   const searchInputRef = useRef();
+  const [baseServices, setBaseServices] = useState([]);
+  // وقتی روی کالپس کلیک شد اون آیدی ستونی که باید کالپس شود را در استیت زیر دخیره میکند
   const [collapse, setCollapse] = useState([]);
+  // گرفتن ایدی ستونی که باید ویرایش شود
   const [id, setId] = useState();
+  // دیتا های اولیه برای ویرایش دیتا که در اینپوت ها نمایش داده میشود
   const [editData, setEditData] = useState({});
+  // دیتا های اصلی ویرایش در این استیت دخیره میشود
   const [editDataValue, setEditDataValue] = useState({});
+  // گرفتن ارز ها یرای سرچ در مدال ارز ها
   const [currencies, setCurrencies] = useState([]);
+  // نمایش دادن مدال ها
   const [isModal, setIsModal] = useState(false);
   const [isModal2, setIsModal2] = useState(false);
   const [isModal3, setIsModal3] = useState(false);
+  // برای اینپوت سرج ارز ها
   const [autoSuggest, setAutoSuggest] = useState("");
+  // استیت های ولیدیشن فرم برای کنترل ولیدیشن ها
   const [nameValidation, setNameValidation] = useState({
     status: false,
     message: "نام نباید خالی باشد",
@@ -59,6 +68,7 @@ const BaseServices = () => {
     status: true,
     message: "",
   });
+  // داده های اولیه برای افزودن یک base service
   const [addData, setAddData] = useState({
     name: "",
     class_name: "",
@@ -68,13 +78,14 @@ const BaseServices = () => {
     factor_creation_type: 0,
     is_active: false,
   });
+  // داده هایی که بعد از کاللپس کردن تیبل در هر سطر باید نشان دهد
   const [collapseData, setCollapseData] = useState([
     {
       type: "twoLine",
       value: [],
     },
   ]);
-  const history = useHistory();
+  // بردکرامب های صفحه
   const match = [
     {
       path: "/",
@@ -85,6 +96,7 @@ const BaseServices = () => {
       text: "محصولات پایه",
     },
   ];
+  // عنوان ستون های جدول و داده های هر ستون در جدول
   const cols = useMemo(
     () => [
       {
@@ -217,13 +229,19 @@ const BaseServices = () => {
     ],
     [collapse, id]
   );
+
+  // گرفتن اطلاعات اولیه برای جدول
   useEffect(() => {
     fetchBaseServices();
     fetchCurrencies();
   }, [fetchBaseServices]);
+
+  // به محظی که اطلاعات را دریافت کرد ان دیتا ها را در جای دیگر دخیره میکند. برای رفع مشکل از اول رندر شدن صحفه در هنگام آپدیت کردن دیتا
   useEffect(() => {
     setBaseServices(allBaseServices);
   }, [allBaseServices]);
+
+  // گرفتن اطلاعات اولیه اینپوت ها هنگام ویرایش یک ستون
   useEffect(() => {
     const data = allBaseServices.find((p) => p.id == id);
     if (!data) return;
@@ -240,6 +258,7 @@ const BaseServices = () => {
     });
   }, [id]);
 
+  // تابع گرفتن دیتا از api
   const fetchBaseServices = async () => {
     try {
       await dispatch(getAllBaseServices());
@@ -247,6 +266,7 @@ const BaseServices = () => {
       throw err;
     }
   };
+  // تابع گرفتن دیتا از api
   const fetchCurrencies = async () => {
     try {
       await dispatch(getAllCurrencies());
@@ -254,9 +274,10 @@ const BaseServices = () => {
       throw err;
     }
   };
+
+  // تابع برای انجام عملیات سرج
   const searchHandler = async (e) => {
     e.preventDefault();
-
     try {
       const searchInput = searchInputRef.current?.value;
       const searchQuery = `?search_in=name:${searchInput}`;
@@ -265,6 +286,8 @@ const BaseServices = () => {
       throw err;
     }
   };
+
+  // تابع هندل کردن اضافه کردن دیتا به جدول
   const addBaseServicesandler = async () => {
     try {
       if (addData.name.length > 127) {
@@ -303,6 +326,8 @@ const BaseServices = () => {
       throw err;
     }
   };
+
+  // تابع هندل کردن ویرایش یک دیتا
   const saveChangeHandler = async () => {
     try {
       const res = await dispatch(
@@ -334,12 +359,24 @@ const BaseServices = () => {
       throw err;
     }
   };
+
   return (
     <Layout>
       {loading && <div className="loading"></div>}
       {!loading && (
         <Colxx lg="12" xl="12">
           <Card className="mb-4 p-5">
+            {/* برد کرامب و دکمه سرج و اضافه کردن در کامپوننت پایین قرار دارد 
+            ورودی ها : 
+            -title:عنوان صفحه
+            -match:برای برد کرامپ
+            -onSearch:تابع هندل کردن سرچ
+            -hasSearch:آیا این صفحه گزینه ای برای سرچ کردن دارد یا نه
+            -searchInputRef:ref برای اینپوت سرچ
+            -onAdd:تابع برای وقتی که کاربر روی دکمه اضافه کردن زد
+            -searchOption:آپشن های مختلف برای سرچ کردن که شامل ایدی و نام میباشد
+            -
+            */}
             <HeaderLayout
               title="لیست سرویس های پایه"
               addName="افزودن سرویس جدید"
@@ -357,12 +394,20 @@ const BaseServices = () => {
               ]}
               match={match}
             />
+            {/* برای نشان دادن جدول استفاده میشود 
+            ورودی ها:
+            -cols:دیتا های ستون ها 
+            -data:دیتا های اصلی
+            -isCollapse:آیا این جدول کالپس دارد؟
+            -collapseData:وقتی که کاربر کالپس را زد چه دیتاهایی در کالپس نشان دهد
+            */}
             <Table
               cols={cols}
               data={baseServices}
               isCollapse={collapse}
               collapseData={collapseData}
             />
+            {/* مدال اضافه کردن دیتای جدید */}
             <Modal
               isOpen={isModal}
               size="lg"
@@ -622,6 +667,7 @@ const BaseServices = () => {
                 </Button>
               </ModalFooter>
             </Modal>
+            {/* مدال اضافه کردن ارز جدید */}
             <Modal
               isOpen={isModal3}
               size="sm"
@@ -672,6 +718,7 @@ const BaseServices = () => {
                 </Button>
               </ModalFooter>
             </Modal>
+            {/* مدال ویرایش دیتای یک ستون */}
             <Modal
               isOpen={isModal2}
               size="lg"
