@@ -33,6 +33,22 @@ import checkEnglish from "components/custom/validation/checkEnglish";
 import checkUnique from "components/custom/validation/checkUnique";
 import checkNumber from "components/custom/validation/checkNumber";
 export default function Currencies() {
+  // دیتا هایی که از سمت ریداکس تولکیت دریافت میشود
+  const { loading, currencies } = useSelector((store) => store.currencies);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  // ref برای اینپوت سرچ
+  const searchInputRef = useRef();
+  const [allCurrencies, setAllCurrencies] = useState([]);
+  // وقتی روی کالپس کلیک شد اون آیدی ستونی که باید کالپس شود را در استیت زیر دخیره میکند
+  const [collapse, setCollapse] = useState([]);
+  // گرفتن ایدی ستونی که باید ویرایش شود
+  const [id, setId] = useState();
+  // دیتا های اولیه برای ویرایش دیتا که در اینپوت ها نمایش داده میشود
+  const [editData, setEditData] = useState({});
+  // دیتا های اصلی ویرایش در این استیت دخیره میشود
+  const [editDataValue, setEditDataValue] = useState({ auto_update: 1 });
+  // استیت های فیلتر کردن در حالت های مختلف
   const [filterTypeList, setFilterTypeList] = useState({
     name: "type",
     value: [],
@@ -41,8 +57,7 @@ export default function Currencies() {
     name: "status",
     value: [],
   });
-  const searchInputRef = useRef();
-  const [collapse, setCollapse] = useState([]);
+  // داده هایی که بعد از کاللپس کردن تیبل در هر سطر باید نشان دهد
   const [collapseData, setCollapseData] = useState([
     { type: "type", value: [] },
     { type: "absoluteVolume", value: [] },
@@ -51,18 +66,22 @@ export default function Currencies() {
     { type: "baseCurrency", value: [] },
     { type: "autoUpdate", value: [] },
   ]);
+  // در قسمت مدال ها قسمتی وجود دارد برای انتخاب نوع ارز که از این استیت استفاده شده است
   const [selectedButton, setSelectedButton] = useState(0);
+  // نمایش مدال ها
   const [isModal, setIsModal] = useState(false);
   const [isModal2, setIsModal2] = useState(false);
-  const [id, setId] = useState();
-  const [editData, setEditData] = useState({});
-  const [editDataValue, setEditDataValue] = useState({ auto_update: 1 });
+  // مربوط به قسمت اصافه کردن دیتا: وضعیت
   const [isActiveAdd, setIsActiveAdd] = useState(1);
+  // مربوط به قسمت اصافه کردن دیتا: آپدیت خودکار
   const [isUpdateAdd, setIsUpdateAdd] = useState(1);
+  // ref های مربوط به اینپوت های ایکون
   const iconRef = useRef();
   const editIconRef = useRef();
+  // استیت های گرفتن گرفتن و ویرایش آیکون
   const [addIcon, setAddIcon] = useState();
   const [editIcon, setEditIcon] = useState();
+  // استیت های ولیدیشن فرم برای کنترل ولیدیشن ها
   const [nameValidation, setNameValidation] = useState({
     status: false,
     message: "نام ارز نباید خالی باشد",
@@ -103,9 +122,8 @@ export default function Currencies() {
     auto_update: 1,
     is_active: 1,
   });
-  const dispatch = useDispatch();
-  const { loading, currencies } = useSelector((store) => store.currencies);
-  const [allCurrencies, setAllCurrencies] = useState([]);
+
+  // عنوان ستون های جدول و داده های هر ستون در جدول
   const cols = useMemo(
     () => [
       {
@@ -308,13 +326,18 @@ export default function Currencies() {
     ],
     [id]
   );
-  ////////////////////////
+
+  // گرفتن اطلاعات اولیه برای جدول
   useEffect(() => {
     fetchCurrencies();
   }, [fetchCurrencies]);
+
+  // به محظی که اطلاعات را دریافت کرد ان دیتا ها را در جای دیگر دخیره میکند. برای رفع مشکل از اول رندر شدن صحفه در هنگام آپدیت کردن دیتا
   useEffect(() => {
     setAllCurrencies(currencies);
   }, [currencies]);
+
+  // گرفتن اطلاعات اولیه اینپوت ها هنگام ویرایش یک ستون
   useEffect(() => {
     const data = currencies.find((p) => p.id == id);
     if (!data) return;
@@ -328,6 +351,7 @@ export default function Currencies() {
       auto_update: data?.auto_update === null ? "" : data.auto_update,
     });
   }, [id]);
+  // هندل کردن سرچ
   const searchCurrencyHandler = async (e, searchId) => {
     e.preventDefault();
     try {
@@ -344,6 +368,7 @@ export default function Currencies() {
       throw err;
     }
   };
+  // وقتی فیلتری سوییچ میشود
   const switchFilterHandler = (e, id, parentId) => {
     switch (parentId) {
       case "type":
@@ -374,6 +399,7 @@ export default function Currencies() {
         break;
     }
   };
+  // هندل کردن فیلتر
   const filterHandler = async () => {
     try {
       let filterQuery = "?";
@@ -392,6 +418,8 @@ export default function Currencies() {
       throw err;
     }
   };
+
+  // تابع گرفتن دیتا از api
   const fetchCurrencies = async () => {
     try {
       const res = await dispatch(getAllCurrencies());
@@ -399,6 +427,7 @@ export default function Currencies() {
       throw err;
     }
   };
+  // آپلود آیکون
   const uploadIcon = (e) => {
     if (iconRef.current) {
       const file = e.target.files;
@@ -420,6 +449,7 @@ export default function Currencies() {
       setAddIcon(file[0]);
     }
   };
+  // آپلود آیکون
   const uploadEditIcon = (e) => {
     if (iconRef.current) {
       const file = e.target.files;
@@ -441,6 +471,7 @@ export default function Currencies() {
       setEditIcon(file[0]);
     }
   };
+  // هندل کردن اضافه کردن دیتای جدید
   const addCurrenciesHandler = async () => {
     try {
       if (addData.name.length > 127) {
@@ -472,6 +503,7 @@ export default function Currencies() {
       throw err;
     }
   };
+  // هندل ولیدیشن نام
   const nameValidationHanler = (val) => {
     if (!checkPersian(val)) {
       setNameValidation({
@@ -496,6 +528,7 @@ export default function Currencies() {
       return true;
     }
   };
+  // هندل ولیدیشن نماد
   const symbolValidationHandler = (val) => {
     if (!checkEnglish(val)) {
       setSymbolValidation({
@@ -526,6 +559,7 @@ export default function Currencies() {
       return true;
     }
   };
+  // هندل ولیدیشن قیمت خرید
   const buyPriceValidationHandler = (val) => {
     if (!checkNumber(val)) {
       setBuyPriceValidation({
@@ -538,6 +572,7 @@ export default function Currencies() {
       return true;
     }
   };
+  // هندل ولیدیشن ارز پایه
   const baseCurrencyValidationHandler = (val) => {
     if (checkCountCharacters(val, 127)) {
       setBaseCurrencyValidation({
@@ -559,6 +594,7 @@ export default function Currencies() {
       return true;
     }
   };
+  // هندل ولیدیشن قیمت فروش
   const sellPriceValidationHandler = (val) => {
     if (!checkNumber(val)) {
       setSellPriceValidation({
@@ -571,6 +607,7 @@ export default function Currencies() {
       return true;
     }
   };
+  // هندل ثبت تغییرات بعد ویرایش
   const saveChangeHandler = async () => {
     try {
       const res = await dispatch(
@@ -607,7 +644,7 @@ export default function Currencies() {
       throw err;
     }
   };
-  const history = useHistory();
+  // بردکرامب های صفحه
   const match = [
     {
       path: "/",
@@ -625,6 +662,17 @@ export default function Currencies() {
         <div className="d-flex">
           <Colxx lg="12" xl="9">
             <Card className="mb-4 p-5">
+              {/* برد کرامب و دکمه سرج و اضافه کردن در کامپوننت پایین قرار دارد 
+            ورودی ها : 
+            -title:عنوان صفحه
+            -match:برای برد کرامپ
+            -onSearch:تابع هندل کردن سرچ
+            -hasSearch:آیا این صفحه گزینه ای برای سرچ کردن دارد یا نه
+            -searchInputRef:ref برای اینپوت سرچ
+            -onAdd:تابع برای وقتی که کاربر روی دکمه اضافه کردن زد
+            -searchOption:آپشن های مختلف برای سرچ کردن که شامل ایدی و نام میباشد
+            -
+            */}
               <HeaderLayout
                 title="مدیریت ارز ها"
                 addName="افزودن ارز جدید"
@@ -646,6 +694,13 @@ export default function Currencies() {
                 }}
                 match={match}
               />
+              {/* برای نشان دادن جدول استفاده میشود 
+            ورودی ها:
+            -cols:دیتا های ستون ها 
+            -data:دیتا های اصلی
+            -isCollapse:آیا این جدول کالپس دارد؟
+            -collapseData:وقتی که کاربر کالپس را زد چه دیتاهایی در کالپس نشان دهد
+            */}
               <Table
                 cols={cols}
                 data={allCurrencies}
@@ -654,6 +709,7 @@ export default function Currencies() {
               />
             </Card>
           </Colxx>
+          {/* مدال اضافه کردن دیتای جدید */}
           <Modal isOpen={isModal} size="lg" toggle={() => setIsModal(!isModal)}>
             <ModalHeader>ایجاد ارز جدید</ModalHeader>
             <ModalBody>
@@ -860,6 +916,7 @@ export default function Currencies() {
               </Button>
             </ModalFooter>
           </Modal>
+          {/* مدال ویرایش یک دیتا */}
           <Modal
             isOpen={isModal2}
             size="lg"
@@ -1105,6 +1162,13 @@ export default function Currencies() {
           </Modal>
 
           <Colxx xxs="2">
+            {/* فیلتر کردن دیتا ها
+            ورودی ها : 
+            -filters:آپشن های فیلتر کردن
+            -onSwitch:تابع سوییچ شدن فیلتر ها
+            -onFilter: تابع هندل کردن فیلتر
+            -data:دیتا های فلیتر شده برای ثبت تغییرات بعد از فیلتر
+            */}
             <SurveyApplicationMenu
               filters={[
                 {
