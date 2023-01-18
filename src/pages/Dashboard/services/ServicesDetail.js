@@ -18,7 +18,7 @@ import { useSelector, useDispatch } from "react-redux";
 // } from "redux-toolkit/RolesSlice";
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
-const Details = () => {
+const ServicesDetail = () => {
   const { id } = useParams();
   // const { loading } =
   //   useSelector((store) => store.roles);
@@ -235,4 +235,4 @@ const Details = () => {
     </Layout>
   );
 };
-export default Details;
+export default ServicesDetail;
