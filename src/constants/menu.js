@@ -133,6 +133,11 @@ const data = [
         label: "دسته بندی ها",
         to: "/service-categories",
       },
+      {
+        icon: "services",
+        label: "سرویس ها",
+        to: "/services",
+      },
     ],
   },
   {
