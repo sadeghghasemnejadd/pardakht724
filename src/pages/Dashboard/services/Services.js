@@ -112,7 +112,7 @@ const MainServices = () => {
               <Link
                 className={`glyph-icon simple-icon-pencil text-center`}
                 style={{ cursor: "pointer" }}
-                to={`/roles/${props.value}`}
+                to={`/services/${props.value}`}
               />
             </div>
           );
