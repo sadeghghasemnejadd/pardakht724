@@ -49,7 +49,7 @@ export const Services = createSlice({
   initialState: {
     loading: false,
     services: [],
-    Service: [],
+    service: [],
   },
   extraReducers: {
     [getAllServices.pending]: (state) => {
