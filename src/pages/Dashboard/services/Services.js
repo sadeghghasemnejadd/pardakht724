@@ -104,16 +104,16 @@ const MainServices = () => {
       },
       {
         Header: "عملیات",
-        accessor: "id_name",
+        accessor: "id",
         cellClass: "text-muted  text-center",
         Cell: (props) => {
           return (
-            <div
-              className="glyph h5 mr-3"
-              onClick={() => {}}
-              style={{ cursor: "pointer" }}
-            >
-              <div className={`glyph-icon simple-icon-pencil text-center`} />
+            <div className="glyph text-center h5">
+              <Link
+                className={`glyph-icon simple-icon-pencil text-center`}
+                style={{ cursor: "pointer" }}
+                to={`/roles/${props.value}`}
+              />
             </div>
           );
         },
