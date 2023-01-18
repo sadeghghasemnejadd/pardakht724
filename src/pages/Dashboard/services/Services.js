@@ -17,7 +17,7 @@ import { Colxx } from "components/common/CustomBootstrap";
 import "rc-switch/assets/index.css";
 import Switch from "rc-switch";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllServices } from "redux-toolkit/ServicesSlice";
+import { getAllServices, searchServices } from "redux-toolkit/ServicesSlice";
 import { useHistory, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
@@ -138,7 +138,7 @@ const MainServices = () => {
     try {
       const searchInput = searchInputRef.current?.value;
       const searchQuery = `?search_in=name:${searchInput}`;
-      await dispatch(searchServiceCategories(searchQuery));
+      await dispatch(searchServices(searchQuery));
     } catch (err) {
       throw err;
     }
