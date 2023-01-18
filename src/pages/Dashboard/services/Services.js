@@ -21,7 +21,7 @@ import { getAllServices } from "redux-toolkit/ServicesSlice";
 import { useHistory, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
-const ServiceCategories = () => {
+const Services = () => {
   const dispatch = useDispatch();
   const { loading, services } = useSelector((store) => store.services);
   const [allServices, setAllServices] = useState([]);
@@ -329,4 +329,4 @@ const ServiceCategories = () => {
     </Layout>
   );
 };
-export default ServiceCategories;
+export default Services;
