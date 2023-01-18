@@ -28,7 +28,6 @@ export const ServiceCategories = createSlice({
     },
     [getAllServices.fulfilled]: (state, action) => {
       state.loading = false;
-      console.log(action);
       state.services = allServices(action);
     },
     [getAllServices.rejected]: (state) => {
