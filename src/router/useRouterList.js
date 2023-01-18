@@ -24,6 +24,7 @@ import PayMethods from "pages/Dashboard/payMethod/payMethode";
 import BaseServices from "pages/Dashboard/base_services/BaseServices";
 import ServiceCategories from "pages/Dashboard/service-categories/Service-categories";
 import Services from "pages/Dashboard/service-categories/services";
+
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
@@ -133,6 +134,7 @@ const defaultPrivateRoutes = [
     component: <Services />,
     path: "/service-categories/:id/services",
   },
+  /////////////////////////////
 ];
 
 export default function useRouterList() {
