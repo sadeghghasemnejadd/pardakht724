@@ -143,37 +143,37 @@ const MainServices = () => {
       throw err;
     }
   };
-  const addServiceCategoriesHandler = async () => {
-    try {
-      if (addData.name.length > 127) {
-        throw new Error("نام حداکثر باید 127 کارکتر باشد");
-      }
-      if (addData.description.length > 255) {
-        throw new Error(" توضیحات حداکثر باید 255 کارکتر باشد");
-      }
-      if (addIcon.size > 128000) {
-        throw new Error("سایز عکس باید کمتر از 128 کیلوبایت باشد");
-      }
-      if (addIcon.type !== "image/png") {
-        throw new Error("فرمت عکس حنما باید png باشد");
-      }
-      const formData = new FormData();
-      formData.append("icon", addIcon, addIcon.name);
-      const res = await dispatch(
-        addServiceCategories({ ...addData, icon: addIcon })
-      );
-      if (res.payload) {
-        toast.success("سرویس با موفقیت اضافه شد");
-        setIsModal(false);
-        await fetchServiceCategories();
-      } else {
-        throw new Error("مقادیر یک یا چند ستون نادرست وارد شده است.");
-      }
-    } catch (err) {
-      toast.error(err.message);
-      throw err;
-    }
-  };
+  // const addServiceCategoriesHandler = async () => {
+  //   try {
+  //     if (addData.name.length > 127) {
+  //       throw new Error("نام حداکثر باید 127 کارکتر باشد");
+  //     }
+  //     if (addData.description.length > 255) {
+  //       throw new Error(" توضیحات حداکثر باید 255 کارکتر باشد");
+  //     }
+  //     if (addIcon.size > 128000) {
+  //       throw new Error("سایز عکس باید کمتر از 128 کیلوبایت باشد");
+  //     }
+  //     if (addIcon.type !== "image/png") {
+  //       throw new Error("فرمت عکس حنما باید png باشد");
+  //     }
+  //     const formData = new FormData();
+  //     formData.append("icon", addIcon, addIcon.name);
+  //     const res = await dispatch(
+  //       addServiceCategories({ ...addData, icon: addIcon })
+  //     );
+  //     if (res.payload) {
+  //       toast.success("سرویس با موفقیت اضافه شد");
+  //       setIsModal(false);
+  //       await fetchServiceCategories();
+  //     } else {
+  //       throw new Error("مقادیر یک یا چند ستون نادرست وارد شده است.");
+  //     }
+  //   } catch (err) {
+  //     toast.error(err.message);
+  //     throw err;
+  //   }
+  // };
 
   return (
     <Layout>

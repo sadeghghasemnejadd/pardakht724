@@ -13,7 +13,22 @@ export const getAllServices = createAsyncThunk("getAllServices", async () => {
     throw err;
   }
 });
-
+export const searchServices = createAsyncThunk(
+  "searchServices",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(`/services${value}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 const allServices = (res) => res.payload.services;
 
 export const ServiceCategories = createSlice({
@@ -31,6 +46,17 @@ export const ServiceCategories = createSlice({
       state.services = allServices(action);
     },
     [getAllServices.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [searchServices.pending]: (state) => {
+      state.loading = true;
+    },
+    [searchServices.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.services = allServices(action);
+    },
+    [searchServices.rejected]: (state) => {
       state.loading = false;
     },
     ///////////////////////////////////////////////////
