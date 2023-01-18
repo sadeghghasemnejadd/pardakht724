@@ -24,7 +24,6 @@ import HeaderLayout from "containers/ui/headerLayout";
 const MainServices = () => {
   const dispatch = useDispatch();
   const { loading, services } = useSelector((store) => store.services);
-  const [allServices, setAllServices] = useState([]);
   const searchInputRef = useRef();
   const [isModal, setIsModal] = useState(false);
   // const [addData, setAddData] = useState({
@@ -48,10 +47,10 @@ const MainServices = () => {
     () => [
       {
         Header: "آیکون",
-        accessor: "icon",
+        accessor: "services_icon",
         cellClass: "text-muted text-center",
         Cell: (props) => {
-          return <img src={props.value} alt="icon-image" width={50} />;
+          return <img src={props.value} alt="service icon" width={50} />;
         },
       },
 
@@ -65,7 +64,7 @@ const MainServices = () => {
       },
       {
         Header: "نوع سرویس",
-        accessor: "url",
+        accessor: "service_type",
         cellClass: "text-muted w-60 text-center ",
         Cell: (props) => {
           return <>{props.value}</>;
@@ -73,34 +72,18 @@ const MainServices = () => {
       },
       {
         Header: "نحوه پردازش",
-        accessor: "is_active",
+        accessor: "execution_type",
         cellClass: "text-muted text-center ",
         Cell: (props) => {
-          return (
-            <div className="d-flex justify-content-center">
-              <Switch
-                className="custom-switch custom-switch-secondary custom-switch-small"
-                disabled
-                checked={props.value}
-              />
-            </div>
-          );
+          return <>{props.value}</>;
         },
       },
       {
         Header: "ارز ها",
-        accessor: "is_active",
+        accessor: "",
         cellClass: "text-muted text-center ",
         Cell: (props) => {
-          return (
-            <div className="d-flex justify-content-center">
-              <Switch
-                className="custom-switch custom-switch-secondary custom-switch-small"
-                disabled
-                checked={props.value}
-              />
-            </div>
-          );
+          return <>در حال تکمیل</>;
         },
       },
       {
@@ -142,9 +125,6 @@ const MainServices = () => {
   useEffect(() => {
     fetchServices();
   }, [fetchServices]);
-  useEffect(() => {
-    setAllServices(services);
-  }, [services]);
   const fetchServices = async () => {
     try {
       await dispatch(getAllServices());
@@ -217,12 +197,7 @@ const MainServices = () => {
               ]}
               match={match}
             />
-            {/* <Table
-              cols={cols}
-              data={serviceCategories}
-              isCollapse={collapse}
-              collapseData={collapseData}
-            /> */}
+            <Table cols={cols} data={services} />
             {/* <Modal
               isOpen={isModal}
               size="lg"
