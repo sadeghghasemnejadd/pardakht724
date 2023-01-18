@@ -53,7 +53,6 @@ const MainServices = () => {
           return <img src={props.value} alt="service icon" width={50} />;
         },
       },
-
       {
         Header: "نام",
         accessor: "name",
@@ -65,7 +64,7 @@ const MainServices = () => {
       {
         Header: "نوع سرویس",
         accessor: "service_type",
-        cellClass: "text-muted w-60 text-center ",
+        cellClass: "text-muted text-center ",
         Cell: (props) => {
           return <>{props.value}</>;
         },
