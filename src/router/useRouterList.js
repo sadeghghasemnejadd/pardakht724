@@ -25,7 +25,7 @@ import BaseServices from "pages/Dashboard/base_services/BaseServices";
 import ServiceCategories from "pages/Dashboard/service-categories/Service-categories";
 import Services from "pages/Dashboard/service-categories/services";
 import MainServices from "pages/Dashboard/services/Services";
-
+import ServicesDetail from "pages/Dashboard/services/ServicesDetail";
 // لیست صفحات عمومی و آزاد
 const defaultPublicRoutes = [
   {
@@ -139,6 +139,10 @@ const defaultPrivateRoutes = [
   {
     component: <MainServices />,
     path: "/services",
+  },
+  {
+    component: <ServicesDetail />,
+    path: "/services/:id",
   },
 ];
 
