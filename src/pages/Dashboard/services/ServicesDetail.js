@@ -40,7 +40,7 @@ const ServicesDetail = () => {
       text: "خدمات",
     },
     {
-      path: "/roles",
+      path: "/services",
       text: "سرویس ها",
     },
     {
