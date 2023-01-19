@@ -4,24 +4,13 @@ import { Colxx } from "components/common/CustomBootstrap";
 import { NavLink, useHistory, useParams } from "react-router-dom";
 import classnames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
-// import RolesDetail from "./RolesDetail";
-// import RolesAccesses from "./RolesAccesses";
-// import RolesTasks from "./RolesTasks";
-// import RolesLimits from "./RolesLimits";
 import { useSelector, useDispatch } from "react-redux";
-// import {
-//   getRole,
-//   getRolePermissions,
-//   updateRole,
-//   updatePermission,
-//   getRoleTasks,
-// } from "redux-toolkit/RolesSlice";
+import { getService } from "redux-toolkit/ServicesSlice";
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
 const ServicesDetail = () => {
   const { id } = useParams();
-  // const { loading } =
-  //   useSelector((store) => store.roles);
+  const { loading, service } = useSelector((store) => store.services);
   const [activeTab, setActiveTab] = useState("serviceDetail");
   const [isEdit, setIsEdit] = useState(false);
   const [dataForSave, setDataForSave] = useState({});
@@ -29,14 +18,6 @@ const ServicesDetail = () => {
   useEffect(() => {
     fetchService();
   }, []);
-  // useEffect(() => {
-  //   if (activeTab === "rolesAccesses") {
-  //     fetchPermissions();
-  //   } else if (activeTab === "rolesTasks") {
-  //     fetchTasks();
-  //   }
-  // }, [activeTab]);
-
   const fetchService = async () => {
     try {
       await dispatch(getService(id));
