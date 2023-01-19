@@ -68,7 +68,6 @@ export const Services = createSlice({
     },
     [getService.fulfilled]: (state, action) => {
       state.loading = false;
-      console.log(action);
       state.service = service(action);
     },
     [getService.rejected]: (state) => {

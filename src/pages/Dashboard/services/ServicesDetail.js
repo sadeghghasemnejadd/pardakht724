@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getService } from "redux-toolkit/ServicesSlice";
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
+import ServicesDetails from "./ServicesDetails";
 const ServicesDetail = () => {
   const { id } = useParams();
   const { loading, service } = useSelector((store) => store.services);
@@ -17,7 +18,7 @@ const ServicesDetail = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     fetchService();
-  }, []);
+  }, [fetchService]);
   const fetchService = async () => {
     try {
       await dispatch(getService(id));
@@ -25,7 +26,7 @@ const ServicesDetail = () => {
       throw err;
     }
   };
-
+  console.log(service);
   const saveHandler = async () => {
     try {
       const res =
@@ -190,7 +191,11 @@ const ServicesDetail = () => {
         {!loading && (
           <TabContent activeTab={activeTab}>
             <TabPane tabId="serviceDetail">
-              <p>جزییات سرویس</p>
+              <ServicesDetails
+                data={service}
+                isEdit={isEdit}
+                onDataChanged={setDataForSave}
+              />
             </TabPane>
             <TabPane tabId="servicePlan">
               <p>پلن ها</p>
