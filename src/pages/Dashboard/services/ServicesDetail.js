@@ -26,30 +26,10 @@ const ServicesDetail = () => {
       throw err;
     }
   };
-  console.log(service);
   const saveHandler = async () => {
     try {
-      const res =
-        activeTab === "rolesDetail"
-          ? await dispatch(
-              updateRole({
-                updatePath: `/roles/${id}`,
-                updateData: dataForSave,
-              })
-            )
-          : await dispatch(
-              updatePermission({
-                updatePath: `/roles/${id}/permissions`,
-                updateData: dataForSave,
-              })
-            );
-      if (res.payload.status === "ok") {
-        toast.success("نقش با موفقیت آپدیت شد");
-        setIsEdit(false);
-        setDataForSave({});
-      }
+      // در حال تکمیل
     } catch (err) {
-      toast.error("آپدیت نقش با خطا مواجه شد");
       throw err;
     }
   };
