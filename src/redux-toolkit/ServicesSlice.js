@@ -42,6 +42,25 @@ export const getServicesPlans = createAsyncThunk(
     }
   }
 );
+export const getServicesCategories = createAsyncThunk(
+  "getServicesCategories",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(
+        `/services/${value}/categories`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const addServicesPlans = createAsyncThunk(
   "addServicesPlans",
   async ({ id, addData }) => {
@@ -118,6 +137,25 @@ export const searchPlans = createAsyncThunk(
     }
   }
 );
+export const searchCategories = createAsyncThunk(
+  "searchCategories",
+  async ({ id, query }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(
+        `/services/${id}/categories${query}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const getAllCurrencies = createAsyncThunk(
   "getAllCurrencies",
   async () => {
@@ -134,9 +172,30 @@ export const getAllCurrencies = createAsyncThunk(
     }
   }
 );
+export const removeServicesCategory = createAsyncThunk(
+  "removeServicesCategory",
+  async ({ id, catId }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.delete(
+        `/services/${id}/categories/${catId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+
 const allServices = (res) => res.payload.services;
 const service = (res) => res.payload.service;
 const plans = (res) => res.payload.plans;
+const categories = (res) => res.payload.categories;
 const allCurrencies = (res) => res.payload.currencies.data;
 export const Services = createSlice({
   name: "auth",
@@ -145,6 +204,7 @@ export const Services = createSlice({
     services: [],
     service: [],
     plans: [],
+    categories: [],
     currencies: [],
   },
   extraReducers: {
@@ -192,6 +252,28 @@ export const Services = createSlice({
       state.loading = false;
     },
     ///////////////////////////////////////////////////
+    [searchCategories.pending]: (state) => {
+      state.loading = true;
+    },
+    [searchCategories.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.categories = categories(action);
+    },
+    [searchCategories.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [getServicesCategories.pending]: (state) => {
+      state.loading = true;
+    },
+    [getServicesCategories.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.categories = categories(action);
+    },
+    [getServicesCategories.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
     [getServicesPlans.pending]: (state) => {
       state.loading = true;
     },
@@ -231,6 +313,16 @@ export const Services = createSlice({
       state.loading = false;
     },
     [updateServicesPlans.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [removeServicesCategory.pending]: (state) => {
+      state.loading = true;
+    },
+    [removeServicesCategory.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [removeServicesCategory.rejected]: (state) => {
       state.loading = false;
     },
     ///////////////////////////////////////////////////

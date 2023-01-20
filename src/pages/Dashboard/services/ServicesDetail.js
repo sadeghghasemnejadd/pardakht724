@@ -8,17 +8,20 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   getAllCurrencies,
   getService,
+  getServicesCategories,
   getServicesPlans,
+  searchCategories,
   searchPlans,
 } from "redux-toolkit/ServicesSlice";
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
 import ServicesDetails from "./ServicesDetails";
 import ServicesPlans from "./ServicesPlans";
+import ServicesCategories from "./ServicesCategories";
 import HeaderLayout from "containers/ui/headerLayout";
 const ServicesDetail = () => {
   const { id } = useParams();
-  const { loading, service, plans, currencies } = useSelector(
+  const { loading, service, plans, currencies, categories } = useSelector(
     (store) => store.services
   );
   const [activeTab, setActiveTab] = useState("serviceDetail");
@@ -34,6 +37,9 @@ const ServicesDetail = () => {
     if (activeTab === "servicePlan") {
       fetchPlans();
     }
+    if (activeTab === "serviceCategories") {
+      fetchCategories();
+    }
   }, [activeTab]);
   const fetchService = async () => {
     try {
@@ -46,6 +52,13 @@ const ServicesDetail = () => {
     try {
       await dispatch(getServicesPlans(id));
       await dispatch(getAllCurrencies());
+    } catch (err) {
+      throw err;
+    }
+  };
+  const fetchCategories = async () => {
+    try {
+      await dispatch(getServicesCategories(id));
     } catch (err) {
       throw err;
     }
@@ -64,6 +77,17 @@ const ServicesDetail = () => {
       const searchInput = searchInputRef.current?.value;
       const searchQuery = `?search_in=name:${searchInput}`;
       await dispatch(searchPlans({ id, query: searchQuery }));
+    } catch (err) {
+      throw err;
+    }
+  };
+  const searchCatgoriesHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const searchInput = searchInputRef.current?.value;
+      const searchQuery = `?search_in=name:${searchInput}`;
+      await dispatch(searchCategories({ id, query: searchQuery }));
     } catch (err) {
       throw err;
     }
@@ -87,10 +111,14 @@ const ServicesDetail = () => {
     <Layout>
       {loading && <div className="loading"></div>}
       <Colxx xxs="12" className="pt-1">
-        {activeTab === "servicePlan" ? (
+        {activeTab === "servicePlan" || activeTab === "serviceCategories" ? (
           <HeaderLayout
             title="جزییات سرویس"
-            onSearch={searchPlanHandler}
+            onSearch={
+              activeTab === "servicePlan"
+                ? searchPlanHandler
+                : searchCatgoriesHandler
+            }
             hasSearch={true}
             searchInputRef={searchInputRef}
             searchOptions={[
@@ -199,14 +227,16 @@ const ServicesDetail = () => {
               محدودیت نقش ها
             </NavLink>
           </NavItem>
-          {activeTab === "servicePlan" ? (
+          {activeTab === "servicePlan" || activeTab === "serviceCategories" ? (
             <Button
               color="primary"
               size="lg"
               className="ml-auto mb-3"
               onClick={() => setAddModal(true)}
             >
-              افرودن پلن جدید
+              {activeTab === "servicePlan"
+                ? "افزودن پلن جدید"
+                : activeTab === "serviceCategories" && "افزودن دسته بندی جدید"}
             </Button>
           ) : (
             <Button
@@ -254,7 +284,12 @@ const ServicesDetail = () => {
               <p>فیلد ها</p>
             </TabPane>
             <TabPane tabId="serviceCategories">
-              <p>دسته بندی ها</p>
+              <ServicesCategories
+                categories={categories}
+                fetchCategories={fetchCategories}
+                addModal={addModal}
+                setModal={setAddModal}
+              />
             </TabPane>
             <TabPane tabId="serviceCurrency">
               <p>ارز ها</p>
