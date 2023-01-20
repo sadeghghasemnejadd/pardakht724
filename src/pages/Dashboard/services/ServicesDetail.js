@@ -5,13 +5,14 @@ import { NavLink, useHistory, useParams } from "react-router-dom";
 import classnames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getService } from "redux-toolkit/ServicesSlice";
+import { getService, getServicesPlans } from "redux-toolkit/ServicesSlice";
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
 import ServicesDetails from "./ServicesDetails";
+import ServicesPlans from "./ServicesPlans";
 const ServicesDetail = () => {
   const { id } = useParams();
-  const { loading, service } = useSelector((store) => store.services);
+  const { loading, service, plans } = useSelector((store) => store.services);
   const [activeTab, setActiveTab] = useState("serviceDetail");
   const [isEdit, setIsEdit] = useState(false);
   const [dataForSave, setDataForSave] = useState({});
@@ -19,9 +20,21 @@ const ServicesDetail = () => {
   useEffect(() => {
     fetchService();
   }, [fetchService]);
+  useEffect(() => {
+    if (activeTab === "servicePlan") {
+      fetchPlans();
+    }
+  }, [activeTab]);
   const fetchService = async () => {
     try {
       await dispatch(getService(id));
+    } catch (err) {
+      throw err;
+    }
+  };
+  const fetchPlans = async () => {
+    try {
+      await dispatch(getServicesPlans(id));
     } catch (err) {
       throw err;
     }
@@ -178,7 +191,7 @@ const ServicesDetail = () => {
               />
             </TabPane>
             <TabPane tabId="servicePlan">
-              <p>پلن ها</p>
+              <ServicesPlans plans={plans} fetchPlans={fetchPlans} />
             </TabPane>
             <TabPane tabId="serviceFields">
               <p>فیلد ها</p>
