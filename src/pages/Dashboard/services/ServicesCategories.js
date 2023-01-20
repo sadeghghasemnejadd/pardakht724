@@ -15,10 +15,6 @@ import Switch from "rc-switch";
 import ReactAutoSuggest from "components/common/ReactAutoSuggest";
 import "rc-switch/assets/index.css";
 import { useDispatch } from "react-redux";
-// import {
-//   addServicesPlans,
-//   updateServicesPlans,
-// } from "redux-toolkit/ServicesSlice";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { removeServicesCategory } from "redux-toolkit/ServicesSlice";

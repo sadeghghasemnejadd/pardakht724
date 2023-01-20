@@ -61,6 +61,25 @@ export const getServicesCategories = createAsyncThunk(
     }
   }
 );
+export const getServicesCurrencies = createAsyncThunk(
+  "getServicesCurrencies",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(
+        `/services/${value}/currencies`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const addServicesPlans = createAsyncThunk(
   "addServicesPlans",
   async ({ id, addData }) => {
@@ -81,6 +100,26 @@ export const addServicesPlans = createAsyncThunk(
     }
   }
 );
+export const addServicesCurrencies = createAsyncThunk(
+  "addServicesCurrencies",
+  async ({ id, addData }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.post(
+        `/services/${id}/currencies`,
+        addData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const updateServicesPlans = createAsyncThunk(
   "updateServicesPlans",
   async ({ id, addData, planId }) => {
@@ -88,6 +127,26 @@ export const updateServicesPlans = createAsyncThunk(
       const token = localStorage.getItem("token");
       const { data } = await axiosInstance.patch(
         `/services/${id}/plans/${planId}`,
+        addData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+export const updateServicesCurrencies = createAsyncThunk(
+  "updateServicesCurrencies",
+  async ({ id, addData, currencyId }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.patch(
+        `/services/${id}/currencies/${currencyId}`,
         addData,
         {
           headers: {
@@ -156,6 +215,25 @@ export const searchCategories = createAsyncThunk(
     }
   }
 );
+export const searchCurrencies = createAsyncThunk(
+  "searchCurrencies",
+  async ({ id, query }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(
+        `/services/${id}/currencies/search${query}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const getAllCurrencies = createAsyncThunk(
   "getAllCurrencies",
   async () => {
@@ -196,6 +274,7 @@ const allServices = (res) => res.payload.services;
 const service = (res) => res.payload.service;
 const plans = (res) => res.payload.plans;
 const categories = (res) => res.payload.categories;
+const currencies = (res) => res.payload.currencies;
 const allCurrencies = (res) => res.payload.currencies.data;
 export const Services = createSlice({
   name: "auth",
@@ -206,6 +285,7 @@ export const Services = createSlice({
     plans: [],
     categories: [],
     currencies: [],
+    allCurrencies: [],
   },
   extraReducers: {
     [getAllServices.pending]: (state) => {
@@ -252,6 +332,17 @@ export const Services = createSlice({
       state.loading = false;
     },
     ///////////////////////////////////////////////////
+    [searchCurrencies.pending]: (state) => {
+      state.loading = true;
+    },
+    [searchCurrencies.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.allCurrencies = currencies(action);
+    },
+    [searchCurrencies.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
     [searchCategories.pending]: (state) => {
       state.loading = true;
     },
@@ -271,6 +362,17 @@ export const Services = createSlice({
       state.categories = categories(action);
     },
     [getServicesCategories.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [getServicesCurrencies.pending]: (state) => {
+      state.loading = true;
+    },
+    [getServicesCurrencies.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.allCurrencies = currencies(action);
+    },
+    [getServicesCurrencies.rejected]: (state) => {
       state.loading = false;
     },
     ///////////////////////////////////////////////////
@@ -306,6 +408,16 @@ export const Services = createSlice({
       state.loading = false;
     },
     ///////////////////////////////////////////////////
+    [addServicesCurrencies.pending]: (state) => {
+      state.loading = true;
+    },
+    [addServicesCurrencies.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [addServicesCurrencies.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
     [updateServicesPlans.pending]: (state) => {
       state.loading = true;
     },
@@ -313,6 +425,16 @@ export const Services = createSlice({
       state.loading = false;
     },
     [updateServicesPlans.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [updateServicesCurrencies.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateServicesCurrencies.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [updateServicesCurrencies.rejected]: (state) => {
       state.loading = false;
     },
     ///////////////////////////////////////////////////

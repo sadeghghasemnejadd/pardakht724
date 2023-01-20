@@ -9,8 +9,10 @@ import {
   getAllCurrencies,
   getService,
   getServicesCategories,
+  getServicesCurrencies,
   getServicesPlans,
   searchCategories,
+  searchCurrencies,
   searchPlans,
 } from "redux-toolkit/ServicesSlice";
 import { toast } from "react-toastify";
@@ -18,16 +20,19 @@ import Breadcrumb from "components/custom/Breadcrumb";
 import ServicesDetails from "./ServicesDetails";
 import ServicesPlans from "./ServicesPlans";
 import ServicesCategories from "./ServicesCategories";
+import ServicesCurrencies from "./ServicesCurrencies";
 import HeaderLayout from "containers/ui/headerLayout";
 const ServicesDetail = () => {
   const { id } = useParams();
-  const { loading, service, plans, currencies, categories } = useSelector(
-    (store) => store.services
-  );
+  const { loading, service, plans, currencies, categories, allCurrencies } =
+    useSelector((store) => store.services);
+  console.log(allCurrencies);
   const [activeTab, setActiveTab] = useState("serviceDetail");
   const [isEdit, setIsEdit] = useState(false);
   const [dataForSave, setDataForSave] = useState({});
-  const [addModal, setAddModal] = useState(false);
+  const [addModalPlans, setAddModalPlans] = useState(false);
+  const [addModalCategories, setAddModalCategories] = useState(false);
+  const [addModalCurrencies, setAddModalCurrencies] = useState(false);
   const searchInputRef = useRef();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -39,6 +44,9 @@ const ServicesDetail = () => {
     }
     if (activeTab === "serviceCategories") {
       fetchCategories();
+    }
+    if (activeTab === "serviceCurrency") {
+      fetchCurrencies();
     }
   }, [activeTab]);
   const fetchService = async () => {
@@ -59,6 +67,14 @@ const ServicesDetail = () => {
   const fetchCategories = async () => {
     try {
       await dispatch(getServicesCategories(id));
+    } catch (err) {
+      throw err;
+    }
+  };
+  const fetchCurrencies = async () => {
+    try {
+      await dispatch(getServicesCurrencies(id));
+      await dispatch(getAllCurrencies());
     } catch (err) {
       throw err;
     }
@@ -92,6 +108,17 @@ const ServicesDetail = () => {
       throw err;
     }
   };
+  const searchCurrenciesHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const searchInput = searchInputRef.current?.value;
+      const searchQuery = `?search_in=name:${searchInput}`;
+      await dispatch(searchCurrencies({ id, query: searchQuery }));
+    } catch (err) {
+      throw err;
+    }
+  };
   const history = useHistory();
   const match = [
     {
@@ -111,13 +138,17 @@ const ServicesDetail = () => {
     <Layout>
       {loading && <div className="loading"></div>}
       <Colxx xxs="12" className="pt-1">
-        {activeTab === "servicePlan" || activeTab === "serviceCategories" ? (
+        {activeTab === "servicePlan" ||
+        activeTab === "serviceCategories" ||
+        activeTab === "serviceCurrency" ? (
           <HeaderLayout
             title="جزییات سرویس"
             onSearch={
               activeTab === "servicePlan"
                 ? searchPlanHandler
-                : searchCatgoriesHandler
+                : activeTab === "serviceCategories"
+                ? searchCatgoriesHandler
+                : activeTab === "serviceCurrency" && searchCurrenciesHandler
             }
             hasSearch={true}
             searchInputRef={searchInputRef}
@@ -227,16 +258,27 @@ const ServicesDetail = () => {
               محدودیت نقش ها
             </NavLink>
           </NavItem>
-          {activeTab === "servicePlan" || activeTab === "serviceCategories" ? (
+          {activeTab === "servicePlan" ||
+          activeTab === "serviceCategories" ||
+          activeTab === "serviceCurrency" ? (
             <Button
               color="primary"
               size="lg"
               className="ml-auto mb-3"
-              onClick={() => setAddModal(true)}
+              onClick={() =>
+                activeTab === "servicePlan"
+                  ? setAddModalPlans(true)
+                  : activeTab === "serviceCategories"
+                  ? setAddModalCategories(true)
+                  : activeTab === "serviceCurrency" &&
+                    setAddModalCurrencies(true)
+              }
             >
               {activeTab === "servicePlan"
                 ? "افزودن پلن جدید"
-                : activeTab === "serviceCategories" && "افزودن دسته بندی جدید"}
+                : activeTab === "serviceCategories"
+                ? "افزودن دسته بندی جدید"
+                : activeTab === "serviceCurrency" && "افزودن ارز جدید"}
             </Button>
           ) : (
             <Button
@@ -275,8 +317,8 @@ const ServicesDetail = () => {
               <ServicesPlans
                 plans={plans}
                 fetchPlans={fetchPlans}
-                addModal={addModal}
-                setModal={setAddModal}
+                addModal={addModalPlans}
+                setModal={setAddModalPlans}
                 currencies={currencies}
               />
             </TabPane>
@@ -287,12 +329,18 @@ const ServicesDetail = () => {
               <ServicesCategories
                 categories={categories}
                 fetchCategories={fetchCategories}
-                addModal={addModal}
-                setModal={setAddModal}
+                addModal={addModalCategories}
+                setModal={setAddModalCategories}
               />
             </TabPane>
             <TabPane tabId="serviceCurrency">
-              <p>ارز ها</p>
+              <ServicesCurrencies
+                currencies={allCurrencies}
+                currenciesData={currencies}
+                fetchCurrencies={fetchCurrencies}
+                addModal={addModalCurrencies}
+                setModal={setAddModalCurrencies}
+              />
             </TabPane>
             <TabPane tabId="servicePayMethode">
               <p>روش های پرداخت</p>

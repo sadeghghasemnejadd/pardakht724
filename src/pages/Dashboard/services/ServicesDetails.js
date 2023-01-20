@@ -15,7 +15,6 @@ const ServicesDetails = ({ isEdit, data, onDataChanged }) => {
     setEditData(data);
   }, [data]);
   const uploadIcon = () => {};
-  console.log(data);
   return (
     <Card>
       <CardBody>
