@@ -11,6 +11,8 @@ const HeaderLayout = ({
   searchInputRef,
   searchOptions,
   onAdd,
+  hasAddButton = true,
+  hasBorderBottom = true,
 }) => {
   const [selectedRadio, setSelectedRadio] = useState([0]);
   return (
@@ -18,14 +20,16 @@ const HeaderLayout = ({
       <div>
         <div className="d-flex justify-content-between mb-5">
           <Breadcrumb title={title} list={match} />
-          <Button
-            color="primary"
-            size="lg"
-            className="top-right-button mr-1"
-            onClick={onAdd}
-          >
-            {addName}
-          </Button>
+          {hasAddButton && (
+            <Button
+              color="primary"
+              size="lg"
+              className="top-right-button mr-1"
+              onClick={onAdd}
+            >
+              {addName}
+            </Button>
+          )}
         </div>
         {hasSearch && (
           <div className="d-flex align-items-center mb-5">
@@ -69,7 +73,7 @@ const HeaderLayout = ({
           </div>
         )}
       </div>
-      <Separator className="mb-5" />
+      {hasBorderBottom && <Separator className="mb-5" />}
     </>
   );
 };

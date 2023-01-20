@@ -1,6 +1,5 @@
 import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
 import React, { useEffect, useMemo, useState, useRef } from "react";
-import Layout from "layout/AppLayout";
 import {
   Card,
   Input,
@@ -12,27 +11,32 @@ import {
   ModalFooter,
   Button,
 } from "reactstrap";
-import { Colxx } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
+import ReactAutoSuggest from "components/common/ReactAutoSuggest";
 import "rc-switch/assets/index.css";
 import { useSelector, useDispatch } from "react-redux";
-// import {
-//   getAllPermissions,
-//   updatePermissions,
-//   searchPermissions,
-//   addPermissions,
-// } from "redux-toolkit/permissionsSlice";
-import { useHistory } from "react-router-dom";
+import {
+  addServicesPlans,
+  updateServicesPlans,
+} from "redux-toolkit/ServicesSlice";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-const ServicesPlans = ({ plans, fetchPlans }) => {
+const ServicesPlans = ({
+  plans,
+  fetchPlans,
+  addModal,
+  setModal,
+  currencies,
+}) => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const [allPlans, setAllPlans] = useState([]);
   const [collapse, setCollapse] = useState([]);
-  const [id, setId] = useState();
+  const [planId, setPlanId] = useState();
   const [editData, setEditData] = useState({});
   const [editDataValue, setEditDataValue] = useState({});
   const [isModal, setIsModal] = useState(false);
-  const [isModal2, setIsModal2] = useState(false);
+  const [autoSuggest, setAutoSuggest] = useState("");
   const [addData, setAddData] = useState({
     name: "",
     en_name: "",
@@ -48,7 +52,6 @@ const ServicesPlans = ({ plans, fetchPlans }) => {
   const [collapseData, setCollapseData] = useState([
     { type: "textarea", value: [] },
   ]);
-  const history = useHistory();
   const cols = useMemo(
     () => [
       {
@@ -177,7 +180,7 @@ const ServicesPlans = ({ plans, fetchPlans }) => {
               className="glyph h5"
               onClick={() => {
                 setIsModal(true);
-                setId(props.value);
+                setPlanId(props.value);
               }}
               style={{ cursor: "pointer" }}
             >
@@ -187,13 +190,13 @@ const ServicesPlans = ({ plans, fetchPlans }) => {
         },
       },
     ],
-    [collapse, id]
+    [collapse, planId]
   );
   useEffect(() => {
     setAllPlans(plans);
   }, [plans]);
   useEffect(() => {
-    const data = plans.find((p) => p.id == id);
+    const data = plans.find((p) => p.id == planId);
     if (!data) return;
     setEditData({
       en_name: data?.en_name === null ? "" : data.en_name,
@@ -207,10 +210,12 @@ const ServicesPlans = ({ plans, fetchPlans }) => {
       is_fee_percentage: data?.is_fee_percentage,
       is_active: data?.is_active,
     });
-  }, [id]);
+  }, [planId]);
   const saveChangeHandler = async () => {
     try {
-      const res = await dispatch(updatePlans({ id, data: editDataValue }));
+      const res = await dispatch(
+        updateServicesPlans({ id, data: editDataValue, planId })
+      );
       if (res.payload.status === "ok") {
         setAllPlans((prev) =>
           prev.map((p) => (p.id === res.payload.plan.id ? res.payload.plan : p))
@@ -226,10 +231,18 @@ const ServicesPlans = ({ plans, fetchPlans }) => {
   };
   const addPlansHandler = async () => {
     try {
-      const res = await dispatch(addPlans(addData));
+      const res = await dispatch(
+        addServicesPlans({
+          id,
+          addData: {
+            ...addData,
+            currency_id: currencies.find((c) => c.name == autoSuggest).id,
+          },
+        })
+      );
       if (res.payload) {
         toast.success("پلن با موفقیت اضافه شد");
-        setIsModal2(false);
+        setModal(false);
         await fetchPlans();
       } else {
         throw new Error("مقادیر یک یا چند ستون نادرست وارد شده است.");
@@ -239,312 +252,425 @@ const ServicesPlans = ({ plans, fetchPlans }) => {
       throw err;
     }
   };
-  {
-    /* <Modal
-              isOpen={isModal}
-              size="lg"
-              toggle={() => {
-                setIsModal(!isModal);
-              }}
-            >
-              <ModalHeader>ویرایش</ModalHeader>
-              <ModalBody>
-                <div className="d-flex mb-3">
-                  <InputGroup size="sm" className="mr-3">
-                    <InputGroupAddon addonType="prepend">
-                      <span className="input-group-text">نام</span>
-                    </InputGroupAddon>
-                    <div className="flex-grow-1 pos-rel">
-                      <Input
-                        value={editData.p_name}
-                        onChange={(e) => {
-                          if (!e.target.value) {
-                            setPNameValidation({
-                              status: true,
-                              message: "",
-                            });
-                          } else {
-                            setPNameValidation({
-                              status: checkPersian(e.target.value),
-                              message: "نام باید فارسی باشد",
-                            });
-                          }
-                          if (checkCountCharacters(e.target.value, 125)) {
-                            setPNameValidation({
-                              status: false,
-                              message: "نام نباید بیتشر از 125 کاراکتر باشد",
-                            });
-                            return;
-                          }
-                          setEditData((prev) => ({
-                            ...prev,
-                            p_name: e.target.value,
-                          }));
-                          setEditDataValue((prev) => ({
-                            ...prev,
-                            p_name: e.target.value,
-                          }));
-                        }}
-                      />
-                      {pNameValidation.status || (
-                        <div className="invalid-feedback d-block">
-                          {pNameValidation.message}
-                        </div>
-                      )}
-                    </div>
-                  </InputGroup>
-                  <InputGroup size="sm" className="">
-                    <InputGroupAddon addonType="prepend">
-                      <span className="input-group-text">برچسب</span>
-                    </InputGroupAddon>
-                    <Input
-                      value={editData.name}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }));
-                      }}
-                    />
-                  </InputGroup>
-                </div>
-                <div className="d-flex mb-3">
-                  <InputGroup size="sm">
-                    <InputGroupAddon addonType="prepend">
-                      <span className="input-group-text">توضیحات</span>
-                    </InputGroupAddon>
-                    <div className="flex-grow-1 pos-rel">
-                      <Input
-                        type="textarea"
-                        rows="5"
-                        value={editData.description}
-                        onChange={(e) => {
-                          setEditData((prev) => ({
-                            ...prev,
-                            description: e.target.value,
-                          }));
-                          if (checkCountCharacters(e.target.value, 500)) {
-                            setDescriptionVAlidation({
-                              status: false,
-                              message:
-                                "تعداد کاراکتر توضیحات نباید بیشتر از 500 کاراکتر باشد.",
-                            });
-                            return;
-                          } else {
-                            setDescriptionVAlidation({
-                              status: true,
-                              message: "",
-                            });
-                          }
-                          setEditDataValue((prev) => ({
-                            ...prev,
-                            description: e.target.value,
-                          }));
-                        }}
-                      />
-                      {descriptionValidation.status || (
-                        <div className="invalid-feedback d-block">
-                          {descriptionValidation.message}
-                        </div>
-                      )}
-                    </div>
-                  </InputGroup>
-                </div>
-              </ModalBody>
-              <ModalFooter className="d-flex flex-row-reverse justify-content-start">
-                <Button
-                  color="primary"
-                  size="lg"
-                  className="mb-2"
-                  onClick={() => {
-                    if (
-                      !pNameValidation.status ||
-                      !descriptionValidation.status
-                    ) {
-                      return;
-                    }
-                    saveChangeHandler();
-                  }}
-                >
-                  ویرایش
-                </Button>
-                <Button
-                  color="secondary"
-                  size="lg"
-                  className="mb-2"
-                  onClick={() => {
-                    setIsModal(false);
-                  }}
-                >
-                  لغو
-                </Button>{" "}
-              </ModalFooter>
-            </Modal>
-            <Modal
-              isOpen={isModal2}
-              size="lg"
-              toggle={() => {
-                setIsModal2(!isModal2);
-              }}
-            >
-              <ModalHeader>ایجاد دسترسی جدید</ModalHeader>
-              <ModalBody>
-                <div className="d-flex mb-3">
-                  <InputGroup size="sm" className="mr-3">
-                    <InputGroupAddon addonType="prepend">
-                      <span className="input-group-text">نام</span>
-                    </InputGroupAddon>
-                    <div className="flex-grow-1 pos-rel">
-                      <Input
-                        onChange={(e) => {
-                          if (!e.target.value) {
-                            setPNameValidation({
-                              status: true,
-                              message: "",
-                            });
-                          } else {
-                            setPNameValidation({
-                              status: checkPersian(e.target.value),
-                              message: "نام باید فارسی باشد",
-                            });
-                          }
-                          if (checkCountCharacters(e.target.value, 125)) {
-                            setPNameValidation({
-                              status: false,
-                              message: "نام نباید بیتشر از 125 کاراکتر باشد",
-                            });
-                            return;
-                          }
-                          setAddData((prev) => ({
-                            ...prev,
-                            p_name: e.target.value,
-                          }));
-                        }}
-                      />
-                      {pNameValidation.status || (
-                        <div className="invalid-feedback d-block">
-                          {pNameValidation.message}
-                        </div>
-                      )}
-                    </div>
-                  </InputGroup>
-                  <InputGroup size="sm" className="">
-                    <InputGroupAddon addonType="prepend">
-                      <span className="input-group-text">برچسب</span>
-                    </InputGroupAddon>
-                    <div className="flex-grow-1 pos-rel">
-                      <Input
-                        onChange={(e) => {
-                          if (!e.target.value) {
-                            setNameValidation({
-                              status: false,
-                              message: "برچسب نباید خالی باشد",
-                            });
-                            return;
-                          } else if (
-                            checkUnique(permissions, "name", e.target.value)
-                          ) {
-                            setNameValidation({
-                              status: false,
-                              message: " برچسب باید یکتا باشد",
-                            });
-                            return;
-                          } else {
-                            setNameValidation({
-                              status: true,
-                              message: "",
-                            });
-                          }
-                          setAddData((prev) => ({
-                            ...prev,
-                            name: e.target.value,
-                          }));
-                        }}
-                      />
-                      {nameValidation.status || (
-                        <div className="invalid-feedback d-block">
-                          {nameValidation.message}
-                        </div>
-                      )}
-                    </div>
-                  </InputGroup>
-                </div>
-                <div className="d-flex mb-3">
-                  <InputGroup size="sm">
-                    <InputGroupAddon addonType="prepend">
-                      <span className="input-group-text">توضیحات</span>
-                    </InputGroupAddon>
-                    <div className="flex-grow-1 pos-rel">
-                      <Input
-                        type="textarea"
-                        rows="5"
-                        onChange={(e) => {
-                          if (checkCountCharacters(e.target.value, 500)) {
-                            setDescriptionVAlidation({
-                              status: false,
-                              message:
-                                "تعداد کاراکتر توضیحات نباید بیشتر از 500 کاراکتر باشد.",
-                            });
-                            return;
-                          } else {
-                            setDescriptionVAlidation({
-                              status: true,
-                              message: "",
-                            });
-                          }
-                          setAddData((prev) => ({
-                            ...prev,
-                            description: e.target.value,
-                          }));
-                        }}
-                      />
-                      {descriptionValidation.status || (
-                        <div className="invalid-feedback d-block">
-                          {descriptionValidation.message}
-                        </div>
-                      )}
-                    </div>
-                  </InputGroup>
-                </div>
-              </ModalBody>
-              <ModalFooter className="d-flex flex-row-reverse justify-content-start">
-                <Button
-                  color="primary"
-                  size="lg"
-                  className="mb-2"
-                  onClick={() => {
-                    if (
-                      !pNameValidation.status ||
-                      !descriptionValidation.status ||
-                      !nameValidation.status
-                    ) {
-                      return;
-                    }
-                    addPermissionHandler();
-                  }}
-                >
-                  ذخیره
-                </Button>
-                <Button
-                  color="secondary"
-                  size="lg"
-                  className="mb-2"
-                  onClick={() => {
-                    setIsModal2(false);
-                  }}
-                >
-                  لغو
-                </Button>{" "}
-              </ModalFooter>
-            </Modal> */
-  }
 
   return (
     <Card className="p-5">
+      <Modal
+        isOpen={addModal}
+        size="lg"
+        toggle={() => {
+          setModal(!addModal);
+        }}
+      >
+        <ModalHeader>ایجاد پلن جدید</ModalHeader>
+        <ModalBody>
+          <div className="d-flex mb-3">
+            <InputGroup size="sm" className="mr-3">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">نام</span>
+              </InputGroupAddon>
+              <Input
+                onChange={(e) => {
+                  setAddData((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+            <InputGroup size="sm" className="">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">نام انگلیسی</span>
+              </InputGroupAddon>
+              <Input
+                onChange={(e) => {
+                  setAddData((prev) => ({
+                    ...prev,
+                    en_name: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+          </div>
+          <div className="d-flex mb-3">
+            <InputGroup size="sm">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">توضیحات</span>
+              </InputGroupAddon>
+              <Input
+                type="textarea"
+                rows="5"
+                onChange={(e) => {
+                  setAddData((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+          </div>
+          <div className="d-flex mb-3">
+            <InputGroup size="sm" className="mr-3">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">مقدار</span>
+              </InputGroupAddon>
+              <Input
+                onChange={(e) => {
+                  setAddData((prev) => ({
+                    ...prev,
+                    amount: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+            <InputGroup size="sm">
+              <InputGroupAddon addonType="prepend" className="w-30">
+                <span className="input-group-text w-100">
+                  انتخاب ارز مربوط به پلن
+                </span>
+              </InputGroupAddon>
+              <div className="w-70">
+                <ReactAutoSuggest
+                  AutoSuggest
+                  value={autoSuggest}
+                  onChange={(val) => {
+                    setAutoSuggest(val);
+                  }}
+                  data={[...new Set(currencies.map((c) => c.name))]
+                    .filter((n) => n)
+                    .map((n) => ({ name: n }))}
+                />
+              </div>
+            </InputGroup>
+          </div>
+          <div className="d-flex mb-3">
+            <InputGroup size="sm" className="mr-3">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">حداقل مقدار</span>
+              </InputGroupAddon>
+              <Input
+                onChange={(e) => {
+                  setAddData((prev) => ({
+                    ...prev,
+                    min_amount: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+            <InputGroup size="sm" className="">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">حداکثر مقدار</span>
+              </InputGroupAddon>
+              <Input
+                onChange={(e) => {
+                  setAddData((prev) => ({
+                    ...prev,
+                    max_amount: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+          </div>
+          <div className="d-flex mb-3">
+            <div className="d-flex align-items-center w-50 mr-3">
+              <p className="mr-2 mb-0">نوع کارمزد :</p>
+              <Input
+                bsSize="sm"
+                className="w-50 min-h-15"
+                type="select"
+                style={{ borderRadius: 20 }}
+                onChange={(e) => {
+                  setAddData((prev) => ({
+                    ...prev,
+                    is_fee_percentage: e.target.value,
+                  }));
+                }}
+              >
+                <option value={1}>درصدی</option>
+                <option value={0}>عددی</option>
+              </Input>
+            </div>
+            <InputGroup size="sm">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">مقدار کارمزد</span>
+              </InputGroupAddon>
+              <Input
+                onChange={(e) => {
+                  setAddData((prev) => ({
+                    ...prev,
+                    order_fee: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+          </div>
+          <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-center">
+              <p className="mr-3">وضعیت</p>
+              <Switch
+                className="custom-switch custom-switch-secondary custom-switch-small"
+                onChange={(e) =>
+                  setAddData((prev) => ({ ...prev, is_active: e }))
+                }
+              />
+            </div>
+          </div>
+        </ModalBody>
+        <ModalFooter className="d-flex flex-row-reverse justify-content-start">
+          <Button
+            color="primary"
+            size="lg"
+            className="mb-2"
+            onClick={() => {
+              addPlansHandler();
+            }}
+          >
+            ذخیره
+          </Button>
+          <Button
+            color="secondary"
+            size="lg"
+            className="mb-2"
+            onClick={() => {
+              setModal(false);
+            }}
+          >
+            لغو
+          </Button>{" "}
+        </ModalFooter>
+      </Modal>
+      <Modal
+        isOpen={isModal}
+        size="lg"
+        toggle={() => {
+          setIsModal(!isModal);
+        }}
+      >
+        <ModalHeader>ویرایش</ModalHeader>
+        <ModalBody>
+          <div className="d-flex mb-3">
+            <InputGroup size="sm" className="mr-3">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">نام</span>
+              </InputGroupAddon>
+              <Input
+                value={editData.name}
+                onChange={(e) => {
+                  setEditData((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }));
+                  setEditDataValue((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+            <InputGroup size="sm" className="">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">نام انگلیسی</span>
+              </InputGroupAddon>
+              <Input
+                value={editData.en_name}
+                onChange={(e) => {
+                  setEditData((prev) => ({
+                    ...prev,
+                    en_name: e.target.value,
+                  }));
+                  setEditDataValue((prev) => ({
+                    ...prev,
+                    en_name: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+          </div>
+          <div className="d-flex mb-3">
+            <InputGroup size="sm">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">توضیحات</span>
+              </InputGroupAddon>
+              <Input
+                type="textarea"
+                rows="5"
+                value={editData.description}
+                onChange={(e) => {
+                  setEditData((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }));
+                  setEditDataValue((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+          </div>
+          <div className="d-flex mb-3">
+            <InputGroup size="sm" className="mr-3">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">مقدار</span>
+              </InputGroupAddon>
+              <Input
+                value={editData.amount}
+                onChange={(e) => {
+                  setEditData((prev) => ({
+                    ...prev,
+                    amount: e.target.value,
+                  }));
+                  setEditDataValue((prev) => ({
+                    ...prev,
+                    amount: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+            <InputGroup size="sm">
+              <InputGroupAddon addonType="prepend" className="w-30">
+                <span className="input-group-text w-100">
+                  انتخاب ارز مربوط به پلن
+                </span>
+              </InputGroupAddon>
+              <div className="w-70">
+                <ReactAutoSuggest
+                  AutoSuggest
+                  value={autoSuggest}
+                  onChange={(val) => {
+                    setAutoSuggest(val);
+                  }}
+                  data={[...new Set(currencies.map((c) => c.name))]
+                    .filter((n) => n)
+                    .map((n) => ({ name: n }))}
+                />
+              </div>
+            </InputGroup>
+          </div>
+          <div className="d-flex mb-3">
+            <InputGroup size="sm" className="mr-3">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">حداقل مقدار</span>
+              </InputGroupAddon>
+              <Input
+                value={editData.min_amount}
+                onChange={(e) => {
+                  setEditData((prev) => ({
+                    ...prev,
+                    min_amount: e.target.value,
+                  }));
+                  setEditDataValue((prev) => ({
+                    ...prev,
+                    min_amount: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+            <InputGroup size="sm" className="">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">حداکثر مقدار</span>
+              </InputGroupAddon>
+              <Input
+                value={editData.max_amount}
+                onChange={(e) => {
+                  setEditData((prev) => ({
+                    ...prev,
+                    max_amount: e.target.value,
+                  }));
+                  setEditDataValue((prev) => ({
+                    ...prev,
+                    max_amount: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+          </div>
+          <div className="d-flex mb-3">
+            <div className="d-flex align-items-center w-50 mr-3">
+              <p className="mr-2 mb-0">نوع کارمزد :</p>
+              <Input
+                bsSize="sm"
+                className="w-50 min-h-15"
+                type="select"
+                style={{ borderRadius: 20 }}
+                value={editData.is_fee_percentage}
+                onChange={(e) => {
+                  setEditData((prev) => ({
+                    ...prev,
+                    is_fee_percentage: e.target.value,
+                  }));
+                  setEditDataValue((prev) => ({
+                    ...prev,
+                    is_fee_percentage: e.target.value,
+                  }));
+                }}
+              >
+                <option value={1}>درصدی</option>
+                <option value={0}>عددی</option>
+              </Input>
+            </div>
+            <InputGroup size="sm">
+              <InputGroupAddon addonType="prepend">
+                <span className="input-group-text">مقدار کارمزد</span>
+              </InputGroupAddon>
+              <Input
+                value={editData.order_fee}
+                onChange={(e) => {
+                  setEditData((prev) => ({
+                    ...prev,
+                    order_fee: e.target.value,
+                  }));
+                  setEditDataValue((prev) => ({
+                    ...prev,
+                    order_fee: e.target.value,
+                  }));
+                }}
+              />
+            </InputGroup>
+          </div>
+          <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-center">
+              <p className="mr-3">وضعیت</p>
+              <Switch
+                className="custom-switch custom-switch-secondary custom-switch-small"
+                checked={editData.is_active}
+                onChange={(e) => {
+                  setEditData((prev) => ({
+                    ...prev,
+                    is_active: e,
+                  }));
+                  setEditDataValue((prev) => ({
+                    ...prev,
+                    is_active: e,
+                  }));
+                }}
+              />
+            </div>
+          </div>
+        </ModalBody>
+        <ModalFooter className="d-flex flex-row-reverse justify-content-start">
+          <Button
+            color="primary"
+            size="lg"
+            className="mb-2"
+            onClick={() => {
+              saveChangeHandler();
+            }}
+          >
+            ویرایش
+          </Button>
+          <Button
+            color="secondary"
+            size="lg"
+            className="mb-2"
+            onClick={() => {
+              setIsModal(false);
+            }}
+          >
+            لغو
+          </Button>{" "}
+        </ModalFooter>
+      </Modal>
       <Table
         cols={cols}
         data={allPlans}

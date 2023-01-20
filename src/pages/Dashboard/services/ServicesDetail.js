@@ -5,17 +5,27 @@ import { NavLink, useHistory, useParams } from "react-router-dom";
 import classnames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getService, getServicesPlans } from "redux-toolkit/ServicesSlice";
+import {
+  getAllCurrencies,
+  getService,
+  getServicesPlans,
+  searchPlans,
+} from "redux-toolkit/ServicesSlice";
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
 import ServicesDetails from "./ServicesDetails";
 import ServicesPlans from "./ServicesPlans";
+import HeaderLayout from "containers/ui/headerLayout";
 const ServicesDetail = () => {
   const { id } = useParams();
-  const { loading, service, plans } = useSelector((store) => store.services);
+  const { loading, service, plans, currencies } = useSelector(
+    (store) => store.services
+  );
   const [activeTab, setActiveTab] = useState("serviceDetail");
   const [isEdit, setIsEdit] = useState(false);
   const [dataForSave, setDataForSave] = useState({});
+  const [addModal, setAddModal] = useState(false);
+  const searchInputRef = useRef();
   const dispatch = useDispatch();
   useEffect(() => {
     fetchService();
@@ -35,6 +45,7 @@ const ServicesDetail = () => {
   const fetchPlans = async () => {
     try {
       await dispatch(getServicesPlans(id));
+      await dispatch(getAllCurrencies());
     } catch (err) {
       throw err;
     }
@@ -42,6 +53,17 @@ const ServicesDetail = () => {
   const saveHandler = async () => {
     try {
       // در حال تکمیل
+    } catch (err) {
+      throw err;
+    }
+  };
+  const searchPlanHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const searchInput = searchInputRef.current?.value;
+      const searchQuery = `?search_in=name:${searchInput}`;
+      await dispatch(searchPlans({ id, query: searchQuery }));
     } catch (err) {
       throw err;
     }
@@ -65,7 +87,26 @@ const ServicesDetail = () => {
     <Layout>
       {loading && <div className="loading"></div>}
       <Colxx xxs="12" className="pt-1">
-        <Breadcrumb title="جزییات سرویس" list={match} />
+        {activeTab === "servicePlan" ? (
+          <HeaderLayout
+            title="جزییات سرویس"
+            onSearch={searchPlanHandler}
+            hasSearch={true}
+            searchInputRef={searchInputRef}
+            searchOptions={[
+              {
+                id: 0,
+                name: "سرچ در نام",
+              },
+            ]}
+            match={match}
+            hasAddButton={false}
+            hasBorderBottom={false}
+          />
+        ) : (
+          <Breadcrumb title="جزییات سرویس" list={match} />
+        )}
+
         <Nav tabs className="separator-tabs ml-0 mb-5 col-sm">
           <NavItem>
             <NavLink
@@ -158,21 +199,31 @@ const ServicesDetail = () => {
               محدودیت نقش ها
             </NavLink>
           </NavItem>
-
-          <Button
-            color="primary"
-            size="lg"
-            className="top-right-button mr-5 mb-3"
-            onClick={() => (!isEdit ? setIsEdit(true) : saveHandler())}
-          >
-            {isEdit ? "ذخیره" : "ویرایش"}
-          </Button>
+          {activeTab === "servicePlan" ? (
+            <Button
+              color="primary"
+              size="lg"
+              className="ml-auto mb-3"
+              onClick={() => setAddModal(true)}
+            >
+              افرودن پلن جدید
+            </Button>
+          ) : (
+            <Button
+              color="primary"
+              size="lg"
+              className="ml-auto mb-3"
+              onClick={() => (!isEdit ? setIsEdit(true) : saveHandler())}
+            >
+              {isEdit ? "ذخیره" : "ویرایش"}
+            </Button>
+          )}
 
           {isEdit && (
             <Button
               color="primary"
               size="lg"
-              className="top-right-button mr-5 mb-3"
+              className="ml-auto mb-3"
               onClick={() => {
                 setIsEdit(false);
               }}
@@ -191,7 +242,13 @@ const ServicesDetail = () => {
               />
             </TabPane>
             <TabPane tabId="servicePlan">
-              <ServicesPlans plans={plans} fetchPlans={fetchPlans} />
+              <ServicesPlans
+                plans={plans}
+                fetchPlans={fetchPlans}
+                addModal={addModal}
+                setModal={setAddModal}
+                currencies={currencies}
+              />
             </TabPane>
             <TabPane tabId="serviceFields">
               <p>فیلد ها</p>
