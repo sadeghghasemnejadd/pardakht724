@@ -37,8 +37,8 @@ const ServicesCurrencies = ({
   const [isModal, setIsModal] = useState(false);
   const [autoSuggest, setAutoSuggest] = useState("");
   const [addData, setAddData] = useState({
-    is_active: false,
-    cuurency_id: null,
+    is_available: false,
+    currency_id: null,
     priority: null,
     should_pass_on_low_amount: false,
   });
@@ -133,7 +133,7 @@ const ServicesCurrencies = ({
     setEditData({
       category_id: data?.category_id,
       priority: data?.priority === null ? "" : data.priority,
-      is_active: data?.is_active,
+      is_available: data?.is_available,
       should_pass_on_low_amount: data?.should_pass_on_low_amount,
     });
   }, [currencyId]);
@@ -243,7 +243,7 @@ const ServicesCurrencies = ({
               <Switch
                 className="custom-switch custom-switch-secondary custom-switch-small"
                 onChange={(e) =>
-                  setAddData((prev) => ({ ...prev, is_active: e }))
+                  setAddData((prev) => ({ ...prev, is_available: e }))
                 }
               />
             </div>
@@ -349,15 +349,15 @@ const ServicesCurrencies = ({
               <p className="mr-3">وضعیت</p>
               <Switch
                 className="custom-switch custom-switch-secondary custom-switch-small"
-                value={editData?.is_active}
+                value={editData?.is_available}
                 onChange={(e) => {
                   setEditData((prev) => ({
                     ...prev,
-                    is_active: e,
+                    is_available: e,
                   }));
                   setEditDataValue((prev) => ({
                     ...prev,
-                    is_active: e,
+                    is_available: e,
                   }));
                 }}
               />
