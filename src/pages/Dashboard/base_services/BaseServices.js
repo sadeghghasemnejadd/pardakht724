@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
 import Validation from "containers/ui/validation";
 import checkPersian from "components/custom/validation/checkPersian";
+import checkEnglish from "components/custom/validation/checkEnglish";
 const BaseServices = () => {
   const dispatch = useDispatch();
   // دیتا هایی که از سمت ریداکس تولکیت دریافت میشود
@@ -218,6 +219,7 @@ const BaseServices = () => {
               onClick={() => {
                 setId(props.value);
                 setIsModal2(true);
+                setNameValidation({ status: true, message: "" });
               }}
               style={{ cursor: "pointer" }}
             >
@@ -290,15 +292,6 @@ const BaseServices = () => {
   // تابع هندل کردن اضافه کردن دیتا به جدول
   const addBaseServicesandler = async () => {
     try {
-      if (addData.name.length > 127) {
-        throw new Error("نام حداکثر باید 127 کارکتر باشد");
-      }
-      if (addData.class_name.length > 255) {
-        throw new Error(" کلاس حداکثر باید 255 کارکتر باشد");
-      }
-      if (addData.route_name.length > 255) {
-        throw new Error(" مسیر حداکثر باید 255 کارکتر باشد");
-      }
       const res = await dispatch(addBaseService({ ...addData, currencies }));
       if (res.payload.status === "ok") {
         toast.success("خدمت با موفقیت اضافه شد");
@@ -309,20 +302,7 @@ const BaseServices = () => {
         throw res.payload;
       }
     } catch (err) {
-      toast.error(
-        <Validation
-          obj={err.data.error.validation_errors}
-          fields={[
-            { type: "name", value: "نام" },
-            { type: "class_name", value: "اسم کلاس" },
-            { type: "route_name", value: "اسم مسیر" },
-            { type: "service_type", value: "نوع سرویس" },
-            { type: "execution_type", value: "نوع پردازش" },
-            { type: "factor_creation_type", value: "نوع صدور فاکتور" },
-          ]}
-        />,
-        { rtl: true }
-      );
+      toast.error(err.message);
       throw err;
     }
   };
@@ -357,6 +337,75 @@ const BaseServices = () => {
     } catch (err) {
       toast.error("ویرایش دسترسی با خطا روبرو شد");
       throw err;
+    }
+  };
+
+  // نابع هندل کردن ولیدیشن نام
+  const nameValidationHandler = (val) => {
+    if (!val) {
+      setNameValidation({
+        status: false,
+        message: "نام نباید خالی باشد",
+      });
+      return false;
+    } else if (!checkPersian(val)) {
+      setNameValidation({
+        status: false,
+        message: "نام باید فارسی باشد",
+      });
+      return false;
+    } else {
+      setNameValidation({
+        status: true,
+        message: "",
+      });
+      return true;
+    }
+  };
+
+  // نابع هندل کردن ولیدیشن نام کلاس
+  const classNameValidationHandler = (val) => {
+    if (addData.is_active && !val) {
+      setClassNameValidation({
+        status: false,
+        message: "نام کلاس نباید خالی باشد",
+      });
+      return false;
+    } else if (!checkEnglish(val)) {
+      setClassNameValidation({
+        status: false,
+        message: "نام کلاس باید انگلیسی باشد",
+      });
+      return false;
+    } else {
+      setClassNameValidation({
+        status: true,
+        message: "",
+      });
+      return true;
+    }
+  };
+
+  // نابع هندل کردن ولیدیشن نام مسیر
+  const routeNameValidationHandler = (val) => {
+    if (addData.is_active && !val) {
+      setRouteNameValidation({
+        status: false,
+        message: "نام مسیر نباید خالی باشد",
+      });
+      return false;
+    } else if (!checkEnglish(val)) {
+      setRouteNameValidation({
+        status: false,
+        message: "نام مسیر باید انگلیسی باشد",
+      });
+      return false;
+    } else {
+      setRouteNameValidation({
+        status: true,
+        message: "",
+      });
+      return true;
     }
   };
 
@@ -425,17 +474,7 @@ const BaseServices = () => {
                         className="form-control"
                         name="name"
                         onChange={(e) => {
-                          if (!e.target.value) {
-                            setNameValidation({
-                              status: false,
-                              message: "نام نباید خالی باشد",
-                            });
-                            return;
-                          }
-                          setNameValidation({
-                            status: checkPersian(e.target.value),
-                            message: "نام باید فارسی باشد",
-                          });
+                          if (!nameValidationHandler(e.target.value)) return;
                           setAddData((prev) => ({
                             ...prev,
                             name: e.target.value,
@@ -558,11 +597,11 @@ const BaseServices = () => {
                           });
                         } else {
                           setClassNameValidation({
-                            status: true,
+                            status: false,
                             message: "نام کلاس نباید خالی باشد",
                           });
                           setRouteNameValidation({
-                            status: true,
+                            status: false,
                             message: "نام مسیر نباید خالی باشد",
                           });
                         }
@@ -579,18 +618,8 @@ const BaseServices = () => {
                     <div className="flex-grow-1 pos-rel">
                       <Input
                         onChange={(e) => {
-                          if (addData.is_active && !e.target.value) {
-                            setClassNameValidation({
-                              status: false,
-                              message: "نام کلاس نباید خالی باشد",
-                            });
+                          if (!classNameValidationHandler(e.target.value))
                             return;
-                          } else {
-                            setClassNameValidation({
-                              status: true,
-                              message: "",
-                            });
-                          }
                           setAddData((prev) => ({
                             ...prev,
                             class_name: e.target.value,
@@ -613,18 +642,8 @@ const BaseServices = () => {
                     <div className="flex-grow-1 pos-rel">
                       <Input
                         onChange={(e) => {
-                          if (addData.is_active && !e.target.value) {
-                            setRouteNameValidation({
-                              status: false,
-                              message: "نام مسیر نباید خالی باشد",
-                            });
+                          if (!routeNameValidationHandler(e.target.value))
                             return;
-                          } else {
-                            setRouteNameValidation({
-                              status: true,
-                              message: "",
-                            });
-                          }
                           setAddData((prev) => ({
                             ...prev,
                             route_name: e.target.value,
@@ -733,19 +752,27 @@ const BaseServices = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">نام</span>
                     </InputGroupAddon>
-                    <Input
-                      value={editData.name}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          name: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        value={editData.name}
+                        onChange={(e) => {
+                          if (!nameValidationHandler(e.target.value)) return;
+                          setEditData((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }));
+                          setEditDataValue((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }));
+                        }}
+                      />
+                      {nameValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {nameValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
                 <div className="d-flex mb-5 justify-content-between ">
@@ -859,8 +886,29 @@ const BaseServices = () => {
                     <p className="mr-2">وضعیت</p>
                     <Switch
                       className="custom-switch custom-switch-secondary custom-switch-small"
+                      checked={editData?.is_active}
                       onChange={(e) => {
-                        setAddData((prev) => ({ ...prev, is_active: e }));
+                        if (!e) {
+                          setClassNameValidation({
+                            status: true,
+                            message: "",
+                          });
+                          setRouteNameValidation({
+                            status: true,
+                            message: "",
+                          });
+                        } else {
+                          setClassNameValidation({
+                            status: false,
+                            message: "نام کلاس نباید خالی باشد",
+                          });
+                          setRouteNameValidation({
+                            status: false,
+                            message: "نام مسیر نباید خالی باشد",
+                          });
+                        }
+                        setEditData((prev) => ({ ...prev, is_active: e }));
+                        setEditDataValue((prev) => ({ ...prev, is_active: e }));
                       }}
                     />
                   </div>
@@ -870,19 +918,28 @@ const BaseServices = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">اسم کلاس</span>
                     </InputGroupAddon>
-                    <Input
-                      value={editData.class_name}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          class_name: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          class_name: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="pos-rel flex-grow-1">
+                      <Input
+                        value={editData.class_name}
+                        onChange={(e) => {
+                          if (!classNameValidationHandler(e.target.value))
+                            return;
+                          setEditData((prev) => ({
+                            ...prev,
+                            class_name: e.target.value,
+                          }));
+                          setEditDataValue((prev) => ({
+                            ...prev,
+                            class_name: e.target.value,
+                          }));
+                        }}
+                      />
+                      {classNameValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {classNameValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
                 <div className="d-flex mb-3">
@@ -890,19 +947,28 @@ const BaseServices = () => {
                     <InputGroupAddon addonType="prepend">
                       <span className="input-group-text">اسم مسیر</span>
                     </InputGroupAddon>
-                    <Input
-                      value={editData.route_name}
-                      onChange={(e) => {
-                        setEditData((prev) => ({
-                          ...prev,
-                          route_name: e.target.value,
-                        }));
-                        setEditDataValue((prev) => ({
-                          ...prev,
-                          route_name: e.target.value,
-                        }));
-                      }}
-                    />
+                    <div className="flex-grow-1 pos-rel">
+                      <Input
+                        value={editData.route_name}
+                        onChange={(e) => {
+                          if (!routeNameValidationHandler(e.target.value))
+                            return;
+                          setEditData((prev) => ({
+                            ...prev,
+                            route_name: e.target.value,
+                          }));
+                          setEditDataValue((prev) => ({
+                            ...prev,
+                            route_name: e.target.value,
+                          }));
+                        }}
+                      />
+                      {routeNameValidation.status || (
+                        <div className="invalid-feedback d-block">
+                          {routeNameValidation.message}
+                        </div>
+                      )}
+                    </div>
                   </InputGroup>
                 </div>
               </ModalBody>
