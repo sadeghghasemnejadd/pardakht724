@@ -10,6 +10,7 @@ import {
   getService,
   getServicesCategories,
   getServicesCurrencies,
+  getServicesPayMethods,
   getServicesPlans,
   searchCategories,
   searchCurrencies,
@@ -21,18 +22,27 @@ import ServicesDetails from "./ServicesDetails";
 import ServicesPlans from "./ServicesPlans";
 import ServicesCategories from "./ServicesCategories";
 import ServicesCurrencies from "./ServicesCurrencies";
+import ServicesPayMethods from "./ServicesPayMethods";
 import HeaderLayout from "containers/ui/headerLayout";
+import { searchPayMethods } from "redux-toolkit/payMethodSlice";
 const ServicesDetail = () => {
   const { id } = useParams();
-  const { loading, service, plans, currencies, categories, allCurrencies } =
-    useSelector((store) => store.services);
-  console.log(allCurrencies);
+  const {
+    loading,
+    service,
+    plans,
+    currencies,
+    categories,
+    allCurrencies,
+    payMethods,
+  } = useSelector((store) => store.services);
   const [activeTab, setActiveTab] = useState("serviceDetail");
   const [isEdit, setIsEdit] = useState(false);
   const [dataForSave, setDataForSave] = useState({});
   const [addModalPlans, setAddModalPlans] = useState(false);
   const [addModalCategories, setAddModalCategories] = useState(false);
   const [addModalCurrencies, setAddModalCurrencies] = useState(false);
+  const [addModalPayMethods, setAddModalPayMethods] = useState(false);
   const searchInputRef = useRef();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -47,6 +57,9 @@ const ServicesDetail = () => {
     }
     if (activeTab === "serviceCurrency") {
       fetchCurrencies();
+    }
+    if (activeTab === "servicePayMethode") {
+      fetchPayMethods();
     }
   }, [activeTab]);
   const fetchService = async () => {
@@ -79,6 +92,14 @@ const ServicesDetail = () => {
       throw err;
     }
   };
+  const fetchPayMethods = async () => {
+    try {
+      await dispatch(getServicesPayMethods(id));
+    } catch (err) {
+      throw err;
+    }
+  };
+
   const saveHandler = async () => {
     try {
       // در حال تکمیل
@@ -119,6 +140,16 @@ const ServicesDetail = () => {
       throw err;
     }
   };
+  const searchPayMethodHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const searchInput = searchInputRef.current?.value;
+      const searchQuery = `?search_in=p_name:${searchInput}`;
+      await dispatch(searchPayMethods({ id, query: searchQuery }));
+    } catch (err) {
+      throw err;
+    }
+  };
   const history = useHistory();
   const match = [
     {
@@ -140,7 +171,8 @@ const ServicesDetail = () => {
       <Colxx xxs="12" className="pt-1">
         {activeTab === "servicePlan" ||
         activeTab === "serviceCategories" ||
-        activeTab === "serviceCurrency" ? (
+        activeTab === "serviceCurrency" ||
+        activeTab === "servicePayMethode" ? (
           <HeaderLayout
             title="جزییات سرویس"
             onSearch={
@@ -148,7 +180,9 @@ const ServicesDetail = () => {
                 ? searchPlanHandler
                 : activeTab === "serviceCategories"
                 ? searchCatgoriesHandler
-                : activeTab === "serviceCurrency" && searchCurrenciesHandler
+                : activeTab === "serviceCurrency"
+                ? searchCurrenciesHandler
+                : activeTab === "servicePayMethode" && searchPayMethodHandler
             }
             hasSearch={true}
             searchInputRef={searchInputRef}
@@ -260,7 +294,8 @@ const ServicesDetail = () => {
           </NavItem>
           {activeTab === "servicePlan" ||
           activeTab === "serviceCategories" ||
-          activeTab === "serviceCurrency" ? (
+          activeTab === "serviceCurrency" ||
+          activeTab === "servicePayMethode" ? (
             <Button
               color="primary"
               size="lg"
@@ -270,15 +305,19 @@ const ServicesDetail = () => {
                   ? setAddModalPlans(true)
                   : activeTab === "serviceCategories"
                   ? setAddModalCategories(true)
-                  : activeTab === "serviceCurrency" &&
-                    setAddModalCurrencies(true)
+                  : activeTab === "serviceCurrency"
+                  ? setAddModalCurrencies(true)
+                  : activeTab === "servicePayMethode" &&
+                    setAddModalPayMethods(true)
               }
             >
               {activeTab === "servicePlan"
                 ? "افزودن پلن جدید"
                 : activeTab === "serviceCategories"
                 ? "افزودن دسته بندی جدید"
-                : activeTab === "serviceCurrency" && "افزودن ارز جدید"}
+                : activeTab === "serviceCurrency"
+                ? "افزودن ارز جدید"
+                : activeTab === "servicePayMethode" && "افزودن روش پرداخت جدید"}
             </Button>
           ) : (
             <Button
@@ -343,7 +382,12 @@ const ServicesDetail = () => {
               />
             </TabPane>
             <TabPane tabId="servicePayMethode">
-              <p>روش های پرداخت</p>
+              <ServicesPayMethods
+                payMethods={payMethods}
+                fetchPayMethods={fetchPayMethods}
+                addModal={addModalPayMethods}
+                setModal={setAddModalPayMethods}
+              />
             </TabPane>
             <TabPane tabId="serviceLimits">
               <p>محدودیت نقش ها</p>

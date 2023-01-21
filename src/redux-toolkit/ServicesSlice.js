@@ -80,6 +80,25 @@ export const getServicesCurrencies = createAsyncThunk(
     }
   }
 );
+export const getServicesPayMethods = createAsyncThunk(
+  "getServicesPayMethods",
+  async (value) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(
+        `/services/${value}/pay-methods`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const addServicesPlans = createAsyncThunk(
   "addServicesPlans",
   async ({ id, addData }) => {
@@ -234,6 +253,25 @@ export const searchCurrencies = createAsyncThunk(
     }
   }
 );
+export const searchPayMethods = createAsyncThunk(
+  "searchPayMethods",
+  async ({ id, query }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(
+        `/services/${id}/pay-methods${query}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const getAllCurrencies = createAsyncThunk(
   "getAllCurrencies",
   async () => {
@@ -276,6 +314,7 @@ const plans = (res) => res.payload.plans;
 const categories = (res) => res.payload.categories;
 const currencies = (res) => res.payload.currencies;
 const allCurrencies = (res) => res.payload.currencies.data;
+const payMethods = (res) => res.payload.service_pay_methods;
 export const Services = createSlice({
   name: "auth",
   initialState: {
@@ -286,6 +325,7 @@ export const Services = createSlice({
     categories: [],
     currencies: [],
     allCurrencies: [],
+    payMethods: [],
   },
   extraReducers: {
     [getAllServices.pending]: (state) => {
@@ -354,6 +394,17 @@ export const Services = createSlice({
       state.loading = false;
     },
     ///////////////////////////////////////////////////
+    [searchPayMethods.pending]: (state) => {
+      state.loading = true;
+    },
+    [searchPayMethods.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.payMethods = payMethods(action);
+    },
+    [searchPayMethods.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
     [getServicesCategories.pending]: (state) => {
       state.loading = true;
     },
@@ -395,6 +446,17 @@ export const Services = createSlice({
       state.currencies = allCurrencies(action);
     },
     [getAllCurrencies.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [getServicesPayMethods.pending]: (state) => {
+      state.loading = true;
+    },
+    [getServicesPayMethods.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.payMethods = payMethods(action);
+    },
+    [getServicesPayMethods.rejected]: (state) => {
       state.loading = false;
     },
     ///////////////////////////////////////////////////
