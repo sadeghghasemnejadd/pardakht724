@@ -29,20 +29,29 @@ import {
 import HeaderLayout from "containers/ui/headerLayout";
 import checkNumber from "components/custom/validation/checkNumber";
 export default function ExchangeRate() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  // ref برای اینپوت سرچ
   const searchInputRef = useRef();
+  // استیت مدال اضافه کردن
   const [isModal, setIsModal] = useState(false);
+  // دیتاهای اولیه برای اضافه کردن دیتای جدید
   const [addData, setAddData] = useState({
     manual_exchange_rate: 0,
     percantage_exchange_rate: 0,
     priority: 0,
   });
+  // استیت گرفتن ایدی باری قسمت ویرایش
   const [id2, setId2] = useState();
+  // استیت مدال ویرایش
   const [isModal2, setIsModal2] = useState(false);
+  // استیت دیتا های ائلیه برای ویرایش
   const [editData, setEditData] = useState({});
+  // استیت دیتاهای ارسالی بعد ویرایش
   const [editDataValue, setEditDataValue] = useState({});
+  // استیت برای فیلند autosuggest
   const [autoSuggest, setAutoSuggest] = useState("");
-  const dispatch = useDispatch();
-  const history = useHistory();
+  // استیت های ولیدیشن فرم ها
   const [manualValidation, setManualValidation] = useState({
     status: true,
     message: "",
@@ -59,11 +68,15 @@ export default function ExchangeRate() {
     status: false,
     message: "ارز مقصد نباید خالی باشد",
   });
+  // گرفتن اطلاعات از ریداکس
   const { loading, exchangeRates, currencies } = useSelector(
     (store) => store.currencies
   );
+  // استیت گرفتن دخیره تمام دیتاها
   const [allExchange, setAllExchange] = useState([]);
+  // ایدی اصلی url
   const { id } = useParams();
+  // ستون های جدول و دیتا های آن
   const cols = useMemo(
     () => [
       {
@@ -148,14 +161,16 @@ export default function ExchangeRate() {
     ],
     [id2]
   );
-  ////////////////////////
+
+  // گرفتن اطلاعات اولیه
   useEffect(() => {
     fetchExchangeRate();
   }, [fetchExchangeRate]);
+  // دخیره اطلاعات اصلی در استیت
   useEffect(() => {
     setAllExchange(exchangeRates);
   }, [exchangeRates]);
-
+  // گرفتن اطلاعات اولیه برای فرم ویرایش
   useEffect(() => {
     const data = exchangeRates.find((e) => e.id == id2);
     if (!data) return;
@@ -170,6 +185,7 @@ export default function ExchangeRate() {
     });
   }, [id2]);
 
+  // تابع هندل کردن سرج
   const searchCurrencyHandler = async (e, searchId) => {
     e.preventDefault();
     try {
@@ -186,7 +202,7 @@ export default function ExchangeRate() {
       throw err;
     }
   };
-
+  // تابع گرفتن اطلاعات از دیتابیس
   const fetchExchangeRate = async () => {
     try {
       await dispatch(getExchnageRate(id));
@@ -195,7 +211,7 @@ export default function ExchangeRate() {
       throw err;
     }
   };
-
+  // تابع هندل کردن اضافه کردن دیتا
   const addCurrenciesHandler = async () => {
     try {
       if (!addData.manual_exchange_rate > 0) {
@@ -227,6 +243,7 @@ export default function ExchangeRate() {
       throw err;
     }
   };
+  // تابع هندل کردن دخیره اطلاعات بعد ویرایش
   const saveChangeHandler = async () => {
     try {
       const res = await dispatch(
@@ -249,6 +266,7 @@ export default function ExchangeRate() {
       throw err;
     }
   };
+  // تابع های هندل کردن ولیدیشن
   const secondaryValidationHandler = (val) => {
     if (!currencies.some((c) => c.name === val)) {
       setSecondaryValidation({
@@ -314,6 +332,7 @@ export default function ExchangeRate() {
       return true;
     }
   };
+  // آدرس صفحه فعلی برای بردکرامب
   const match = [
     {
       path: "/",
@@ -328,6 +347,7 @@ export default function ExchangeRate() {
       text: "نرخ تبدیل",
     },
   ];
+
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -335,6 +355,17 @@ export default function ExchangeRate() {
         <div className="d-flex">
           <Colxx lg="12" xl="12">
             <Card className="mb-4 p-5">
+              {/* برد کرامب و دکمه سرج و اضافه کردن در کامپوننت پایین قرار دارد 
+            ورودی ها : 
+            -title:عنوان صفحه
+            -match:برای برد کرامپ
+            -onSearch:تابع هندل کردن سرچ
+            -hasSearch:آیا این صفحه گزینه ای برای سرچ کردن دارد یا نه
+            -searchInputRef:ref برای اینپوت سرچ
+            -onAdd:تابع برای وقتی که کاربر روی دکمه اضافه کردن زد
+            -searchOption:آپشن های مختلف برای سرچ کردن که شامل ایدی و نام میباشد
+            -
+            */}
               <HeaderLayout
                 title="نرخ تبدیل"
                 addName="افزودن ارز جدید"
@@ -356,9 +387,17 @@ export default function ExchangeRate() {
                 }}
                 match={match}
               />
+              {/* برای نشان دادن جدول استفاده میشود 
+            ورودی ها:
+            -cols:دیتا های ستون ها 
+            -data:دیتا های اصلی
+            -isCollapse:آیا این جدول کالپس دارد؟
+            -collapseData:وقتی که کاربر کالپس را زد چه دیتاهایی در کالپس نشان دهد
+            */}
               <Table cols={cols} data={allExchange} />
             </Card>
           </Colxx>
+          {/* مدال اضافه کردن دیتای جدید */}
           <Modal isOpen={isModal} toggle={() => setIsModal(!isModal)}>
             <ModalHeader>ایجاد نرخ تبدیل جدید</ModalHeader>
             <ModalBody>
@@ -471,6 +510,7 @@ export default function ExchangeRate() {
               </Button>
             </ModalFooter>
           </Modal>
+          {/* مدال ویرایش دیتا */}
           <Modal
             isOpen={isModal2}
             size="lg"

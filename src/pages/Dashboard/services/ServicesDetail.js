@@ -15,6 +15,7 @@ import {
   searchCategories,
   searchCurrencies,
   searchPlans,
+  searchPayMethods,
 } from "redux-toolkit/ServicesSlice";
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
@@ -24,7 +25,6 @@ import ServicesCategories from "./ServicesCategories";
 import ServicesCurrencies from "./ServicesCurrencies";
 import ServicesPayMethods from "./ServicesPayMethods";
 import HeaderLayout from "containers/ui/headerLayout";
-import { searchPayMethods } from "redux-toolkit/payMethodSlice";
 const ServicesDetail = () => {
   const { id } = useParams();
   const {
