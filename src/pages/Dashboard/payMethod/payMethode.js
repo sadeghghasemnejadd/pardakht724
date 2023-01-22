@@ -33,11 +33,17 @@ import checkPersian from "components/custom/validation/checkPersian";
 import checkNumber from "components/custom/validation/checkNumber";
 import checkUrl from "components/custom/validation/checkUrl";
 const PayMethods = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
+  // گرفتن اطلاعات اصلی از ریداکس
   const { loading, payMethods } = useSelector((store) => store.payMethod);
+  // استیت گرفتن کل اطلاعات
   const [allPayMethods, setAllPayMethods] = useState([]);
+  // ref اینپوت سرچ
   const searchInputRef = useRef();
+  // آیا این جدول collapse دارد؟
   const [collapse, setCollapse] = useState([]);
+  // استیت فیلتر ها
   const [filterTypeList, setFilterTypeList] = useState({
     name: "type",
     value: [],
@@ -54,7 +60,9 @@ const PayMethods = () => {
     name: "payMethod",
     value: [],
   });
+  // برای اینپوت autosuggest
   const [autoSuggest, setAutoSuggest] = useState("");
+  // دیتا های اولیه برای اضافه کردن دیتای جدید
   const [addData, setAddData] = useState({
     name: "",
     p_name: "",
@@ -72,15 +80,23 @@ const PayMethods = () => {
     bank_id: 0,
     max_capability: 0,
   });
+  // ایدی برای ویرایش دیتا
   const [id, setId] = useState();
+  // دیتا های اولیه برای ویرایش دیتا
   const [editData, setEditData] = useState({});
+  // دیتا ها برای ارسال نهایی ویرایش دیتا
   const [editDataValue, setEditDataValue] = useState({});
+  // استیت مدال برای اضافه کردن دیتا
   const [isModal, setIsModal] = useState(false);
+  // استیت مدال برای ویرایش دیتا
   const [isModal2, setIsModal2] = useState(false);
+  // آپشن سلکت برای اینپوت سلکت
   const [selectedOption, setSelectedOption] = useState("");
+  // دیتا های کالپس تیبل
   const [collapseData, setCollapseData] = useState([
     { type: "threeLine", value: [] },
   ]);
+  // استیت های ولیدیشن
   const [pNameValidation, setPNameValidation] = useState({
     status: false,
     message: "نام نباید خالی باشد",
@@ -113,7 +129,7 @@ const PayMethods = () => {
     status: true,
     message: "",
   });
-  const history = useHistory();
+  // ادرس صفحه فعلی برای برد کرامب
   const match = [
     {
       path: "/",
@@ -124,6 +140,7 @@ const PayMethods = () => {
       text: "مدیریت روش های پرداخت",
     },
   ];
+  // ستون های اصلی جدول
   const cols = useMemo(
     () => [
       {
@@ -270,12 +287,15 @@ const PayMethods = () => {
     ],
     [collapse, id]
   );
+  // گرفتن اطلاعات اولیه دیتا
   useEffect(() => {
     fetchPayMethods();
   }, [fetchPayMethods]);
+  // ذخیره اطلاعات اصلی در استیت جداگونه
   useEffect(() => {
     setAllPayMethods(payMethods);
   }, [payMethods]);
+  // اطلاعات اولیه ویرایش دیتا
   useEffect(() => {
     const data = payMethods.find((p) => p.id == id);
     if (!data) return;
@@ -299,6 +319,7 @@ const PayMethods = () => {
       bank_id: data?.bank_id === null ? "" : data.bank_id,
     });
   }, [id]);
+  //گرفتن اطلاعات از دیتا بیس
   const fetchPayMethods = async () => {
     try {
       await dispatch(getAllPayMethods());
@@ -306,6 +327,7 @@ const PayMethods = () => {
       throw err;
     }
   };
+  // تابع هندل کردن سرچ
   const searchHandler = async (e, searchId) => {
     e.preventDefault();
     try {
@@ -318,6 +340,7 @@ const PayMethods = () => {
       throw err;
     }
   };
+  // تابع هندل کردن سوییچ فیلتر
   const switchFilterHandler = (e, id, parentId) => {
     switch (parentId) {
       case "type":
@@ -374,6 +397,7 @@ const PayMethods = () => {
         break;
     }
   };
+  // تابع هندل کردن فیلتر
   const filterHandler = async () => {
     try {
       let filterQuery = "?";
@@ -404,6 +428,7 @@ const PayMethods = () => {
       throw err;
     }
   };
+  // تابع هندل کردن ثبت اطلاعات ویرایش دیتا
   const saveChangeHandler = async () => {
     try {
       const res = await dispatch(updatePayMethod({ id, data: editDataValue }));
@@ -437,6 +462,7 @@ const PayMethods = () => {
       throw err;
     }
   };
+  // تابع های هندل کردن ولیدیشن فرم ها
   const pNameValidationHandler = (val) => {
     if (!val) {
       setPNameValidation({ status: false, message: "نام نباید خالی باشد" });
@@ -572,6 +598,7 @@ const PayMethods = () => {
       return true;
     }
   };
+
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -579,6 +606,17 @@ const PayMethods = () => {
         <>
           <Colxx lg="12" xl="9">
             <Card className="mb-4 p-5">
+              {/* برد کرامب و دکمه سرج و اضافه کردن در کامپوننت پایین قرار دارد 
+            ورودی ها : 
+            -title:عنوان صفحه
+            -match:برای برد کرامپ
+            -onSearch:تابع هندل کردن سرچ
+            -hasSearch:آیا این صفحه گزینه ای برای سرچ کردن دارد یا نه
+            -searchInputRef:ref برای اینپوت سرچ
+            -onAdd:تابع برای وقتی که کاربر روی دکمه اضافه کردن زد
+            -searchOption:آپشن های مختلف برای سرچ کردن که شامل ایدی و نام میباشد
+            -
+            */}
               <HeaderLayout
                 title="مدیریت روش های پرداخت"
                 addName="افزودن روش پرداخت جدید"
@@ -602,12 +640,20 @@ const PayMethods = () => {
                 ]}
                 match={match}
               />
+              {/* برای نشان دادن جدول استفاده میشود 
+            ورودی ها:
+            -cols:دیتا های ستون ها 
+            -data:دیتا های اصلی
+            -isCollapse:آیا این جدول کالپس دارد؟
+            -collapseData:وقتی که کاربر کالپس را زد چه دیتاهایی در کالپس نشان دهد
+            */}
               <Table
                 cols={cols}
                 data={allPayMethods}
                 isCollapse={collapse}
                 collapseData={collapseData}
               />
+              {/* مدال اضافه کردن دیتا */}
               <Modal
                 isOpen={isModal}
                 size="lg"
@@ -962,6 +1008,7 @@ const PayMethods = () => {
                   </Button>
                 </ModalFooter>
               </Modal>
+              {/* مدال ویرایش کردن دیتا */}
               <Modal
                 isOpen={isModal2}
                 size="lg"
@@ -1384,6 +1431,13 @@ const PayMethods = () => {
             </Card>
           </Colxx>
           <Colxx xxs="2">
+            {/* فیلتر کردن دیتا ها
+            ورودی ها : 
+            -filters:آپشن های فیلتر کردن
+            -onSwitch:تابع سوییچ شدن فیلتر ها
+            -onFilter: تابع هندل کردن فیلتر
+            -data:دیتا های فلیتر شده برای ثبت تغییرات بعد از فیلتر
+            */}
             <SurveyApplicationMenu
               filters={[
                 {
