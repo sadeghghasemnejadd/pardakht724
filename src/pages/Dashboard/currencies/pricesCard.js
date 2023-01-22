@@ -1,6 +1,7 @@
 import { Card, CardBody, CardHeader } from "reactstrap";
 
 const PricesCard = ({ title, sell, buy }) => {
+  // کامپوننت کارت ها که مربوط به صفحه histories میباشد
   return (
     <Card className="w-30 bg-primary">
       <CardHeader className="text-center">
