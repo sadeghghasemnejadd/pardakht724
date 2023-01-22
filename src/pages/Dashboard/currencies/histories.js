@@ -3,18 +3,11 @@ import Layout from "layout/AppLayout";
 import {
   Card,
   CardBody,
-  CardHeader,
   Table,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  ButtonGroup,
-  Button,
-  CustomInput,
 } from "reactstrap";
 import HeaderLayout from "containers/ui/headerLayout";
 import { useSelector, useDispatch } from "react-redux";
@@ -26,10 +19,15 @@ import { ThemeColors } from "helpers/ThemeColors";
 import { Colxx } from "components/common/CustomBootstrap";
 import SurveyApplicationMenu from "containers/applications/SurveyApplicationMenu";
 const Histories = () => {
-  const { id } = useParams();
-  const { loading, histories } = useSelector((store) => store.currencies);
-  const [isModal, setIsModal] = useState(false);
+  const dispatch = useDispatch();
   const history = useHistory();
+  // ایدی اصلی url
+  const { id } = useParams();
+  // گرفتن اطلاعات از دیتابیس
+  const { loading } = useSelector((store) => store.currencies);
+  // استیت مدال اضافه کردن دیتا
+  const [isModal, setIsModal] = useState(false);
+  // ادرس صفحه فعلی برای بردکرامب
   const match = [
     {
       path: "/",
@@ -44,11 +42,13 @@ const Histories = () => {
       text: "تاریخچه نرخ",
     },
   ];
-  const dispatch = useDispatch();
+  // گرفتن رنگای اصلی تم
   const colors = ThemeColors();
+  // گرفتن اطلاعات اصلی پیچ
   useEffect(() => {
     fetchHistories();
   }, [fetchHistories]);
+  // تابع گرفتن اطلاعات اصلی از دیتابیس
   const fetchHistories = async () => {
     try {
       await dispatch(getHistories(id));
@@ -56,6 +56,7 @@ const Histories = () => {
       throw err;
     }
   };
+  // اطلاعات چارت فروش
   const sellChartData = {
     labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     datasets: [
@@ -97,6 +98,17 @@ const Histories = () => {
         <>
           <Colxx lg="12" xl="9">
             <Card className="mb-4 p-5">
+              {/* برد کرامب و دکمه سرج و اضافه کردن در کامپوننت پایین قرار دارد 
+            ورودی ها : 
+            -title:عنوان صفحه
+            -match:برای برد کرامپ
+            -onSearch:تابع هندل کردن سرچ
+            -hasSearch:آیا این صفحه گزینه ای برای سرچ کردن دارد یا نه
+            -searchInputRef:ref برای اینپوت سرچ
+            -onAdd:تابع برای وقتی که کاربر روی دکمه اضافه کردن زد
+            -searchOption:آپشن های مختلف برای سرچ کردن که شامل ایدی و نام میباشد
+            -
+            */}
               <HeaderLayout
                 title="تاریخچه نرخ"
                 addName="افزودن ارز جدید"
@@ -106,6 +118,7 @@ const Histories = () => {
                 }}
                 match={match}
               />
+              {/* مدال اضافه کردن دیتای جدید */}
               <Modal
                 isOpen={isModal}
                 size="lg"
@@ -117,17 +130,24 @@ const Histories = () => {
                   تست
                 </ModalFooter>
               </Modal>
+              {/* قسمت کارت های این صحفه که شامل سه تا کارت میباشد 
+              ورودی ها:
+              -title:عنوان کارت
+              -sell:اخرین فروش
+              -buy:اخرین قیمت خرید
+              */}
               <div className="d-flex justify-content-between">
                 <PricesCard title="بالاترین قیمت" sell={45000} buy={45000} />
                 <PricesCard title="پایین ترین قیمت" sell={45000} buy={45000} />
                 <PricesCard title="میانگین قیمت" sell={45000} buy={45000} />
               </div>
+              {/* نمودار */}
               <Card className="mt-5 mb-5 h-100">
                 <CardBody style={{ minHeight: "30rem" }}>
                   <AreaChart shadow data={sellChartData} />
                 </CardBody>
               </Card>
-
+              {/* جدول پایین نمودار */}
               <Card>
                 <CardBody>
                   <div className="d-flex justify-content-between">
@@ -213,6 +233,13 @@ const Histories = () => {
             </Card>
           </Colxx>
           <Colxx xxs="2">
+            {/* فیلتر کردن دیتا ها
+            ورودی ها : 
+            -filters:آپشن های فیلتر کردن
+            -onSwitch:تابع سوییچ شدن فیلتر ها
+            -onFilter: تابع هندل کردن فیلتر
+            -data:دیتا های فلیتر شده برای ثبت تغییرات بعد از فیلتر
+            */}
             <SurveyApplicationMenu
               filters={[
                 {
