@@ -119,6 +119,26 @@ export const addServicesPlans = createAsyncThunk(
     }
   }
 );
+export const addServicesPayMethods = createAsyncThunk(
+  "addServicesPayMethods",
+  async ({ id, addData }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.post(
+        `/services/${id}/pay_methods`,
+        addData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const addServicesCurrencies = createAsyncThunk(
   "addServicesCurrencies",
   async ({ id, addData }) => {
@@ -166,6 +186,26 @@ export const updateServicesCurrencies = createAsyncThunk(
       const token = localStorage.getItem("token");
       const { data } = await axiosInstance.patch(
         `/services/${id}/currencies/${currencyId}`,
+        addData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
+export const updateServicesPayMethods = createAsyncThunk(
+  "updateServicesPayMethods",
+  async ({ id, addData, payMethodId }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.patch(
+        `/services/${id}/pay_methods/${payMethodId}`,
         addData,
         {
           headers: {
@@ -480,6 +520,16 @@ export const Services = createSlice({
       state.loading = false;
     },
     ///////////////////////////////////////////////////
+    [addServicesPayMethods.pending]: (state) => {
+      state.loading = true;
+    },
+    [addServicesPayMethods.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [addServicesPayMethods.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
     [updateServicesPlans.pending]: (state) => {
       state.loading = true;
     },
@@ -497,6 +547,16 @@ export const Services = createSlice({
       state.loading = false;
     },
     [updateServicesCurrencies.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [updateServicesPayMethods.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateServicesPayMethods.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [updateServicesPayMethods.rejected]: (state) => {
       state.loading = false;
     },
     ///////////////////////////////////////////////////
