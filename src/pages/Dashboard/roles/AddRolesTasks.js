@@ -5,19 +5,38 @@ import { Card, CardBody, Button } from "reactstrap";
 import { Colxx, Separator } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
 import React, { useEffect, useState } from "react";
-import { getAllTasks, updateRoleTasks } from "redux-toolkit/TasksSlice";
+import { getAllTasks } from "redux-toolkit/TasksSlice";
 import styles from "./roles.module.css";
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
 const AddRolesTasks = () => {
-  const { id } = useParams();
-  const { loading, allTasks } = useSelector((store) => store.tasks);
-  const [searchInput, setSearchInput] = useState("");
-  const [allTasksState, setAllTasksState] = useState([]);
-  const [tasks, setTasks] = useState([]);
-  const [data, setData] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
+  // گرفتن id از url
+  const { id } = useParams();
+  // گرفتن اطلاعات از ریداکس
+  const { loading, allTasks } = useSelector((store) => store.tasks);
+  // استیت اینپوت سرچ
+  const [searchInput, setSearchInput] = useState("");
+  // استیت گرفتن تمام اطلاعات
+  const [allTasksState, setAllTasksState] = useState([]);
+  // استیت گرفتن تمام دیتا ها
+  const [tasks, setTasks] = useState([]);
+  // دیتا های اولیه هبرای اضافه کردن دیتای جدید
+  const [data, setData] = useState(null);
+  // گرفتن اطلاعات از دیتا بیس
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+  // گرفتن نام های دیتا
+  useEffect(() => {
+    setData({ tasks: tasks.map((task) => task.id) });
+  }, [tasks]);
+  // ذخیره تمام دیتا ها در استیت مربوطه
+  useEffect(() => {
+    setAllTasksState(allTasks);
+  }, [allTasks]);
+  // تابع گرفتن اطلاعات از دیتابیس
   const fetchTasks = async () => {
     try {
       const res = await dispatch(getAllTasks());
@@ -25,21 +44,14 @@ const AddRolesTasks = () => {
       throw err;
     }
   };
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-  useEffect(() => {
-    setData({ tasks: tasks.map((task) => task.id) });
-  }, [tasks]);
-  useEffect(() => {
-    setAllTasksState(allTasks);
-  }, [allTasks]);
+  // تابع هندل کردن سرچ
   const searchHandler = (e) => {
     setSearchInput(e.target.value);
     setAllTasksState(
       allTasks.filter((task) => task.name.includes(e.target.value))
     );
   };
+  // تابع هندل کردن تغییر سوییچ ها
   const changeHandler = (e, taskId) => {
     if (!e) {
       setTasks((prev) => prev.filter((p) => p.id !== taskId));
@@ -47,6 +59,7 @@ const AddRolesTasks = () => {
       setTasks((prev) => [...prev, allTasksState.find((p) => p.id === taskId)]);
     }
   };
+  // تابع هندل کردن اضافه کردن دیتای جدید
   const addTasksHandler = async () => {
     try {
       const res = await dispatch(
@@ -64,6 +77,7 @@ const AddRolesTasks = () => {
       throw err;
     }
   };
+  // بردکرامب های صفحه
   const match = [
     {
       path: "/",
@@ -83,8 +97,13 @@ const AddRolesTasks = () => {
       {loading && <div className="loading"></div>}
       <Colxx xxs="12">
         <div className="d-flex justify-content-between align-items-center">
+          {/* برد کرامب صحفه و عنوان
+          ورودی ها:
+          title:عنوان 
+          list:برد کرامب
+          */}
           <Breadcrumb title="اضافه کردن وظیفه" list={match} />
-
+          {/* دکمه ذخیره */}
           <Button
             color="primary"
             size="lg"
@@ -96,6 +115,7 @@ const AddRolesTasks = () => {
         </div>
         {!loading && (
           <Card className="mb-4">
+            {/* اینپوت هایی برای گرفتن اطلاعات اضافه کردن دیتای جدید */}
             <CardBody className={styles["auto-scroll"]}>
               <div>
                 <div className="search-sm d-inline-block mr-1 mb-4 align-top w-40 ">
