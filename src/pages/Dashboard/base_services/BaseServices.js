@@ -290,9 +290,11 @@ const BaseServices = () => {
   };
 
   // تابع هندل کردن اضافه کردن دیتا به جدول
-  const addBaseServicesandler = async () => {
+  const addBaseServicesHandler = async () => {
     try {
-      const res = await dispatch(addBaseService({ ...addData, currencies }));
+      const res = await dispatch(
+        addBaseService({ ...addData, currencies: currencies.map((c) => c.id) })
+      );
       if (res.payload.status === "ok") {
         toast.success("خدمت با موفقیت اضافه شد");
         setIsModal(false);
@@ -671,7 +673,7 @@ const BaseServices = () => {
                       !routeNameValidation.status
                     )
                       return;
-                    addBaseServicesandler();
+                    addBaseServicesHandler();
                   }}
                 >
                   ایجاد
