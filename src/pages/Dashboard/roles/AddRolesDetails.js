@@ -18,10 +18,13 @@ import checkPersian from "components/custom/validation/checkPersian";
 import checkUnique from "components/custom/validation/checkUnique";
 import checkCountCharacters from "components/custom/validation/checkCountCharacters";
 const AddRolesDetails = () => {
-  const [data, setData] = useState({ type: 0 });
-  const { loading, roles } = useSelector((store) => store.roles);
   const dispatch = useDispatch();
   const history = useHistory();
+  // دیتا های اولیه برای اضافه کردن دیتای جدید
+  const [data, setData] = useState({ type: 0 });
+  // گرفتن اطلاعات از ریداکس
+  const { loading, roles } = useSelector((store) => store.roles);
+  // استیت های ولیدیشن فرم
   const [pNameValidation, setPNameValidation] = useState({
     status: true,
     message: "",
@@ -34,9 +37,11 @@ const AddRolesDetails = () => {
     status: true,
     message: "",
   });
+  // گرفتن اطلاعات از دیتابیس
   useEffect(() => {
     fetchRoles();
   }, [fetchRoles]);
+  // تابع گرفتن اطلاعات از دیتابیس
   const fetchRoles = async () => {
     try {
       await dispatch(getAllRoles());
@@ -44,6 +49,7 @@ const AddRolesDetails = () => {
       throw err;
     }
   };
+  // تابع هندل کردن اضافه کردن دیتای جدید
   const addRoleHandler = async () => {
     try {
       const res = await dispatch(addRole(data));
@@ -56,6 +62,7 @@ const AddRolesDetails = () => {
       throw err;
     }
   };
+  // بردکرامب های صفحه
   const match = [
     {
       path: "/",
@@ -75,8 +82,13 @@ const AddRolesDetails = () => {
       {loading && <div className="loading"></div>}
       <Colxx xxs="12">
         <div className="d-flex justify-content-between align-items-center">
+          {/* برد کرامب صحفه و عنوان
+          ورودی ها:
+          title:عنوان 
+          list:برد کرامب
+          */}
           <Breadcrumb title="اضافه کردن نقش" list={match} />
-
+          {/* دکمه ذخیره */}
           <Button
             color="primary"
             size="lg"
@@ -98,6 +110,7 @@ const AddRolesDetails = () => {
         </div>
         {!loading && (
           <Card className="mb-4">
+            {/* اینپوت هایی برای گرفتن اطلاعات اضافه کردن دیتای جدید */}
             <CardBody>
               <div className="d-flex align-items-center">
                 <InputGroup size="sm" className="mb-3">
