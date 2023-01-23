@@ -13,14 +13,34 @@ import styles from "./roles.module.css";
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
 const AddRolePermissions = () => {
-  const { id } = useParams();
-  const { loading, allPermissions } = useSelector((store) => store.permissions);
-  const [searchInput, setSearchInput] = useState("");
-  const [allPermissionsState, setAllPermissionsState] = useState([]);
-  const [permissions, setPermissions] = useState([]);
-  const [data, setData] = useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
+  // گرفتن ایدی اصلی url
+  const { id } = useParams();
+  // گرفتن اطلاعات از ریداکس
+  const { loading, allPermissions } = useSelector((store) => store.permissions);
+  //استیت اینپوت سرچ
+  const [searchInput, setSearchInput] = useState("");
+  // گرفتن تمام permissions
+  const [allPermissionsState, setAllPermissionsState] = useState([]);
+  // استیت گرفتن تمام دیتا ها
+  const [permissions, setPermissions] = useState([]);
+
+  const [data, setData] = useState(null);
+  // گرفتن تمام دیتا ها
+  useEffect(() => {
+    fetchPermissions();
+  }, []);
+  // گرفتن نام تما تمام دیتا ها
+  useEffect(() => {
+    setData({ permissions: permissions.map((permit) => permit.name) });
+  }, [permissions]);
+  // گرفتن تمام دیتا ها و ذخیره ان در استیت
+  useEffect(() => {
+    setAllPermissionsState(allPermissions);
+  }, [allPermissions]);
+
+  // گرفتن تمام دیتا ها از دیتا بیس
   const fetchPermissions = async () => {
     try {
       await dispatch(getAllPermissions());
@@ -28,21 +48,14 @@ const AddRolePermissions = () => {
       throw err;
     }
   };
-  useEffect(() => {
-    fetchPermissions();
-  }, []);
-  useEffect(() => {
-    setData({ permissions: permissions.map((permit) => permit.name) });
-  }, [permissions]);
-  useEffect(() => {
-    setAllPermissionsState(allPermissions);
-  }, [allPermissions]);
+  // تابع هندل کردن سرچ
   const searchHandler = (e) => {
     setSearchInput(e.target.value);
     setAllPermissionsState(
       allPermissions.filter((permit) => permit.name.includes(e.target.value))
     );
   };
+  // تابع هندل کردن تغییر سوییچ
   const changeHandler = (e, permissionId) => {
     if (!e) {
       setPermissions((prev) => prev.filter((p) => p.id !== permissionId));
@@ -53,6 +66,7 @@ const AddRolePermissions = () => {
       ]);
     }
   };
+  // تابع اضافه کردن دیتای جدید
   const addPermissionsHandler = async () => {
     try {
       const res = await dispatch(
@@ -74,6 +88,7 @@ const AddRolePermissions = () => {
       throw err;
     }
   };
+  // بردکرامب های صفحه
   const match = [
     {
       path: "/",
@@ -93,7 +108,13 @@ const AddRolePermissions = () => {
       {loading && <div className="loading"></div>}
       <Colxx xxs="12">
         <div className="d-flex justify-content-between align-items-center">
-          <Breadcrumb title="اضافه کردن دسترسی" list={match} />
+          {/* برد کرامب صحفه و عنوان
+          ورودی ها:
+          title:عنوان 
+          list:برد کرامب
+          */}
+          <Breadcrumb title="اضافه کردن دسترسی" list={match} />پ
+          {/* دکمه ذخیره */}
           <Button
             color="primary"
             size="lg"
@@ -106,6 +127,7 @@ const AddRolePermissions = () => {
         {!loading && (
           <Card className="mb-4">
             <CardBody className={styles["auto-scroll"]}>
+              {/* اینپوت سرچ */}
               <div>
                 <div className="search-sm d-inline-block mr-1 mb-4 align-top w-40 ">
                   <input
@@ -119,6 +141,7 @@ const AddRolePermissions = () => {
                 </div>
                 <Separator className="mb-5" />
               </div>
+              {/* تمام سوییچ های پرمیشن ها */}
               <div className={styles["permission-container"]}>
                 {allPermissionsState?.map((permit) => {
                   const isChecked = permissions.some((p) => permit.id === p.id);
