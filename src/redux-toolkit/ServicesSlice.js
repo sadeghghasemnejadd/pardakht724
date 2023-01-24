@@ -205,7 +205,7 @@ export const updateServicesPayMethods = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const { data } = await axiosInstance.patch(
-        `/services/${id}/pay_methods/${payMethodId}`,
+        `/services/${id}/pay-methods/${payMethodId}`,
         addData,
         {
           headers: {
