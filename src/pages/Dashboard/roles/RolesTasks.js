@@ -1,28 +1,30 @@
-import { Card, CardBody, InputGroup, InputGroupAddon, Input } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { Separator } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "./roles.module.css";
 const RolesTasks = ({ data, isEdit, onDataChanged }) => {
+  // گرفتن آیدی اصلی url
   const { id } = useParams();
+  // استیت اینپوت سرپ
   const [searchInput, setSearchInput] = useState("");
+  // استیت تمام اطلاعات
   const [allTasks, setAllTasks] = useState([]);
+  // استیت تما اطلاعات
   const [tasks, setTasks] = useState([]);
-  // useEffect(() => {
-  //   setAllTasks(data.all_tasks);
-  //   setTasks(data.tasks);
-  // }, [data.all_tasks]);
+  // گرفتن نام تمام اطلاعات
   useEffect(() => {
     onDataChanged({ tasks: tasks?.map((task) => task.name) });
   }, [tasks]);
-
+  // تابع هندل کردن سرچ
   const searchHandler = (e) => {
     setSearchInput(e.target.value);
     setAllTasks(
       data.all_permissions.filter((task) => task.name.includes(e.target.value))
     );
   };
+  // تابع هندل کردن تغییر سوویچ ها
   const changeHandler = (e, taskId) => {
     if (!e) {
       setTasks((prev) => prev.filter((p) => p.id !== taskId));
@@ -33,6 +35,7 @@ const RolesTasks = ({ data, isEdit, onDataChanged }) => {
   return (
     <Card className="mb-4">
       <CardBody className={styles["auto-scroll"]}>
+        {/* سرچ */}
         <div>
           <div className="search-sm d-inline-block mr-1 mb-4 align-top w-40 ">
             <input
@@ -46,6 +49,7 @@ const RolesTasks = ({ data, isEdit, onDataChanged }) => {
           </div>
           <Separator className="mb-5" />
         </div>
+        {/* سوییچ ها */}
         <div className={styles["task-container"]}>
           {allTasks?.map((task) => {
             const isChecked = tasks.some((p) => task.id === p.id);
