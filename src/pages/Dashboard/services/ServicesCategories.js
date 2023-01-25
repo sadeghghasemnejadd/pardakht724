@@ -1,16 +1,6 @@
 import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  Card,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  ModalFooter,
-  Button,
-} from "reactstrap";
+import { Card } from "reactstrap";
 import Switch from "rc-switch";
 import ReactAutoSuggest from "components/common/ReactAutoSuggest";
 import "rc-switch/assets/index.css";
@@ -24,19 +14,29 @@ const ServicesCategories = ({
   addModal,
   setModal,
 }) => {
-  const { id } = useParams();
+  // !این کامپوننت در حال تکمیل یباشد
+
   const dispatch = useDispatch();
+  // گرفتن ایدی از url
+  const { id } = useParams();
+  // استیت دیتای اصلی
   const [allCategories, setAllCategories] = useState([]);
+  // استیت ایدی ویرایش دیتا
   const [categoryId, setCategoryId] = useState();
+  // دیتا های اولیه برای ویرایش
   const [editData, setEditData] = useState({});
+  // دیتا های نهایی برای ویرایش
   const [editDataValue, setEditDataValue] = useState({});
+  // مدال ویرایش
   const [isModal, setIsModal] = useState(false);
+  // برای اینپوت autosuggest
   const [autoSuggest, setAutoSuggest] = useState("");
+  // دیتا های اولیه برای اضافه کردن دیتا
   const [addData, setAddData] = useState({
     category_id: null,
     is_active: false,
   });
-
+  // محتویات اصلی جدول
   const cols = useMemo(
     () => [
       {
@@ -97,9 +97,11 @@ const ServicesCategories = ({
     ],
     [categoryId]
   );
+  // ذخیره دیتا اصلی در استیت
   useEffect(() => {
     setAllCategories(categories);
   }, [categories]);
+  // تعیین دیتاهای اولیه برای ویرایش
   useEffect(() => {
     const data = categories.find((p) => p.id == categoryId);
     if (!data) return;
@@ -108,6 +110,8 @@ const ServicesCategories = ({
       is_active: data?.is_active,
     });
   }, [categoryId]);
+  // تابع هندل کردن ویرایش
+  // !در حال تکمیل
   const saveChangeHandler = async () => {
     try {
       const res = await dispatch(
@@ -126,6 +130,8 @@ const ServicesCategories = ({
       throw err;
     }
   };
+  // تابع هندل اضافه کردن دیتا
+  // !در حال تکمیل
   const addPlansHandler = async () => {
     try {
       const res = await dispatch(
@@ -149,6 +155,7 @@ const ServicesCategories = ({
       throw err;
     }
   };
+  // تابع هندل کردن حذف دیتا
   const removeCategoryHandler = async () => {
     try {
       const res = await dispatch(
@@ -164,6 +171,7 @@ const ServicesCategories = ({
   };
   return (
     <Card className="p-5">
+      {/* مدال اضافه کردن دیتا */}
       {/* <Modal
         isOpen={addModal}
         size="lg"
@@ -243,6 +251,7 @@ const ServicesCategories = ({
           </Button>{" "}
         </ModalFooter>
       </Modal> */}
+      {/* مدال ویرایش */}
       {/* <Modal
         isOpen={isModal}
         size="lg"
@@ -475,6 +484,13 @@ const ServicesCategories = ({
           </Button>{" "}
         </ModalFooter>
       </Modal>  */}
+      {/* برای نشان دادن جدول استفاده میشود 
+            ورودی ها:
+            -cols:دیتا های ستون ها 
+            -data:دیتا های اصلی
+            -isCollapse:آیا این جدول کالپس دارد؟
+            -collapseData:وقتی که کاربر کالپس را زد چه دیتاهایی در کالپس نشان دهد
+            */}
       <Table cols={cols} data={allCategories} />
     </Card>
   );
