@@ -8,32 +8,18 @@ import {
 } from "reactstrap";
 import { Separator } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./roles.module.css";
+import React, { useState } from "react";
 const RolesLimits = () => {
-  const [searchInput, setSearchInput] = useState("");
+  // ایا در حالت ویرایش قرار دارد؟
   const [isEdit, setIsEdit] = useState(false);
-  const searchHandler = (e) => {
-    // setSearchInput(e.target.value);
-    // setAllTasks(
-    //   data.all_permissions.filter((task) =>
-    //     task.name.includes(e.target.value)
-    //   )
-    // );
-  };
+
   return (
+    // دیتا ها تست میباشد و کامپوننت در حال تکمیل است
     <Card className="mb-4">
       <CardBody>
         <div>
           <div className="search-sm d-inline-block mr-1 mb-4 align-top w-40 ">
-            <input
-              type="text"
-              name="keyword"
-              id="search"
-              className="w-100"
-              value={searchInput}
-              onChange={searchHandler}
-            />
+            <input type="text" name="keyword" id="search" className="w-100" />
           </div>
           <Separator className="mb-5" />
         </div>
