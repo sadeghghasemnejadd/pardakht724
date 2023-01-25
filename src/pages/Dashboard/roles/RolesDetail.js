@@ -2,6 +2,7 @@ import { Card, CardBody, InputGroup, InputGroupAddon, Input } from "reactstrap";
 import React, { useState } from "react";
 
 const RolesDetail = ({ data, isEdit, onDataChanged }) => {
+  // دیتا های اولیه اینپوت ها
   const [inputsValue, setInputsValue] = useState({
     p_name: data.p_name,
     name: data.name,
@@ -12,6 +13,7 @@ const RolesDetail = ({ data, isEdit, onDataChanged }) => {
 
   return (
     <Card className="mb-4">
+      {/* اینپوت ها */}
       <CardBody>
         <div className="d-flex align-items-center">
           <InputGroup size="sm" className="mb-3">
