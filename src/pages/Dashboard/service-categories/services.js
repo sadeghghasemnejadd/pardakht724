@@ -3,14 +3,12 @@ import React, { useEffect, useMemo, useState, useRef } from "react";
 import Layout from "layout/AppLayout";
 import {
   Card,
-  Input,
   InputGroup,
   InputGroupAddon,
   Modal,
   ModalBody,
   ModalFooter,
   ModalHeader,
-  CustomInput,
   Button,
 } from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
@@ -25,22 +23,30 @@ import {
   searchServices,
   updateServices,
 } from "redux-toolkit/ServiceCategoriesSlice";
-import { useHistory, Link, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
 const Services = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  // گرفتن Id اصلی url
   const { id } = useParams();
+  // گرفتن اطلاعات از ریداکس
   const { loading, services } = useSelector((store) => store.serviceCategories);
+  // ref اینپوت سرچ
   const searchInputRef = useRef();
+  // مدال اضافه کردن دیتا
   const [isModal, setIsModal] = useState(false);
+  // برای اینپوت auto suggest
   const [autoSuggest, setAutoSuggest] = useState("");
+  // اطلاعات اولیه جهت اضافه کردن دیتا
   const [addData, setAddData] = useState({
     service_id: 0,
     is_active: 1,
   });
-  const history = useHistory();
+  // نام category که از صحفه services-category می آید
   const serviceCategoryName = history.location.state.ServiceCategoriesName;
+  // بردکرامب صحفه
   const match = [
     {
       path: "/",
@@ -55,6 +61,7 @@ const Services = () => {
       text: `سرویس های خدمات ${serviceCategoryName}`,
     },
   ];
+  // محتویات اصلی جدول
   const cols = useMemo(
     () => [
       {
@@ -111,10 +118,11 @@ const Services = () => {
     ],
     []
   );
+  // گرفتن اطلاعات اصلی جدول
   useEffect(() => {
     fetchServices();
   }, [fetchServices]);
-
+  // تابع اضافه کردن دیتا از دیتابیس
   const fetchServices = async () => {
     try {
       await dispatch(getServices(id));
@@ -122,7 +130,7 @@ const Services = () => {
       throw err;
     }
   };
-
+  // تابع هندل کردن سرچ
   const searchHandler = async (e) => {
     e.preventDefault();
 
@@ -134,6 +142,7 @@ const Services = () => {
       throw err;
     }
   };
+  // تابع هندل کردن اضافه کردن دیتا
   const addServicesHandler = async () => {
     try {
       const res = await dispatch(addServices({ id, data: addData }));
@@ -149,6 +158,7 @@ const Services = () => {
       throw err;
     }
   };
+  // تابع هندل کردن ویرایش
   const changeEditActiveHandler = async (e, curId) => {
     try {
       const res = await dispatch(
@@ -165,6 +175,7 @@ const Services = () => {
       throw err;
     }
   };
+  // تابع هندل کردن خذف دیتا
   const removeServiceHandler = async (curId) => {
     try {
       const res = await dispatch(removeServices({ baseId: id, id: curId }));
@@ -185,6 +196,17 @@ const Services = () => {
       {!loading && (
         <Colxx lg="12" xl="12">
           <Card className="mb-4 p-5">
+            {/* برد کرامب و دکمه سرج و اضافه کردن در کامپوننت پایین قرار دارد 
+            ورودی ها : 
+            -title:عنوان صفحه
+            -match:برای برد کرامپ
+            -onSearch:تابع هندل کردن سرچ
+            -hasSearch:آیا این صفحه گزینه ای برای سرچ کردن دارد یا نه
+            -searchInputRef:ref برای اینپوت سرچ
+            -onAdd:تابع برای وقتی که کاربر روی دکمه اضافه کردن زد
+            -searchOption:آپشن های مختلف برای سرچ کردن که شامل ایدی و نام میباشد
+            -
+            */}
             <HeaderLayout
               title={`سرویس های خدمات ${serviceCategoryName}`}
               addName="افزودن سرویس جدید"
@@ -202,7 +224,15 @@ const Services = () => {
               ]}
               match={match}
             />
+            {/* برای نشان دادن جدول استفاده میشود 
+            ورودی ها:
+            -cols:دیتا های ستون ها 
+            -data:دیتا های اصلی
+            -isCollapse:آیا این جدول کالپس دارد؟
+            -collapseData:وقتی که کاربر کالپس را زد چه دیتاهایی در کالپس نشان دهد
+            */}
             <Table cols={cols} data={services} />
+            {/* مدال اضافه کردن دیتا */}
             <Modal
               isOpen={isModal}
               size="lg"
