@@ -34,6 +34,7 @@ const ServicesPayMethods = ({
   fetchPayMethods,
   addModal,
   setModal,
+  users,
 }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -44,6 +45,11 @@ const ServicesPayMethods = ({
   const [isModal, setIsModal] = useState(false);
   // آپشن سلکت برای اینپوت سلکت
   const [selectedOption, setSelectedOption] = useState("");
+  const selectData = users.map((user) => ({
+    label: `${user.first_name} ${user.last_name}`,
+    value: `${user.first_name} ${user.last_name}`,
+    key: user.id,
+  }));
   // استیت های ولیدیشن
   const [pNameValidation, setPNameValidation] = useState({
     status: false,
@@ -178,6 +184,7 @@ const ServicesPayMethods = ({
         updateServicesPayMethods({ id, data: editDataValue, payMethodId })
       );
       if (res.payload.status === "ok") {
+        console.log(res);
         setAllPayMethods((prev) =>
           prev.map((p) =>
             p.id === res.payload.pay_method.id
@@ -203,7 +210,8 @@ const ServicesPayMethods = ({
           id,
           addData: {
             ...addData,
-            currency_id: currenciesData.find((c) => c.name == autoSuggest).id,
+            bank_id: currenciesData.find((c) => c.name == autoSuggest).id,
+            owner_name: selectedOption.value,
           },
         })
       );
@@ -355,6 +363,7 @@ const ServicesPayMethods = ({
       return true;
     }
   };
+  console.log(selectedOption);
   return (
     <Card className="p-5">
       {/* مدال اضافه کردن دیتا */}
@@ -403,7 +412,7 @@ const ServicesPayMethods = ({
                     minHeight: "100%",
                   }),
                 }}
-                options={{}}
+                options={selectData}
               />
             </InputGroup>
           </div>

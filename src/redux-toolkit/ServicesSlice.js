@@ -125,7 +125,7 @@ export const addServicesPayMethods = createAsyncThunk(
     try {
       const token = localStorage.getItem("token");
       const { data } = await axiosInstance.post(
-        `/services/${id}/pay_methods`,
+        `/services/${id}/pay-methods`,
         addData,
         {
           headers: {
@@ -347,6 +347,34 @@ export const removeServicesCategory = createAsyncThunk(
     }
   }
 );
+export const getAllUsers = createAsyncThunk("getAllUsers", async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.get(`/users`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
+export const getAllBanks = createAsyncThunk("getAllBanks", async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axiosInstance.get(`/banks`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data.data;
+  } catch (err) {
+    throw err;
+  }
+});
 
 const allServices = (res) => res.payload.services;
 const service = (res) => res.payload.service;
@@ -355,6 +383,8 @@ const categories = (res) => res.payload.categories;
 const currencies = (res) => res.payload.currencies;
 const allCurrencies = (res) => res.payload.currencies.data;
 const payMethods = (res) => res.payload.service_pay_methods;
+const users = (res) => res.payload.users;
+const banks = (res) => res.payload.banks;
 export const Services = createSlice({
   name: "auth",
   initialState: {
@@ -366,6 +396,8 @@ export const Services = createSlice({
     currencies: [],
     allCurrencies: [],
     payMethods: [],
+    users: [],
+    banks: [],
   },
   extraReducers: {
     [getAllServices.pending]: (state) => {
@@ -567,6 +599,29 @@ export const Services = createSlice({
       state.loading = false;
     },
     [removeServicesCategory.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [getAllUsers.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAllUsers.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.users = users(action);
+    },
+    [getAllUsers.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [getAllBanks.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAllBanks.fulfilled]: (state, action) => {
+      state.loading = false;
+      console.log(action);
+      state.banks = banks(action);
+    },
+    [getAllBanks.rejected]: (state) => {
       state.loading = false;
     },
     ///////////////////////////////////////////////////

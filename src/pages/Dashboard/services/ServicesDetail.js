@@ -16,6 +16,8 @@ import {
   searchCurrencies,
   searchPlans,
   searchPayMethods,
+  getAllUsers,
+  getAllBanks,
 } from "redux-toolkit/ServicesSlice";
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
@@ -35,6 +37,7 @@ const ServicesDetail = () => {
     categories,
     allCurrencies,
     payMethods,
+    users,
   } = useSelector((store) => store.services);
   const [activeTab, setActiveTab] = useState("serviceDetail");
   const [isEdit, setIsEdit] = useState(false);
@@ -60,6 +63,8 @@ const ServicesDetail = () => {
     }
     if (activeTab === "servicePayMethode") {
       fetchPayMethods();
+      fetchUsers();
+      fetchBanks();
     }
   }, [activeTab]);
   const fetchService = async () => {
@@ -99,7 +104,20 @@ const ServicesDetail = () => {
       throw err;
     }
   };
-
+  const fetchUsers = async () => {
+    try {
+      await dispatch(getAllUsers());
+    } catch (err) {
+      throw err;
+    }
+  };
+  const fetchBanks = async () => {
+    try {
+      await dispatch(getAllBanks());
+    } catch (err) {
+      throw err;
+    }
+  };
   const saveHandler = async () => {
     try {
       // در حال تکمیل
@@ -387,6 +405,7 @@ const ServicesDetail = () => {
                 fetchPayMethods={fetchPayMethods}
                 addModal={addModalPayMethods}
                 setModal={setAddModalPayMethods}
+                users={users}
               />
             </TabPane>
             <TabPane tabId="serviceLimits">
