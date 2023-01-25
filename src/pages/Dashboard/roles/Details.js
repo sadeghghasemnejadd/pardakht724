@@ -19,16 +19,25 @@ import {
 import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
 const Details = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  // گرفتن ایدی از url
   const { id } = useParams();
+  // گرفتن دیتا ها از ریداکس
   const { loading, role, permissions, tasks, limits, allPermissions } =
     useSelector((store) => store.roles);
+  // استیت تب ها
   const [activeTab, setActiveTab] = useState("rolesDetail");
+  // ایا زمان ویرایش است؟
   const [isEdit, setIsEdit] = useState(false);
+  // دیتا ها برای ذخیره شدن
   const [dataForSave, setDataForSave] = useState({});
-  const dispatch = useDispatch();
+
+  // گرفتن اطلاعات اصلی
   useEffect(() => {
     fetchRole();
   }, []);
+  // وقتی تب عوض میشه اطلاعات مربوط به اون تب از دیتابیس گرفته میشه
   useEffect(() => {
     if (activeTab === "rolesAccesses") {
       fetchPermissions();
@@ -36,7 +45,7 @@ const Details = () => {
       fetchTasks();
     }
   }, [activeTab]);
-
+  // گرفتن اطلعات اصلی
   const fetchRole = async () => {
     try {
       await dispatch(getRole(id));
@@ -44,6 +53,7 @@ const Details = () => {
       throw err;
     }
   };
+  // تابع گرفتن اطلاعات اصلی
   const fetchPermissions = async () => {
     try {
       await dispatch(getRolePermissions(id));
@@ -51,6 +61,7 @@ const Details = () => {
       throw err;
     }
   };
+  // تابع گرفتن اطلاعات اصلی
   const fetchTasks = async () => {
     try {
       await dispatch(getRoleTasks(id));
@@ -58,7 +69,7 @@ const Details = () => {
       throw err;
     }
   };
-
+  // تابع هندل کردن ثبت ویرایش
   const saveHandler = async () => {
     try {
       const res =
@@ -85,7 +96,7 @@ const Details = () => {
       throw err;
     }
   };
-  const history = useHistory();
+  // بردکرامب صحفه
   const match = [
     {
       path: "/",
@@ -104,8 +115,15 @@ const Details = () => {
     <Layout>
       {loading && <div className="loading"></div>}
       <Colxx xxs="12" className="pt-1">
+        {/* برد کرامب صحفه و عنوان
+          ورودی ها:
+          title:عنوان 
+          list:برد کرامب
+          */}
         <Breadcrumb title="جزییات نقش" list={match} />
+        {/* navbar صحفه */}
         <Nav tabs className="separator-tabs ml-0 mb-5 col-sm">
+          {/* ایتم های نو بار */}
           <NavItem>
             <NavLink
               className={classnames({
@@ -119,6 +137,7 @@ const Details = () => {
               جزییات نقش
             </NavLink>
           </NavItem>
+          {/* ایتم های نو بار */}
           <NavItem>
             <NavLink
               location={{}}
@@ -132,6 +151,7 @@ const Details = () => {
               دسترسی نقش
             </NavLink>
           </NavItem>
+          {/* ایتم های نو بار */}
           <NavItem>
             <NavLink
               location={{}}
@@ -145,6 +165,7 @@ const Details = () => {
               مدیریت وظایف
             </NavLink>
           </NavItem>
+          {/* ایتم های نو بار */}
           <NavItem className="mr-auto">
             <NavLink
               location={{}}
@@ -158,6 +179,7 @@ const Details = () => {
               محدودیت سفارش
             </NavLink>
           </NavItem>
+          {/* دکمه ویرایش یا اضفه کردن دیتا  */}
           {activeTab !== "rolesLimit" ? (
             <Button
               color="primary"
@@ -190,6 +212,7 @@ const Details = () => {
           )}
         </Nav>
         {!loading && (
+          // محتویات تب فعال
           <TabContent activeTab={activeTab}>
             <TabPane tabId="rolesDetail">
               <RolesDetail
