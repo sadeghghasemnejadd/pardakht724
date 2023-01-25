@@ -12,13 +12,17 @@ import HeaderLayout from "containers/ui/headerLayout";
 import { Card } from "reactstrap";
 const Roles = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  // گرفتن اطلاعات اصلی از ریداکس
   const { loading, roles } = useSelector((store) => store.roles);
+  // اینپوت رف سرچ
   const searchInputRef = useRef();
+  // استیت های فیلتر کردن
   const [filterTypeList, setFilterTypeList] = useState({
     name: "type",
     value: [],
   });
-  const history = useHistory();
+  // دیتا های اصلی جدول
   const cols = useMemo(
     () => [
       {
@@ -71,20 +75,11 @@ const Roles = () => {
     ],
     []
   );
+  // گرفتن اطلعات اصلی از دیتا بیس
   useEffect(() => {
     fetchRoles();
   }, [fetchRoles]);
-
-  const match = [
-    {
-      path: "/",
-      text: "کاربران",
-    },
-    {
-      path: history.location.pathname,
-      text: "مدیریت نقش ها",
-    },
-  ];
+  // تابع گرفتن اطلاعات اصلی از دیتابیس
   const fetchRoles = async () => {
     try {
       await dispatch(getAllRoles());
@@ -92,6 +87,7 @@ const Roles = () => {
       throw err;
     }
   };
+  // تابع هندل کردن سرچ
   const searchHandler = async (e, searchId) => {
     e.preventDefault();
 
@@ -109,6 +105,7 @@ const Roles = () => {
       throw err;
     }
   };
+  // تابع هندل کردن تغییرات فیلتر
   const switchFilterHandler = (e, id) => {
     if (e) {
       setFilterTypeList((prev) => ({
@@ -122,6 +119,7 @@ const Roles = () => {
       }));
     }
   };
+  // تابع هندل کردن فیلتر
   const filterHandler = async () => {
     try {
       const filterQuery =
@@ -133,6 +131,17 @@ const Roles = () => {
       throw err;
     }
   };
+  // بردکرامب صحفه
+  const match = [
+    {
+      path: "/",
+      text: "کاربران",
+    },
+    {
+      path: history.location.pathname,
+      text: "مدیریت نقش ها",
+    },
+  ];
   return (
     <Layout>
       {loading && <div className="loading"></div>}
@@ -140,6 +149,17 @@ const Roles = () => {
         <div>
           <Colxx lg="12" xl="9">
             <Card className="mb-4 p-5">
+              {/* برد کرامب و دکمه سرج و اضافه کردن در کامپوننت پایین قرار دارد 
+            ورودی ها : 
+            -title:عنوان صفحه
+            -match:برای برد کرامپ
+            -onSearch:تابع هندل کردن سرچ
+            -hasSearch:آیا این صفحه گزینه ای برای سرچ کردن دارد یا نه
+            -searchInputRef:ref برای اینپوت سرچ
+            -onAdd:تابع برای وقتی که کاربر روی دکمه اضافه کردن زد
+            -searchOption:آپشن های مختلف برای سرچ کردن که شامل ایدی و نام میباشد
+            -
+            */}
               <HeaderLayout
                 title="مدیریت نقش ها"
                 addName="افزودن نقش جدید"
@@ -161,10 +181,24 @@ const Roles = () => {
                 }}
                 match={match}
               />
+              {/* برای نشان دادن جدول استفاده میشود 
+            ورودی ها:
+            -cols:دیتا های ستون ها 
+            -data:دیتا های اصلی
+            -isCollapse:آیا این جدول کالپس دارد؟
+            -collapseData:وقتی که کاربر کالپس را زد چه دیتاهایی در کالپس نشان دهد
+            */}
               <Table cols={cols} data={roles} />
             </Card>
           </Colxx>
           <Colxx xxs="2">
+            {/* فیلتر کردن دیتا ها
+            ورودی ها : 
+            -filters:آپشن های فیلتر کردن
+            -onSwitch:تابع سوییچ شدن فیلتر ها
+            -onFilter: تابع هندل کردن فیلتر
+            -data:دیتا های فلیتر شده برای ثبت تغییرات بعد از فیلتر
+            */}
             <SurveyApplicationMenu
               filters={[
                 {
