@@ -1,38 +1,22 @@
 import { ReactTableDivided as Table } from "containers/ui/ReactTableCards";
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import Layout from "layout/AppLayout";
-import {
-  Card,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  CustomInput,
-  Button,
-} from "reactstrap";
+import { Card } from "reactstrap";
 import { Colxx } from "components/common/CustomBootstrap";
 import "rc-switch/assets/index.css";
 import Switch from "rc-switch";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllServices, searchServices } from "redux-toolkit/ServicesSlice";
 import { useHistory, Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import HeaderLayout from "containers/ui/headerLayout";
 const MainServices = () => {
-  const dispatch = useDispatch();
-  const { loading, services } = useSelector((store) => store.services);
-  const searchInputRef = useRef();
-  const [isModal, setIsModal] = useState(false);
-  // const [addData, setAddData] = useState({
-  //   name: "",
-  //   description: "",
-  //   url: "",
-  //   is_active: 1,
-  // });
   const history = useHistory();
+  const dispatch = useDispatch();
+  // گرفتن اطلاعات از ریداکس
+  const { loading, services } = useSelector((store) => store.services);
+  // ref اینپوت سرچ
+  const searchInputRef = useRef();
+  // بردکرامب صحفه
   const match = [
     {
       path: "/",
@@ -43,6 +27,7 @@ const MainServices = () => {
       text: "سرویس ها",
     },
   ];
+  // محتویات اصلی صحفه
   const cols = useMemo(
     () => [
       {
@@ -121,9 +106,11 @@ const MainServices = () => {
     ],
     []
   );
+  // گرفتن اطلاعات از دیتا بیس
   useEffect(() => {
     fetchServices();
   }, [fetchServices]);
+  // تابع گرفتن اطلاعات از دیتابیس
   const fetchServices = async () => {
     try {
       await dispatch(getAllServices());
@@ -131,7 +118,7 @@ const MainServices = () => {
       throw err;
     }
   };
-
+  // تابع هندل کردن سرچ
   const searchHandler = async (e) => {
     e.preventDefault();
 
@@ -143,6 +130,8 @@ const MainServices = () => {
       throw err;
     }
   };
+
+  // !در حال تکمیل
   // const addServiceCategoriesHandler = async () => {
   //   try {
   //     if (addData.name.length > 127) {
@@ -181,6 +170,17 @@ const MainServices = () => {
       {!loading && (
         <Colxx lg="12" xl="12">
           <Card className="mb-4 p-5">
+            {/* برد کرامب و دکمه سرج و اضافه کردن در کامپوننت پایین قرار دارد 
+            ورودی ها : 
+            -title:عنوان صفحه
+            -match:برای برد کرامپ
+            -onSearch:تابع هندل کردن سرچ
+            -hasSearch:آیا این صفحه گزینه ای برای سرچ کردن دارد یا نه
+            -searchInputRef:ref برای اینپوت سرچ
+            -onAdd:تابع برای وقتی که کاربر روی دکمه اضافه کردن زد
+            -searchOption:آپشن های مختلف برای سرچ کردن که شامل ایدی و نام میباشد
+            -
+            */}
             <HeaderLayout
               title="لیست سرویس ها"
               addName="افزودن سرویس جدید"
@@ -196,7 +196,15 @@ const MainServices = () => {
               ]}
               match={match}
             />
+            {/* برای نشان دادن جدول استفاده میشود 
+            ورودی ها:
+            -cols:دیتا های ستون ها 
+            -data:دیتا های اصلی
+            -isCollapse:آیا این جدول کالپس دارد؟
+            -collapseData:وقتی که کاربر کالپس را زد چه دیتاهایی در کالپس نشان دهد
+            */}
             <Table cols={cols} data={services} />
+            {/* مدال اضافه کردن دیتا (در حال تکمیل) */}
             {/* <Modal
               isOpen={isModal}
               size="lg"
