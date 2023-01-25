@@ -1,23 +1,28 @@
-import { Card, CardBody, InputGroup, InputGroupAddon, Input } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { Separator } from "components/common/CustomBootstrap";
 import Switch from "rc-switch";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./roles.module.css";
 import { Link, useParams } from "react-router-dom";
 const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
+  // استیت اینپوت سرچ
   const [searchInput, setSearchInput] = useState("");
+  // استیت همه دیتا ها
   const [allPermissionsState, setAllPermissionsState] = useState([]);
+  // استیت دیتا ها
   const [permissions, setPermissions] = useState([]);
+  // ایدی اصلی url
   const { id } = useParams();
+  // گرفتن دیتای اصلی صحفه
   useEffect(() => {
     setAllPermissionsState(data.allPermissions);
     setPermissions(data.permissions);
   }, [data.allPermissions]);
-
+  // گرفتن نام permissions
   useEffect(() => {
     onDataChanged({ permissions: permissions.map((permit) => permit.name) });
   }, [permissions]);
-
+  // تابع هندل کردن سرچ
   const searchHandler = (e) => {
     setSearchInput(e.target.value);
     setAllPermissionsState(
@@ -26,6 +31,7 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
       )
     );
   };
+  // تابع هندل کردن تغییر فیلتر
   const changeHandler = (e, permissionId) => {
     if (!e) {
       setPermissions((prev) => prev.filter((p) => p.id !== permissionId));
@@ -40,6 +46,7 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
     <Card className="mb-4">
       <CardBody className={styles["auto-scroll"]}>
         <div>
+          {/* قسمت سرچ */}
           <div className="search-sm d-inline-block mr-1 mb-4 align-top w-40 ">
             <input
               type="text"
@@ -52,6 +59,7 @@ const RolesAccesses = ({ data, isEdit, onDataChanged }) => {
           </div>
           <Separator className="mb-5" />
         </div>
+        {/* قسمت سوییچ ها */}
         <div className={styles["permission-container"]}>
           {allPermissionsState?.map((permit) => {
             const isChecked = permissions.some((p) => permit.id === p.id);
