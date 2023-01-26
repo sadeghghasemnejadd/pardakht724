@@ -28,20 +28,29 @@ const ServicesCurrencies = ({
   addModal,
   setModal,
 }) => {
-  const { id } = useParams();
   const dispatch = useDispatch();
+  // گرفتن ایدی اصلی از url
+  const { id } = useParams();
+  // استیت ذخیره کرذن دیتا اصلی در آن
   const [allCurrencies, setAllCurrencies] = useState([]);
+  // آیدی دیتا جهت ویرایش
   const [currencyId, setCurrencyId] = useState();
+  // دیتای اولیه برای ویرایش دیتا
   const [editData, setEditData] = useState({});
+  // دیتای نهایی جهت ویرایش
   const [editDataValue, setEditDataValue] = useState({});
+  // استیت مدال ویرایش دیتا
   const [isModal, setIsModal] = useState(false);
+  // برای اینپوت Autosuggets
   const [autoSuggest, setAutoSuggest] = useState("");
+  // دیتا های اولیه برای اضافه کردن دیتای جدید
   const [addData, setAddData] = useState({
     is_available: false,
     currency_id: null,
     priority: null,
     should_pass_on_low_amount: false,
   });
+  // محتویات اصلی جدول
   const cols = useMemo(
     () => [
       {
@@ -124,9 +133,11 @@ const ServicesCurrencies = ({
     ],
     [currencyId]
   );
+  // گرفتن دیتا های اصلی از دیتابیس
   useEffect(() => {
     setAllCurrencies(currencies);
   }, [currencies]);
+  // گرفتن اصلاعات اولیه برای ویرایش دیتا
   useEffect(() => {
     const data = currencies?.find((p) => p.id == currencyId);
     if (!data) return;
@@ -137,6 +148,7 @@ const ServicesCurrencies = ({
       should_pass_on_low_amount: data?.should_pass_on_low_amount,
     });
   }, [currencyId]);
+  // تابع هندل کردن ویرایش دیتا
   const saveChangeHandler = async () => {
     try {
       const res = await dispatch(
@@ -157,6 +169,7 @@ const ServicesCurrencies = ({
       throw err;
     }
   };
+  // تابعع هندل کردن اضافه کردن دیتای جدید
   const addCurrencyHandler = async () => {
     try {
       const res = await dispatch(
@@ -182,6 +195,7 @@ const ServicesCurrencies = ({
   };
   return (
     <Card className="p-5">
+      {/* مدال اضافه کردن دیتای جدید */}
       <Modal
         isOpen={addModal}
         size="lg"
@@ -272,6 +286,7 @@ const ServicesCurrencies = ({
           </Button>{" "}
         </ModalFooter>
       </Modal>
+      {/* مدال ویرایش یک دیتا */}
       <Modal
         isOpen={isModal}
         size="lg"
@@ -387,6 +402,13 @@ const ServicesCurrencies = ({
           </Button>{" "}
         </ModalFooter>
       </Modal>
+      {/* برای نشان دادن جدول استفاده میشود 
+            ورودی ها:
+            -cols:دیتا های ستون ها 
+            -data:دیتا های اصلی
+            -isCollapse:آیا این جدول کالپس دارد؟
+            -collapseData:وقتی که کاربر کالپس را زد چه دیتاهایی در کالپس نشان دهد
+      */}
       <Table cols={cols} data={allCurrencies} />
     </Card>
   );
