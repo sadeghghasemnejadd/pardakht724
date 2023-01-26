@@ -19,7 +19,6 @@ import {
   getAllUsers,
   getAllBanks,
 } from "redux-toolkit/ServicesSlice";
-import { toast } from "react-toastify";
 import Breadcrumb from "components/custom/Breadcrumb";
 import ServicesDetails from "./ServicesDetails";
 import ServicesPlans from "./ServicesPlans";
@@ -28,7 +27,11 @@ import ServicesCurrencies from "./ServicesCurrencies";
 import ServicesPayMethods from "./ServicesPayMethods";
 import HeaderLayout from "containers/ui/headerLayout";
 const ServicesDetail = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  // گرفتن ایدی اصلی از url
   const { id } = useParams();
+  // گرفتن دیتا از ریداکس
   const {
     loading,
     service,
@@ -39,18 +42,27 @@ const ServicesDetail = () => {
     payMethods,
     users,
   } = useSelector((store) => store.services);
+  // استیت فعال بودن تب
   const [activeTab, setActiveTab] = useState("serviceDetail");
+  // آیا فرم در خال ویرایش است یا نه
   const [isEdit, setIsEdit] = useState(false);
+  // دیتا های اولیه جهت ذخیره اطلاعات ویرایش شده
   const [dataForSave, setDataForSave] = useState({});
+  // مدال اضافه کردن دیتای جدیدد در تب پلن ها
   const [addModalPlans, setAddModalPlans] = useState(false);
+  // مدال اضافه کردن دیتای جدیدد در تب دسته بندی ها
   const [addModalCategories, setAddModalCategories] = useState(false);
+  // مدال اضافه کردن دیتای جدیدد در تب ارز ها
   const [addModalCurrencies, setAddModalCurrencies] = useState(false);
+  // مدال اضافه کردن دیتای جدیدد در تب روش های پرداخت
   const [addModalPayMethods, setAddModalPayMethods] = useState(false);
+  // ref اینپوت سرچ
   const searchInputRef = useRef();
-  const dispatch = useDispatch();
+  // گرفتن اطلاعات اولیه
   useEffect(() => {
     fetchService();
   }, [fetchService]);
+  // گرفتن اطلاعات مربوط به هر تب
   useEffect(() => {
     if (activeTab === "servicePlan") {
       fetchPlans();
@@ -67,6 +79,7 @@ const ServicesDetail = () => {
       fetchBanks();
     }
   }, [activeTab]);
+  // تابع های گرفتن اطلاعات از دیتا بیس
   const fetchService = async () => {
     try {
       await dispatch(getService(id));
@@ -118,6 +131,7 @@ const ServicesDetail = () => {
       throw err;
     }
   };
+  // تابع هندل کردن ویرایش
   const saveHandler = async () => {
     try {
       // در حال تکمیل
@@ -125,6 +139,7 @@ const ServicesDetail = () => {
       throw err;
     }
   };
+  // تابع های هندل کردن سرچ مربوط به هر تب
   const searchPlanHandler = async (e) => {
     e.preventDefault();
 
@@ -168,7 +183,7 @@ const ServicesDetail = () => {
       throw err;
     }
   };
-  const history = useHistory();
+  // برد کرامب صحفه
   const match = [
     {
       path: "/",
@@ -187,6 +202,7 @@ const ServicesDetail = () => {
     <Layout>
       {loading && <div className="loading"></div>}
       <Colxx xxs="12" className="pt-1">
+        {/* بستگی به نوع تب داره که دکمه سرچ داشته باشه یا نه */}
         {activeTab === "servicePlan" ||
         activeTab === "serviceCategories" ||
         activeTab === "serviceCurrency" ||
@@ -217,7 +233,7 @@ const ServicesDetail = () => {
         ) : (
           <Breadcrumb title="جزییات سرویس" list={match} />
         )}
-
+        {/* نام تب ها */}
         <Nav tabs className="separator-tabs ml-0 mb-5 col-sm">
           <NavItem>
             <NavLink
@@ -362,6 +378,7 @@ const ServicesDetail = () => {
           )}
         </Nav>
         {!loading && (
+          // محتویات تب ها
           <TabContent activeTab={activeTab}>
             <TabPane tabId="serviceDetail">
               <ServicesDetails
