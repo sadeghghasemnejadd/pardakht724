@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "utils/axios";
+import axios from "axios";
 export const getAllServices = createAsyncThunk("getAllServices", async () => {
   try {
     const token = localStorage.getItem("token");
@@ -364,7 +365,7 @@ export const getAllUsers = createAsyncThunk("getAllUsers", async () => {
 export const getAllBanks = createAsyncThunk("getAllBanks", async () => {
   try {
     const token = localStorage.getItem("token");
-    const { data } = await axiosInstance.get(`/banks`, {
+    const { data } = await axios.get(`https://api2.dadypay.org/api/v1/banks`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -618,7 +619,6 @@ export const Services = createSlice({
     },
     [getAllBanks.fulfilled]: (state, action) => {
       state.loading = false;
-      console.log(action);
       state.banks = banks(action);
     },
     [getAllBanks.rejected]: (state) => {
