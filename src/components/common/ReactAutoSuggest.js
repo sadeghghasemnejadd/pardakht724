@@ -26,6 +26,7 @@ const ReactAutoSuggest = ({ data, value, placeholder, onChange }) => {
 
   const changeInput = (event, { newValue }) => {
     setValueState(newValue);
+
     onChange(newValue);
   };
 

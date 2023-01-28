@@ -18,6 +18,7 @@ import {
   searchPayMethods,
   getAllUsers,
   getAllBanks,
+  getAllPayMethods,
 } from "redux-toolkit/ServicesSlice";
 import Breadcrumb from "components/custom/Breadcrumb";
 import ServicesDetails from "./ServicesDetails";
@@ -41,6 +42,8 @@ const ServicesDetail = () => {
     allCurrencies,
     payMethods,
     users,
+    banks,
+    allPayMethods,
   } = useSelector((store) => store.services);
   // استیت فعال بودن تب
   const [activeTab, setActiveTab] = useState("serviceDetail");
@@ -75,8 +78,7 @@ const ServicesDetail = () => {
     }
     if (activeTab === "servicePayMethode") {
       fetchPayMethods();
-      fetchUsers();
-      fetchBanks();
+      fetchAllPayMethods();
     }
   }, [activeTab]);
   // تابع های گرفتن اطلاعات از دیتا بیس
@@ -113,6 +115,13 @@ const ServicesDetail = () => {
   const fetchPayMethods = async () => {
     try {
       await dispatch(getServicesPayMethods(id));
+    } catch (err) {
+      throw err;
+    }
+  };
+  const fetchAllPayMethods = async () => {
+    try {
+      await dispatch(getAllPayMethods());
     } catch (err) {
       throw err;
     }
@@ -419,10 +428,12 @@ const ServicesDetail = () => {
             <TabPane tabId="servicePayMethode">
               <ServicesPayMethods
                 payMethods={payMethods}
+                _payMethods={allPayMethods}
                 fetchPayMethods={fetchPayMethods}
                 addModal={addModalPayMethods}
                 setModal={setAddModalPayMethods}
                 users={users}
+                banks={banks}
               />
             </TabPane>
             <TabPane tabId="serviceLimits">

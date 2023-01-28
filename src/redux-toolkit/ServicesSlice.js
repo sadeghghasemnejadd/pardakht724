@@ -220,7 +220,6 @@ export const updateServicesPayMethods = createAsyncThunk(
     }
   }
 );
-
 export const searchServices = createAsyncThunk(
   "searchServices",
   async (value) => {
@@ -362,6 +361,23 @@ export const getAllUsers = createAsyncThunk("getAllUsers", async () => {
     throw err;
   }
 });
+export const getAllPayMethods = createAsyncThunk(
+  "getAllPayMethods",
+  async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axiosInstance.get(`/pay-methods`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return data.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+);
 export const getAllBanks = createAsyncThunk("getAllBanks", async () => {
   try {
     const token = localStorage.getItem("token");
@@ -386,6 +402,7 @@ const allCurrencies = (res) => res.payload.currencies.data;
 const payMethods = (res) => res.payload.service_pay_methods;
 const users = (res) => res.payload.users;
 const banks = (res) => res.payload.banks;
+const allPayMethods = (res) => res.payload.pay_methods;
 export const Services = createSlice({
   name: "auth",
   initialState: {
@@ -399,6 +416,7 @@ export const Services = createSlice({
     payMethods: [],
     users: [],
     banks: [],
+    allPayMethods: [],
   },
   extraReducers: {
     [getAllServices.pending]: (state) => {
@@ -611,6 +629,17 @@ export const Services = createSlice({
       state.users = users(action);
     },
     [getAllUsers.rejected]: (state) => {
+      state.loading = false;
+    },
+    ///////////////////////////////////////////////////
+    [getAllPayMethods.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAllPayMethods.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.allPayMethods = allPayMethods(action);
+    },
+    [getAllPayMethods.rejected]: (state) => {
       state.loading = false;
     },
     ///////////////////////////////////////////////////
