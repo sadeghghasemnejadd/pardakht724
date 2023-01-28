@@ -20,15 +20,9 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  addServicesCurrencies,
   addServicesPayMethods,
-  updateServicesCurrencies,
   updateServicesPayMethods,
 } from "redux-toolkit/ServicesSlice";
-import checkCountCharacters from "components/custom/validation/checkCountCharacters";
-import checkPersian from "components/custom/validation/checkPersian";
-import checkNumber from "components/custom/validation/checkNumber";
-import checkUrl from "components/custom/validation/checkUrl";
 import checkUnique from "components/custom/validation/checkUnique";
 const ServicesPayMethods = ({
   payMethods,
@@ -74,7 +68,7 @@ const ServicesPayMethods = ({
       },
       {
         Header: "وضعیت",
-        accessor: "is_active",
+        accessor: "is_available",
         cellClass: "text-muted text-center ",
         Cell: (props) => {
           return (
@@ -142,7 +136,7 @@ const ServicesPayMethods = ({
   }, [payMethodId]);
 
   const payMethodIdValidationHandler = (val) => {
-    if (payMethods.some((p) => p.p_name === val)) {
+    if (_payMethods.some((p) => p.p_name === val)) {
       setPayMethodValidation({
         status: false,
         message: "روش پرداخت انتخاب شده در دیتابیس وجود ندارد",
