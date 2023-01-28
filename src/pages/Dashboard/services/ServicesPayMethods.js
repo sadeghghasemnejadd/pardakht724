@@ -115,23 +115,7 @@ const ServicesPayMethods = ({
     const data = payMethods.find((p) => p.id == payMethodId);
     if (!data) return;
     setEditData({
-      name: data?.name === null ? "" : data.name,
-      is_iranian: data?.is_iranian === null ? "" : data.is_iranian,
-      max_capability: data?.max_capability === null ? "" : data.max_capability,
-      p_name: data?.p_name === null ? "" : data.p_name,
-      description: data?.description === null ? "" : data.description,
-      merchant_id: data?.merchant_id === null ? "" : data.merchant_id,
-      call_back_url: data?.call_back_url === null ? "" : data.call_back_url,
-      call_back_url2: data?.call_back_url2 === null ? "" : data.call_back_url2,
-      is_active: data?.is_active === null ? "" : data.is_active,
-      direction_type: data?.direction_type === null ? "" : data.direction_type,
-      execution_type: data?.execution_type === null ? "" : data.execution_type,
-      account_identifier:
-        data?.account_identifier === null ? "" : data.account_identifier,
-      access_type: data?.access_type === null ? "" : data.access_type,
-      owner_name: data?.owner_name === null ? "" : data.owner_name,
-      owner_id: data?.owner_id === null ? "" : data.owner_id,
-      bank_id: data?.bank_id === null ? "" : data.bank_id,
+      is_available: data?.is_available,
     });
   }, [payMethodId]);
 
@@ -166,7 +150,6 @@ const ServicesPayMethods = ({
         updateServicesPayMethods({ id, data: editDataValue, payMethodId })
       );
       if (res.payload.status === "ok") {
-        console.log(res);
         setAllPayMethods((prev) =>
           prev.map((p) =>
             p.id === res.payload.pay_method.id
@@ -281,378 +264,25 @@ const ServicesPayMethods = ({
         </ModalFooter>
       </Modal>
       {/* مدال ویرایش کردن دیتا */}
-      {/* <Modal isOpen={isModal} size="lg" toggle={() => setIsModal(!isModal)}>
-        <ModalHeader>ویرایش</ModalHeader>
+      <Modal isOpen={isModal} size="lg" toggle={() => setIsModal(!isModal)}>
+        <ModalHeader>ویراش روش پرداخت</ModalHeader>
         <ModalBody>
-          <div className="d-flex mb-3">
-            <InputGroup size="sm" className="mr-3">
-              <InputGroupAddon addonType="prepend" className="w-30">
-                <span className="input-group-text w-100">بانک مورد نظر</span>
-              </InputGroupAddon>
-              <div className="w-70 pos-rel">
-                <ReactAutoSuggest
-                  AutoSuggest
-                  value={autoSuggest}
-                  onChange={(val) => {
-                    if (!bankIdValidationHandler(val)) return;
-                    setAutoSuggest(val);
-                  }}
-                  data={[...new Set(payMethods.map((pay) => pay.bank?.name))]
-                    .filter((n) => n)
-                    .map((n) => ({ name: n }))}
-                />
-                {bankIdValidation.status || (
-                  <div className="invalid-feedback d-block">
-                    {bankIdValidation.message}
-                  </div>
-                )}
-              </div>
-            </InputGroup>
-            <InputGroup size="sm" className="d-flex">
-              <InputGroupAddon addonType="prepend" className="w-30">
-                <span className="input-group-text w-100">صاحب حساب</span>
-              </InputGroupAddon>
-              <Select
-                components={{ Input: CustomSelectInput }}
-                className="react-select w-70"
-                classNamePrefix="react-select"
-                name="form-field-name"
-                value={selectedOption}
-                onChange={setSelectedOption}
-                styles={{
-                  control: (base) => ({
-                    ...base,
-                    height: "100%",
-                    minHeight: "100%",
-                  }),
-                }}
-                options={{}}
-              />
-            </InputGroup>
-          </div>
-          <div className="d-flex mb-3">
-            <InputGroup size="sm" className=" mr-3">
-              <InputGroupAddon addonType="prepend">
-                <span className="input-group-text">نام</span>
-              </InputGroupAddon>
-              <div className="flex-grow-1 pos-rel">
-                <Input
-                  value={editData.p_name}
-                  onChange={(e) => {
-                    setEditData((prev) => ({
-                      ...prev,
-                      p_name: e.target.value,
-                    }));
-                    if (!pNameValidationHandler(e.target.value)) return;
-                    setEditDataValue((prev) => ({
-                      ...prev,
-                      p_name: e.target.value,
-                    }));
-                  }}
-                />
-                {pNameValidation.status || (
-                  <div className="invalid-feedback d-block">
-                    {pNameValidation.message}
-                  </div>
-                )}
-              </div>
-            </InputGroup>
-            <InputGroup size="sm">
-              <InputGroupAddon addonType="prepend">
-                <span className="input-group-text">برچسب</span>
-              </InputGroupAddon>
-              <div className="flex-grow-1 pos-rel">
-                <Input
-                  value={editData.name}
-                  onChange={(e) => {
-                    setEditData((prev) => ({
-                      ...prev,
-                      name: e.target.value,
-                    }));
-                    if (!nameValidationHandler(e.target.value)) return;
-                    setEditDataValue((prev) => ({
-                      ...prev,
-                      name: e.target.value,
-                    }));
-                  }}
-                />
-                {nameValidation.status || (
-                  <div className="invalid-feedback d-block">
-                    {nameValidation.message}
-                  </div>
-                )}
-              </div>
-            </InputGroup>
-          </div>
-          <div className="d-flex mb-3">
-            <InputGroup size="sm" className="mr-3">
-              <InputGroupAddon addonType="prepend">
-                <span className="input-group-text">شناسه حساب</span>
-              </InputGroupAddon>
-              <Input
-                value={editData.account_identifier}
-                onChange={(e) => {
-                  setEditData((prev) => ({
-                    ...prev,
-                    account_identifier: e.target.value,
-                  }));
-                  setEditDataValue((prev) => ({
-                    ...prev,
-                    account_identifier: e.target.value,
-                  }));
-                }}
-              />
-            </InputGroup>
-            <InputGroup size="sm">
-              <InputGroupAddon addonType="prepend">
-                <span className="input-group-text">
-                  حداکثر مبلغ قابل پرداخت
-                </span>
-              </InputGroupAddon>
-              <div className="flex-grow-1 pos-rel">
-                <Input
-                  value={editData.max_capability}
-                  onChange={(e) => {
-                    setEditData((prev) => ({
-                      ...prev,
-                      max_capability: e.target.value,
-                    }));
-                    if (!maxCapValidationHandler(e.target.value)) return;
-                    setEditDataValue((prev) => ({
-                      ...prev,
-                      max_capability: e.target.value,
-                    }));
-                  }}
-                />
-                {maxCapValidation.status || (
-                  <div className="invalid-feedback d-block">
-                    {maxCapValidation.message}
-                  </div>
-                )}
-              </div>
-            </InputGroup>
-          </div>
-          <div className="d-flex mb-3">
-            <InputGroup size="sm" className="mr-3">
-              <InputGroupAddon addonType="prepend">
-                <span className="input-group-text">کد مرچنت</span>
-              </InputGroupAddon>
-              <div className="flex-grow-1 pos-rel">
-                <Input
-                  value={editData.merchant_id}
-                  onChange={(e) => {
-                    setEditData((prev) => ({
-                      ...prev,
-                      merchant_id: e.target.value,
-                    }));
-                    if (!merchantIdValidationHandler(e.target.value)) return;
-                    setEditDataValue((prev) => ({
-                      ...prev,
-                      merchant_id: e.target.value,
-                    }));
-                  }}
-                />
-                {merchantIdValidation.status || (
-                  <div className="invalid-feedback d-block">
-                    {merchantIdValidation.message}
-                  </div>
-                )}
-              </div>
-            </InputGroup>
-            <InputGroup size="sm" className="w-50">
-              <InputGroupAddon addonType="prepend">
-                <span className="input-group-text">نوع دسترسی</span>
-              </InputGroupAddon>
-              <Input
-                value={editData.access_type}
-                onChange={(e) => {
-                  setEditData((prev) => ({
-                    ...prev,
-                    access_type: e.target.value,
-                  }));
-                  setEditDataValue((prev) => ({
-                    ...prev,
-                    access_type: e.target.value,
-                  }));
-                }}
-              />
-            </InputGroup>
-          </div>
-          <div className="d-flex mb-3">
-            <InputGroup size="sm">
-              <InputGroupAddon addonType="prepend">
-                <span className="input-group-text">آدرس بازگشت1</span>
-              </InputGroupAddon>
-              <div className="flex-grow-1 pos-rel">
-                <Input
-                  value={editData.call_back_url}
-                  onChange={(e) => {
-                    setEditData((prev) => ({
-                      ...prev,
-                      call_back_url: e.target.value,
-                    }));
-                    if (!url1ValidationHandler(e.target.value)) return;
-                    setEditDataValue((prev) => ({
-                      ...prev,
-                      call_back_url: e.target.value,
-                    }));
-                  }}
-                />
-                {url1Validation.status || (
-                  <div className="invalid-feedback d-block">
-                    {url1Validation.message}
-                  </div>
-                )}
-              </div>
-            </InputGroup>
-          </div>
-          <div className="d-flex mb-3">
-            <InputGroup size="sm">
-              <InputGroupAddon addonType="prepend">
-                <span className="input-group-text">آدرس بازگشت2</span>
-              </InputGroupAddon>
-              <div className="flex-grow-1 pos-rel">
-                <Input
-                  value={editData.call_back_url2}
-                  onChange={(e) => {
-                    setEditData((prev) => ({
-                      ...prev,
-                      call_back_url2: e.target.value,
-                    }));
-                    if (!url2ValidationHandler(e.target.value)) return;
-                    setEditDataValue((prev) => ({
-                      ...prev,
-                      call_back_url2: e.target.value,
-                    }));
-                  }}
-                />
-                {url2Validation.status || (
-                  <div className="invalid-feedback d-block">
-                    {url2Validation.message}
-                  </div>
-                )}
-              </div>
-            </InputGroup>
-          </div>
-          <div className="d-flex mb-3 justify-content-between w-100">
-            <div className="d-flex align-items-center">
-              <p className="mr-2 mb-0">نوع حساب :</p>
-              <Input
-                bsSize="sm"
-                className="w-50 min-h-15"
-                type="select"
-                style={{ borderRadius: 20 }}
-                value={editData.is_iranian}
-                onChange={(e) => {
-                  setEditData((prev) => ({
-                    ...prev,
-                    is_iranian: e.target.value,
-                  }));
-                  setEditDataValue((prev) => ({
-                    ...prev,
-                    is_iranian: e.target.value,
-                  }));
-                }}
-              >
-                <option value={1}>ایرانی</option>
-                <option value={0}>خارجی</option>
-              </Input>
-            </div>
-            <div className="d-flex align-items-center">
-              <p className="mr-2 mb-0">نوع پرداخت :</p>
-              <Input
-                bsSize="sm"
-                className="w-50 min-h-15"
-                type="select"
-                style={{ borderRadius: 20 }}
-                value={editData.direction_type}
-                onChange={(e) => {
-                  setEditData((prev) => ({
-                    ...prev,
-                    direction_type: e.target.value,
-                  }));
-                  setEditDataValue((prev) => ({
-                    ...prev,
-                    direction_type: e.target.value,
-                  }));
-                }}
-              >
-                <option value={1}>مستقیم</option>
-                <option value={0}>غیر مستقیم</option>
-              </Input>
-            </div>
-            <div className="d-flex align-items-center">
-              <p className="mr-2 mb-0">روش پرداخت :</p>
-              <Input
-                bsSize="sm"
-                className="w-50 min-h-15"
-                type="select"
-                style={{ borderRadius: 20 }}
-                value={editData.execution_type}
-                onChange={(e) => {
-                  setEditData((prev) => ({
-                    ...prev,
-                    execution_type: e.target.value,
-                  }));
-                  setEditDataValue((prev) => ({
-                    ...prev,
-                    execution_type: e.target.value,
-                  }));
-                }}
-              >
-                <option value={-1}>کارت به کارت</option>
-                <option value={-2}>شماره حساب</option>
-                <option value={1}>درگاه بانکی</option>
-                <option value={-3}>شماره شبا</option>
-              </Input>
-            </div>
-            <div className="d-flex align-items-center">
-              <p className="mb-0 mr-3">وضعیت</p>
-              <Switch
-                className="custom-switch custom-switch-secondary custom-switch-small"
-                checked={editData.is_active}
-                onChange={(e) => {
-                  setEditData((prev) => ({
-                    ...prev,
-                    is_active: e ? 1 : 0,
-                  }));
-                  setEditDataValue((prev) => ({
-                    ...prev,
-                    is_active: e ? 1 : 0,
-                  }));
-                }}
-              />
-            </div>
-          </div>
-          <div>
-            <InputGroup size="sm">
-              <InputGroupAddon addonType="prepend">
-                <span className="input-group-text">توضیحات</span>
-              </InputGroupAddon>
-              <div className="flex-grow-1 pos-rel">
-                <Input
-                  type="textarea"
-                  rows="5"
-                  value={editData.description}
-                  onChange={(e) => {
-                    setEditData((prev) => ({
-                      ...prev,
-                      description: e.target.value,
-                    }));
-                    if (!descriptionValidationHandler(e.target.value)) return;
-                    setEditDataValue((prev) => ({
-                      ...prev,
-                      description: e.target.value,
-                    }));
-                  }}
-                />
-                {descriptionValidation.status || (
-                  <div className="invalid-feedback d-block">
-                    {descriptionValidation.message}
-                  </div>
-                )}
-              </div>
-            </InputGroup>
+          <div className="d-flex align-items-center">
+            <p className="mb-0 mr-3">وضعیت</p>
+            <Switch
+              className="custom-switch custom-switch-secondary custom-switch-small"
+              checked={editData?.is_available}
+              onChange={(e) => {
+                setEditData((prev) => ({
+                  ...prev,
+                  is_available: e,
+                }));
+                setEditDataValue((prev) => ({
+                  ...prev,
+                  is_available: e,
+                }));
+              }}
+            />
           </div>
         </ModalBody>
         <ModalFooter className="d-flex flex-row-reverse justify-content-start">
@@ -661,17 +291,6 @@ const ServicesPayMethods = ({
             size="lg"
             className="mb-2"
             onClick={() => {
-              if (
-                !descriptionValidation.status ||
-                !url2Validation.status ||
-                !url1Validation.status ||
-                !merchantIdValidation.status ||
-                !maxCapValidation.status ||
-                !bankIdValidation.status ||
-                !nameValidation.status ||
-                !pNameValidation.status
-              )
-                return;
               saveChangeHandler();
             }}
           >
@@ -681,12 +300,12 @@ const ServicesPayMethods = ({
             color="secondary"
             size="lg"
             className="mb-2"
-            onClick={() => setIsModal(false)}
+            onClick={() => setModal(false)}
           >
             لغو
           </Button>
         </ModalFooter>
-      </Modal> */}
+      </Modal>
       <Table cols={cols} data={allPayMethods} />
     </Card>
   );
